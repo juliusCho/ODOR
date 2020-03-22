@@ -17,6 +17,7 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import axios from 'axios'
 
+// @ == src까지의 경로
 export default {
   name: 'Home',
   components: {
