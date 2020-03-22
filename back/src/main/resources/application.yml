@@ -1,14 +1,45 @@
-logging:
-  level:
-    org.springframework: ERROR
-    com.back.odor: DEBUG
----
+############# Basic Application Settings #############
 spring:
+  main:
+    web-application-type: servlet
+    banner-mode: console
+  banner:
+    location: banner/banner.txt
+#    image:
+#      location: classpath*:static/banner/banner.jpg
+#      width: 721
+#      height: 961
+
+############# jdbc setting #############
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.0.13:3306/odor?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: juliuslovesrenee
+
+############# session #############
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    timeout: 900
 ---
+############# mybatis #############
+mybatis:
+  type-aliases-package: com.back.odor
+  mapper-locations: mybatis/**/*.xml
+---
+############3 Logger ###############
+logging:
+  level:
+    org.springframework: INFO
+    com.back.odor: INFO
+---
+############# Server Connection Port #############
 server:
   port: 8888
+---
+############# Test Property Setting #############
+user:
+  userId: TESTER
+  age: 53

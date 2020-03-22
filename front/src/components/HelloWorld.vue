@@ -27,16 +27,34 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <div>
+      <form th:action="@{/persistMessage}" method="post">
+        <textarea name="msg" cols="40" rows="2"></textarea>
+        <br> <input type="submit" value="Save Message" />
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+
+
+  export default {
+    name: 'HelloWorld',
+    components: {
+    },
+    props: {
+      msg: String
+    },
+    // data: () => (
+    //   {
+    //     userList: []
+    //   }
+    // ),
+    methods: {
+
+    }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
