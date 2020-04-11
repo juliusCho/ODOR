@@ -1,14 +1,17 @@
 package com.back.odor.menu.system.usermgmt.vo;
 
 import com.back.odor.common.utils.vo.CommonVO;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserVO extends CommonVO {
 
     private String userId;
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private String password;
 
     private String email;
@@ -21,4 +24,15 @@ public class UserVO extends CommonVO {
     private boolean useYn;
     private boolean sysMngrYn;
     private Integer membershipKey;
+
+
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+    }
 }

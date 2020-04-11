@@ -14,8 +14,9 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '@/views/components/HelloWorld.vue'
 import axios from 'axios'
+import {API} from "@/api";
 
 // @ == src까지의 경로
 export default {
@@ -33,11 +34,11 @@ export default {
   },
   methods: {
     getUserList() {
-      console.log('#%#%#J#%J');
+      console.log(API.UserMgmtController.getUserList);
       axios.get(
-              'api/getUserList'
+              API.UserMgmtController.getUserList
       ).then((res) => {
-        window.console.log(res);
+        console.log(res);
         this.userList = res.data;
       });
     }

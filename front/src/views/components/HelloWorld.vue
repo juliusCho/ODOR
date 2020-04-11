@@ -1,4 +1,4 @@
-<template>
+<template xmlns:th="http://www.w3.org/1999/xhtml">
   <div class="hello">
     <h1>{{ msg }}</h1>
     <p>
@@ -28,8 +28,10 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
     <div>
-      <form th:action="@{/persistMessage}" method="post">
-        <textarea name="msg" cols="40" rows="2"></textarea>
+      <form method="post">
+        <label>
+          <textarea name="msg" cols="40" rows="2"></textarea>
+        </label>
         <br> <input type="submit" value="Save Message" />
       </form>
     </div>

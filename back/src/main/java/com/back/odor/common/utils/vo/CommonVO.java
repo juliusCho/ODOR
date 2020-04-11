@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class CommonVO {
 
+    private String resultMsg;
+
     private String creatorId;
     private String createDate;
     private String updaterId;

@@ -3,6 +3,9 @@ spring:
   main:
     web-application-type: servlet
     banner-mode: console
+  data:
+    rest:
+      base-path: /
   banner:
     location: banner/banner.txt
 #    image:
@@ -13,7 +16,8 @@ spring:
 ############# jdbc setting #############
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.0.13:3306/odor?characterEncoding=UTF-8&serverTimezone=UTC
+#    url: jdbc:mysql://192.168.0.13:3306/odor?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/odor?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: juliuslovesrenee
 
@@ -31,15 +35,16 @@ mybatis:
 ---
 ############3 Logger ###############
 logging:
+  pattern:
+    console: "%-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
-    org.springframework: INFO
-    com.back.odor: INFO
+    root: error
+    org.springframework: error
+    com.back.odor: trace
+  file:
+    name: src/main/resources/logs/log.log
 ---
 ############# Server Connection Port #############
 server:
   port: 8888
----
-############# Test Property Setting #############
-user:
-  userId: TESTER
-  age: 53

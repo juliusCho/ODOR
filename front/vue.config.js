@@ -2,6 +2,11 @@ module.exports = {
     runtimeCompiler: true,
     devServer: {
         proxy: {
+            '^/rest': {  // rest로 시작하는 것들...
+                target: 'http://localhost:8888', //back 의 포트
+                changeOrigin: true,
+                ws: true
+            },
             '^/api': {  // api로 시작하는 것들...
                 target: 'http://localhost:8888', //back 의 포트
                 changeOrigin: true,

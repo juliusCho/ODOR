@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.back.odor.common.session.mapper.SessionMapper">
+
+    <select id="validateLogin" resultType="Integer">
+        /* 아이디 / 비번 체크 */
+        SELECT COUNT(1)
+          FROM USER
+         WHERE USER_ID = #{user.userId}
+           AND PASSWORD = #{user.password}
+    </select>
+
+</mapper>

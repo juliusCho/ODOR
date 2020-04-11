@@ -24,30 +24,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/api/**").permitAll()
-                    .anyRequest().authenticated()
-            .and()
+//                .authorizeRequests()
+////                    .antMatchers("/rest/**").permitAll()
+//                    .antMatchers("/api/**").permitAll()
+////                    .anyRequest().authenticated()
+//            .and()
                 .csrf()
             .and()
                 .exceptionHandling()
                     .accessDeniedPage("/denied.html")
-                    .accessDeniedHandler(new AccessDeniedHandler() {
-                                @Override
-                                public void handle(
-                                        HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        AccessDeniedException exception
-                                ) throws IOException, ServletException {
-                                    if (exception instanceof MissingCsrfTokenException) {
-                                        // session expired
-                                        System.out.println("세션끝났다!!!!");
-                                    } else if (exception instanceof InvalidCsrfTokenException) {
-                                        // invalid token
-                                        System.out.println("토큰이상햄!!!!");
-                                    }
-                                }
-                            })
+                    .accessDeniedHandler((request, response, exception) -> {
+                        if (exception instanceof MissingCsrfTokenException) {
+                            // session expired
+                            System.out.println("세션끝났다!!!!");
+                        } else if (exception instanceof InvalidCsrfTokenException) {
+                            // invalid token
+                            System.out.println("토큰이상햄!!!!");
+                        }
+                    })
             .and()
         ;
     }
