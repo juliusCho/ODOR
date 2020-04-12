@@ -32,7 +32,10 @@ public class UserVO extends CommonVO {
         return password;
     }
 
+//    public void setPassword(String password) {
+//        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+//    }
     public void setPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.password = password;
     }
 }

@@ -20,29 +20,30 @@ import java.io.IOException;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+//public class WebSecurityConfig {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .authorizeRequests()
-////                    .antMatchers("/rest/**").permitAll()
+                .authorizeRequests()
+                    .antMatchers("/rest/**").permitAll()
 //                    .antMatchers("/api/**").permitAll()
-////                    .anyRequest().authenticated()
-//            .and()
-                .csrf()
+                    .anyRequest().authenticated()
             .and()
                 .exceptionHandling()
                     .accessDeniedPage("/denied.html")
                     .accessDeniedHandler((request, response, exception) -> {
                         if (exception instanceof MissingCsrfTokenException) {
                             // session expired
-                            System.out.println("세션끝났다!!!!");
+                            System.out.println(exception.toString());
                         } else if (exception instanceof InvalidCsrfTokenException) {
                             // invalid token
                             System.out.println("토큰이상햄!!!!");
                         }
                     })
             .and()
+//                .csrf()
+                .csrf().disable()
         ;
     }
 }

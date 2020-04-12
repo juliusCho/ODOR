@@ -118,6 +118,7 @@
                 <directory>${basedir}/src/main/resources</directory>
                 <includes>
                     <include>**/application*.yml</include>
+                    <include>**/*.xml</include>
                 </includes>
             </resource>
         </resources>

@@ -1,7 +1,7 @@
 export class API {
 
     static SessionController = {
-        validateLogin: 'api/validateLogin'
+        validateLogin: 'rest/validateLogin'
     };
 
     static UserMgmtController = {

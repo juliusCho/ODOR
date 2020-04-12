@@ -5,30 +5,23 @@ import com.back.odor.menu.system.usermgmt.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("rest")
 public class SessionController {
 
     Logger logger = LoggerFactory.getLogger(SessionController.class);
 
     @Autowired
-    SessionService sessionService;
+    private SessionService sessionService;
 
     @PostMapping(value = "validateLogin")
-    public ResponseEntity<String> validateLogin(@RequestParam UserVO user) {
+    public ResponseEntity<String> validateLogin(@RequestBody UserVO user) {
         String result = sessionService.validateLogin(user);
-        System.out.println(result);
+        logger.debug(result);
         return ResponseEntity.ok(result);
-    }
-
-    @PostMapping(value = "hello")
-    public void hello() {
-//        System.out.println(str);
     }
 }
