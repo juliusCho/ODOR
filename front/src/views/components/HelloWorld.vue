@@ -35,21 +35,15 @@
         <br> <input type="submit" value="Save Message" />
       </form>
     </div>
-    <div>
-      <v-btn :aria-placeholder="야야" @click="goToLogin"></v-btn>
-      <Login></Login>
-    </div>
   </div>
 </template>
 
 <script>
-  import Login from '@/views/menu/Login'
 
 
   export default {
     name: 'HelloWorld',
     components: {
-      Login
     },
     props: {
       msg: String
@@ -61,9 +55,6 @@
     // ),
     methods: {
 
-      goToLogin() {
-
-      }
     }
   }
 </script>

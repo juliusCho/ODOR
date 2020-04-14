@@ -23,6 +23,15 @@
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
         />
+
+        <v-btn
+                @click="switchToOdor = !switchToOdor"
+                fab color="accent"
+                class="mx-2"
+                elevation="5"
+        >
+          <v-icon>mdi-account</v-icon>
+        </v-btn>
       </div>
 
       <v-spacer></v-spacer>
@@ -38,23 +47,31 @@
     </v-app-bar>
 
     <v-content>
-      <HelloWorld/>
+      <template v-if="switchToOdor">
+        <Login/>
+      </template>
+      <template v-else>
+        <VuetifyHelloWorld/>
+      </template>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
+import Login from '@/views/menu/Login'
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    VuetifyHelloWorld,
+    Login
   },
-
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      switchToOdor: false
+    }
+  }
 };
 </script>
