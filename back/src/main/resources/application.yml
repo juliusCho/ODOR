@@ -13,14 +13,6 @@ spring:
 #      width: 721
 #      height: 961
 
-############# jdbc setting #############
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://192.168.0.13:3306/odor?characterEncoding=UTF-8&serverTimezone=UTC
-    url: jdbc:mysql://localhost:3306/odor?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: juliuslovesrenee
-
 ############# session #############
   session:
     store-type: jdbc

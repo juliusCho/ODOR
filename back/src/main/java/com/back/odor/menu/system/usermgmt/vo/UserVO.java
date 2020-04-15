@@ -5,7 +5,7 @@ import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class UserVO extends CommonVO {
 
     private String userId;
