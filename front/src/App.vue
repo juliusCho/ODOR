@@ -58,20 +58,20 @@
 </template>
 
 <script>
-import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
-import Login from '@/views/menu/Login'
+  import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
+  import Login from '@/views/menu/Login'
 
-export default {
-  name: 'App',
+  export default {
+    name: 'App',
 
-  components: {
-    VuetifyHelloWorld,
-    Login
-  },
-  data() {
-    return {
-      switchToOdor: false
+    components: {
+      VuetifyHelloWorld,
+      Login
+    },
+    data() {
+      return {
+        switchToOdor: false
+      }
     }
-  }
-};
+  };
 </script>

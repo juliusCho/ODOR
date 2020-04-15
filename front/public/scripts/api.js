@@ -1,4 +1,5 @@
-export class API {
+/*global */
+const API = class {
 
     static SessionController = {
         validateLogin: 'rest/validateLogin'
