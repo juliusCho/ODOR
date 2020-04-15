@@ -1,4 +1,4 @@
-package com.back.odor.common.utils.config;
+package com.back.odor.common.etc;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

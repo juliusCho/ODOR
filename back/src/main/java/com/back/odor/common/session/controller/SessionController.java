@@ -24,4 +24,19 @@ public class SessionController {
         logger.debug(result);
         return ResponseEntity.ok(result);
     }
+
+    @RequestMapping("authorization-code")
+    @ResponseBody
+    public String authorizationCodeTest(@RequestParam("code") String code) {
+        String curl = String.format("curl " +
+                "-F \"grant_type=authorization_code\" " +
+                "-F \"code=%s\" " +
+                "-F \"scope=read\" " +
+                "-F \"client-id=first-client\" " +
+                "-F \"client_secret=noonewilleverguess\" " +
+                "-F \"redirect_uri=http://localhost:8888/rest/authorization-code\" " +
+                "\"http://first-client:noonewilleverguess@localhost:8888/oauth/token\""
+                , code);
+        return curl;
+    }
 }
