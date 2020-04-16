@@ -24,25 +24,17 @@
           width="100"
         />
 
-        <v-btn
-                @click="switchToOdor = !switchToOdor"
-                fab color="accent"
-                class="mx-2"
-                elevation="5"
-        >
-          <v-icon>mdi-account</v-icon>
-        </v-btn>
       </div>
 
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
+              @click="switchToOdor = !switchToOdor"
+              fab color="accent"
+              class="mx-2"
+              elevation="5"
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -59,11 +51,10 @@
 
 <script>
   import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
-  import Login from '@/views/menu/Login'
+  import Login from '@/views/menu/Login';
 
   export default {
     name: 'App',
-
     components: {
       VuetifyHelloWorld,
       Login

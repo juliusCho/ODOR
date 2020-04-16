@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 /*global */
+// eslint-disable-next-line
 const SCRIPT_VALIDATOR = class {
     static nullCheck(...args) {
         let result = true;

@@ -1,4 +1,5 @@
 /*global */
+// eslint-disable-next-line
 const ENTER_ACTION = (func) => {
     document.addEventListener('keyup', function(e) {
         switch (e.key) {

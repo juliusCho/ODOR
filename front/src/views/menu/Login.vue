@@ -10,48 +10,30 @@
                 </v-form>
             </v-row>
         </v-container>
-        <v-container style="width: 300px;">
-            <v-alert
-                    v-if="loginSucess === 'inval'"
-                    type="info"
-                    mode="in-out"
-            >
-                제대로 입력해!
-            </v-alert>
-            <v-alert
-                    v-if="loginSucess === 'ok'"
-                    type="success"
-                    mode="in-out"
-            >
-                Login 성공!
-            </v-alert>
-            <v-alert
-                    v-else-if="loginSucess === 'no'"
-                    type="warning"
-                    mode="out-in"
-            >
-                Login 실패ㅠ
-            </v-alert>
-            <v-alert
-                    v-else-if="loginSucess === 'err'"
-                    type="error"
-                    mode="out-in"
-            >
-                오류발견
-            </v-alert>
-        </v-container>
+        <RightTopAlert
+                :status="loginStatus"
+                :msg="alertMsg"
+                :show="alertShow"
+                :showTime="2500"
+                @hideDisplay="hideAlert"/>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
+    import RightTopAlert from "@/views/components/RightTopAlert"
 
     export default {
         name: "Login",
+        components: {
+            RightTopAlert
+        },
         data() {
             return {
                 loginInput: {userId: '', password: ''},
-                loginSucess: ''
+                loginStatus: 'info',
+                alertMsg: '기냥',
+                alertShow: false
             };
         },
         created() {
@@ -63,7 +45,9 @@
                     this.loginInput.userId,
                     this.loginInput.password
                 )) {
-                    this.loginSucess = 'inval';
+                    this.loginStatus = 'info';
+                    this.alertMsg = '제대로 입력해!';
+                    this.alertShow = true;
                     return;
                 }
 
@@ -72,12 +56,20 @@
                     this.loginInput
                 )
                 .then((res) => {
-                    this.loginSucess = res.data;
+                    this.loginStatus = res.data;
+                    this.alertMsg = res.data === 'sucess' ? 'Login성공!' : 'Login실패ㅠ';
                 })
                 .catch((e) => {
                     console.log(e);
-                    this.loginSucess = 'err';
+                    this.loginStatus = 'error';
+                    this.alertMsg = '헐ㅠ오류남';
+                })
+                .finally(() => {
+                    this.alertShow = true;
                 });
+            },
+            hideAlert() {
+                this.alertShow = false;
             }
         }
     }

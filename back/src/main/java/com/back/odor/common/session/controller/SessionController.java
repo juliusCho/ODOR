@@ -21,7 +21,6 @@ public class SessionController {
     @PostMapping(value = "validateLogin")
     public ResponseEntity<String> validateLogin(@RequestBody UserVO user) {
         String result = sessionService.validateLogin(user);
-        logger.debug(result);
         return ResponseEntity.ok(result);
     }
 
