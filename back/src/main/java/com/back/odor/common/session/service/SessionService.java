@@ -14,6 +14,8 @@ public class SessionService implements SessionServiceSpec {
     private SessionMapper sessionMapper;
 
     public String validateLogin(UserVO user) {
+        SessionServiceSpec.loginTrialConsole(user);
+
         if (sessionMapper.validateLogin(user) > 0) {
             return "success";
         } else return "warning";

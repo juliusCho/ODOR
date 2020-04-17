@@ -1,8 +1,7 @@
 package com.back.odor.menu.system.usermgmt.controller;
 
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +19,8 @@ import java.util.List;
 // **
 @RestController
 @RequestMapping("api")
+@Slf4j
 public class UserMgmtController {
-
-    Logger logger = LoggerFactory.getLogger(UserMgmtController.class);
 
     @GetMapping("getUserList")
     public ResponseEntity<List<UserVO>> hello() {
@@ -35,7 +33,7 @@ public class UserMgmtController {
         renee.setNickname("Renee");
         userList.add(julius);
         userList.add(renee);
-        logger.debug("ARGA#$G#$GA$G");
+        log.debug("ARGA#$G#$GA$G");
         return ResponseEntity.ok(userList);
     }
 }

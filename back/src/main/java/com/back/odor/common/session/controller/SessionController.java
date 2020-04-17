@@ -2,18 +2,15 @@ package com.back.odor.common.session.controller;
 
 import com.back.odor.common.session.service.SessionService;
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("rest")
+@Slf4j
 public class SessionController {
-
-    Logger logger = LoggerFactory.getLogger(SessionController.class);
 
     @Autowired
     private SessionService sessionService;

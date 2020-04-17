@@ -33,6 +33,7 @@ logging:
   level:
     root: error
     org.springframework: error
+    com.spring.ibatis: debug
     com.back.odor: trace
   file:
     name: src/main/resources/logs/log.log
