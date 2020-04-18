@@ -27,21 +27,21 @@
                     @hideDisplay="hideAlert"
             />
         </div>
-        <div style="margin-left: calc(40% + 90px);">
+        <div style="margin-left: calc(40% + 92px);">
             <v-btn
                     color="secondary"
                     class="mr-4"
                     x-small
-                    @click="goTo('idPwFinder')"
+                    @click="goTo('IdPwFinder')"
             >
                 I Forgot
             </v-btn>
         </div>
-        <div style="margin-left: calc(40% + 70px); margin-top: 30px;">
+        <div style="margin-left: calc(40% + 75px); margin-top: 30px;">
             <v-btn
                     class="mr-4"
                     small
-                    @click="goTo('join')"
+                    @click="goTo('Join')"
             >
                 First Time?
             </v-btn>
@@ -102,7 +102,7 @@
                 this.alertShow = false;
             },
             goTo(page) {
-
+                this.$emit('goTo', page);
             }
         }
     }

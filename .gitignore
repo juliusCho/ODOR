@@ -1,5 +1,5 @@
 ./.idea
-./src
+/src/
 
 ./back/src/main/resources/logs
 ./back/target

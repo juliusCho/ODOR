@@ -3,6 +3,7 @@
 const API = class {
 
     static SessionController = {
+        sessionCheck: 'rest/sessionCheck',
         validateLogin: 'rest/validateLogin'
     };
 

@@ -27,6 +27,7 @@ public class SessionServiceTest implements SessionServiceSpec {
     public void validateLoginTest() {
     }
 
+    @Test
     @Override
     public String validateLogin(UserVO user) {
         user.setUserId(securedPropertySource.getUserId());
@@ -36,6 +37,7 @@ public class SessionServiceTest implements SessionServiceSpec {
         return result;
     }
 
+    @Test
     @Override
     public Integer validateLoginTest(UserVO user) {
         user.setUserId(securedPropertySource.getUserId());

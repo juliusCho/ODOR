@@ -15,6 +15,13 @@ public class SessionController {
     @Autowired
     private SessionService sessionService;
 
+
+    @PostMapping(value = "sessionCheck")
+    public String sessionCheck(@RequestBody String sessionToken) {
+        log.debug("Session Token: " + sessionToken);
+        return "XX";
+    }
+
     @PostMapping(value = "validateLogin")
     public ResponseEntity<String> validateLogin(@RequestBody UserVO user) {
         String result = sessionService.validateLogin(user);

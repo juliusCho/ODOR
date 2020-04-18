@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
-import Login from '../views/menu/Login.vue'
-import IdPwFinder from '../views/menu/IdPwFinder.vue'
+import Login from '@/views/menu/Login.vue'
+import IdPwFinder from '@/views/menu/IdPwFinder.vue'
+import VuetifyHelloWorld from "@/views/components/VuetifyHelloWorld"
 
 Vue.use(VueRouter);
 
 // routes == controller
 const routes = [
   {
-    path: '/',
+    path: '/Home',
     name: 'Home',
-    component: Home
+    component: VuetifyHelloWorld
   },
   {
-    path: '/login',
+    path: '/Login',
     name: 'Login',
     component: Login
   },
