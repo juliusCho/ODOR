@@ -1,5 +1,7 @@
 <template>
-    <div v-if="show" class="float-right" style="width: 300px;">
+    <div v-if="show"
+         class="float-right"
+         style="width: 300px;">
         <v-alert :type="status" :mode="mode">
             {{msg}}
         </v-alert>

@@ -1,21 +1,51 @@
 <template>
-    <div style="display: flex;">
-        <v-container style="margin-left: 20px;">
-            <span class="display-4">Login</span>
-            <v-row align="center">
-                <v-form>
-                    <v-text-field v-model="loginInput.userId" label="ID" required/>
-                    <v-text-field v-model="loginInput.password" label="PW" required/>
-                    <v-btn color="success" class="mr-4" @click="loginRequest">Login</v-btn>
-                </v-form>
-            </v-row>
-        </v-container>
-        <RightTopAlert
-                :status="loginStatus"
-                :msg="alertMsg"
-                :show="alertShow"
-                :showTime="2500"
-                @hideDisplay="hideAlert"/>
+    <div style="align-self: center; margin-bottom: 10%;">
+        <div style="display: flex;">
+            <v-spacer style="margin-left: 40%;"></v-spacer>
+            <v-container style="width: 60%;">
+                <span class="display-4">Login</span>
+                <v-row align="center" style="margin-left: 20px;">
+                    <v-form>
+                        <v-text-field v-model="loginInput.userId" label="ID" required/>
+                        <v-text-field v-model="loginInput.password" label="PW" required/>
+                        <v-btn
+                                color="success"
+                                class="mr-4"
+                                style="margin-left:55px;"
+                                @click="loginRequest"
+                        >
+                            Login
+                        </v-btn>
+                    </v-form>
+                </v-row>
+            </v-container>
+            <RightTopAlert
+                    :status="loginStatus"
+                    :msg="alertMsg"
+                    :show="alertShow"
+                    :showTime="2500"
+                    @hideDisplay="hideAlert"
+            />
+        </div>
+        <div style="margin-left: calc(40% + 90px);">
+            <v-btn
+                    color="secondary"
+                    class="mr-4"
+                    x-small
+                    @click="goTo('idPwFinder')"
+            >
+                I Forgot
+            </v-btn>
+        </div>
+        <div style="margin-left: calc(40% + 70px); margin-top: 30px;">
+            <v-btn
+                    class="mr-4"
+                    small
+                    @click="goTo('join')"
+            >
+                First Time?
+            </v-btn>
+        </div>
     </div>
 </template>
 
@@ -57,7 +87,7 @@
                 )
                 .then((res) => {
                     this.loginStatus = res.data;
-                    this.alertMsg = res.data === 'sucess' ? 'Login성공!' : 'Login실패ㅠ';
+                    this.alertMsg = res.data === 'success' ? 'Login성공!' : 'Login실패ㅠ';
                 })
                 .catch((e) => {
                     console.log(e);
@@ -70,6 +100,9 @@
             },
             hideAlert() {
                 this.alertShow = false;
+            },
+            goTo(page) {
+
             }
         }
     }
