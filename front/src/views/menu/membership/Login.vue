@@ -54,14 +54,12 @@
     import RightTopAlert from "@/views/components/RightTopAlert"
 
     export default {
-        name: "MyPage",
+        name: "Login",
         components: {
             RightTopAlert
         },
         data() {
             return {
-                tmpSessionInfo: false,
-
                 loginInput: {userId: '', password: ''},
                 loginStatus: 'info',
                 alertMsg: '기냥',

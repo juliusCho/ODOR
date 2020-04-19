@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import MyPage from '@/views/menu/membership/MyPage.vue'
+import Login from '@/views/menu/membership/Login.vue'
 import IdPwFinder from '@/views/menu/membership/IdPwFinder.vue'
 import VuetifyHelloWorld from "@/views/components/VuetifyHelloWorld"
 
@@ -18,6 +19,11 @@ const routes = [
     path: '/MyPage',
     name: 'MyPage',
     component: MyPage
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/IdPwFinder',

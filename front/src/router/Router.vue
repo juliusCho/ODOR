@@ -6,6 +6,9 @@
         <template v-else-if="routing === 'MyPage'">
             <MyPage @goTo="goTo"/>
         </template>
+        <template v-else-if="routing === 'Login'">
+            <Login @goTo="goTo"/>
+        </template>
         <template v-else-if="routing === 'IdPwFinder'">
             <IdPwFinder @goTo="goTo"/>
         </template>
@@ -15,6 +18,7 @@
 <script>
     import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
     import MyPage from '@/views/menu/membership/MyPage';
+    import Login from '@/views/menu/membership/Login';
     import IdPwFinder from "@/views/menu/membership/IdPwFinder";
     import axios from "axios";
 
@@ -23,6 +27,7 @@
         components: {
             VuetifyHelloWorld,
             MyPage,
+            Login,
             IdPwFinder
         },
         props: {

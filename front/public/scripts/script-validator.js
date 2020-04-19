@@ -28,6 +28,7 @@ const SCRIPT_VALIDATOR = class {
                     result = this.nullCheck(input.toString());
                     break;
                 default :   // undefined, function
+                    result = false;
                     break;
             }
         }

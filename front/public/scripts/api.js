@@ -12,9 +12,9 @@ const API = class {
     };
 };
 
-const TMP_SESSION = class {
+const TMP_SESSION = {
     setId(id) {
         window.id = id;
-    }
-    getId() {return window.id}
+    },
+    getId() {return window.id;}
 };
