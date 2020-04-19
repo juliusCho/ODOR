@@ -44,6 +44,7 @@
                     {sessionToken: page}
                 )
                 .then((res) => {
+                    console.log(res);
                     this.$router.push(page).catch(() => {});
                     this.$emit('goTo', page);
                 });
