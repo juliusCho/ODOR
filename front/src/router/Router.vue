@@ -4,10 +4,10 @@
             <VuetifyHelloWorld/>
         </template>
         <template v-else-if="routing === 'MyPage'">
-            <MyPage @goTo="goTo"/>
+            <MyPage @goTo="goTo" @loggedIn="loggedIn"/>
         </template>
         <template v-else-if="routing === 'Login'">
-            <Login @goTo="goTo"/>
+            <Login @goTo="goTo" @loggedIn="loggedIn"/>
         </template>
         <template v-else-if="routing === 'IdPwFinder'">
             <IdPwFinder @goTo="goTo"/>
@@ -38,13 +38,13 @@
             }
         },
         methods: {
-            goTo(page) {
+            async goTo(page) {
                 if (page === '') {
                     this.$emit('goTo', 'Home');
                     return;
                 }
 
-                axios.post(
+                await axios.post(
                     API.SessionController.sessionCheck,
                     {sessionToken: page}
                 )
@@ -53,6 +53,9 @@
                     this.$router.push(page).catch(() => {});
                     this.$emit('goTo', page);
                 });
+            },
+            loggedIn(boo) {
+                this.$emit('loggedIn', boo);
             }
         }
     }

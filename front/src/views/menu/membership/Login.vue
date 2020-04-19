@@ -90,6 +90,8 @@
                     if (res.data === 'success') {
                         this.alertMsg = 'Login성공!';
                         TMP_SESSION.setId(this.loginInput.userId);
+                        this.$emit('loggedIn', true);
+                        this.goTo('MyPage');
                     } else {
                         this.alertMsg = 'Login실패ㅠ';
                     }

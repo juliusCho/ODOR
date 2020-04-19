@@ -2,10 +2,13 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
       dark
     >
-      <div class="d-flex align-center">
+      <div
+              @click="goTo('Home')"
+              style="cursor: pointer;"
+              class="d-flex align-center"
+      >
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
@@ -28,26 +31,46 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
-              @click="goTo('MyPage')"
-              fab color="accent"
+      <v-btn  v-if="loggedInBoo"
+              @click="membershipClicked"
+              fab color="#d6d6d6"
               class="mx-2"
               elevation="5"
       >
-        <v-icon>mdi-account</v-icon>
+        <v-icon>
+          mdi-account-cog
+        </v-icon>
       </v-btn>
+
+      <v-btn  v-else
+              @click="membershipClicked"
+              fab color="secondary"
+              class="mx-2"
+              elevation="5"
+      >
+        <v-icon>mdi-account-arrow-left-outline</v-icon>
+      </v-btn>
+
     </v-app-bar>
 
     <Router
             :routing="routing"
             @goTo="goTo"
             ref="router"
+            @loggedIn="loggedIn"
     />
   </v-app>
 </template>
 
 <script>
   import Router from '@/router/Router';
+
+  const MEMBERSHIP_PAGES = [
+          'MyPage',
+          'Login',
+          'Join',
+          'IdPwFinder'
+  ];
 
   export default {
     name: 'App',
@@ -70,12 +93,33 @@
     },
     data() {
       return {
-        routing: ''
+        routing: '',
+        loggedInBoo: false
       }
     },
     methods: {
       goTo(page) {
         this.routing = page;
+      },
+      membershipClicked() {
+        let goTo = true;
+        for (let i in MEMBERSHIP_PAGES) {
+          if (this.routing === MEMBERSHIP_PAGES[i]) {
+            goTo = false;
+          }
+        }
+        if (!goTo) return;
+
+        if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {
+          this.loggedIn(false);
+          this.goTo('Login');
+        } else {
+          this.loggedIn(true);
+          this.goTo('MyPage');
+        }
+      },
+      loggedIn(boo) {
+        this.loggedInBoo = boo;
       }
     }
   };
