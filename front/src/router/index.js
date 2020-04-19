@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import MyPage from '@/views/menu/MyPage.vue'
-import IdPwFinder from '@/views/menu/IdPwFinder.vue'
+import MyPage from '@/views/menu/membership/MyPage.vue'
+import IdPwFinder from '@/views/menu/membership/IdPwFinder.vue'
 import VuetifyHelloWorld from "@/views/components/VuetifyHelloWorld"
 
 Vue.use(VueRouter);

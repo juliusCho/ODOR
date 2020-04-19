@@ -14,8 +14,8 @@
 
 <script>
     import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
-    import MyPage from '@/views/menu/MyPage';
-    import IdPwFinder from "@/views/menu/IdPwFinder";
+    import MyPage from '@/views/menu/membership/MyPage';
+    import IdPwFinder from "@/views/menu/membership/IdPwFinder";
     import axios from "axios";
 
     export default {
@@ -30,11 +30,6 @@
                 type: String,
                 default: '',
                 required: false
-            }
-        },
-        data() {
-            return {
-                tmpSession: {tokenKey: 'XX'}
             }
         },
         methods: {

@@ -60,6 +60,8 @@
         },
         data() {
             return {
+                tmpSessionInfo: false,
+
                 loginInput: {userId: '', password: ''},
                 loginStatus: 'info',
                 alertMsg: '기냥',
@@ -87,7 +89,12 @@
                 )
                 .then((res) => {
                     this.loginStatus = res.data;
-                    this.alertMsg = res.data === 'success' ? 'Login성공!' : 'Login실패ㅠ';
+                    if (res.data === 'success') {
+                        this.alertMsg = 'Login성공!';
+                        TMP_SESSION.setId(this.loginInput.userId);
+                    } else {
+                        this.alertMsg = 'Login실패ㅠ';
+                    }
                 })
                 .catch((e) => {
                     console.log(e);
