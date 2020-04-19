@@ -54,7 +54,7 @@
     import RightTopAlert from "@/views/components/RightTopAlert"
 
     export default {
-        name: "Login",
+        name: "MyPage",
         components: {
             RightTopAlert
         },

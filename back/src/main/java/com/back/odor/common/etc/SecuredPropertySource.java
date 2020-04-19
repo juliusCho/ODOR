@@ -4,9 +4,13 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 @Configuration
-@PropertySource(value = "file:C:/dev/workspace/secured.properties", ignoreResourceNotFound = false)
+@PropertySources(value = {
+        @PropertySource(value = "file:C:/dev/workspace/secured.properties", ignoreResourceNotFound = true),
+        @PropertySource(value = "file:Users/yona/documents/odor-project/secured-properties", ignoreResourceNotFound = true)
+})
 @Getter
 public class SecuredPropertySource {
 

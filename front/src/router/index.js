@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Login from '@/views/menu/Login.vue'
+import MyPage from '@/views/menu/MyPage.vue'
 import IdPwFinder from '@/views/menu/IdPwFinder.vue'
 import VuetifyHelloWorld from "@/views/components/VuetifyHelloWorld"
 
@@ -15,9 +15,9 @@ const routes = [
     component: VuetifyHelloWorld
   },
   {
-    path: '/Login',
-    name: 'Login',
-    component: Login
+    path: '/MyPage',
+    name: 'MyPage',
+    component: MyPage
   },
   {
     path: '/IdPwFinder',

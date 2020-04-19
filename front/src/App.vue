@@ -29,7 +29,7 @@
       <v-spacer></v-spacer>
 
       <v-btn
-              @click="switchToOdor = !switchToOdor"
+              @click="goTo('MyPage')"
               fab color="accent"
               class="mx-2"
               elevation="5"
@@ -38,20 +38,16 @@
       </v-btn>
     </v-app-bar>
 
-
-    <Router :routing="routing" @goTo="goTo" ref="router"/>
+    <Router
+            :routing="routing"
+            @goTo="goTo"
+            ref="router"
+    />
   </v-app>
 </template>
 
 <script>
   import Router from '@/router/Router';
-
-  const SESSION_EXCLUDE_PAGES = [
-          'Home',
-          'Login',
-          'Join',
-          'IdPwFinder'
-  ];
 
   export default {
     name: 'App',
@@ -62,13 +58,6 @@
       this.routing = 'Home';
     },
     watch: {
-      switchToOdor() {
-        if (this.switchToOdor) {
-          this.goTo(SESSION_EXCLUDE_PAGES[1]);
-        } else {
-          this.goTo(SESSION_EXCLUDE_PAGES[0]);
-        }
-      },
       routing() {
         this.$router.push(this.routing).catch(() => {});
       },
@@ -76,28 +65,11 @@
         if (from.name === to.name) {
           return;
         }
-
-        let sessionCheck = true;
-        for (let i in SESSION_EXCLUDE_PAGES) {
-
-          if (SESSION_EXCLUDE_PAGES[i] === to.name) {
-            sessionCheck = false;
-
-            if (SESSION_EXCLUDE_PAGES[i] === 'Home') {
-              this.switchToOdor = false;
-            }
-          }
-        }
-        if (!sessionCheck) {
-          this.goTo(to.name);
-        } else {
-          this.$refs.router.goTo(to.name);
-        }
+        this.$refs.router.goTo(to.name);
       }
     },
     data() {
       return {
-        switchToOdor: false,
         routing: ''
       }
     },

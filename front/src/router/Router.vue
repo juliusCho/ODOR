@@ -3,8 +3,8 @@
         <template v-if="routing === 'Home'">
             <VuetifyHelloWorld/>
         </template>
-        <template v-else-if="routing === 'Login'">
-            <Login @goTo="goTo"/>
+        <template v-else-if="routing === 'MyPage'">
+            <MyPage @goTo="goTo"/>
         </template>
         <template v-else-if="routing === 'IdPwFinder'">
             <IdPwFinder @goTo="goTo"/>
@@ -14,7 +14,7 @@
 
 <script>
     import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
-    import Login from '@/views/menu/Login';
+    import MyPage from '@/views/menu/MyPage';
     import IdPwFinder from "@/views/menu/IdPwFinder";
     import axios from "axios";
 
@@ -22,7 +22,7 @@
         name: "Router",
         components: {
             VuetifyHelloWorld,
-            Login,
+            MyPage,
             IdPwFinder
         },
         props: {
@@ -49,12 +49,8 @@
                     {sessionToken: page}
                 )
                 .then((res) => {
-                    if (this.tmpSession.tokenKey === res.data) {
-                        this.$router.push(page).catch(() => {});
-                        this.$emit('goTo', page);
-                    } else {
-                        console.log('권한이 없다 아이가');
-                    }
+                    this.$router.push(page).catch(() => {});
+                    this.$emit('goTo', page);
                 });
             }
         }
