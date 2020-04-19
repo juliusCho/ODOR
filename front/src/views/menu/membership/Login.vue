@@ -82,7 +82,7 @@
                 }
 
                 axios.post(
-                    API.SessionController.validateLogin,
+                    API.SessionController.validateLogin, //url
                     this.loginInput
                 )
                 .then((res) => {
