@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.session.Session;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +17,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 import java.util.Enumeration;
 
-@SessionAttributes("user")
 @RestController
 @RequestMapping("rest")
 @Slf4j
@@ -29,26 +32,25 @@ public class SessionController {
 
     @PostMapping(value = "sessionCheck")
     public ResponseEntity<String> sessionCheck(@RequestBody String sessionToken) {
-        log.debug("Session Token: " + sessionToken);
+//        log.debug("Session Token: " + sessionToken);
         return ResponseEntity.ok("XX");
     }
 
     @PostMapping(value = "validateLogin")
-    public ResponseEntity<UserVO> validateLogin(@RequestBody UserVO user) {
-        log.debug("#$Q#####RGRGFGESD");
-
+    public ResponseEntity<UserVO> validateLogin(@RequestBody UserVO user, HttpServletRequest req) {
         UserVO loginUser = sessionService.validateLogin(user);
         if (loginUser != null) {
             addToSessionModel(loginUser);
-            log.debug(getSession());
+            HttpSession session = req.getSession();
+            session.setAttribute("user", loginUser);
+            log.debug(getSession(req));
         }
         return ResponseEntity.ok(loginUser);
     }
 
-    private String getSession() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
-        return attr.getRequest().getSession().getAttribute("user").toString();
+    private String getSession(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        return session.getAttribute("user").toString();
     }
 
     @ModelAttribute("user")

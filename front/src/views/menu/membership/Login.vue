@@ -87,17 +87,17 @@
                 )
                 .then((res) => {
                     let user = res.data;
-                    console.log(user);
-                    // this.loginStatus = ;
-                    //
-                    // if (res.data === 'success') {
-                    //     this.alertMsg = 'Login성공!';
-                    //     TMP_SESSION.setId(this.loginInput.userId);
-                    //     this.$emit('loggedIn', true);
-                    //     this.goTo('MyPage');
-                    // } else {
-                    //     this.alertMsg = 'Login실패ㅠ';
-                    // }
+
+                    if (!SCRIPT_VALIDATOR.nullCheck(user)) {
+                        this.loginStatus = 'warning';
+                        this.alertMsg = 'Login실패ㅠ';
+                    } else {
+                        this.loginStatus = 'success';
+                        this.alertMsg = 'Login성공!';
+                        TMP_SESSION.setId(this.loginInput.userId);
+                        this.$emit('loggedIn', true);
+                        this.goTo('MyPage');
+                    }
                 })
                 .catch((e) => {
                     console.log(e);
