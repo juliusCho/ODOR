@@ -86,15 +86,18 @@
                     this.loginInput
                 )
                 .then((res) => {
-                    this.loginStatus = res.data;
-                    if (res.data === 'success') {
-                        this.alertMsg = 'Login성공!';
-                        TMP_SESSION.setId(this.loginInput.userId);
-                        this.$emit('loggedIn', true);
-                        this.goTo('MyPage');
-                    } else {
-                        this.alertMsg = 'Login실패ㅠ';
-                    }
+                    let user = res.data;
+                    console.log(user);
+                    // this.loginStatus = ;
+                    //
+                    // if (res.data === 'success') {
+                    //     this.alertMsg = 'Login성공!';
+                    //     TMP_SESSION.setId(this.loginInput.userId);
+                    //     this.$emit('loggedIn', true);
+                    //     this.goTo('MyPage');
+                    // } else {
+                    //     this.alertMsg = 'Login실패ㅠ';
+                    // }
                 })
                 .catch((e) => {
                     console.log(e);

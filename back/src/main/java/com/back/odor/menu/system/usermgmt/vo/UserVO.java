@@ -4,10 +4,15 @@ import com.back.odor.common.utils.vo.CommonVO;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class UserVO extends CommonVO {
+import java.io.Serializable;
 
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(callSuper = true)
+public class UserVO extends CommonVO implements Serializable {
+
+    private static final long serialVersionUID = -6611753036370466951L;
     private String userId;
 
     @Getter(AccessLevel.NONE)

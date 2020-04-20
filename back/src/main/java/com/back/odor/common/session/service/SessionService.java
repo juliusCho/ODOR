@@ -13,11 +13,8 @@ public class SessionService implements SessionServiceSpec {
     @Autowired
     private SessionMapper sessionMapper;
 
-    public String validateLogin(UserVO user) {
+    public UserVO validateLogin(UserVO user) {
         SessionServiceSpec.loginTrialConsole(user);
-
-        if (sessionMapper.validateLogin(user) > 0) {
-            return "success";
-        } else return "warning";
+        return sessionMapper.validateLogin(user);
     }
 }

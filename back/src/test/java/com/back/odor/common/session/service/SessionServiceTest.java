@@ -29,23 +29,22 @@ public class SessionServiceTest implements SessionServiceSpec {
 
     @Test
     @Override
-    public String validateLogin(UserVO user) {
+    public UserVO validateLogin(UserVO user) {
         user.setUserId(securedPropertySource.getUserId());
         user.setPassword(securedPropertySource.getPassword());
         String result = String.valueOf(sessionMapper.validateLogin(user));
         log.debug("validateLogin RESULT : " + result);
-        return result;
+        return null;
     }
 
     @Test
     @Override
-    public Integer validateLoginTest(UserVO user) {
+    public UserVO validateLoginTest(UserVO user) {
         user.setUserId(securedPropertySource.getUserId());
         user.setPassword(securedPropertySource.getPassword());
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 //        assert sessionMapper.validateLogin(user).equals(0);
         log.error(String.valueOf(sessionMapper.validateLogin(user)));
-
         return null;
     }
 }

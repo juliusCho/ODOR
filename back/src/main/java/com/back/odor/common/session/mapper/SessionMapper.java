@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface SessionMapper {
 
-    Integer validateLogin(@Param("user") UserVO user);
+    UserVO validateLogin(@Param("user") UserVO user);
 }

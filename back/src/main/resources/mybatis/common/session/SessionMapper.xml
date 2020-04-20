@@ -4,9 +4,9 @@
 
 <mapper namespace="com.back.odor.common.session.mapper.SessionMapper">
 
-    <select id="validateLogin" resultType="Integer">
+    <select id="validateLogin" resultType="UserVO">
         /* 사용자 아이디 / 비번 체크 */
-        SELECT COUNT(1)
+        SELECT *
           FROM USER
          WHERE USER_ID = #{user.userId}
            AND PASSWORD = #{user.password}

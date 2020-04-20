@@ -13,10 +13,10 @@ public interface SessionServiceSpec {
     Logger log = LoggerFactory.getLogger(SessionServiceSpec.class);
 
     // 추상 메소드 : 가이드만 줄테니 추상메소드를 오버라이팅해서 재구현해라. (강제적)
-    String validateLogin(UserVO user);
+    UserVO validateLogin(UserVO user);
 
     // 디폴트 메소드 : 인터페이스에서 기본적으로 제공해주지만, 맘에 안들면 각자 구현해서 써라. (선택적)
-    default Integer validateLoginTest(UserVO user) {
+    default UserVO validateLoginTest(UserVO user) {
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         return sessionMapper.validateLogin(user);
     }

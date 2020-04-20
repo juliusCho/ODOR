@@ -22,8 +22,10 @@ spring:
 ---
 ############# mybatis #############
 mybatis:
-  type-aliases-package: com.back.odor
+  type-aliases-package: com.back.odor.menu.system.usermgmt.vo
   mapper-locations: mybatis/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 ---
 ############3 Logger ###############
 logging:
