@@ -4,23 +4,12 @@ import com.back.odor.common.session.service.SessionService;
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.session.Session;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
-import java.util.Enumeration;
 
 @RestController
 @RequestMapping("rest")
@@ -30,10 +19,32 @@ public class SessionController {
     @Autowired
     private SessionService sessionService;
 
+    @GetMapping(value = "logout")
+    public ResponseEntity logout(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        if (session != null) {
+            session.invalidate();
+        }
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
     @PostMapping(value = "sessionCheck")
-    public ResponseEntity<String> sessionCheck(@RequestBody String sessionToken) {
-//        log.debug("Session Token: " + sessionToken);
-        return ResponseEntity.ok("XX");
+    public ResponseEntity<Boolean> sessionCheck(
+            @RequestBody String sessionToken,
+            HttpServletRequest req
+    ) {
+        Object obj = getSession(req);
+        if (obj == null) {
+            return ResponseEntity.ok(false);
+        }
+        if (!(obj instanceof UserVO)) {
+            return ResponseEntity.ok(false);
+        }
+        UserVO session = (UserVO) obj;
+        if (!sessionToken.equals(session.getUserId())) {
+            return ResponseEntity.ok(false);
+        }
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping(value = "validateLogin")
@@ -43,14 +54,13 @@ public class SessionController {
             addToSessionModel(loginUser);
             HttpSession session = req.getSession();
             session.setAttribute("user", loginUser);
-            log.debug(getSession(req));
         }
         return ResponseEntity.ok(loginUser);
     }
 
-    private String getSession(HttpServletRequest req) {
+    private Object getSession(HttpServletRequest req) {
         HttpSession session = req.getSession();
-        return session.getAttribute("user").toString();
+        return session.getAttribute("user");
     }
 
     @ModelAttribute("user")

@@ -37,6 +37,12 @@
                 required: false
             }
         },
+        data() {
+            return {
+                incl: 'Home',
+                excl: 'MyPage'
+            }
+        },
         methods: {
             async goTo(page) {
                 if (page === '') {
@@ -44,15 +50,43 @@
                     return;
                 }
 
-                await axios.post(
-                    API.SessionController.sessionCheck,
-                    {sessionToken: page}
-                )
-                .then((res) => {
-                    console.log(res);
+                if (this.checkRest()) {
                     this.$router.push(page).catch(() => {});
                     this.$emit('goTo', page);
+                    return;
+                }
+
+                await axios.post(
+                    API.SessionController.sessionCheck,
+                    {sessionToken: TMP_SESSION.getId()}
+                )
+                .then((res) => {
+                    if (res.data) {
+                        this.$router.push(page).catch(() => {});
+                        this.$emit('goTo', page);
+                        return;
+                    }
+                    this.$router.push(this.incl).catch(() => {});
+                    this.$emit('goTo', this.incl);
                 });
+            },
+            checkRest() {
+                let result = false;
+
+                if (this.routing === this.incl) {
+                    return true;
+                }
+
+                for (let i = 0, ii = MEMBERSHIP_PAGES.length; i < ii; i++) {
+                    if (
+                        MEMBERSHIP_PAGES[i] !== this.excl &&
+                        MEMBERSHIP_PAGES[i] === this.routing
+                    ) {
+                        result = true;
+                        break;
+                    }
+                }
+                return result;
             },
             loggedIn(boo) {
                 this.$emit('loggedIn', boo);

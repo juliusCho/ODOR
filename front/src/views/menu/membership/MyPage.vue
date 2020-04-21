@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         name: "MyPage",
         data() {
@@ -25,9 +27,12 @@
                 this.$emit('goTo', page);
             },
             logout() {
-                TMP_SESSION.setId('');
-                this.$emit('loggedIn', false);
-                this.goTo('Home');
+                axios.get(API.SessionController.logout, {})
+                .then(() => {
+                    TMP_SESSION.setId('');
+                    this.$emit('loggedIn', false);
+                    this.goTo('Home');
+                });
             }
         }
     }

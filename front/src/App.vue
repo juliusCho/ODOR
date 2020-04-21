@@ -65,13 +65,6 @@
 <script>
   import Router from '@/router/Router';
 
-  const MEMBERSHIP_PAGES = [
-          'MyPage',
-          'Login',
-          'Join',
-          'IdPwFinder'
-  ];
-
   export default {
     name: 'App',
     components: {
@@ -112,10 +105,10 @@
 
         if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {
           this.loggedIn(false);
-          this.goTo('Login');
+          this.goTo(MEMBERSHIP_PAGES[1]);
         } else {
           this.loggedIn(true);
-          this.goTo('MyPage');
+          this.goTo(MEMBERSHIP_PAGES[0]);
         }
       },
       loggedIn(boo) {
