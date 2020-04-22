@@ -86,24 +86,7 @@
                     this.loginInput
                 )
                 .then((res) => {
-                    let user = res.data;
-
-                    if (!SCRIPT_VALIDATOR.nullCheck(user)) {
-                        this.loginStatus = 'warning';
-                        this.alertMsg = 'Login실패ㅠ';
-
-                    } else if ('reasonCode' in user) {
-                        this.loginStatus = 'error';
-                        this.alertMsg = user.reasonCode;
-                        this.goTo('Home');
-
-                    } else {
-                        this.loginStatus = 'success';
-                        this.alertMsg = 'Login성공!';
-                        TMP_SESSION.setId(this.loginInput.userId);
-                        this.$emit('loggedIn', true);
-                        this.goTo('Home');
-                    }
+                    this.loginResult(res.data);
                 })
                 .catch((e) => {
                     console.log(e);
@@ -113,6 +96,24 @@
                 .finally(() => {
                     this.alertShow = true;
                 });
+            },
+            loginResult(user) {
+                if (!SCRIPT_VALIDATOR.nullCheck(user)) {
+                    this.loginStatus = 'warning';
+                    this.alertMsg = 'Login실패ㅠ';
+
+                } else if ('reasonCode' in user) {
+                    this.loginStatus = 'error';
+                    this.alertMsg = user.reasonCode;
+                    this.goTo('Home');
+
+                } else {
+                    this.loginStatus = 'success';
+                    this.alertMsg = 'Login성공!';
+                    TMP_SESSION.setId(this.loginInput.userId);
+                    this.$emit('loggedIn', true);
+                    this.goTo('Home');
+                }
             },
             hideAlert() {
                 this.alertShow = false;
