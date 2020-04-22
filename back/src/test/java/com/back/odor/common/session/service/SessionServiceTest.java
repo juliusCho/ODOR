@@ -29,7 +29,7 @@ public class SessionServiceTest implements SessionServiceSpec {
 
     @Test
     @Override
-    public UserVO validateLogin(UserVO user) {
+    public Object validateLogin(UserVO user) {
         user.setUserId(securedPropertySource.getUserId());
         user.setPassword(securedPropertySource.getPassword());
         String result = String.valueOf(sessionMapper.validateLogin(user));

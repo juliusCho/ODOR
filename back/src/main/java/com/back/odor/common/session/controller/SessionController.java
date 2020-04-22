@@ -48,10 +48,11 @@ public class SessionController {
     }
 
     @PostMapping(value = "validateLogin")
-    public ResponseEntity<UserVO> validateLogin(@RequestBody UserVO user, HttpServletRequest req) {
-        UserVO loginUser = sessionService.validateLogin(user);
-        if (loginUser != null) {
-            addToSessionModel(loginUser);
+    public ResponseEntity<Object> validateLogin(@RequestBody UserVO user, HttpServletRequest req) {
+        Object loginUser = sessionService.validateLogin(user);
+
+        if (loginUser != null && loginUser instanceof UserVO) {
+            addToSessionModel((UserVO) loginUser);
             HttpSession session = req.getSession();
             session.setAttribute("user", loginUser);
         }

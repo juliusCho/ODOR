@@ -12,5 +12,11 @@
            AND PASSWORD = #{user.password}
     </select>
 
+    <select id="checkBlockedUser" resultType="BlockedUserVO">
+        /* 활동 정지 유저 체크 */
+        SELECT *
+          FROM BLOCKED_USER
+         WHERE EMAIL = #{email}
+    </select>
 
 </mapper>

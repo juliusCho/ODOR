@@ -1,5 +1,6 @@
 package com.back.odor.common.utils.config;
 
+import com.back.odor.common.etc.GlobalConst;
 import com.back.odor.common.etc.SecuredPropertySource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -51,7 +52,7 @@ public class DatabaseConfig {
         sessionFactory.setDataSource(customDataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sessionFactory.setMapperLocations(resolver.getResources("classpath:mybatis/**/*.xml"));
-        sessionFactory.setTypeAliasesPackage("com.back.odor.menu.system.usermgmt.vo");
+        sessionFactory.setTypeAliasesPackage(GlobalConst.VO_PACKAGE);
         return sessionFactory.getObject();
     }
 
