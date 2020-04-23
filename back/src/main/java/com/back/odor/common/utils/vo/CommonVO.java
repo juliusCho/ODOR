@@ -15,4 +15,5 @@ public class CommonVO {
     private String createDate;
     private String updaterId;
     private String updateDate;
+
 }

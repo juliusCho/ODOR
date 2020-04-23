@@ -21,19 +21,4 @@ import java.util.List;
 @RequestMapping("api")
 @Slf4j
 public class UserMgmtController {
-
-    @GetMapping("getUserList")
-    public ResponseEntity<List<UserVO>> hello() {
-        List<UserVO> userList = new ArrayList<>();
-        UserVO julius = new UserVO();
-        julius.setUserId("julius");
-        julius.setNickname("Julius");
-        UserVO renee = new UserVO();
-        renee.setUserId("renee");
-        renee.setNickname("Renee");
-        userList.add(julius);
-        userList.add(renee);
-        log.debug("ARGA#$G#$GA$G");
-        return ResponseEntity.ok(userList);
-    }
 }

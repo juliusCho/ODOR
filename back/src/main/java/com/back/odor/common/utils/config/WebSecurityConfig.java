@@ -1,5 +1,6 @@
 package com.back.odor.common.utils.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @EnableAuthorizationServer
+@Slf4j
 public class WebSecurityConfig
         extends WebSecurityConfigurerAdapter
         implements AuthorizationServerConfigurer {
@@ -38,11 +40,11 @@ public class WebSecurityConfig
                     .accessDeniedPage("/denied.html")
                     .accessDeniedHandler((request, response, exception) -> {
                         if (exception instanceof MissingCsrfTokenException) {
-                            System.out.println("SESSION EXPIRED");
-                            System.out.println(exception.toString());
+                            log.error("SESSION EXPIRED");
+                            log.error(exception.toString());
                         } else if (exception instanceof InvalidCsrfTokenException) {
-                            System.out.println("INVALID TOKEN");
-                            System.out.println(exception.toString());
+                            log.error("INVALID TOKEN");
+                            log.error(exception.toString());
                         }
                     })
             .and()

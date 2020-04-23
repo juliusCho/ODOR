@@ -28,4 +28,5 @@ public class SecuredPropertySource {
 
     @Value("${security.user.userId}")
     private String userId;
+
 }
