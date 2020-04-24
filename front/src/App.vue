@@ -33,7 +33,7 @@
 
       <v-btn  v-if="loggedInBoo"
               @click="membershipClicked"
-              fab color="#d6d6d6"
+              fab color="secondary"
               class="mx-2"
               elevation="5"
       >
@@ -44,7 +44,7 @@
 
       <v-btn  v-else
               @click="membershipClicked"
-              fab color="secondary"
+              fab color="#d6d6d6"
               class="mx-2"
               elevation="5"
       >

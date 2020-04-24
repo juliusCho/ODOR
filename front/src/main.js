@@ -3,7 +3,7 @@ import App from '@/App.vue'
 import store from '@/store'
 import router from '@/router'
 import '@/plugins/axios'
-import vuetify from '@/plugins/vuetify'
+import vuetify from '@/plugins/vuetify/index'
 
 Vue.config.productionTip = false;
 

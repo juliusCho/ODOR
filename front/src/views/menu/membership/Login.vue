@@ -1,24 +1,6 @@
 <template>
-    <div style="align-self: center; margin-bottom: 10%;">
-        <div style="display: flex;">
-            <v-spacer style="margin-left: 40%;"></v-spacer>
-            <v-container style="width: 60%;">
-                <span class="display-4">Login</span>
-                <v-row align="center" style="margin-left: 20px;">
-                    <v-form>
-                        <v-text-field v-model="loginInput.userId" label="ID" required/>
-                        <v-text-field v-model="loginInput.password" label="PW" required/>
-                        <v-btn
-                                color="success"
-                                class="mr-4"
-                                style="margin-left:55px;"
-                                @click="loginRequest"
-                        >
-                            Login
-                        </v-btn>
-                    </v-form>
-                </v-row>
-            </v-container>
+    <v-app>
+        <v-content>
             <RightTopAlert
                     :status="loginStatus"
                     :msg="alertMsg"
@@ -26,27 +8,75 @@
                     :showTime="2500"
                     @hideDisplay="hideAlert"
             />
-        </div>
-        <div style="margin-left: calc(40% + 92px);">
-            <v-btn
-                    color="secondary"
-                    class="mr-4"
-                    x-small
-                    @click="goTo('IdPwFinder')"
-            >
-                I Forgot
-            </v-btn>
-        </div>
-        <div style="margin-left: calc(40% + 75px); margin-top: 30px;">
-            <v-btn
-                    class="mr-4"
-                    small
-                    @click="goTo('Join')"
-            >
-                First Time?
-            </v-btn>
-        </div>
-    </div>
+            <v-container class="fill-height" fluid>
+                <v-row align="center" justify="center" style="padding-bottom: 12%;">
+                    <v-col cols="12" sm="8" md="4">
+                        <v-card class="elevation-12">
+                            <v-toolbar color="primary" dark flat>
+                                <v-toolbar-title>Login</v-toolbar-title>
+                                <v-spacer/>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn
+                                            @click="goTo('IdPwFinder')"
+                                            icon
+                                            large
+                                            v-on="on"
+                                        >
+                                            <v-icon>mdi-account-alert-outline</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>I Forgot T_T</span>
+                                </v-tooltip>
+                                <v-tooltip right>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn
+                                            icon
+                                            large
+                                            v-on="on"
+                                            @click="goTo('Join')"
+                                        >
+                                            <v-icon>mdi-account-box-multiple-outline</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>First Time?</span>
+                                </v-tooltip>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-form>
+                                    <v-text-field
+                                            v-model="loginInput.userId"
+                                            label="ID"
+                                            required
+                                            type="text"
+                                            name="id"
+                                    />
+                                    <v-text-field
+                                            v-model="loginInput.password"
+                                            label="PW"
+                                            required
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                    />
+                                </v-form>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer/>
+                                <v-btn
+                                        color="primary"
+                                        class="mr-4"
+                                        @click="loginRequest"
+                                >
+                                    Login
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
@@ -67,6 +97,9 @@
             };
         },
         created() {
+            // TEST
+            this.$vuetify.theme.themes.dark.primary = '#4caf50';
+
             ENTER_ACTION(this.loginRequest);
         },
         methods: {
@@ -85,11 +118,10 @@
                     API.SessionController.validateLogin, //url
                     this.loginInput
                 )
-                .then((res) => {
+                .then(res => {
                     this.loginResult(res.data);
                 })
-                .catch((e) => {
-                    console.log(e);
+                .catch(() => {
                     this.loginStatus = 'error';
                     this.alertMsg = '헐ㅠ오류남';
                 })
@@ -110,7 +142,7 @@
                 } else {
                     this.loginStatus = 'success';
                     this.alertMsg = 'Login성공!';
-                    TMP_SESSION.setId(this.loginInput.userId);
+                    TMP_SESSION.setLognUser(user);
                     this.$emit('loggedIn', true);
                     this.goTo('Home');
                 }

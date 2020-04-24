@@ -7,7 +7,6 @@ const SCRIPT_VALIDATOR = class {
 
         for (let i = 0, ii = args.length; i < ii; i++) {
             let input = args[i];
-
             if (!result) {
                 break;
             }

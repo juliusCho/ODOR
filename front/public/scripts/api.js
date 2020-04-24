@@ -23,8 +23,30 @@ const MEMBERSHIP_PAGES = [
 
 
 const TMP_SESSION = {
-    setId(id) {
-        window.id = id;
+    setLognUser(user = {}) {
+        if ('userId' in user) {
+            window.loginUser = !SCRIPT_VALIDATOR.nullCheck(user.userId)
+                            ? {} : user;
+        }
     },
-    getId() {return window.id;}
+    emptyUser() {
+        if ('loginUser' in window) {
+            delete window.loginUser;
+        }
+    },
+    getId() {
+        if ('loginUser' in window) {
+            if ('userId' in window.loginUser) {
+                return window.loginUser.userId;
+            }
+            return '';
+        }
+        return '';
+    },
+    getLoginUser() {
+        if (!SCRIPT_VALIDATOR.nullCheck(this.getId())) {
+            return {};
+        }
+        return window.loginUser;
+    }
 };

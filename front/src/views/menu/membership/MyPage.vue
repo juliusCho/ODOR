@@ -29,7 +29,7 @@
             logout() {
                 axios.get(API.SessionController.logout, {})
                 .then(() => {
-                    TMP_SESSION.setId('');
+                    TMP_SESSION.emptyUser();
                     this.$emit('loggedIn', false);
                     this.goTo('Home');
                 });
