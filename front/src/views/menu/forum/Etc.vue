@@ -13,6 +13,10 @@
                 default: 0,
                 required: false
             }
+        },
+        watch: {
+            forumKey() {
+            }
         }
     }
 </script>

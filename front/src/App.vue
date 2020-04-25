@@ -21,7 +21,7 @@
 
       <v-spacer/>
 
-      <v-btn small text>PERFUME</v-btn>
+      <v-btn @click="goTo('Perfume')" small text>PERFUME</v-btn>
 
       <v-spacer/>
 
@@ -65,6 +65,8 @@
 
     <Router
             :routing="routing"
+            :forumKey="forumKey"
+            :id="routing + forumKey"
             @goTo="goTo"
             ref="router"
             @loggedIn="loggedIn"
@@ -88,9 +90,7 @@
     },
     watch: {
       routing() {
-        console.log(this.$route.params);
         this.$router.push(this.routing).catch(() => {});
-        console.log(this.$route.params);
       },
       '$route'(to, from) {
         if (from.name === to.name) {
@@ -108,6 +108,7 @@
         routing: '',
         loggedInBoo: false,
         sysMngrYn: false,
+        forumKey: 0,
         forum: [],
         system: []
       }
@@ -143,7 +144,11 @@
         });
       },
       // routing
-      goTo(page) {
+      goTo(page, fKey) {
+        if (SCRIPT_VALIDATOR.nullCheck(fKey)) {
+          this.forumKey = fKey;
+        }
+        console.log(this.forumKey);
         this.routing = page;
       },
       // ************************************************************

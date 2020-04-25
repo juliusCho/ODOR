@@ -16,13 +16,13 @@
             <About/>
         </template>
         <template v-else-if="routing === 'Photo'">
-            <Photo/>
+            <Photo :forumKey="forumKey"/>
         </template>
         <template v-else-if="routing === 'Review'">
-            <Review/>
+            <Review :forumKey="forumKey"/>
         </template>
         <template v-else-if="routing === 'Etc'">
-            <Etc/>
+            <Etc :forumKey="forumKey"/>
         </template>
         <template v-else>
             <SessionCheck :page="routing" @checkSession="checkSession"/>
@@ -60,6 +60,11 @@
                 type: String,
                 default: '',
                 required: false
+            },
+            forumKey: {
+                type: Number,
+                default: 0,
+                required: false
             }
         },
         data() {
@@ -75,8 +80,7 @@
                     return;
                 }
                 if (this.checkRest()) {
-                    this.$router.push(page).catch(() => {});
-                    this.$emit('goTo', page);
+                    this.$emit('goTo', page, this.forumKey);
                     return;
                 }
                 this.checkSession(page);
@@ -88,11 +92,10 @@
                 )
                 .then((res) => {
                     if (res.data) {
-                        this.$router.push(page).catch(() => {});
-                        this.$emit('goTo', page);
+                        // this.$router.push(page).catch(() => {});
+                        this.$emit('goTo', page, this.forumKey);
                         return;
                     }
-                    this.$router.push(this.incl).catch(() => {});
                     this.$emit('goTo', this.incl);
                 });
             },

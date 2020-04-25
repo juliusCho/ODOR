@@ -15,7 +15,12 @@
             }
         },
         mounted() {
-            // console.log(this.$route.params);
+            // console.log(this.forumKey);
+        },
+        watch: {
+            forumKey() {
+                // console.log(this.forumKey);
+            }
         }
     }
 </script>
