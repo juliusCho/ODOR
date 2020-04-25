@@ -13,7 +13,19 @@
             <IdPwFinder @goTo="goTo"/>
         </template>
         <template v-else-if="routing === 'About'">
-            <About @goTo="goTo"/>
+            <About/>
+        </template>
+        <template v-else-if="routing === 'Photo'">
+            <Photo/>
+        </template>
+        <template v-else-if="routing === 'Review'">
+            <Review/>
+        </template>
+        <template v-else-if="routing === 'Etc'">
+            <Etc/>
+        </template>
+        <template v-else>
+            <SessionCheck :page="routing" @checkSession="checkSession"/>
         </template>
     </v-content>
 </template>
@@ -24,6 +36,10 @@
     import Login from '@/views/menu/membership/Login';
     import IdPwFinder from '@/views/menu/membership/IdPwFinder';
     import About from '@/views/menu/about/About';
+    import Photo from '@/views/menu/forum/Photo';
+    import Review from '@/views/menu/forum/Review';
+    import Etc from '@/views/menu/forum/Etc';
+    import SessionCheck from '@/views/menu/SessionCheck';
     import axios from 'axios';
 
     export default {
@@ -33,7 +49,11 @@
             MyPage,
             Login,
             IdPwFinder,
-            About
+            About,
+            Photo,
+            Review,
+            Etc,
+            SessionCheck
         },
         props: {
             routing: {

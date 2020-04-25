@@ -9,7 +9,7 @@
                         v-for="sub in menu"
                         :key="sub[keyCol]"
                         link
-                        @click="goTo('')"
+                        @click="goTo(sub)"
                 >
                     <v-list-item-title
                             v-text="sub[labelCol]"
@@ -46,8 +46,18 @@
             }
         },
         methods: {
-            goTo(page) {
-                this.$emit('goTo', page);
+            goTo(menu) {
+                if (menu.categoryId === 'SYSTEM') {
+                    this.$emit('goTo', menu.forumName);
+                    return;
+                }
+                let forumTypeCode = menu.forumTypeCode.toLowerCase();
+                forumTypeCode = forumTypeCode.substring(0, 1).toUpperCase()
+                    + forumTypeCode.substring(1, forumTypeCode.length);
+
+                this.$route.params.forumKey = menu.forumKey;
+
+                this.$emit('goTo', forumTypeCode);
             }
         }
     }

@@ -16,6 +16,7 @@
         menuName="forum"
         keyCol="forumKey"
         labelCol="forumName"
+        @goTo="goTo"
       />
 
       <v-spacer/>
@@ -33,6 +34,7 @@
           menuName="system"
           keyCol="forumKey"
           labelCol="forumName"
+          @goTo="goTo"
       />
 
       <v-spacer/>
@@ -86,7 +88,9 @@
     },
     watch: {
       routing() {
+        console.log(this.$route.params);
         this.$router.push(this.routing).catch(() => {});
+        console.log(this.$route.params);
       },
       '$route'(to, from) {
         if (from.name === to.name) {

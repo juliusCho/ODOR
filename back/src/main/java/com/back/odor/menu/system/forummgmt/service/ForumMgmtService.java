@@ -44,7 +44,7 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
             for (int i = 0; i < ii; i++) {
                 ForumVO vo = new ForumVO();
                 vo.setForumKey((long) (10000 + i));
-                vo.setCategoryId(systemMenu[i]);
+                vo.setCategoryId("SYSTEM");
                 vo.setForumName(systemMenu[i]);
                 vo.setForumTypeCode("ETC");
                 vo.setReviewYn(false);
