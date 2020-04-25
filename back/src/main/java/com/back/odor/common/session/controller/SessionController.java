@@ -19,7 +19,8 @@ public class SessionController {
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping(value = "logout")
+
+    @GetMapping("logout")
     public ResponseEntity logout(HttpServletRequest req) {
         HttpSession session = req.getSession();
         if (session != null) {
@@ -28,27 +29,19 @@ public class SessionController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PostMapping(value = "sessionCheck")
+    @PostMapping("sessionCheck")
     public ResponseEntity<Boolean> sessionCheck(
-            @RequestBody String sessionToken,
+            @RequestBody String userId,
             HttpServletRequest req
     ) {
-        Object obj = getSession(req);
-        if (obj == null) {
-            return ResponseEntity.ok(false);
-        }
-        if (!(obj instanceof UserVO)) {
-            return ResponseEntity.ok(false);
-        }
-        UserVO session = (UserVO) obj;
-        if (!sessionToken.equals(session.getUserId())) {
-            return ResponseEntity.ok(false);
-        }
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(sessionService.sessionCheck(userId, req));
     }
 
-    @PostMapping(value = "validateLogin")
-    public ResponseEntity<Object> validateLogin(@RequestBody UserVO user, HttpServletRequest req) {
+    @PostMapping("validateLogin")
+    public ResponseEntity<Object> validateLogin(
+            @RequestBody UserVO user,
+            HttpServletRequest req
+    ) {
         Object loginUser = sessionService.validateLogin(user);
 
         if (loginUser != null && loginUser instanceof UserVO) {
@@ -59,15 +52,13 @@ public class SessionController {
         return ResponseEntity.ok(loginUser);
     }
 
-    private Object getSession(HttpServletRequest req) {
-        HttpSession session = req.getSession();
-        return session.getAttribute("user");
-    }
-
     @ModelAttribute("user")
     private UserVO addToSessionModel(UserVO user) {
         return user;
     }
+
+
+
 
     @RequestMapping("authorization-code")
     @ResponseBody

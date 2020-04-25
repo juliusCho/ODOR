@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
@@ -46,5 +48,15 @@ public class SessionServiceTest implements SessionServiceSpec {
 //        assert sessionMapper.validateLogin(user).equals(0);
         log.error(String.valueOf(sessionMapper.validateLogin(user)));
         return null;
+    }
+
+    @Override
+    public Object getSession(HttpServletRequest req) {
+        return null;
+    }
+
+    @Override
+    public boolean sessionCheck(String userId, HttpServletRequest req) {
+        return false;
     }
 }

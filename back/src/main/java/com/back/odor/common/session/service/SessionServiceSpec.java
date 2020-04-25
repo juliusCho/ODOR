@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface SessionServiceSpec {
 
     // 상수 : 인터페이스에서 값을 정해줄테니 함부로 바꾸지 말고 제공해주는 값만 참조해라 (절대적)
@@ -25,4 +27,8 @@ public interface SessionServiceSpec {
     static void loginTrialConsole(UserVO user) {
         log.warn("Login Trial : " + user.toString());
     }
+
+
+    Object getSession(HttpServletRequest req);
+    boolean sessionCheck(String userId, HttpServletRequest req);
 }

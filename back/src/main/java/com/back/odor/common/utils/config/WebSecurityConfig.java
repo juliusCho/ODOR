@@ -34,6 +34,7 @@ public class WebSecurityConfig
         http
                 .authorizeRequests()
                     .antMatchers("/rest/**").permitAll()
+                    .antMatchers("/api/**").permitAll()
                     .anyRequest().authenticated()
             .and()
                 .exceptionHandling()

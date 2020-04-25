@@ -9,6 +9,11 @@ const API = class {
     };
 
     static UserMgmtController = {
-        getUserList: 'api/getUserList'
     };
+
+    static ForumMgmtController = {
+        getForumList: 'api/forum/getForumList',
+        getSystemList: 'api/forum/getSystemList'
+    }
+
 };

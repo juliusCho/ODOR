@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class UserVO extends CommonVO implements Serializable {
 
     private static final long serialVersionUID = -6611753036370466951L;
+
     private String userId;
 
     @Getter(AccessLevel.NONE)

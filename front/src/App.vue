@@ -4,18 +4,19 @@
       app
       dark
     >
-      <div
-              @click="goTo('Home')"
-              style="cursor: pointer;"
-      >
-        <v-btn style="font-size: 30px;" text>ODOR</v-btn>
-      </div>
+      <v-btn @click="goTo('Home')"
+             style="font-size: 30px;" text>ODOR</v-btn>
 
       <v-spacer/>
       <v-spacer/>
       <v-spacer/>
 
-      <v-btn small text>FORUM</v-btn>
+      <MenuWithChildren
+        :menu="forum"
+        menuName="forum"
+        keyCol="forumKey"
+        labelCol="forumName"
+      />
 
       <v-spacer/>
 
@@ -25,10 +26,14 @@
 
       <v-btn @click="goTo('About')" small text>ABOUT</v-btn>
 
-      <template v-if="loggedInBoo && sysMngrYn">
-        <v-spacer/>
-        <v-btn small text>SYSTEM</v-btn>
-      </template>
+      <v-spacer/>
+
+      <MenuWithChildren
+          :menu="system"
+          menuName="system"
+          keyCol="forumKey"
+          labelCol="forumName"
+      />
 
       <v-spacer/>
       <v-spacer/>
@@ -67,14 +72,17 @@
 
 <script>
   import Router from '@/router/Router';
+  import MenuWithChildren from '@/views/components/MenuWithChildren';
 
   export default {
     name: 'App',
     components: {
-      Router
+      Router,
+      MenuWithChildren
     },
     created() {
       this.routing = 'Home';
+      this.getForumList();
     },
     watch: {
       routing() {
@@ -88,19 +96,55 @@
       },
       loggedInBoo() {
         this.sysMngrYn = this.sysMngrCheck();
+        this.getSystemList();
       }
     },
     data() {
       return {
         routing: '',
         loggedInBoo: false,
-        sysMngrYn: false
+        sysMngrYn: false,
+        forum: [],
+        system: []
       }
     },
     methods: {
+      // get system list
+      async getSystemList() {
+        if (!this.loggedInBoo || !this.sysMngrYn) {
+          return;
+        }
+        if (this.system.length > 0) {
+          return;
+        }
+        await axios.post(
+                API.ForumMgmtController.getSystemList,
+                TMP_SESSION.getId()
+        ).then(res => {
+          if (res.data.length > 0) {
+            this.system = res.data;
+          }
+        });
+      },
+      // get forum list
+      getForumList() {
+        if (this.forum.length > 0) {
+          return;
+        }
+        axios.get(API.ForumMgmtController.getForumList)
+        .then(res => {
+          if (res.data.length > 0) {
+            this.forum = res.data;
+          }
+        });
+      },
+      // routing
       goTo(page) {
         this.routing = page;
       },
+      // ************************************************************
+      // Login Icon Clicked + Session check
+      // ************************************************************
       membershipClicked() {
         let goTo = true;
         for (let i in MEMBERSHIP_PAGES) {
@@ -127,6 +171,9 @@
         }
         return TMP_SESSION.getLoginUser().sysMngrYn;
       }
+      // ************************************************************
+      // Login Icon Clicked + Session check
+      // ************************************************************
     }
   };
 </script>

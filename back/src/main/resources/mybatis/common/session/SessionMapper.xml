@@ -10,6 +10,7 @@
           FROM USER
          WHERE USER_ID = #{user.userId}
            AND PASSWORD = #{user.password}
+           AND USE_YN <![CDATA[<>]]> 0
     </select>
 
     <select id="checkBlockedUser" resultType="BlockedUserVO">
