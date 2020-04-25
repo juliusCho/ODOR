@@ -1,11 +1,16 @@
 <template>
-    <div v-if="show"
-         class="float-right"
-         style="width: 300px;">
-        <v-alert :type="status" :mode="mode">
-            {{msg}}
-        </v-alert>
-    </div>
+    <v-row justify="center"
+         v-if="show">
+        <v-col md="3">
+            <v-alert
+                    :mode="mode"
+                    :type="status"
+                    transition="scale-transition"
+            >
+                {{msg}}
+            </v-alert>
+        </v-col>
+    </v-row>
 </template>
 
 <script>

@@ -4,7 +4,9 @@ import VueRouter from 'vue-router'
 import MyPage from '@/views/menu/membership/MyPage.vue'
 import Login from '@/views/menu/membership/Login.vue'
 import IdPwFinder from '@/views/menu/membership/IdPwFinder.vue'
-import VuetifyHelloWorld from "@/views/components/VuetifyHelloWorld"
+import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld'
+
+import About from '@/views/menu/about/About'
 
 Vue.use(VueRouter);
 
@@ -29,6 +31,11 @@ const routes = [
     path: '/IdPwFinder',
     name: 'IdPwFinder',
     component: IdPwFinder
+  },
+  {
+    path: '/About',
+    name: 'About',
+    component: About
   }
 ];
 

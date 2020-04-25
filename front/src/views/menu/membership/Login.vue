@@ -1,82 +1,78 @@
 <template>
-    <v-app>
-        <v-content>
-            <RightTopAlert
-                    :status="loginStatus"
-                    :msg="alertMsg"
-                    :show="alertShow"
-                    :showTime="2500"
-                    @hideDisplay="hideAlert"
-            />
-            <v-container class="fill-height" fluid>
-                <v-row align="center" justify="center" style="padding-bottom: 12%;">
-                    <v-col cols="12" sm="8" md="4">
-                        <v-card class="elevation-12">
-                            <v-toolbar color="primary" dark flat>
-                                <v-toolbar-title>Login</v-toolbar-title>
-                                <v-spacer/>
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn
-                                            @click="goTo('IdPwFinder')"
-                                            icon
-                                            large
-                                            v-on="on"
-                                        >
-                                            <v-icon>mdi-account-alert-outline</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>I Forgot T_T</span>
-                                </v-tooltip>
-                                <v-tooltip right>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn
-                                            icon
-                                            large
-                                            v-on="on"
-                                            @click="goTo('Join')"
-                                        >
-                                            <v-icon>mdi-account-box-multiple-outline</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>First Time?</span>
-                                </v-tooltip>
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-form>
-                                    <v-text-field
-                                            v-model="loginInput.userId"
-                                            label="ID"
-                                            required
-                                            type="text"
-                                            name="id"
-                                    />
-                                    <v-text-field
-                                            v-model="loginInput.password"
-                                            label="PW"
-                                            required
-                                            type="password"
-                                            name="password"
-                                            id="password"
-                                    />
-                                </v-form>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-spacer/>
+    <v-container class="fill-height" fluid>
+        <RightTopAlert
+                :msg="alertMsg"
+                :show="alertShow"
+                :showTime="2500"
+                :status="loginStatus"
+                @hideDisplay="hideAlert"
+        />
+        <v-row justify="center" style="padding-bottom: 7%;">
+            <v-col md="4">
+                <v-card class="elevation-10">
+                    <v-toolbar color="primary" dark flat>
+                        <v-toolbar-title>Login</v-toolbar-title>
+                        <v-spacer/>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
                                 <v-btn
-                                        color="primary"
-                                        class="mr-4"
-                                        @click="loginRequest"
+                                    @click="goTo('IdPwFinder')"
+                                    icon
+                                    large
+                                    v-on="on"
                                 >
-                                    Login
+                                    <v-icon>mdi-account-alert-outline</v-icon>
                                 </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-content>
-    </v-app>
+                            </template>
+                            <span>I Forgot T_T</span>
+                        </v-tooltip>
+                        <v-tooltip right>
+                            <template v-slot:activator="{ on }">
+                                <v-btn
+                                    @click="goTo('Join')"
+                                    icon
+                                    large
+                                    v-on="on"
+                                >
+                                    <v-icon>mdi-account-box-multiple-outline</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>First Time?</span>
+                        </v-tooltip>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form>
+                            <v-text-field
+                                    label="ID"
+                                    name="id"
+                                    required
+                                    type="text"
+                                    v-model="loginInput.userId"
+                            />
+                            <v-text-field
+                                    id="password"
+                                    label="PW"
+                                    name="password"
+                                    required
+                                    type="password"
+                                    v-model="loginInput.password"
+                            />
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer/>
+                        <v-btn
+                                @click="loginRequest"
+                                class="mr-4"
+                                color="primary"
+                        >
+                            Login
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>

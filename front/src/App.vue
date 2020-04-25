@@ -7,29 +7,32 @@
       <div
               @click="goTo('Home')"
               style="cursor: pointer;"
-              class="d-flex align-center"
       >
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-
+        <v-btn style="font-size: 30px;" text>ODOR</v-btn>
       </div>
 
-      <v-spacer></v-spacer>
+      <v-spacer/>
+      <v-spacer/>
+      <v-spacer/>
+
+      <v-btn small text>FORUM</v-btn>
+
+      <v-spacer/>
+
+      <v-btn small text>PERFUME</v-btn>
+
+      <v-spacer/>
+
+      <v-btn @click="goTo('About')" small text>ABOUT</v-btn>
+
+      <template v-if="loggedInBoo && sysMngrYn">
+        <v-spacer/>
+        <v-btn small text>SYSTEM</v-btn>
+      </template>
+
+      <v-spacer/>
+      <v-spacer/>
+      <v-spacer/>
 
       <v-btn  v-if="loggedInBoo"
               @click="membershipClicked"
@@ -82,12 +85,16 @@
           return;
         }
         this.$refs.router.goTo(to.name);
+      },
+      loggedInBoo() {
+        this.sysMngrYn = this.sysMngrCheck();
       }
     },
     data() {
       return {
         routing: '',
-        loggedInBoo: false
+        loggedInBoo: false,
+        sysMngrYn: false
       }
     },
     methods: {
@@ -113,6 +120,12 @@
       },
       loggedIn(boo) {
         this.loggedInBoo = boo;
+      },
+      sysMngrCheck() {
+        if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getLoginUser().sysMngrYn)) {
+          return false;
+        }
+        return TMP_SESSION.getLoginUser().sysMngrYn;
       }
     }
   };
