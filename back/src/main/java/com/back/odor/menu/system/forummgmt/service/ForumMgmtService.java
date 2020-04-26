@@ -32,13 +32,10 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
     }
 
     @Override
-    public List<ForumVO> getSystemList(String userId, HttpServletRequest req) {
+    public List<ForumVO> getSystemList(UserVO user, HttpServletRequest req) {
         List<ForumVO> result = new ArrayList<>();
 
-        // TODO: =가 자꾸 붙는 원인해결해야함
-        userId = userId.replace("=", "");
-
-        if (sessionService.sessionCheck(userId, req)) {
+        if (sessionService.sessionCheck(user, req)) {
             String[] systemMenu = GlobalConst.SYSTEM_MENU;
             int ii = systemMenu.length;
             for (int i = 0; i < ii; i++) {
@@ -52,7 +49,6 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
                 result.add(vo);
             }
         }
-        log.debug(result.toString());
         return result;
     }
 }

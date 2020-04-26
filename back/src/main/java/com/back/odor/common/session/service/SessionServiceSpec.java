@@ -19,7 +19,7 @@ public interface SessionServiceSpec {
 
     // 디폴트 메소드 : 인터페이스에서 기본적으로 제공해주지만, 맘에 안들면 각자 구현해서 써라. (선택적)
     default UserVO validateLoginTest(UserVO user) {
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+//        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         return sessionMapper.validateLogin(user);
     }
 
@@ -30,5 +30,5 @@ public interface SessionServiceSpec {
 
 
     Object getSession(HttpServletRequest req);
-    boolean sessionCheck(String userId, HttpServletRequest req);
+    boolean sessionCheck(UserVO user, HttpServletRequest req);
 }

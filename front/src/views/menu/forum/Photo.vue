@@ -12,11 +12,17 @@
                 type: Number,
                 default: 0,
                 required: false
+            },
+            categoryId: {
+                type: String,
+                default: '',
+                required: false
             }
         },
         mounted() {
             console.log('PHOTO');
             console.log(this.forumKey);
+            console.log(this.categoryId);
         }
     }
 </script>

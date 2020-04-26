@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ public class SessionServiceTest implements SessionServiceSpec {
     @Override
     public Object validateLogin(UserVO user) {
         user.setUserId(securedPropertySource.getUserId());
-        user.setPassword(securedPropertySource.getPassword());
+//        user.setPassword(securedPropertySource.getPassword());
         String result = String.valueOf(sessionMapper.validateLogin(user));
         log.debug("validateLogin RESULT : " + result);
         return null;
@@ -43,8 +42,8 @@ public class SessionServiceTest implements SessionServiceSpec {
     @Override
     public UserVO validateLoginTest(UserVO user) {
         user.setUserId(securedPropertySource.getUserId());
-        user.setPassword(securedPropertySource.getPassword());
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+//        user.setPassword(securedPropertySource.getPassword());
+//        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 //        assert sessionMapper.validateLogin(user).equals(0);
         log.error(String.valueOf(sessionMapper.validateLogin(user)));
         return null;
@@ -56,7 +55,7 @@ public class SessionServiceTest implements SessionServiceSpec {
     }
 
     @Override
-    public boolean sessionCheck(String userId, HttpServletRequest req) {
+    public boolean sessionCheck(UserVO user, HttpServletRequest req) {
         return false;
     }
 }

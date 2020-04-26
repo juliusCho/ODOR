@@ -42,15 +42,14 @@ public class SessionService implements SessionServiceSpec {
     }
 
     @Override
-    public boolean sessionCheck(String userId, HttpServletRequest req) {
+    public boolean sessionCheck(UserVO user, HttpServletRequest req) {
         Object obj = this.getSession(req);
         if (!(obj instanceof UserVO)) {
             return false;
         }
         UserVO session = (UserVO) obj;
 
-        // TODO: VO Object끼리 비교하면 더 좋을듯?
-        if (!userId.equals(session.getUserId())) {
+        if (!user.equals(session)) {
             return false;
         }
         return true;

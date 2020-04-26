@@ -3,6 +3,9 @@
         <template v-if="routing === 'Home'">
             <VuetifyHelloWorld/>
         </template>
+        <template v-else-if="routing === 'Join'">
+            <Join @goTo="goTo"/>
+        </template>
         <template v-else-if="routing === 'MyPage'">
             <MyPage @goTo="goTo" @loggedIn="loggedIn"/>
         </template>
@@ -16,13 +19,13 @@
             <About/>
         </template>
         <template v-else-if="routing === 'Photo'">
-            <Photo :forumKey="forumKey"/>
+            <Photo :forumKey="forumKey" :categoryId="categoryId"/>
         </template>
         <template v-else-if="routing === 'Review'">
-            <Review :forumKey="forumKey"/>
+            <Review :forumKey="forumKey" :categoryId="categoryId"/>
         </template>
         <template v-else-if="routing === 'Etc'">
-            <Etc :forumKey="forumKey"/>
+            <Etc :forumKey="forumKey" :categoryId="categoryId"/>
         </template>
         <template v-else>
             <SessionCheck :page="routing" @checkSession="checkSession"/>
@@ -32,6 +35,7 @@
 
 <script>
     import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
+    import Join from '@/views/menu/membership/Join';
     import MyPage from '@/views/menu/membership/MyPage';
     import Login from '@/views/menu/membership/Login';
     import IdPwFinder from '@/views/menu/membership/IdPwFinder';
@@ -46,6 +50,7 @@
         name: 'Router',
         components: {
             VuetifyHelloWorld,
+            Join,
             MyPage,
             Login,
             IdPwFinder,
@@ -66,7 +71,8 @@
             return {
                 incl: 'Home',
                 excl: 'MyPage',
-                forumKey: 0
+                forumKey: 0,
+                categoryId: ''
             }
         },
         methods: {
@@ -88,7 +94,9 @@
                 }
                 if (this.checkRest()) {
                     this.$emit('goTo', page);
-                    this.forumKey = this.getParent('App').forumKey;
+                    let parent = this.getParent('App');
+                    this.forumKey = parent.forumKey;
+                    this.categoryId = parent.categoryId;
                     return;
                 }
                 this.checkSession(page);
@@ -96,7 +104,7 @@
             async checkSession(page) {
                 await axios.post(
                     API.SessionController.sessionCheck,
-                    {sessionToken: TMP_SESSION.getId()}
+                    {sessionToken: TMP_SESSION.getLoginUser()}
                 )
                 .then((res) => {
                     if (res.data) {

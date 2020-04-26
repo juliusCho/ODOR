@@ -32,4 +32,8 @@ public class GlobalConst {
         "ProductMgmt", "ProductTypeMgmt", "RatingItemMgmt", "UserMgmt"
     };
 
+    public static final String[] LOCALE_LIST = {
+            "KO", "ENG"
+    };
+
 }

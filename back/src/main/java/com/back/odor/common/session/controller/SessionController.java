@@ -31,10 +31,10 @@ public class SessionController {
 
     @PostMapping("sessionCheck")
     public ResponseEntity<Boolean> sessionCheck(
-            @RequestBody String userId,
+            @RequestBody UserVO user,
             HttpServletRequest req
     ) {
-        return ResponseEntity.ok(sessionService.sessionCheck(userId, req));
+        return ResponseEntity.ok(sessionService.sessionCheck(user, req));
     }
 
     @PostMapping("validateLogin")

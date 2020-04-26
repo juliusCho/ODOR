@@ -55,7 +55,7 @@
                 forumTypeCode = forumTypeCode.substring(0, 1).toUpperCase()
                     + forumTypeCode.substring(1, forumTypeCode.length);
 
-                this.$emit('goTo', forumTypeCode, menu.forumKey);
+                this.$emit('goTo', forumTypeCode, menu.forumKey, menu.categoryId);
             }
         }
     }

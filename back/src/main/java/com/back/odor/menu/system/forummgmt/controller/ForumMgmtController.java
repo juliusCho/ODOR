@@ -25,10 +25,10 @@ public class ForumMgmtController {
 
     @PostMapping("getSystemList")
     public ResponseEntity<List<ForumVO>> getSystemList(
-            @RequestBody String userId,
+            @RequestBody UserVO user,
             HttpServletRequest req
     ) {
-        return ResponseEntity.ok(forumMgmtService.getSystemList(userId, req));
+        return ResponseEntity.ok(forumMgmtService.getSystemList(user, req));
     }
 
 }

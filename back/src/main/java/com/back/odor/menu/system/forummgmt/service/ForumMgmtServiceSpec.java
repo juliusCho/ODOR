@@ -10,6 +10,6 @@ public interface ForumMgmtServiceSpec {
 
     List<ForumVO> getForumList();
 
-    List<ForumVO> getSystemList(String userId, HttpServletRequest req);
+    List<ForumVO> getSystemList(UserVO user, HttpServletRequest req);
 
 }
