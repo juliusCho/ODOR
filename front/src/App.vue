@@ -62,10 +62,11 @@
       </v-btn>
 
     </v-app-bar>
-
+    // :자식객체 props 변수
+    // @:이벤트명 / 자식템플릿에서 부모템플릿에 있는 메소드 접근
+    // ref = $refs 쓸때 자식객체 지정
     <Router
             :routing="routing"
-            @getForumKey="getForumKey"
             @goTo="goTo"
             ref="router"
             @loggedIn="loggedIn"
@@ -83,21 +84,20 @@
       Router,
       MenuWithChildren
     },
-    created() {
+    created: function() { // == created() {
       this.routing = 'Home';
       this.getForumList();
     },
-    watch: {
-      routing() {
+    watch: { // props, data 사용할 수 있는 객체
+      routing() { // data에서 선언한 routing을 function으로 사용
+        // rounting 데이터가 바뀌었을 때 아래 함수 실행
         this.$router.push(this.routing).catch(() => {});
       },
-      '$route'(to, from) {
-        if (from.name === to.name) {
+      '$route'(to, from) { // vue 기본 객체 ($ 사인 붙은 애들), 싱글쿼테이션으로 감쌀것.
+        if (from.name === to.name) { // 비교할때
           return;
         }
-        this.$refs.router.goTo(to.name);
-      },
-      loggedInBoo() {
+        this.$refs.router.goTo(to.name); // 부모가 자식객체에 있는 메소드를 실행시키고 싶을때      loggedInBoo() {
         this.sysMngrYn = this.sysMngrCheck();
         this.getSystemList();
       }
@@ -110,6 +110,13 @@
         forumKey: 0,
         forum: [],
         system: []
+      }
+    },
+    props: { // 해당 선언 규칙 !
+      renee: {  // prop 에 선언된 데이터는 바꿀수 없음
+        type: Number, // 부모객체가 자식에게 값을 넣어줄 수 있음
+        default: 0,
+        required: false
       }
     },
     methods: {

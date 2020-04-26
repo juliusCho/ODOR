@@ -5,7 +5,7 @@ const MEMBERSHIP_PAGES = [
     'IdPwFinder'
 ];
 
-
+// 임시 vuex 저장소
 const TMP_SESSION = {
     setLognUser(user = {}) {
         if ('userId' in user) {
