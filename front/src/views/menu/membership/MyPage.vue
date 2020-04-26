@@ -102,6 +102,7 @@
         },
         mounted() {
             this.checkSession();
+            //dd
         },
         methods: {
             checkSession() {
