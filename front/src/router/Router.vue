@@ -60,27 +60,35 @@
                 type: String,
                 default: '',
                 required: false
-            },
-            forumKey: {
-                type: Number,
-                default: 0,
-                required: false
             }
         },
         data() {
             return {
                 incl: 'Home',
-                excl: 'MyPage'
+                excl: 'MyPage',
+                forumKey: 0
             }
         },
         methods: {
+            getParent(name){
+                let p = this.$parent;
+                while(typeof p !== 'undefined') {
+                    if (p.$options.name === name) {
+                        return p;
+                    } else {
+                        p = p.$parent;
+                    }
+                }
+                return p;
+            },
             goTo(page) {
                 if (page === '') {
                     this.$emit('goTo', 'Home');
                     return;
                 }
                 if (this.checkRest()) {
-                    this.$emit('goTo', page, this.forumKey);
+                    this.$emit('goTo', page);
+                    this.forumKey = this.getParent('App').forumKey;
                     return;
                 }
                 this.checkSession(page);
@@ -93,7 +101,7 @@
                 .then((res) => {
                     if (res.data) {
                         // this.$router.push(page).catch(() => {});
-                        this.$emit('goTo', page, this.forumKey);
+                        this.$emit('goTo', page);
                         return;
                     }
                     this.$emit('goTo', this.incl);

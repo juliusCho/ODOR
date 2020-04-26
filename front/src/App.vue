@@ -65,8 +65,7 @@
 
     <Router
             :routing="routing"
-            :forumKey="forumKey"
-            :id="routing + forumKey"
+            @getForumKey="getForumKey"
             @goTo="goTo"
             ref="router"
             @loggedIn="loggedIn"
@@ -148,8 +147,10 @@
         if (SCRIPT_VALIDATOR.nullCheck(fKey)) {
           this.forumKey = fKey;
         }
-        console.log(this.forumKey);
         this.routing = page;
+      },
+      getForumKey() {
+        return this.forumKey;
       },
       // ************************************************************
       // Login Icon Clicked + Session check

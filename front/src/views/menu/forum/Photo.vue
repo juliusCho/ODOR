@@ -15,12 +15,8 @@
             }
         },
         mounted() {
-            // console.log(this.forumKey);
-        },
-        watch: {
-            forumKey() {
-                // console.log(this.forumKey);
-            }
+            console.log('PHOTO');
+            console.log(this.forumKey);
         }
     }
 </script>

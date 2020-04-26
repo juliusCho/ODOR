@@ -13,6 +13,10 @@
                 default: 0,
                 required: false
             }
+        },
+        mounted() {
+            console.log('REVIEW');
+            console.log(this.forumKey);
         }
     }
 </script>

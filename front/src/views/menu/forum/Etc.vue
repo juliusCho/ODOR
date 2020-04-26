@@ -14,9 +14,9 @@
                 required: false
             }
         },
-        watch: {
-            forumKey() {
-            }
+        mounted() {
+            console.log('ETC');
+            console.log(this.forumKey);
         }
     }
 </script>
