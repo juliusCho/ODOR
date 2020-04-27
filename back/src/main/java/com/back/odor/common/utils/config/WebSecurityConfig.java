@@ -33,8 +33,8 @@ public class WebSecurityConfig
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/rest/**").permitAll()
-                    .antMatchers("/api/**").permitAll()
+                    .antMatchers("/odor/**/rest").permitAll()
+                    .antMatchers("/odor/**/api").permitAll()
                     .anyRequest().authenticated()
             .and()
                 .exceptionHandling()

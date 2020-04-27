@@ -13,7 +13,7 @@ public class OAuth2ResouceConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest().permitAll()
 //                .antMatchers("/api/**").authenticated()
-                .antMatchers("/api/**").
+                .antMatchers("/odor/**").
                 access("#oauth2.hasScope('read')");
     }
 }

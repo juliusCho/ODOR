@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/forum")
+@RequestMapping("odor/forum")
 public class ForumMgmtController {
 
     @Autowired
     private ForumMgmtService forumMgmtService;
 
 
-    @GetMapping("getForumList")
+    @GetMapping("getForumList/rest")
     public ResponseEntity<List<ForumVO>> getForumList() {
         return ResponseEntity.ok(forumMgmtService.getForumList());
     }
 
-    @PostMapping("getSystemList")
+    @PostMapping("getSystemList/api")
     public ResponseEntity<List<ForumVO>> getSystemList(
             @RequestBody UserVO user,
             HttpServletRequest req

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("rest/common")
+@RequestMapping("odor/common")
 @Slf4j
 public class CommonController {
 
-    @PostMapping("setSystemLocale")
+    @PostMapping("setSystemLocale/rest")
     public ResponseEntity setSystemLocale(@RequestBody String locale) {
         locale = locale.replaceAll("=", "");
         LocaleUtil.setLocale(locale);

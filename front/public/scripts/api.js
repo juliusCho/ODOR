@@ -3,18 +3,18 @@
 const API = class {
 
     static CommonController = {
-        setSystemLocale: 'rest/common/setSystemLocale'
+        setSystemLocale: 'odor/common/setSystemLocale/rest'
     };
 
     static SessionController = {
-        sessionCheck: 'rest/sessionCheck',
-        validateLogin: 'rest/validateLogin',
-        logout: 'rest/logout'
+        sessionCheck: 'odor/sessionCheck/api',
+        validateLogin: 'odor/validateLogin/api',
+        logout: 'odor/logout/rest'
     };
 
     static ForumMgmtController = {
-        getForumList: 'api/forum/getForumList',
-        getSystemList: 'api/forum/getSystemList'
+        getForumList: 'odor/forum/getForumList/rest',
+        getSystemList: 'odor/forum/getSystemList/api'
     }
 
 };
