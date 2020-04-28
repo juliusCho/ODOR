@@ -1,5 +1,7 @@
 package com.back.odor.common.utils.vo;
 
+import com.back.odor.common.etc.GlobalConst;
+import com.back.odor.common.utils.LocaleUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,16 +34,14 @@ public class CommonVO implements Serializable {
     @Getter
     private String updateDate;
 
+    private String countryCode = LocaleUtil.getLocale();
 
-
-    private String getSessionId() {
-
-        return null;
+    public String getCountryCode() {
+        return countryCode;
     }
-    private String getSessionName() {
-
-        return null;
+    public void setCountryCode(String countryCode) {
     }
+
 
     public String getCreatorId() {
 

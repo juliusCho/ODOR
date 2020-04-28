@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.web.csrf.InvalidCsrfTokenException;
 import org.springframework.security.web.csrf.MissingCsrfTokenException;
+import org.springframework.security.web.savedrequest.NullRequestCache;
 
 import javax.sql.DataSource;
 
@@ -36,6 +37,9 @@ public class WebSecurityConfig
                     .antMatchers("/odor/**/rest").permitAll()
                     .antMatchers("/odor/**/api").permitAll()
                     .anyRequest().authenticated()
+            .and()
+                .requestCache()
+                    .requestCache(new NullRequestCache())
             .and()
                 .exceptionHandling()
                     .accessDeniedPage("/denied.html")

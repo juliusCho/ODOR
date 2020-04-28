@@ -33,7 +33,7 @@ public class GlobalConst {
     };
 
     public static final String[] LOCALE_LIST = {
-            "KO", "ENG"
+        "KO", "ENG"
     };
 
 }
