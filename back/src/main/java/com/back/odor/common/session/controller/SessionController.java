@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("rest")
+@RequestMapping("odor")
 @Slf4j
 public class SessionController {
 
@@ -20,7 +20,7 @@ public class SessionController {
     private SessionService sessionService;
 
 
-    @GetMapping("logout")
+    @GetMapping("logout/rest")
     public ResponseEntity logout(HttpServletRequest req) {
         HttpSession session = req.getSession();
         if (session != null) {
@@ -29,7 +29,7 @@ public class SessionController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PostMapping("sessionCheck")
+    @PostMapping("sessionCheck/api")
     public ResponseEntity<Boolean> sessionCheck(
             @RequestBody UserVO user,
             HttpServletRequest req
@@ -37,7 +37,7 @@ public class SessionController {
         return ResponseEntity.ok(sessionService.sessionCheck(user, req));
     }
 
-    @PostMapping("validateLogin")
+    @PostMapping("validateLogin/api")
     public ResponseEntity<Object> validateLogin(
             @RequestBody UserVO user,
             HttpServletRequest req

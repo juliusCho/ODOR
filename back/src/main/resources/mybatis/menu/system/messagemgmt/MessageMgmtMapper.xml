@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.back.odor.menu.system.messagemgmt.mapper.MessageMgmtMapper">
+
+    <select id="getMessageList" resultType="MessageVO">
+        /* 공통메세지 목록 조회 */
+        SELECT CM.MESSAGE_ID
+             , CM.MESSAGE
+          FROM COUNTRY_MESSAGE CM
+         INNER
+          JOIN COUNTRY C
+            ON C.COUNTRY_CODE = CM.COUNTRY_CODE
+           AND C.COUNTRY_CODE = #{locale}
+           AND C.USE_YN <![CDATA[<>]]> 0
+    </select>
+
+</mapper>

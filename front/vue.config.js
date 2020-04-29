@@ -2,12 +2,7 @@ module.exports = {
   "runtimeCompiler": true,
   "devServer": {
     "proxy": {
-      "^/rest": {
-        "target": "http://localhost:8888",
-        "changeOrigin": true,
-        "ws": true
-      },
-      "^/api": {
+      "^/odor": {
         "target": "http://localhost:8888",
         "changeOrigin": true,
         "ws": true

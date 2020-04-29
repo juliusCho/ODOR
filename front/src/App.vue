@@ -43,7 +43,7 @@
       <v-spacer/>
       <v-spacer/>
 
-      <v-col cols="1">
+      <v-col cols="1" style="margin-top: 30px;">
         <v-combobox
                 v-model="locale"
                 :items="localeList"
@@ -132,13 +132,34 @@
       }
     },
     methods: {
-      // 시스템 언어 설정
+      // Set System Language
       async setSystemLocale() {
+        let locale = this.locale;
         await axios.post(
                 API.CommonController.setSystemLocale,
-                this.locale
+                null,
+                {params:{locale}}
         ).then(() => {
-          console.log(this.locale);
+          this.setMessageList(locale);
+        });
+      },
+      // Set System Message
+      async setMessageList(locale) {
+        await axios.post(
+                API.CommonController.getMessageList
+        ).then(res => {
+          MESSAGE.setMessageList(res.data);
+          this.setCodeList(locale);
+          console.log(MESSAGE.getMessage('NOTE_FIG_TREE'));
+        });
+      },
+      // Set System Code
+      async setCodeList(locale) {
+        await axios.post(
+                API.CommonController.getCodeList
+        ).then(res => {
+          CODE.setCodeList(res.data);
+          console.log(CODE.getCodeName('GENDER_CODE', 'F'));
         });
       },
       // get system list
@@ -204,7 +225,7 @@
         this.loggedInBoo = boo;
       },
       sysMngrCheck() {
-        if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getLoginUser().sysMngrYn)) {
+        if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getLoginUser()?.sysMngrYn)) {
           return false;
         }
         return TMP_SESSION.getLoginUser().sysMngrYn;

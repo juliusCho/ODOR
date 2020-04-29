@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.web.csrf.InvalidCsrfTokenException;
 import org.springframework.security.web.csrf.MissingCsrfTokenException;
+import org.springframework.security.web.savedrequest.NullRequestCache;
 
 import javax.sql.DataSource;
 
@@ -32,24 +33,27 @@ public class WebSecurityConfig
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/rest/**").permitAll()
-                    .antMatchers("/api/**").permitAll()
-                    .anyRequest().authenticated()
-            .and()
-                .exceptionHandling()
-                    .accessDeniedPage("/denied.html")
-                    .accessDeniedHandler((request, response, exception) -> {
-                        if (exception instanceof MissingCsrfTokenException) {
-                            log.error("SESSION EXPIRED");
-                            log.error(exception.toString());
-                        } else if (exception instanceof InvalidCsrfTokenException) {
-                            log.error("INVALID TOKEN");
-                            log.error(exception.toString());
-                        }
-                    })
-            .and()
-                .csrf().disable()
+            .authorizeRequests()
+                .antMatchers("/odor/**/rest").permitAll()
+                .antMatchers("/odor/**/api").permitAll()
+                .anyRequest().authenticated()
+                    .and()
+            .requestCache()
+                .requestCache(new NullRequestCache())
+                    .and()
+            .exceptionHandling()
+                .accessDeniedPage("/denied.html")
+                .accessDeniedHandler((request, response, exception) -> {
+                    if (exception instanceof MissingCsrfTokenException) {
+                        log.error("SESSION EXPIRED");
+                        log.error(exception.toString());
+                    } else if (exception instanceof InvalidCsrfTokenException) {
+                        log.error("INVALID TOKEN");
+                        log.error(exception.toString());
+                    }
+                })
+                    .and()
+            .csrf().disable()
         ;
     }
 
