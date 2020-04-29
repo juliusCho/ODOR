@@ -150,6 +150,7 @@
         ).then(res => {
           MESSAGE.setMessageList(res.data);
           this.setCodeList(locale);
+          console.log(MESSAGE.getMessage('NOTE_FIG_TREE'));
         });
       },
       // Set System Code
@@ -158,6 +159,7 @@
                 API.CommonController.getCodeList
         ).then(res => {
           CODE.setCodeList(res.data);
+          console.log(CODE.getCodeName('GENDER_CODE', 'F'));
         });
       },
       // get system list

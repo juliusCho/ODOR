@@ -38,31 +38,35 @@ const TMP_SESSION = {
 // Multilanguage Message
 const MESSAGE = {
     setMessageList(list = []) {
-        window.messageList = COMMON_UTIL
-            .range(list.length)
-            .map(i =>
-                `{messageId: list[${i}]?.messageId,` +
-                ` message: list[${i}]?.message}`
-            );
+        let newList = [];
+        for (let i in list) {
+            newList.push({
+                messageId: list[i].messageId,
+                message: list[i].message
+            });
+        }
+        window.messageList = newList.filter(v => v.messageId && v.message);
     },
     getMessageList() {
         return window.messageList || [];
     },
     getMessage(messageId) {
-        return window.messageList.find(v => v.messageId === messageId);
+        return window.messageList.find(v => v.messageId === messageId)?.message || '';
     }
 }
 
 // Common Code
 const CODE = {
     setCodeList(list = []) {
-        window.codeList = COMMON_UTIL
-            .range(list.length)
-            .map(i =>
-                `{codeGroupId: list[${i}]?.codeGroupId,` +
-                `{codeId: list[${i}]?.codeId,` +
-                ` codeNm: list[${i}]?.codeNm}`
-            );
+        let newList = [];
+        for (let i in list) {
+            newList.push({
+                codeGroupId: list[i].codeGroupId,
+                codeId: list[i].codeId,
+                codeName: list[i].codeMessage || list[i].codeName
+            });
+        }
+        window.codeList = newList.filter(v => v.codeGroupId && v.codeId && v.codeName);
     },
     getCodeListAll() {
         return window.codeList || [];
@@ -70,11 +74,11 @@ const CODE = {
     getCodeList(codeGroupId) {
         return window.codeList.filter(v => v.codeGroupId === codeGroupId);
     },
-    getCode(codeGroupId, codeId) {
+    getCodeName(codeGroupId, codeId) {
         return window.codeList
             .find(
                 v => v.codeGroupId === codeGroupId &&
                     v.codeId === codeId
-            );
+            )?.codeName;
     }
 }

@@ -6,9 +6,9 @@
 
     <select id="getCodeList" resultType="CodeVO">
         /* 공통코드 목록 조회 */
-        SELECT C.CODE_ID
-             , C.CODE_GROUP_ID
-             , CM.MESSAGE
+        SELECT C.CODE_ID            AS CODE_ID
+             , C.CODE_GROUP_ID      AS CODE_GROUP_ID
+             , CM.MESSAGE           AS CODE_MESSAGE
           FROM CODE C
          INNER
           JOIN COUNTRY_MESSAGE CM
