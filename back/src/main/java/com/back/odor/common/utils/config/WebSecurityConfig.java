@@ -33,27 +33,27 @@ public class WebSecurityConfig
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/odor/**/rest").permitAll()
-                    .antMatchers("/odor/**/api").permitAll()
-                    .anyRequest().authenticated()
-            .and()
-                .requestCache()
-                    .requestCache(new NullRequestCache())
-            .and()
-                .exceptionHandling()
-                    .accessDeniedPage("/denied.html")
-                    .accessDeniedHandler((request, response, exception) -> {
-                        if (exception instanceof MissingCsrfTokenException) {
-                            log.error("SESSION EXPIRED");
-                            log.error(exception.toString());
-                        } else if (exception instanceof InvalidCsrfTokenException) {
-                            log.error("INVALID TOKEN");
-                            log.error(exception.toString());
-                        }
-                    })
-            .and()
-                .csrf().disable()
+            .authorizeRequests()
+                .antMatchers("/odor/**/rest").permitAll()
+                .antMatchers("/odor/**/api").permitAll()
+                .anyRequest().authenticated()
+                    .and()
+            .requestCache()
+                .requestCache(new NullRequestCache())
+                    .and()
+            .exceptionHandling()
+                .accessDeniedPage("/denied.html")
+                .accessDeniedHandler((request, response, exception) -> {
+                    if (exception instanceof MissingCsrfTokenException) {
+                        log.error("SESSION EXPIRED");
+                        log.error(exception.toString());
+                    } else if (exception instanceof InvalidCsrfTokenException) {
+                        log.error("INVALID TOKEN");
+                        log.error(exception.toString());
+                    }
+                })
+                    .and()
+            .csrf().disable()
         ;
     }
 

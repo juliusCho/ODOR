@@ -21,7 +21,7 @@ const TMP_SESSION = {
     getId() {
         if ('loginUser' in window) {
             if ('userId' in window.loginUser) {
-                return window.loginUser.userId;
+                return window.loginUser?.userId;
             }
             return '';
         }
@@ -34,3 +34,47 @@ const TMP_SESSION = {
         return window.loginUser;
     }
 };
+
+// Multilanguage Message
+const MESSAGE = {
+    setMessageList(list = []) {
+        window.messageList = COMMON_UTIL
+            .range(list.length)
+            .map(i =>
+                `{messageId: list[${i}]?.messageId,` +
+                ` message: list[${i}]?.message}`
+            );
+    },
+    getMessageList() {
+        return window.messageList || [];
+    },
+    getMessage(messageId) {
+        return window.messageList.find(v => v.messageId === messageId);
+    }
+}
+
+// Common Code
+const CODE = {
+    setCodeList(list = []) {
+        window.codeList = COMMON_UTIL
+            .range(list.length)
+            .map(i =>
+                `{codeGroupId: list[${i}]?.codeGroupId,` +
+                `{codeId: list[${i}]?.codeId,` +
+                ` codeNm: list[${i}]?.codeNm}`
+            );
+    },
+    getCodeListAll() {
+        return window.codeList || [];
+    },
+    getCodeList(codeGroupId) {
+        return window.codeList.filter(v => v.codeGroupId === codeGroupId);
+    },
+    getCode(codeGroupId, codeId) {
+        return window.codeList
+            .find(
+                v => v.codeGroupId === codeGroupId &&
+                    v.codeId === codeId
+            );
+    }
+}

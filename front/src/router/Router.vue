@@ -79,7 +79,7 @@
             getParent(name){
                 let p = this.$parent;
                 while(typeof p !== 'undefined') {
-                    if (p.$options.name === name) {
+                    if (p.$options?.name === name) {
                         return p;
                     } else {
                         p = p.$parent;
