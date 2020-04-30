@@ -13,7 +13,7 @@
           JOIN COUNTRY C
             ON C.COUNTRY_CODE = CM.COUNTRY_CODE
            AND C.COUNTRY_CODE = #{locale}
-           AND C.USE_YN <![CDATA[<>]]> 0
+           AND C.USE_YN       <![CDATA[<>]]> 0
     </select>
 
 </mapper>

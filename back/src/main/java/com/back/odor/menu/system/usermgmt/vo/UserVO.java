@@ -29,8 +29,6 @@ public class UserVO extends CommonVO implements Serializable {
 
     @Setter
     private String genderCode;
-    @Setter
-    private String genderName;
 
     @Setter
     private Integer age;

@@ -9,8 +9,8 @@ const API = class {
     };
 
     static SessionController = {
-        sessionCheck: 'odor/sessionCheck/api',
-        validateLogin: 'odor/validateLogin/api',
+        sessionCheck: 'odor/sessionCheck/rest',
+        validateLogin: 'odor/validateLogin/rest',
         logout: 'odor/logout/rest'
     };
 

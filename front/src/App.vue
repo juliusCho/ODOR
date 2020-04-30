@@ -47,7 +47,7 @@
         <v-combobox
                 v-model="locale"
                 :items="localeList"
-                label="Choose your language"
+                label="Language"
         />
       </v-col>
 
@@ -78,6 +78,7 @@
             @goTo="goTo"
             ref="router"
             @loggedIn="loggedIn"
+            :key="routing"
     />
   </v-app>
 </template>
@@ -113,6 +114,7 @@
       },
       locale() {
         this.setSystemLocale();
+        this.routing = 'Home';
       }
     },
     data() {
@@ -160,6 +162,7 @@
         ).then(res => {
           CODE.setCodeList(res.data);
           console.log(CODE.getCodeName('GENDER_CODE', 'F'));
+          this.$forceUpdate();
         });
       },
       // get system list
@@ -205,12 +208,7 @@
       // Login Icon Clicked + Session check
       // ************************************************************
       membershipClicked() {
-        let goTo = true;
-        for (let i in MEMBERSHIP_PAGES) {
-          if (this.routing === MEMBERSHIP_PAGES[i]) {
-            goTo = false;
-          }
-        }
+        let goTo = !MEMBERSHIP_PAGES.some(v => v === this.routing);
         if (!goTo) return;
 
         if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {

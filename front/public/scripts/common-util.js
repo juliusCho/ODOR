@@ -8,3 +8,4 @@ const COMMON_UTIL = class {
     static range = length => Array.from({length}, (_, i) => i);
 
 }
+

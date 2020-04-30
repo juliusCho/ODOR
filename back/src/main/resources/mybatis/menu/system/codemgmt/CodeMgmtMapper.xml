@@ -12,13 +12,13 @@
           FROM CODE C
          INNER
           JOIN COUNTRY_MESSAGE CM
-            ON CM.MESSAGE_ID = C.CODE_MESSAGE
-           AND CM.COUNTRY_CODE = #{locale}
+            ON CM.MESSAGE_ID    = C.CODE_MESSAGE
+           AND CM.COUNTRY_CODE  = #{locale}
          INNER
           JOIN COUNTRY CTR
             ON CTR.COUNTRY_CODE = CM.COUNTRY_CODE
-           AND CTR.USE_YN = C.USE_YN
-           AND CTR.USE_YN <![CDATA[<>]]> 0
+           AND CTR.USE_YN       = C.USE_YN
+           AND CTR.USE_YN       <![CDATA[<>]]> 0
     </select>
 
 </mapper>

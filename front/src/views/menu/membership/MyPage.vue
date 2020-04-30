@@ -40,7 +40,7 @@
                     </v-container>
                     <v-row justify="center" align="center">
                         <p class="subtitle-1 font-weight-light">회원등급</p>
-                        <p style="padding-left: 5px" class="subtitle-1 font-weight-regular">{{tmpMembershipKey}}</p>
+                        <p style="padding-left: 5px" class="subtitle-1 font-weight-regular">{{tmpSession.membershipName}}</p>
                     </v-row>
                 </v-flex>
                 <v-flex xs6>
@@ -139,9 +139,7 @@
             return {
                 tmpSession: {},
                 alertMsg: '구냥',
-                alertShow: false,
-
-                tmpMembershipKey: ''
+                alertShow: false
             };
         },
         mounted() {
@@ -153,10 +151,10 @@
                 if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {
                     this.$emit('loggedIn', false);
                     this.goTo('Login');
+                    return;
                 }
                 this.tmpSession = TMP_SESSION.getLoginUser();
-                this.tmpMembershipKey = CODE.getCodeName('MEMBERSHIP_LVL_CODE',tmpSession.membershipKey);
-                console.log('tmpSession > ',this.tmpSession);
+                this.tmpSession.membershipName = CODE.getCodeName('MEMBERSHIP_LVL_CODE', this.tmpSession.membershipKey);
             },
             goTo(page) {
                 this.$emit('goTo', page);

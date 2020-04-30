@@ -29,7 +29,7 @@ public class SessionController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PostMapping("sessionCheck/api")
+    @PostMapping("sessionCheck/rest")
     public ResponseEntity<Boolean> sessionCheck(
             @RequestBody UserVO user,
             HttpServletRequest req
@@ -37,7 +37,7 @@ public class SessionController {
         return ResponseEntity.ok(sessionService.sessionCheck(user, req));
     }
 
-    @PostMapping("validateLogin/api")
+    @PostMapping("validateLogin/rest")
     public ResponseEntity<Object> validateLogin(
             @RequestBody UserVO user,
             HttpServletRequest req

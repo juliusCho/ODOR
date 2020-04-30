@@ -1,34 +1,34 @@
 <template>
     <v-content>
         <template v-if="routing === 'Home'">
-            <VuetifyHelloWorld/>
+            <VuetifyHelloWorld :key="routing"/>
         </template>
         <template v-else-if="routing === 'Join'">
-            <Join @goTo="goTo"/>
+            <Join @goTo="goTo" :key="routing"/>
         </template>
         <template v-else-if="routing === 'MyPage'">
-            <MyPage @goTo="goTo" @loggedIn="loggedIn"/>
+            <MyPage @goTo="goTo" @loggedIn="loggedIn" :key="routing"/>
         </template>
         <template v-else-if="routing === 'Login'">
-            <Login @goTo="goTo" @loggedIn="loggedIn"/>
+            <Login @goTo="goTo" @loggedIn="loggedIn" :key="routing"/>
         </template>
         <template v-else-if="routing === 'IdPwFinder'">
-            <IdPwFinder @goTo="goTo"/>
+            <IdPwFinder @goTo="goTo" :key="routing"/>
         </template>
         <template v-else-if="routing === 'About'">
-            <About/>
+            <About :key="routing"/>
         </template>
         <template v-else-if="routing === 'Photo'">
-            <Photo :forumKey="forumKey" :categoryId="categoryId"/>
+            <Photo :forumKey="forumKey" :categoryId="categoryId" :key="routing"/>
         </template>
         <template v-else-if="routing === 'Review'">
-            <Review :forumKey="forumKey" :categoryId="categoryId"/>
+            <Review :forumKey="forumKey" :categoryId="categoryId" :key="routing"/>
         </template>
         <template v-else-if="routing === 'Etc'">
-            <Etc :forumKey="forumKey" :categoryId="categoryId"/>
+            <Etc :forumKey="forumKey" :categoryId="categoryId" :key="routing"/>
         </template>
         <template v-else>
-            <SessionCheck :page="routing" @checkSession="checkSession"/>
+            <SessionCheck :page="routing" @checkSession="checkSession" :key="routing"/>
         </template>
     </v-content>
 </template>

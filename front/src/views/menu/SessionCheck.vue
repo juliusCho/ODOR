@@ -1,37 +1,37 @@
 <template>
     <div>
         <template v-if="page === 'BrandMgmt'">
-            <BrandMgmt/>
+            <BrandMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'CodeMgmt'">
-            <CodeMgmt/>
+            <CodeMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'CountryMgmt'">
-            <CountryMgmt/>
+            <CountryMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'CreatorMgmt'">
-            <CreatorMgmt/>
+            <CreatorMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'ForumMgmt'">
-            <ForumMgmt/>
+            <ForumMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'IngredientMgmt'">
-            <IngredientMgmt/>
+            <IngredientMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'MembershipMgmt'">
-            <MembershipMgmt/>
+            <MembershipMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'ProductMgmt'">
-            <ProductMgmt/>
+            <ProductMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'ProductTypeMgmt'">
-            <ProductTypeMgmt/>
+            <ProductTypeMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'RatingItemMgmt'">
-            <RatingItemMgmt/>
+            <RatingItemMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'UserMgmt'">
-            <UserMgmt/>
+            <UserMgmt :key="page"/>
         </template>
     </div>
 </template>

@@ -6,11 +6,27 @@
 
     <select id="validateLogin" resultType="UserVO">
         /* 사용자 아이디 / 비번 체크 */
-        SELECT *
-          FROM USER
-         WHERE USER_ID = #{user.userId}
-           AND PASSWORD = #{user.password}
-           AND USE_YN <![CDATA[<>]]> 0
+        SELECT U.USER_ID                                        AS USER_ID
+             , U.PASSWORD                                       AS PASSWORD
+             , U.EMAIL                                          AS EMAIL
+             , U.NICKNAME                                       AS NICKNAME
+             , U.GENDER_CODE                                    AS GENDER_NAME
+             , U.AGE                                            AS AGE
+             , U.USE_YN                                         AS USE_YN
+             , U.SYS_MNGR_YN                                    AS SYS_MNGR_YN
+             , IFNULL(
+                 (
+                    SELECT M.LVL_CODE
+                      FROM MEMBERSHIP M
+                     WHERE M.MEMBERSHIP_KEY = U.MEMBERSHIP_KEY
+                       AND M.USE_YN <![CDATA[<>]]> 0
+                 ),
+                 ''
+               )                                                AS MEMBERSHIP_KEY
+          FROM USER U
+         WHERE U.USER_ID = #{user.userId}
+           AND u.PASSWORD = #{user.password}
+           AND U.USE_YN <![CDATA[<>]]> 0
     </select>
 
     <select id="checkBlockedUser" resultType="BlockedUserVO">
