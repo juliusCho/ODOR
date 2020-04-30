@@ -12,7 +12,9 @@
 
       <v-col class="mb-4">
         <h1 class="display-2 font-weight-bold mb-3">
-          {{$t('lbl.welcome')}}
+          <!-- 다국어!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+          {{$t('main.welcome')}}
+          <!-- 다국어!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
         </h1>
 
         <p class="subheading font-weight-regular">
