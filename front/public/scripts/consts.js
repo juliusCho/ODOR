@@ -70,7 +70,8 @@ const CODE = {
         codeId = codeId.toString();
         return window.odorCodeList
             .find(
-                v => v.codeGroupId === codeGroupId &&
+                v =>
+                    v.codeGroupId === codeGroupId &&
                     v.codeId === codeId
             )?.codeName;
     }

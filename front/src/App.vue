@@ -119,7 +119,7 @@
     },
     data() {
       return {
-        locale: 'ENG',
+        locale: window.navigator.language.indexOf('ko') > -1 ? 'KO' : 'ENG',
         localeList: [
           'ENG',
           'KO'
@@ -142,6 +142,7 @@
                 null,
                 {params:{locale}}
         ).then(() => {
+          this.$i18n.locale = locale;
           this.setMessageList(locale);
         });
       },
@@ -199,8 +200,7 @@
       // Login Icon Clicked + Session check
       // ************************************************************
       membershipClicked() {
-        let goTo = !MEMBERSHIP_PAGES.some(v => v === this.routing);
-        if (!goTo) return;
+        if (MEMBERSHIP_PAGES.some(v => v === this.routing)) return;
 
         if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {
           this.loggedIn(false);
