@@ -95,8 +95,8 @@
                 if (this.checkRest()) {
                     this.$emit('goTo', page);
                     let parent = this.getParent('App');
-                    this.forumKey = parent.forumKey;
-                    this.categoryId = parent.categoryId;
+                    this.forumKey = parent?.forumKey || 0;
+                    this.categoryId = parent?.categoryId || '';
                     return;
                 }
                 this.checkSession(page);
@@ -107,31 +107,14 @@
                     {sessionToken: TMP_SESSION.getLoginUser()}
                 )
                 .then((res) => {
-                    if (res.data) {
-                        // this.$router.push(page).catch(() => {});
-                        this.$emit('goTo', page);
-                        return;
-                    }
-                    this.$emit('goTo', this.incl);
+                    this.$emit('goTo', res.data ? page : this.incl);
                 });
             },
             checkRest() {
-                let result = true;
-
                 if (this.routing === this.incl) {
                     return true;
                 }
-
-                for (let i = 0, ii = MEMBERSHIP_PAGES.length; i < ii; i++) {
-                    if (
-                        MEMBERSHIP_PAGES[i] === this.excl &&
-                        MEMBERSHIP_PAGES[i] === this.routing
-                    ) {
-                        result = false;
-                        break;
-                    }
-                }
-                return result;
+                return !MEMBERSHIP_PAGES.some(v => v === this.excl && v === this.routing);
             },
             loggedIn(boo) {
                 this.$emit('loggedIn', boo);

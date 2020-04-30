@@ -152,7 +152,6 @@
         ).then(res => {
           MESSAGE.setMessageList(res.data);
           this.setCodeList(locale);
-          console.log(MESSAGE.getMessage('NOTE_FIG_TREE'));
         });
       },
       // Set System Code
@@ -161,25 +160,19 @@
                 API.CommonController.getCodeList
         ).then(res => {
           CODE.setCodeList(res.data);
-          console.log(CODE.getCodeName('GENDER_CODE', 'F'));
           this.$forceUpdate();
         });
       },
       // get system list
       async getSystemList() {
-        if (!this.loggedInBoo || !this.sysMngrYn) {
-          return;
-        }
-        if (this.system.length > 0) {
+        if (this.system.length > 0 || !this.loggedInBoo || !this.sysMngrYn) {
           return;
         }
         await axios.post(
                 API.ForumMgmtController.getSystemList,
                 TMP_SESSION.getLoginUser()
         ).then(res => {
-          if (res.data.length > 0) {
-            this.system = res.data;
-          }
+            this.system = res.data.length > 0 ? res.data : [];
         });
       },
       // get forum list
@@ -188,11 +181,9 @@
           return;
         }
         axios.get(API.ForumMgmtController.getForumList)
-                .then(res => {
-                  if (res.data.length > 0) {
-                    this.forum = res.data;
-                  }
-                });
+        .then(res => {
+          this.forum = res.data.length > 0 ? res.data : [];
+        });
       },
       // routing
       goTo(page, fKey, cateId) {

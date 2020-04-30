@@ -52,7 +52,8 @@
                     return;
                 }
                 let forumTypeCode = menu?.forumTypeCode.toLowerCase();
-                forumTypeCode = forumTypeCode || forumTypeCode.substring(0, 1).toUpperCase()
+                forumTypeCode = forumTypeCode ||
+                      forumTypeCode.substring(0, 1).toUpperCase()
                     + forumTypeCode.substring(1, forumTypeCode.length);
 
                 this.$emit('goTo', forumTypeCode, menu.forumKey, menu.categoryId);
