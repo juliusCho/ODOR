@@ -1,6 +1,7 @@
 package com.back.odor.common.utils.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.web.csrf.InvalidCsrfTokenException;
 import org.springframework.security.web.csrf.MissingCsrfTokenException;
-import org.springframework.security.web.savedrequest.NullRequestCache;
 
 import javax.sql.DataSource;
 
@@ -31,28 +31,22 @@ public class WebSecurityConfig
         extends WebSecurityConfigurerAdapter
         implements AuthorizationServerConfigurer {
 
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf()
                 .disable()
             .authorizeRequests()
-//                .antMatchers("/odor/**/system").hasRole("ADMIN")
-//                .antMatchers("/odor/**/api").access("hasRole('USER')")
+                .antMatchers("/odor/**/system").access("hasRoles('USER', 'ADMIN')")
+//                .antMatchers("/odor/**/api").hasRole("USER")
                 .antMatchers("/odor/**/api").permitAll()
                 .antMatchers("/odor/**/rest").permitAll()
                 .anyRequest().authenticated()
                     .and()
-//            .formLogin()
-//                .loginProcessingUrl("/odor/validateLogin/rest")
-//                .and()
-//            .logout()
-//                .logoutUrl("/odor/logout/rest")
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID")
-//                    .and()
             .exceptionHandling()
-//                .accessDeniedPage("/denied.html")
                 .accessDeniedHandler((request, response, exception) -> {
                     if (exception instanceof MissingCsrfTokenException) {
                         log.error("SESSION EXPIRED");
@@ -68,12 +62,8 @@ public class WebSecurityConfig
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-                    .and()
-                .withUser("admin").password("password").roles("USER", "ADMIN");
+        auth.authenticationProvider(customAuthenticationProvider);
     }
-
 
 
     @Bean

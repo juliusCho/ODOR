@@ -13,6 +13,12 @@ public class UserVO extends CommonVO implements Serializable {
 
     private static final long serialVersionUID = -6611753036370466951L;
 
+    public UserVO(String userId, String password, String role) {
+        this.userId = userId;
+        this.password = password;
+        this.role = role;
+    }
+
     @NonNull
     @Setter
     private String userId;
@@ -41,6 +47,9 @@ public class UserVO extends CommonVO implements Serializable {
     @Setter
     private Integer membershipKey;
 
+    @Getter
+    private String role;
+
 
     public void setPassword(Object password) {
         if (password instanceof byte[]) {
@@ -48,5 +57,9 @@ public class UserVO extends CommonVO implements Serializable {
         } else {
             this.password = (String)password;
         }
+    }
+
+    public boolean match(String name, String password) {
+        return this.userId.equals(name) && this.password.equals(password);
     }
 }
