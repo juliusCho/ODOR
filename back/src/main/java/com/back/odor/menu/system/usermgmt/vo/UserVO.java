@@ -16,7 +16,7 @@ public class UserVO extends CommonVO implements Serializable {
     public UserVO(String userId, String password, String role) {
         this.userId = userId;
         this.password = password;
-        this.role = role;
+        this.membershipKey = role;
     }
 
     @NonNull
@@ -45,10 +45,7 @@ public class UserVO extends CommonVO implements Serializable {
     private boolean sysMngrYn;
 
     @Setter
-    private Integer membershipKey;
-
-    @Getter
-    private String role;
+    private String membershipKey;
 
 
     public void setPassword(Object password) {

@@ -1,10 +1,16 @@
 package com.back.odor.common.session.service;
 
 import com.back.odor.common.session.mapper.SessionMapper;
+import com.back.odor.common.utils.config.CustomAuthenticationProvider;
 import com.back.odor.menu.system.usermgmt.vo.BlockedUserVO;
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +36,26 @@ public class SessionService implements SessionServiceSpec {
             BlockedUserVO blockedUserVO = sessionMapper.checkBlockedUser(loginUser.getEmail());
             if (blockedUserVO != null) {
                 resultUser = blockedUserVO;
+                return resultUser;
             }
+            this.authenticate(loginUser);
         }
         return resultUser;
+    }
+
+    private void authenticate(UserVO vo) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                vo.getUserId(),
+                vo.getPassword(),
+                AuthorityUtils.createAuthorityList(vo.getMembershipKey())
+        );
+
+        CustomAuthenticationProvider auth = new CustomAuthenticationProvider();
+        auth.userSet(vo);
+        authentication = auth.authenticate(authentication);
+
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
     }
 
     @Override

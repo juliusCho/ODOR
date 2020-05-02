@@ -1,6 +1,7 @@
 package com.back.odor.common.utils.config;
 
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,20 +16,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private static List<UserVO> users = new ArrayList<>();
 
-    public CustomAuthenticationProvider() {
-        users.add(new UserVO("julius", "123", "USER"));
-        users.add(new UserVO("renee", "123", "ADMIN"));
+    public void userSet(UserVO vo) {
+        users.add(vo);
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         Object credentials = authentication.getCredentials();
-        System.out.println("credentials class: " + credentials.getClass());
+        log.debug("credentials class: " + credentials.getClass());
         if (!(credentials instanceof String)) {
             return null;
         }
@@ -37,11 +38,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Optional<UserVO> userOptional = users.stream()
                                             .filter(user -> user.match(name, password))
                                             .findFirst();
+
         if (!userOptional.isPresent()) {
             throw new BadCredentialsException("Authentication failed for " + name);
         }
+        log.warn(userOptional.toString());
+
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(userOptional.get().getRole()));
+        grantedAuthorities.add(new SimpleGrantedAuthority(userOptional.get().getMembershipKey()));
         Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuthorities);
         return auth;
     }
