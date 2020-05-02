@@ -143,25 +143,24 @@
                 {params:{locale}}
         ).then(() => {
           this.$i18n.locale = locale;
-          this.setMessageList(locale);
+          this.setMessageList();
         });
       },
       // Set System Message
-      async setMessageList(locale) {
+      async setMessageList() {
         await axios.post(
                 API.CommonController.getMessageList
         ).then(res => {
           MESSAGE.setMessageList(res.data);
-          this.setCodeList(locale);
+          this.setCodeList();
         });
       },
       // Set System Code
-      async setCodeList(locale) {
+      async setCodeList() {
         await axios.post(
                 API.CommonController.getCodeList
         ).then(res => {
           CODE.setCodeList(res.data);
-          this.$forceUpdate();
         });
       },
       // get system list
