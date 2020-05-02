@@ -1,7 +1,7 @@
 <template>
     <v-content>
         <template v-if="routing === 'Home'">
-            <VuetifyHelloWorld :key="routing"/>
+            <Main :key="routing"/>
         </template>
         <template v-else-if="routing === 'Join'">
             <Join @goTo="goTo" :key="routing"/>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld';
+    import Main from '@/views/components/Main';
     import Join from '@/views/menu/membership/Join';
     import MyPage from '@/views/menu/membership/MyPage';
     import Login from '@/views/menu/membership/Login';
@@ -49,7 +49,7 @@
     export default {
         name: 'Router',
         components: {
-            VuetifyHelloWorld,
+            Main,
             Join,
             MyPage,
             Login,

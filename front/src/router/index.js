@@ -5,7 +5,7 @@ import Join from '@/views/menu/membership/Join';
 import MyPage from '@/views/menu/membership/MyPage.vue'
 import Login from '@/views/menu/membership/Login.vue'
 import IdPwFinder from '@/views/menu/membership/IdPwFinder.vue'
-import VuetifyHelloWorld from '@/views/components/VuetifyHelloWorld'
+import Main from '@/views/components/Main'
 
 import About from '@/views/menu/about/About'
 
@@ -37,7 +37,7 @@ const routes = [
   {
     path: '/Home',
     name: 'Home',
-    component: VuetifyHelloWorld
+    component: Main
   },
   {
     path: '/Join',
