@@ -100,6 +100,7 @@
     },
     watch: {
       routing() {
+        window.scrollTo(0, 0);
         this.$router.push(this.routing).catch(() => {});
       },
       '$route'(to, from) {
