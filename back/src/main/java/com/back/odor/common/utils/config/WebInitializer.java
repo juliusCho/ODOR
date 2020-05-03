@@ -1,17 +1,32 @@
 package com.back.odor.common.utils.config;
 
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.context.support.XmlWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 
-public class WebInitializer implements WebApplicationInitializer {
+public class WebInitializer
+            extends AbstractAnnotationConfigDispatcherServletInitializer
+//        implements WebApplicationInitializer
+{
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[] {
+                JavaConfig.class, SecurityConfig.class, DatabaseConfig.class
+        };
+    }
 
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[] { WebMvcConfig.class };
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[0];
+    }
+
+    /* 아래와 같이 설정도 가능
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 //        XmlWebApplicationContext xmlWebApplicationContext = new XmlWebApplicationContext();
@@ -29,5 +44,6 @@ public class WebInitializer implements WebApplicationInitializer {
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
     }
+    */
 
 }

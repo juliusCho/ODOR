@@ -36,10 +36,3 @@ logging:
 ############# Server Connection Port #############
 server:
   port: 8888
----
-############# Spring Security #############
-security:
-  oauth2:
-    client:
-      client-id: first-client
-      client-secret: noonewilleverguess

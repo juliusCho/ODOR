@@ -25,7 +25,6 @@ public class CommonController {
 
     @PostMapping("setSystemLocale/rest")
     public ResponseEntity setSystemLocale(@RequestParam String locale) {
-//        locale = locale.replaceAll("=", "");
         LocaleUtil.setLocale(locale);
         return new ResponseEntity("success", HttpStatus.OK);
     }

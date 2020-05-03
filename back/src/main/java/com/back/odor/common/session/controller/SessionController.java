@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -57,21 +58,9 @@ public class SessionController {
         return user;
     }
 
-
-
-
-    @RequestMapping("authorization-code")
-    @ResponseBody
-    public String authorizationCodeTest(@RequestParam("code") String code) {
-        String curl = String.format("curl " +
-                "-F \"grant_type=authorization_code\" " +
-                "-F \"code=%s\" " +
-                "-F \"scope=read\" " +
-                "-F \"client-id=first-client\" " +
-                "-F \"client_secret=noonewilleverguess\" " +
-                "-F \"redirect_uri=http://localhost:8888/rest/authorization-code\" " +
-                "\"http://first-client:noonewilleverguess@localhost:8888/oauth/token\""
-                , code);
-        return curl;
+    @PostMapping("invalid/rest")
+    public void invalid() throws AuthenticationException {
+        throw new AuthenticationException();
     }
+
 }
