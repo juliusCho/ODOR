@@ -44,16 +44,6 @@
     export default {
         name: 'Grid',
         props: {
-            searchUrl: {
-                type: String,
-                default: '',
-                required: true
-            },
-            saveUrl: {
-                type: String,
-                default: '',
-                required: false
-            },
             columns: {
                 type: Array,
                 default: () => [],
