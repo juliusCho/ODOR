@@ -5,7 +5,7 @@ import Join from '@/views/menu/membership/Join';
 import MyPage from '@/views/menu/membership/MyPage.vue'
 import Login from '@/views/menu/membership/Login.vue'
 import IdPwFinder from '@/views/menu/membership/IdPwFinder.vue'
-import Main from '@/views/components/Main'
+import Main from '@/views/menu/Main'
 
 import About from '@/views/menu/about/About'
 

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import Main from '@/views/components/Main';
+    import Main from '@/views/menu/Main';
     import Join from '@/views/menu/membership/Join';
     import MyPage from '@/views/menu/membership/MyPage';
     import Login from '@/views/menu/membership/Login';
