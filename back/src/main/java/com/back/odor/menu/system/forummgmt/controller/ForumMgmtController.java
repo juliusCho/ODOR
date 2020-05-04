@@ -25,7 +25,7 @@ public class ForumMgmtController {
         return ResponseEntity.ok(forumMgmtService.getForumList());
     }
 
-    @PostMapping("getSystemList/api")
+    @PostMapping("getSystemList/system")
     public ResponseEntity<List<ForumVO>> getSystemList(
             @RequestBody UserVO user,
             HttpServletRequest req

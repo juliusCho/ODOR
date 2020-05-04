@@ -16,7 +16,11 @@ const API = class {
 
     static ForumMgmtController = {
         getForumList: 'odor/forum/getForumList/rest',
-        getSystemList: 'odor/forum/getSystemList/api'
-    }
+        getSystemList: 'odor/forum/getSystemList/system'
+    };
+
+    static BrandMgmtController = {
+        getBrandList: 'odor/brand/getBrandList/system'
+    };
 
 };

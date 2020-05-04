@@ -23,7 +23,8 @@ public class WebSecurityConfig
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/odor/**/system").access("hasRole('10')")
+//                .antMatchers("/odor/**/system").access("hasRole('10')")
+                .antMatchers("/odor/**/system").permitAll()
 //                .antMatchers("/odor/**/api").access("hasAnyRole('1', '10')")
                 .antMatchers("/odor/**/api").permitAll()
                 .antMatchers("/odor/**/rest").permitAll()

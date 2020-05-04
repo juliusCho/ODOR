@@ -1,34 +1,28 @@
 <template>
-    <v-container>
+    <v-container class="grey lighten-5" >
         <v-form id="search">
             <v-row>
                 <v-col>
                     <v-text-field
-                        v-model="nameSearch"
-                        label="Name"
+                        v-model="countryCode"
+                        label="Country Code"
                     />
                 </v-col>
                 <v-col>
                     <v-text-field
-                        v-model="powerSearch"
-                        label="Power"
+                        v-model="name"
+                        label="Name"
                     />
                 </v-col>
             </v-row>
         </v-form>
-        <v-btn
-            class="pl-12 pr-12"
-            @click="save"
-            align="center"
-            color="primary"
-            rounded
-        >
-            Save
-        </v-btn>
         <Grid
             :columns="columns"
             :rowData="rowData"
-            :searchKeys="[nameSearch, powerSearch]"
+            :searchKeys="[name, countryCode]"
+            @save="save"
+            @add="add"
+            @search="search"
         />
     </v-container>
 </template>
@@ -42,22 +36,87 @@
         components: {
             Grid
         },
+        mounted() {
+            this.search();
+        },
         data() {
             return {
-                nameSearch: '',
-                powerSearch: '',
-                columns: ['name', 'power'],
-                rowData: [
-                    {name: '조인효', power: Infinity},
-                    {name: 'bruce lee', power: 9000},
-                    {name: '햄토리', power: 100000},
-                    {name: 'Jackie chan', power: 8000}
-                ]
+                name: '',
+                countryCode: '',
+                columns: [
+                    {
+                        key: 'brandKey'
+                    },
+                    {
+                        key: 'countryCode',
+                        label: '국가코드',
+                        editor: 'select',
+                        display: true,
+                        required: true
+                    },
+                    {
+                        key: 'name',
+                        label: '브랜드명',
+                        editor: 'text',
+                        display: true,
+                        required: true
+                    },
+                    {
+                        key: 'engName',
+                        label: '영문 브랜드명',
+                        editor: 'text',
+                        display: true,
+                        required: true
+                    },
+                    {
+                        key: 'desc',
+                        label: '설명',
+                        editor: 'textarea',
+                        display: true
+                    },
+                    {
+                        key: 'link',
+                        label: '웹사이트 URL',
+                        editor: 'text',
+                        display: true
+                    },
+                    {
+                        key: 'useYn',
+                        label: '사용',
+                        editor: 'checkbox',
+                        display: true
+                    },
+                    {
+                        key: 'updaterName',
+                        label: '수정자',
+                        display: true
+                    },
+                    {
+                        key: 'updateDate',
+                        label: '수정일시',
+                        display: true
+                    }
+                ],
+                rowData: []
             }
         },
         methods: {
             save() {
 
+            },
+            add() {
+
+            },
+            search() {
+                axios.post(
+                    API.BrandMgmtController.getBrandList,
+                    {
+                        countryCode: this.countryCode,
+                        name: this.name
+                    }
+                ).then(res => {
+                    this.rowData = res.data;
+                });
             }
         }
     }
