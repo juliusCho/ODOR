@@ -32,12 +32,19 @@
                )                                                AS UPDATER_NAME
              , DATE_FORMAT(G.UPDATE_DATE, '%Y-%m-%d %H:%i:%s')  AS UPDATE_DATE
           FROM CODE_GROUP G
+         INNER
+          JOIN COUNTRY_MESSAGE C
+            ON C.MESSAGE_ID = G.CODE_GROUP_MESSAGE
+           AND C.COUNTRY_CODE = #{vo.countryCode}
         <where>
             <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
                 AND G.CODE_GROUP_ID = #{vo.codeGroupId}
             </if>
             <if test="vo.codeGroupName != '' and vo.codeGroupName != null">
-                AND G.CODE_GROUP_NAME LIKE CONCAT('%', #{vo.codeGroupName}, '%')
+                AND (
+                           G.CODE_GROUP_NAME LIKE CONCAT('%', #{vo.codeGroupName}, '%')
+                        OR C.MESSAGE LIKE CONCAT('%', #{vo.codeGroupName}, '%')
+                    )
             </if>
             AND G.USE_YN = #{vo.useYn}
         </where>

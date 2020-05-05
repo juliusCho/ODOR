@@ -54,7 +54,7 @@ public class CommonVO implements Serializable {
     private String countryCode = LocaleUtil.getLocale();
 
     public String getCountryCode() {
-        return countryCode;
+        return LocaleUtil.getLocale();
     }
     public void setCountryCode(String countryCode) {
     }

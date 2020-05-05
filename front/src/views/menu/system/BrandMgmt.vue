@@ -41,6 +41,11 @@
         },
         data() {
             return {
+                searchKeys: {
+                    countryCode: '',
+                    name: '',
+                    useYn: true
+                },
                 name: '',
                 countryCode: '',
                 columns: [

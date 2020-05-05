@@ -101,6 +101,7 @@
     watch: {
       routing() {
         window.scrollTo(0, 0);
+        ENTER_ACTION();
         this.$router.push(this.routing).catch(() => {});
       },
       '$route'(to, from) {
@@ -111,6 +112,7 @@
       },
       loggedInBoo() {
         this.sysMngrYn = this.sysMngrCheck();
+        this.setSystemLocale();
         this.getSystemList();
       },
       locale() {
