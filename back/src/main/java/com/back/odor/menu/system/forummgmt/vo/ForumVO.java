@@ -25,6 +25,5 @@ public class ForumVO extends CommonVO implements Serializable {
     private String forumTypeCode;
 
     private boolean reviewYn;
-    private boolean useYn;
 
 }

@@ -101,8 +101,20 @@ const CODE = {
     getCodeListAll() {
         return ODOR.odorCodeList || [];
     },
-    getCodeList(codeGroupId) {
-        return ODOR.odorCodeList.filter(v => v.codeGroupId === codeGroupId);
+    getCodeList(codeGroupId, all = false) {
+        return (all ? [{codeGroupId: codeGroupId, codeId: null, codeName: 'All'}] : [])
+            .concat(
+                ODOR.odorCodeList
+                    .filter(v => v.codeGroupId === codeGroupId)
+                    .map(v => {
+                        if (v.codeGroupId === 'USE_YN') {
+                            v.codeId = v.codeId === '1' ? true : false;
+                            return v;
+                        } else {
+                            return v;
+                        }
+                    })
+            );
     },
     getCodeName(codeGroupId, codeId = '') {
         codeId = codeId.toString();

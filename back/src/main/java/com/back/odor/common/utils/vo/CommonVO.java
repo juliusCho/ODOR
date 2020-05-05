@@ -20,7 +20,8 @@ public class CommonVO implements Serializable {
 
     @Setter
     private String creatorId;
-    @Setter
+
+    @Getter
     private String creatorName;
 
     @Getter
@@ -28,11 +29,27 @@ public class CommonVO implements Serializable {
 
     @Setter
     private String updaterId;
-    @Setter
+
+    @Getter
     private String updaterName;
 
     @Getter
     private String updateDate;
+
+    @Getter
+    private boolean useYn;
+
+    public void setUseYn(Object useYn) {
+        if (useYn instanceof Boolean) {
+            this.useYn = (Boolean) useYn;
+        } else if (useYn instanceof Integer) {
+            this.useYn = "1".equals(useYn) ? true : false;
+        } else if (useYn instanceof String) {
+            this.useYn = "1".equals(useYn) || "true".equals(useYn) ? true : false;
+        }
+    }
+
+
 
     private String countryCode = LocaleUtil.getLocale();
 
@@ -49,7 +66,6 @@ public class CommonVO implements Serializable {
     }
 
     public String getUpdaterId() {
-
         return null;
     }
 

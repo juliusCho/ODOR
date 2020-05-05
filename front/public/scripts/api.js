@@ -23,4 +23,8 @@ const API = class {
         getBrandList: 'odor/brand/getBrandList/system'
     };
 
+    static CodeMgmtController = {
+        getCodeGroupList: 'odor/code/getCodeGroupList/system'
+    };
+
 };

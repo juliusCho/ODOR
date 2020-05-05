@@ -9,19 +9,15 @@ import java.io.Serializable;
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class CodeVO extends CommonVO implements Serializable {
+public class CodeGroupVO extends CommonVO implements Serializable {
 
-    private static final long serialVersionUID = -2980688358495044166L;
-
-    @NonNull
-    private String codeId;
+    private static final long serialVersionUID = -5461521584364680854L;
 
     @NonNull
     private String codeGroupId;
-
-    private String codeMessage;
+    private String codeGroupMessage;
 
     @NonNull
-    private String codeName;
+    private String codeGroupName;
 
 }

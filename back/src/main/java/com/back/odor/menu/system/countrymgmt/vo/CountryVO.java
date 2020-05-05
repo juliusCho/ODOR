@@ -19,7 +19,4 @@ public class CountryVO extends CommonVO implements Serializable {
     @NonNull
     private String countryName;
 
-    @NonNull
-    private boolean useYn;
-
 }

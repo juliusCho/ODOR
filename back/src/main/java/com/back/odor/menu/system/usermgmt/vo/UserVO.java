@@ -40,8 +40,6 @@ public class UserVO extends CommonVO implements Serializable {
     private Integer age;
 
     @Setter
-    private boolean useYn;
-    @Setter
     private boolean sysMngrYn;
 
     @Setter
