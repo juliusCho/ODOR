@@ -10,7 +10,7 @@
              , U.PASSWORD                                       AS PASSWORD
              , U.EMAIL                                          AS EMAIL
              , U.NICKNAME                                       AS NICKNAME
-             , U.GENDER_CODE                                    AS GENDER_NAME
+             , U.GENDER_CODE                                    AS GENDER_CODE
              , U.AGE                                            AS AGE
              , U.USE_YN                                         AS USE_YN
              , U.SYS_MNGR_YN                                    AS SYS_MNGR_YN

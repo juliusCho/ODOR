@@ -48,42 +48,38 @@
                        <p class="display-1 font-weight-regular">회원정보 변경</p>
                    </div>
                    <v-row align="center">
-                       <v-row justify="space-around">
-                           <v-switch v-model="valid" class="ma-4" label="Male"></v-switch>
-                           <v-switch v-model="lazy" class="ma-4" label="Female"></v-switch>
-                       </v-row>
+                         <v-radio-group row>
+                           <v-radio v-model="genderCode1" class="ma-4" color="primary" label="Male" value="M"></v-radio>
+                           <v-radio v-model="genderCode2" class="ma-4" color="primary" label="Female" value="F"></v-radio>
+                         </v-radio-group>
                    </v-row>
                    <v-form>
                        <v-text-field
                                v-model="tmpSession.userId"
                                :counter="10"
-                               :rules="nameRules"
                                label="ID"
-                               outlined
+                               solo
                                required
                        ></v-text-field>
                        <v-text-field
                                v-model="tmpSession.password"
                                :counter="20"
-                               :rules="nameRules"
                                label="Password"
-                               outlined
+                               solo
                                required
                        ></v-text-field>
                        <v-text-field
                                v-model="tmpSession.nickname"
                                :counter="10"
-                               :rules="nameRules"
                                label="Nickname"
-                               outlined
+                               solo
                                required
                        ></v-text-field>
                        <v-text-field
                                v-model="tmpSession.age"
                                :counter="10"
-                               :rules="nameRules"
                                label="Age"
-                               outlined
+                               solo
                                required
                        ></v-text-field>
                        <v-row>
@@ -91,19 +87,19 @@
                                <v-text-field
                                        v-model="tmpSession.email"
                                        :counter="10"
-                                       :rules="nameRules"
                                        label="Email"
-                                       outlined
+                                       solo
                                        required
                                ></v-text-field>
                            </v-col>
                            <v-col cols="12" sm="6">
                                <v-select
-                                       v-model="tmpSession.email"
+                                       v-model="selectedEmail"
                                        :counter="10"
-                                       :rules="nameRules"
+                                       :items="emailItems"
                                        label="Email"
-                                       outlined
+                                       item-text="emailAdd"
+                                       solo
                                        required
                                ></v-select>
                            </v-col>
@@ -139,11 +135,19 @@
             return {
                 tmpSession: {},
                 alertMsg: '구냥',
-                alertShow: false
+                alertShow: false,
+                emailItems: [
+                    {emailAdd:'@gmail.com'},
+                    {emailAdd:'@naver.com'},
+                    {emailAdd:'@daum.net'}
+                    ],
+                selectedEmail: {emailAdd:'@gmail.com'},
+                genderCode: 'F'
             };
         },
         mounted() {
             this.checkSession();
+            console.log('tepsession >',this.tmpSession);
             //dd
         },
         methods: {
@@ -155,6 +159,8 @@
                 }
                 this.tmpSession = TMP_SESSION.getLoginUser();
                 this.tmpSession.membershipName = CODE.getCodeName('MEMBERSHIP_LVL_CODE', this.tmpSession.membershipKey);
+                //this.tmpSession.genderCode = CODE.getCodeName('GENDER_CODE', this.tmpSession.genderCode);
+
             },
             goTo(page) {
                 this.$emit('goTo', page);
