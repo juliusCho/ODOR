@@ -37,7 +37,7 @@
                     </v-btn>
                 </v-col>
                 <v-col>
-                    <v-btn @click="deleteItem" color="red lighten-5">
+                    <v-btn @click="deleteConfirm" color="red lighten-5">
                         Delete
                     </v-btn>
                 </v-col>
@@ -81,14 +81,30 @@
                 </tr>
             </template>
         </v-data-table>
+
+        <Dialog
+            :show="confirmShow"
+            :title="'확인'"
+            :content="'진짜 삭제 ㄱ?'"
+            type="C"
+            :yesBtnText="'ㅇㅇ'"
+            :noBtnText="'ㄴㄴ'"
+            :width="500"
+            @yesAction="deleteItem"
+            @noAction="confirmShow = false"
+        />
     </v-container>
 </template>
 
 <script>
     import axios from 'axios';
+    import Dialog from "@/views/components/Dialog";
 
     export default {
         name: 'CodeMgmt',
+        components: {
+            Dialog
+        },
         mounted() {
             this.getCodeGroupList();
         },
@@ -106,6 +122,8 @@
                     codeGroupName: [],
                     useYn: CODE.getCodeList('USE_YN')
                 },
+
+
                 headers: [
                     {
                         text: 'Code Group ID',
@@ -146,7 +164,10 @@
                     }
                 ],
                 codeGroupList: [],
-                selectedCodeGroup: []
+                selectedCodeGroup: [],
+
+
+                confirmShow: false
             }
         },
         methods: {
@@ -170,7 +191,14 @@
             updateItem() {
                 console.log(this.selectedCodeGroup);
             },
+            deleteConfirm() {
+                if (this.selectedCodeGroup.length === 0) {
+                    return;
+                }
+                this.confirmShow = true;
+            },
             deleteItem() {
+                this.confirmShow = false;
                 console.log(this.selectedCodeGroup);
             },
             addItem() {
