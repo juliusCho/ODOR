@@ -30,30 +30,12 @@
                     />
                 </v-col>
             </v-row>
-            <v-row justify="center">
-                <v-col>
-                    <v-btn @click="updateItem" color="deep-purple lighten-5">
-                        Update
-                    </v-btn>
-                </v-col>
-                <v-col>
-                    <v-btn @click="deleteConfirm" color="red lighten-5">
-                        Delete
-                    </v-btn>
-                </v-col>
-                <v-spacer/><v-spacer/><v-spacer/>
-                <v-spacer/><v-spacer/><v-spacer/>
-                <v-col>
-                    <v-btn @click="addItem" color="blue lighten-5">
-                        Add
-                    </v-btn>
-                </v-col>
-                <v-col>
-                    <v-btn @click="getCodeGroupList" color="teal lighten-5">
-                        Search
-                    </v-btn>
-                </v-col>
-            </v-row>
+            <SystemBtn
+                @search="getCodeGroupList"
+                @add="addItem"
+                @update="updateConfirm"
+                @delete="deleteConfirm"
+            />
         </v-form>
         <v-data-table
             :headers="headers"
@@ -82,7 +64,7 @@
             </template>
         </v-data-table>
 
-        <Dialog
+        <DeleteDialog
             :show="confirmShow"
             :title="'확인'"
             :content="'진짜 삭제 ㄱ?'"
@@ -98,12 +80,14 @@
 
 <script>
     import axios from 'axios';
-    import Dialog from "@/views/components/Dialog";
+    import SystemBtn from "@/views/components/SystemBtn";
+    import DeleteDialog from "@/views/components/Dialog";
 
     export default {
         name: 'CodeMgmt',
         components: {
-            Dialog
+            SystemBtn,
+            DeleteDialog
         },
         mounted() {
             this.getCodeGroupList();
@@ -128,39 +112,46 @@
                     {
                         text: 'Code Group ID',
                         value: 'codeGroupId',
-                        width: '180px'
+                        width: '180px',
+                        type: 'disabled'
                         // fixed: true
                         // sortable: false
                     },
                     {
                         text: 'Code Group Message',
                         value: 'codeGroupMessage',
-                        width: '180px'
+                        width: '180px',
+                        type: 'message'
                     },
                     {
                         text: 'Locale Message',
                         value: 'localeMessage',
-                        width: '*'
+                        width: '*',
+                        type: 'none'
                     },
                     {
                         text: 'Code Group Name',
                         value: 'codeGroupName',
-                        width: '190px'
+                        width: '190px',
+                        type: 'text'
                     },
                     {
                         text: 'Use YN',
                         value: 'useYn',
-                        width: '100px'
+                        width: '100px',
+                        type: 'radio'
                     },
                     {
                         text: 'Updater',
                         value: 'updaterName',
-                        width: '100px'
+                        width: '100px',
+                        type: 'none'
                     },
                     {
                         text: 'Update Date',
                         value: 'updateDate',
-                        width: '150px'
+                        width: '150px',
+                        type: 'none'
                     }
                 ],
                 codeGroupList: [],
@@ -172,6 +163,8 @@
         },
         methods: {
             getCodeGroupList() {
+                this.selectedCodeGroup = [];
+
                 axios.post(
                     API.CodeMgmtController.getCodeGroupList,
                     this.searchKeys
@@ -188,8 +181,12 @@
                         ));
                 });
             },
+            updateConfirm() {
+                if (this.selectedCodeGroup.length === 0) {
+                    return;
+                }
+            },
             updateItem() {
-                console.log(this.selectedCodeGroup);
             },
             deleteConfirm() {
                 if (this.selectedCodeGroup.length === 0) {
@@ -199,12 +196,8 @@
             },
             deleteItem() {
                 this.confirmShow = false;
-                console.log(this.selectedCodeGroup);
             },
             addItem() {
-                console.log(this.selectedCodeGroup);
-
-                console.log(this.searchCombos.codeGroupName);
             },
             goTo(page) {
                 this.$emit('goTo', page);
