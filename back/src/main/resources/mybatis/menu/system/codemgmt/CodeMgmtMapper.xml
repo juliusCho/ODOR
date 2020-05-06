@@ -24,6 +24,7 @@
     <select id="getCodeGroupList" resultType="CodeGroupVO">
         /* 공통코드그룹 목록 조회 */
         SELECT G.*
+             , C.MESSAGE                                        AS LOCALE_MESSAGE
              , (
                     SELECT U.NICKNAME
                       FROM USER U

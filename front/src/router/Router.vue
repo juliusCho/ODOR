@@ -28,7 +28,12 @@
             <Etc :forumKey="forumKey" :categoryId="categoryId" :key="routing"/>
         </template>
         <template v-else>
-            <SessionCheck :page="routing" @checkSession="checkSession" :key="routing"/>
+            <SessionCheck
+                    :page="routing"
+                    @checkSession="checkSession"
+                    @goTo="goTo"
+                    :key="routing"
+            />
         </template>
     </v-content>
 </template>

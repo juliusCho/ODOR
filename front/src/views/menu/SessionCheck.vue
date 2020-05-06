@@ -4,7 +4,7 @@
             <BrandMgmt :key="page"/>
         </template>
         <template v-else-if="page === 'CodeMgmt'">
-            <CodeMgmt :key="page"/>
+            <CodeMgmt :key="page" @goTo="goTo"/>
         </template>
         <template v-else-if="page === 'CountryMgmt'">
             <CountryMgmt :key="page"/>
@@ -74,6 +74,11 @@
         watch: {
             page() {
                 this.$emit('checkSession', this.page);
+            }
+        },
+        methods: {
+            goTo(page) {
+                this.$emit('goTo', page);
             }
         }
     }

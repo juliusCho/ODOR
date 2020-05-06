@@ -93,7 +93,7 @@
       Router,
       MenuWithChildren
     },
-    created() {
+    mounted() {
       this.setSystemLocale();
       this.routing = 'Home';
       this.getForumList();

@@ -3,16 +3,22 @@
         <v-form id="search">
             <v-row>
                 <v-col>
-                    <v-text-field
+                    <v-autocomplete
+                            :items="searchCombos.codeGroupId"
+                            color="white"
+                            label="Code Group ID"
                             v-model="searchKeys.codeGroupId"
-                            label="Code Group Id"
-                    />
+                    ></v-autocomplete>
                 </v-col>
                 <v-col>
-                    <v-text-field
-                            v-model="searchKeys.codeGroupName"
+                    <v-autocomplete
+                            :items="searchCombos.codeGroupName"
+                            color="white"
+                            item-value="codeGroupId"
+                            item-text="codeGroupName"
                             label="Code Group Name"
-                    />
+                            v-model="searchKeys.codeGroupName"
+                    ></v-autocomplete>
                 </v-col>
                 <v-col>
                     <v-select
@@ -23,8 +29,27 @@
                         label="Use"
                     />
                 </v-col>
+            </v-row>
+            <v-row justify="center">
                 <v-col>
-                    <v-btn @click="getCodeGroupList">
+                    <v-btn @click="updateItem" color="deep-purple lighten-5">
+                        Update
+                    </v-btn>
+                </v-col>
+                <v-col>
+                    <v-btn @click="deleteItem" color="red lighten-5">
+                        Delete
+                    </v-btn>
+                </v-col>
+                <v-spacer/><v-spacer/><v-spacer/>
+                <v-spacer/><v-spacer/><v-spacer/>
+                <v-col>
+                    <v-btn @click="addItem" color="blue lighten-5">
+                        Add
+                    </v-btn>
+                </v-col>
+                <v-col>
+                    <v-btn @click="getCodeGroupList" color="teal lighten-5">
                         Search
                     </v-btn>
                 </v-col>
@@ -36,9 +61,11 @@
             item-key="codeGroupId"
             v-model="selectedCodeGroup"
             show-select
+            single-select
+            @click:row="goTo('CodeDetailMgmt')"
         >
             <template slot="items" slot-scope="props">
-                <tr>
+                <tr >
                     <td>
                         <v-checkbox
                             v-model="props.selected"
@@ -66,6 +93,8 @@
             this.getCodeGroupList();
         },
         data() {
+            let codeGroupIdList = CODE.getCodeListAll().map(v => v.codeGroupId);
+
             return {
                 searchKeys: {
                     codeGroupId: '',
@@ -73,25 +102,32 @@
                     useYn: true
                 },
                 searchCombos: {
+                    codeGroupId: [''].concat(COMMON_UTIL.removeArrDuplicate(codeGroupIdList)),
+                    codeGroupName: [],
                     useYn: CODE.getCodeList('USE_YN')
                 },
                 headers: [
                     {
                         text: 'Code Group ID',
                         value: 'codeGroupId',
-                        width: '200px'
+                        width: '180px'
                         // fixed: true
                         // sortable: false
                     },
                     {
                         text: 'Code Group Message',
                         value: 'codeGroupMessage',
-                        width: '200px'
+                        width: '180px'
+                    },
+                    {
+                        text: 'Locale Message',
+                        value: 'localeMessage',
+                        width: '*'
                     },
                     {
                         text: 'Code Group Name',
                         value: 'codeGroupName',
-                        width: '200px'
+                        width: '190px'
                     },
                     {
                         text: 'Use YN',
@@ -101,7 +137,7 @@
                     {
                         text: 'Updater',
                         value: 'updaterName',
-                        width: '150px'
+                        width: '100px'
                     },
                     {
                         text: 'Update Date',
@@ -120,10 +156,30 @@
                     this.searchKeys
                 ).then(res => {
                     this.codeGroupList = res.data;
+                    this.searchCombos.codeGroupName = [{
+                        codeGroupId: '',
+                        codeGroupName: 'All'
+                    }].concat(
+                            this.codeGroupList.map(v => ({
+                                codeGroupId: v.codeGroupId,
+                                codeGroupName: v.codeGroupName
+                            })
+                        ));
                 });
             },
-            updateItem(item) {
+            updateItem() {
+                console.log(this.selectedCodeGroup);
+            },
+            deleteItem() {
+                console.log(this.selectedCodeGroup);
+            },
+            addItem() {
+                console.log(this.selectedCodeGroup);
 
+                console.log(this.searchCombos.codeGroupName);
+            },
+            goTo(page) {
+                this.$emit('goTo', page);
             }
         }
     }

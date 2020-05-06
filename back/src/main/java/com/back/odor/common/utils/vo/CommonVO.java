@@ -60,6 +60,11 @@ public class CommonVO implements Serializable {
     }
 
 
+    @Getter
+    @Setter
+    private String localeMessage;
+
+
     public String getCreatorId() {
 
         return null;

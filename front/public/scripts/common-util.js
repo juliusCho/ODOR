@@ -3,9 +3,8 @@
 // eslint-disable-next-line
 const COMMON_UTIL = class {
 
-    // === for (let i = 0; i < length; i++) { arg.push('msg ' + i) }
-    // usage : range(length).map(i => `msg ${i}`)
-    static range = length => Array.from({length}, (_, i) => i);
+    // 배열 객체 중복 제거
+    static removeArrDuplicate = arr => arr.reduce((tmp, now) => tmp.includes(now) ? tmp : [now, ...tmp], []).reverse();
 
 }
 
