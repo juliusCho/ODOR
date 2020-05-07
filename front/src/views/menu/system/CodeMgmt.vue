@@ -4,20 +4,20 @@
             <v-row>
                 <v-col>
                     <v-autocomplete
-                            :items="searchCombos.codeGroupId"
-                            color="white"
-                            label="Code Group ID"
-                            v-model="searchKeys.codeGroupId"
+                        :items="searchCombos.codeGroupId"
+                        color="white"
+                        label="Code Group ID"
+                        v-model="searchKeys.codeGroupId"
                     ></v-autocomplete>
                 </v-col>
                 <v-col>
                     <v-autocomplete
-                            :items="searchCombos.codeGroupName"
-                            color="white"
-                            item-value="codeGroupId"
-                            item-text="codeGroupName"
-                            label="Code Group Name"
-                            v-model="searchKeys.codeGroupName"
+                        :items="searchCombos.codeGroupName"
+                        color="white"
+                        item-value="codeGroupId"
+                        item-text="codeGroupName"
+                        label="Code Group Name"
+                        v-model="searchKeys.codeGroupName"
                     ></v-autocomplete>
                 </v-col>
                 <v-col>
@@ -32,7 +32,7 @@
             </v-row>
             <SystemBtn
                 @search="getCodeGroupList"
-                @add="addItem"
+                @add="addConfirm"
                 @update="updateConfirm"
                 @delete="deleteConfirm"
             />
@@ -75,6 +75,30 @@
             @yesAction="deleteItem"
             @noAction="confirmShow = false"
         />
+
+        <UpdatePopup
+            :show="updatePopShow"
+            :title="'코드그룹수정'"
+            :update="true"
+            :okBtnText="'ㄱㄱ'"
+            :cancelBtnText="'ㄴㄴ'"
+            :width="1000"
+            :fields="headers"
+            :values="selectedCodeGroup[0]"
+            @okAction="updateItem"
+            @cancelAction="updatePopShow = false"
+        />
+
+        <InsertPopup
+            :show="insertPopShow"
+            :title="'코드그룹생성'"
+            :okBtnText="'ㄱㄱ'"
+            :cancelBtnText="'ㄴㄴ'"
+            :width="1000"
+            :fields="headers"
+            @okAction="addItem"
+            @cancelAction="insertPopShow = false"
+        />
     </v-container>
 </template>
 
@@ -82,12 +106,16 @@
     import axios from 'axios';
     import SystemBtn from "@/views/components/SystemBtn";
     import DeleteDialog from "@/views/components/Dialog";
+    import UpdatePopup from "@/views/components/Popup/SystemPopup";
+    import InsertPopup from "@/views/components/Popup/SystemPopup";
 
     export default {
         name: 'CodeMgmt',
         components: {
             SystemBtn,
-            DeleteDialog
+            DeleteDialog,
+            UpdatePopup,
+            InsertPopup
         },
         mounted() {
             this.getCodeGroupList();
@@ -113,7 +141,9 @@
                         text: 'Code Group ID',
                         value: 'codeGroupId',
                         width: '180px',
-                        type: 'disabled'
+                        type: 'string',
+                        updateType: 'disabled',
+                        insertType: 'text'
                         // fixed: true
                         // sortable: false
                     },
@@ -121,44 +151,49 @@
                         text: 'Code Group Message',
                         value: 'codeGroupMessage',
                         width: '180px',
-                        type: 'message'
+                        type: 'string',
+                        updateType: 'message',
+                        insertType: 'message'
                     },
                     {
                         text: 'Locale Message',
                         value: 'localeMessage',
-                        width: '*',
-                        type: 'none'
+                        width: '*'
                     },
                     {
                         text: 'Code Group Name',
                         value: 'codeGroupName',
                         width: '190px',
-                        type: 'text'
+                        type: 'string',
+                        updateType: 'text',
+                        insertType: 'text'
                     },
                     {
                         text: 'Use YN',
                         value: 'useYn',
                         width: '100px',
-                        type: 'radio'
+                        type: 'boolean',
+                        updateType: 'switch',
+                        insertType: 'switch'
                     },
                     {
                         text: 'Updater',
                         value: 'updaterName',
-                        width: '100px',
-                        type: 'none'
+                        width: '100px'
                     },
                     {
                         text: 'Update Date',
                         value: 'updateDate',
-                        width: '150px',
-                        type: 'none'
+                        width: '150px'
                     }
                 ],
                 codeGroupList: [],
                 selectedCodeGroup: [],
 
 
-                confirmShow: false
+                confirmShow: false,
+                updatePopShow: false,
+                insertPopShow: false
             }
         },
         methods: {
@@ -182,20 +217,18 @@
                 });
             },
             updateConfirm() {
-                if (this.selectedCodeGroup.length === 0) {
-                    return;
-                }
+                this.updatePopShow = this.selectedCodeGroup.length !== 0;
             },
             updateItem() {
             },
             deleteConfirm() {
-                if (this.selectedCodeGroup.length === 0) {
-                    return;
-                }
-                this.confirmShow = true;
+                this.confirmShow = this.selectedCodeGroup.length !== 0;
             },
             deleteItem() {
                 this.confirmShow = false;
+            },
+            addConfirm() {
+                this.insertPopShow = true;
             },
             addItem() {
             },
