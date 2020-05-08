@@ -5,7 +5,7 @@ class ODOR {
         this.odorLoginUser = {};
         this.odorMessageList = [];
         this.odorCodeList = [];
-    }00
+    }
 
     set odorLoginUser(user) {
         this.odorLoginUser = SCRIPT_VALIDATOR.nullCheck(user?.userId) ? user : {};

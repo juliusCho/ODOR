@@ -32,6 +32,7 @@
                        AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
                )                                                AS UPDATER_NAME
              , DATE_FORMAT(G.UPDATE_DATE, '%Y-%m-%d %H:%i:%s')  AS UPDATE_DATE
+             ,
           FROM CODE_GROUP G
          INNER
           JOIN COUNTRY_MESSAGE C

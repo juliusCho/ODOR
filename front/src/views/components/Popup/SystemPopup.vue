@@ -29,7 +29,6 @@
                                         <v-text-field
                                             :value="newValue[field.value]"
                                             :label="field.text"
-                                            single-line
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'select'">
@@ -57,6 +56,17 @@
                                             :value="newValue[field.value]"
                                         ></v-textarea>
                                     </template>
+                                    <template v-else-if="field.updateType === 'message'">
+                                        <v-chip class="ma-2">
+                                            ID: {{newValue[field.value]}} / MSG: {{newValue.localeMessage}}
+                                        </v-chip>
+                                        <v-btn
+                                            color="primary"
+                                            @click="selectMessage(newValue[field.value], newValue.localeMessage)"
+                                        >
+                                            {{'메세지선택한당'}}
+                                        </v-btn>
+                                    </template>
                                 </template>
 
                                 <template v-else>
@@ -64,7 +74,6 @@
                                         <v-text-field
                                             :value="newValue[field.value]"
                                             :label="field.text"
-                                            single-line
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.insertType === 'select'">
@@ -120,12 +129,24 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <MessagePopup
+            :show="messagePopShow"
+            :width="500"
+            :orgMessage="messageData"
+            @cancelAction="messagePopShow = false"
+        />
     </div>
 </template>
 
 <script>
+    import MessagePopup from "@/views/components/Popup/MessagePopup";
+
     export default {
         name: "SystemPopup",
+        components: {
+            MessagePopup
+        },
         props: {
             show: {
                 type: Boolean,
@@ -179,7 +200,9 @@
         },
         data() {
             return {
-                newValue: {}
+                newValue: {},
+                messagePopShow: false,
+                messageData: {}
             }
         },
         watch: {
@@ -196,6 +219,10 @@
             }
         },
         methods: {
+            selectMessage(messageId, message) {
+                this.messagePopShow = true;
+                this.messageData = {messageId, message};
+            },
             initializeNewValue() {
                 if (this.fields.length === 0) return;
 
