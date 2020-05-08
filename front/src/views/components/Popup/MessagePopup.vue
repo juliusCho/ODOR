@@ -20,7 +20,27 @@
                                 <v-chip class="ma-2">선택의시간</v-chip>
                             </v-row>
                             <v-row>
-
+                                <v-data-table
+                                    :headers="headers"
+                                    :items="messageList"
+                                    item-key="codeGroupId"
+                                    v-model="listSelected"
+                                    show-select
+                                    single-select
+                                >
+                                    <template slot="items" slot-scope="props">
+                                        <tr >
+                                            <td>
+                                                <v-checkbox
+                                                    v-model="props.selected"
+                                                    hide-details
+                                                ></v-checkbox>
+                                            </td>
+                                            <td>{{ props.item.codeGroupId }}</td>
+                                            <td>{{ props.item.codeGroupMessage }}</td>
+                                        </tr>
+                                    </template>
+                                </v-data-table>
                             </v-row>
                         </v-col>
                         <v-divider
@@ -29,15 +49,19 @@
                         <v-col>
                             <v-row>
                                 <v-chip class="ma-2">Add New</v-chip>
+                            </v-row>
+                            <v-row>
                                 <v-text-field
                                     :value="selected.messageId"
                                     label="Message ID"
                                 ></v-text-field>
                             </v-row>
+                            <v-row>
                                 <v-text-field
                                     :value="selected.koMessage"
                                     label="Korean"
                                 ></v-text-field>
+                            </v-row>
                             <v-row>
                                 <v-text-field
                                     :value="selected.engMessage"
@@ -102,7 +126,20 @@
         data() {
             return {
                 title: '공통메세지선택',
-                selected: {}
+                selected: {},
+                headers: [
+                    {
+                        text: 'ID',
+                        value: 'messageId',
+                        width: '100px'
+                    },
+                    {
+                        text: 'Message',
+                        value: 'message',
+                        width: '100px'
+                    }
+                ],
+                listSelected: {}
             }
         },
         watch: {
@@ -111,16 +148,30 @@
                     this.setSelected();
                 },
                 deep: true
+            },
+            listSelected: {
+                handler() {
+                    this.selected = this.listSelected;
+                    let locale = this.listSelected.countryCode === 'ENG' ? 'engMessage' : 'koMessage';
+                    this.selected[locale] = this.selected.message;
+
+                    console.log('SEAETELAE');
+                    console.log(this.selected);
+                },
+                deep: true
             }
         },
         computed: {
             thisShow() {
                 return this.show;
+            },
+            messageList() {
+                return MESSAGE?.getMessageList() || [];
             }
         },
         methods: {
             setSelected() {
-                if (this.orgMessage.localeMessage) {
+                if (this.orgMessage.messageId) {
                     this.selected = this.orgMessage;
                 } else {
                     this.selected = {messageId: '', message: ''};

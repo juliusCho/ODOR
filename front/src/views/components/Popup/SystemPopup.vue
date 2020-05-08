@@ -58,7 +58,7 @@
                                     </template>
                                     <template v-else-if="field.updateType === 'message'">
                                         <v-chip class="ma-2">
-                                            ID: {{newValue[field.value]}} / MSG: {{newValue.localeMessage}}
+                                            [MSG ID]: {{newValue[field.value]}} / [MSG]: {{newValue.localeMessage}}
                                         </v-chip>
                                         <v-btn
                                             color="primary"
@@ -88,17 +88,17 @@
                                     </template>
                                     <template v-else-if="field.insertType === 'switch'">
                                         <v-switch
-                                                v-model="newValue[field.value]"
-                                                class="ma-2"
-                                                :label="field.text"
+                                            v-model="newValue[field.value]"
+                                            class="ma-2"
+                                            :label="field.text"
                                         ></v-switch>
                                     </template>
                                     <template v-else-if="field.updateType === 'textarea'">
                                         <v-textarea
-                                                outlined
-                                                name="input-7-4"
-                                                :label="field.text"
-                                                :value="newValue[field.value]"
+                                            outlined
+                                            name="input-7-4"
+                                            :label="field.text"
+                                            :value="newValue[field.value]"
                                         ></v-textarea>
                                     </template>
                                 </template>
@@ -221,7 +221,9 @@
         methods: {
             selectMessage(messageId, message) {
                 this.messagePopShow = true;
+                let locale = MESSAGE.getMessage(messageId).countryCode === 'ENG' ? 'engMessage' : 'koMessage';
                 this.messageData = {messageId, message};
+                this.messageData[locale] = message;
             },
             initializeNewValue() {
                 if (this.fields.length === 0) return;

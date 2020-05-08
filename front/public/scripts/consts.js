@@ -67,14 +67,7 @@ const TMP_SESSION = {
 // Multilanguage Message
 const MESSAGE = {
     setMessageList(list = []) {
-        let newList = [];
-        for (let i in list) {
-            newList.push({
-                messageId: list[i].messageId,
-                message: list[i].message
-            });
-        }
-        ODOR.odorMessageList = newList.filter(v => v.messageId && v.message);
+        ODOR.odorMessageList = list.filter(v => v.messageId && v.message && v.countryCode);
     },
     getMessageList() {
         return ODOR.odorMessageList || [];
