@@ -69,12 +69,17 @@ const MESSAGE = {
     setMessageList(list = []) {
         ODOR.odorMessageList = list.filter(v => v.messageId && v.message && v.countryCode);
     },
-    getMessageList() {
-        return ODOR.odorMessageList || [];
+    getMessageList(all = false) {
+        return (all ? [{messageId: '', message: 'ALL', countryCode: ''}] : [])
+            .concat(ODOR.odorMessageList || []);
     },
     getMessage(messageId = '') {
         messageId = messageId.toString();
         return ODOR.odorMessageList.find(v => v.messageId === messageId)?.message || '';
+    },
+    getMessageData(messageId = '') {
+        messageId = messageId.toString();
+        return ODOR.odorMessageList.find(v => v.messageId === messageId) || {};
     }
 }
 

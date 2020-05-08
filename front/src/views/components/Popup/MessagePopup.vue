@@ -5,95 +5,132 @@
             :width="width"
             persistent
         >
+
             <v-card>
                 <v-card-title
                     class="headline grey lighten-2"
                     primary-title
                 >
-                    {{ title }}
+                    {{ '공통메세지선택' }}
                 </v-card-title>
-
-                <v-card-text>
-                    <v-form>
-                        <v-col>
-                            <v-row>
-                                <v-chip class="ma-2">선택의시간</v-chip>
-                            </v-row>
-                            <v-row>
-                                <v-data-table
-                                    :headers="headers"
-                                    :items="messageList"
-                                    item-key="codeGroupId"
-                                    v-model="listSelected"
-                                    show-select
-                                    single-select
-                                >
-                                    <template slot="items" slot-scope="props">
-                                        <tr >
-                                            <td>
-                                                <v-checkbox
-                                                    v-model="props.selected"
-                                                    hide-details
-                                                ></v-checkbox>
-                                            </td>
-                                            <td>{{ props.item.codeGroupId }}</td>
-                                            <td>{{ props.item.codeGroupMessage }}</td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
-                            </v-row>
-                        </v-col>
-                        <v-divider
-                            vertical
-                        ></v-divider>
-                        <v-col>
-                            <v-row>
-                                <v-chip class="ma-2">Add New</v-chip>
-                            </v-row>
-                            <v-row>
-                                <v-text-field
-                                    :value="selected.messageId"
-                                    label="Message ID"
-                                ></v-text-field>
-                            </v-row>
-                            <v-row>
-                                <v-text-field
-                                    :value="selected.koMessage"
-                                    label="Korean"
-                                ></v-text-field>
-                            </v-row>
-                            <v-row>
-                                <v-text-field
-                                    :value="selected.engMessage"
-                                    label="English"
-                                ></v-text-field>
-                            </v-row>
-                        </v-col>
-                    </v-form>
-                </v-card-text>
-
-                <v-divider/>
-
+            </v-card>
+            <v-card class="d-flex">
+                <v-card>
+                    <v-card-text>
+                        <v-row>
+                            <v-col>
+                                <v-autocomplete
+                                    :items="searchMessageList"
+                                    color="white"
+                                    item-value="messageId"
+                                    item-text="messageId"
+                                    :label="'Message ID'"
+                                    v-model="searchKeys.messageId"
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col>
+                                <v-autocomplete
+                                    :items="searchMessageList"
+                                    color="white"
+                                    item-value="message"
+                                    item-text="message"
+                                    :label="'Message'"
+                                    v-model="searchKeys.message"
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col>
+                                <v-btn @click="searchAction" color="teal lighten-5">
+                                    Search
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-data-table
+                                :headers="headers"
+                                :items="messageList"
+                                item-key="messageId"
+                                v-model="listSelected"
+                                show-select
+                                single-select
+                            >
+                                <template slot="items" slot-scope="props">
+                                    <tr >
+                                        <td>
+                                            <v-checkbox
+                                                v-model="props.selected"
+                                                hide-details
+                                            ></v-checkbox>
+                                        </td>
+                                        <td>{{ props.item.messageId }}</td>
+                                        <td>{{ props.item.message }}</td>
+                                    </tr>
+                                </template>
+                            </v-data-table>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+                <v-card width="350px">
+                    <v-card-text>
+                        <v-row>
+                            <v-btn
+                                    @click="addNew"
+                                    color="blue lighten-5"
+                            >
+                                Add New
+                            </v-btn>
+                        </v-row>
+                        <v-row>
+                            <v-spacer/>
+                            <v-divider/>
+                            <v-spacer/>
+                        </v-row>
+                        <v-row>
+                            <v-text-field
+                                :value="selected.messageId"
+                                label="Message ID"
+                                :disabled="!textEdit"
+                            ></v-text-field>
+                        </v-row>
+                        <v-row>
+                            <v-text-field
+                                :value="selected.koMessage"
+                                label="Korean"
+                                :disabled="!textEdit || selected.countryCode === 'ENG'"
+                            ></v-text-field>
+                        </v-row>
+                        <v-row>
+                            <v-text-field
+                                :value="selected.engMessage"
+                                label="English"
+                                :disabled="!textEdit || selected.countryCode === 'KO'"
+                            ></v-text-field>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+            </v-card>
+            <v-divider/>
+            <v-card>
                 <v-card-actions>
                     <v-spacer/>
                     <v-btn
-                        color="primary"
-                        text
-                        @click="cancelAction"
+                            color="primary"
+                            text
+                            @click="cancelAction"
                     >
                         Cancel
                     </v-btn>
                     <v-btn
-                        color="primary"
-                        text
-                        @click="addCheck"
+                            color="primary"
+                            text
+                            @click="addCheck"
+                            :disabled="blockAdd"
                     >
                         Add New
                     </v-btn>
                     <v-btn
-                        color="green darken-1"
-                        text
-                        @click="selectAction"
+                            color="green darken-1"
+                            text
+                            @click="selectAction"
                     >
                         Select
                     </v-btn>
@@ -112,9 +149,9 @@
                 default: false,
                 required: false
             },
-            orgMessage: {
-                type: Object,
-                default: () => {},
+            messageId: {
+                type: String,
+                default: '',
                 required: false
             },
             width: {
@@ -125,7 +162,9 @@
         },
         data() {
             return {
-                title: '공통메세지선택',
+                searchKeys: {
+                    messageId: '', message: ''
+                },
                 selected: {},
                 headers: [
                     {
@@ -139,24 +178,32 @@
                         width: '100px'
                     }
                 ],
-                listSelected: {}
+                listSelected: [],
+                blockAdd: true,
+                textEdit: true
             }
         },
+        mounted() {
+            if (!this.selected.messageId) {
+                this.setSelected();
+                return;
+            }
+            this.listSelected = [];
+            this.listSelected.push(this.selected);
+        },
         watch: {
-            orgMessage: {
-                handler() {
-                    this.setSelected();
-                },
-                deep: true
+            messageId() {
+                this.setSelected();
             },
             listSelected: {
                 handler() {
-                    this.selected = this.listSelected;
-                    let locale = this.listSelected.countryCode === 'ENG' ? 'engMessage' : 'koMessage';
+                    if (this.listSelected.length === 0) return;
+
+                    this.selected = this.listSelected[0];
+                    let locale = this.selected.countryCode === 'ENG' ? 'engMessage' : 'koMessage';
                     this.selected[locale] = this.selected.message;
 
-                    console.log('SEAETELAE');
-                    console.log(this.selected);
+                    this.editable(false);
                 },
                 deep: true
             }
@@ -166,17 +213,34 @@
                 return this.show;
             },
             messageList() {
-                return MESSAGE?.getMessageList() || [];
+                return MESSAGE?.getMessageList();
+            },
+            searchMessageList() {
+                return MESSAGE?.getMessageList(true);
             }
         },
         methods: {
             setSelected() {
-                if (this.orgMessage.messageId) {
-                    this.selected = this.orgMessage;
+                if (this.messageId) {
+                    this.selected = MESSAGE.getMessageData(this.messageId);
+                    let locale = this.selected.countryCode === 'ENG' ? 'engMessage' : 'koMessage';
+                    this.selected[locale] = this.selected.message;
                 } else {
-                    this.selected = {messageId: '', message: ''};
+                    this.setDefaultVal();
                 }
-                console.log(this.selected);
+                this.editable(false);
+            },
+            setDefaultVal() {
+                this.selected = {messageId: '', message: '', countryCode: '', koMessage: '', engMessage: ''};
+            },
+            addNew() {
+                this.listSelected = [];
+                this.setDefaultVal();
+                this.editable(true);
+            },
+            editable(boo) {
+                this.textEdit = boo;
+                this.blockAdd = !boo;
             },
             addCheck() {
 
@@ -184,7 +248,12 @@
             addAction() {
                 this.$emit('addAction', true);
             },
+            searchAction() {
+
+            },
             selectAction() {
+                if (this.listSelected.length === 0) return;
+
                 this.$emit('selectAction', true);
             },
             cancelAction() {

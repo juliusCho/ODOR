@@ -62,7 +62,7 @@
                                         </v-chip>
                                         <v-btn
                                             color="primary"
-                                            @click="selectMessage(newValue[field.value], newValue.localeMessage)"
+                                            @click="selectMessage(newValue[field.value])"
                                         >
                                             {{'메세지선택한당'}}
                                         </v-btn>
@@ -132,8 +132,8 @@
 
         <MessagePopup
             :show="messagePopShow"
-            :width="500"
-            :orgMessage="messageData"
+            :width="900"
+            :messageId="messageId"
             @cancelAction="messagePopShow = false"
         />
     </div>
@@ -202,7 +202,7 @@
             return {
                 newValue: {},
                 messagePopShow: false,
-                messageData: {}
+                messageId: ''
             }
         },
         watch: {
@@ -219,11 +219,9 @@
             }
         },
         methods: {
-            selectMessage(messageId, message) {
+            selectMessage(messageId) {
                 this.messagePopShow = true;
-                let locale = MESSAGE.getMessage(messageId).countryCode === 'ENG' ? 'engMessage' : 'koMessage';
-                this.messageData = {messageId, message};
-                this.messageData[locale] = message;
+                this.messageId = messageId;
             },
             initializeNewValue() {
                 if (this.fields.length === 0) return;
