@@ -183,7 +183,7 @@
                     },
                     {
                         text: 'Update Date',
-                        value: 'updateDate',
+                        value: 'updateDtTime',
                         width: '150px'
                     }
                 ],

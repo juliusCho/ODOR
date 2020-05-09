@@ -20,14 +20,14 @@
                                 <template v-if="update">
                                     <template v-if="field.updateType === 'disabled'">
                                         <v-text-field
-                                            :value="newValue[field.value]"
+                                            v-model="newValue[field.value]"
                                             :label="field.text"
-                                            disabled
+                                            readonly
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'text'">
                                         <v-text-field
-                                            :value="newValue[field.value]"
+                                            v-model="newValue[field.value]"
                                             :label="field.text"
                                         ></v-text-field>
                                     </template>
@@ -53,7 +53,7 @@
                                             outlined
                                             name="input-7-4"
                                             :label="field.text"
-                                            :value="newValue[field.value]"
+                                            v-model="newValue[field.value]"
                                         ></v-textarea>
                                     </template>
                                     <template v-else-if="field.updateType === 'message'">
@@ -62,7 +62,7 @@
                                         </v-chip>
                                         <v-btn
                                             color="primary"
-                                            @click="selectMessage(newValue[field.value])"
+                                            @click="selectMessage(newValue[field.value], field.value)"
                                         >
                                             {{'메세지선택한당'}}
                                         </v-btn>
@@ -72,7 +72,7 @@
                                 <template v-else>
                                     <template v-if="field.insertType === 'text'">
                                         <v-text-field
-                                            :value="newValue[field.value]"
+                                            v-model="newValue[field.value]"
                                             :label="field.text"
                                         ></v-text-field>
                                     </template>
@@ -93,13 +93,24 @@
                                             :label="field.text"
                                         ></v-switch>
                                     </template>
-                                    <template v-else-if="field.updateType === 'textarea'">
+                                    <template v-else-if="field.insertType === 'textarea'">
                                         <v-textarea
                                             outlined
                                             name="input-7-4"
                                             :label="field.text"
-                                            :value="newValue[field.value]"
+                                            v-model="newValue[field.value]"
                                         ></v-textarea>
+                                    </template>
+                                    <template v-else-if="field.insertType === 'message'">
+                                        <v-chip class="ma-2">
+                                            [MSG ID]: {{newValue[field.value] || 'Needed'}} / [MSG]: {{newValue.localeMessage || 'Needed'}}
+                                        </v-chip>
+                                        <v-btn
+                                                color="primary"
+                                                @click="selectMessage('', field.value)"
+                                        >
+                                            {{'메세지선택한당'}}
+                                        </v-btn>
                                     </template>
                                 </template>
 
@@ -135,6 +146,7 @@
             :width="900"
             :messageId="messageId"
             @cancelAction="messagePopShow = false"
+            @selectAction="assignMessage"
         />
     </div>
 </template>
@@ -201,8 +213,10 @@
         data() {
             return {
                 newValue: {},
+
                 messagePopShow: false,
-                messageId: ''
+                messageId: '',
+                messageFieldName: ''
             }
         },
         watch: {
@@ -219,16 +233,24 @@
             }
         },
         methods: {
-            selectMessage(messageId) {
+            assignMessage(msg) {
+                this.newValue[this.messageFieldName] = msg.messageId;
+                this.newValue.localeMessage = msg.message;
+            },
+            selectMessage(messageId = '', fieldName = '') {
                 this.messagePopShow = true;
                 this.messageId = messageId;
+                this.messageFieldName = fieldName;
             },
+
+
             initializeNewValue() {
                 if (this.fields.length === 0) return;
 
                 this.fields.filter(v => v?.type).forEach(v => {
                     this.newValue[v.value] = this.returnDefaultVal(v.type);
                 });
+                this.newValue.localeMessage = '';
             },
             returnDefaultVal(type = null) {
                 switch (type) {
@@ -245,13 +267,17 @@
             setNewValue() {
                 if (this.update && this.values) {
                     Object.assign(this.newValue, this.values);
+                } else {
+                    this.initializeNewValue();
                 }
             },
             okAction() {
                 this.$emit('okAction', true);
+                this.setNewValue();
             },
             cancelAction() {
                 this.$emit('cancelAction', false);
+                this.setNewValue();
             }
         }
     }

@@ -1,16 +1,18 @@
 <template>
-    <v-row justify="center"
-         v-if="show">
-        <v-col md="3">
-            <v-alert
-                    :mode="mode"
-                    :type="status"
-                    transition="scale-transition"
-            >
-                {{msg}}
-            </v-alert>
-        </v-col>
-    </v-row>
+    <div class="overlap">
+        <v-row justify="center"
+             v-if="show">
+            <v-col md="3">
+                <v-alert
+                        :mode="mode"
+                        :type="status"
+                        transition="scale-transition"
+                >
+                    {{msg}}
+                </v-alert>
+            </v-col>
+        </v-row>
+    </div>
 </template>
 
 <script>
@@ -40,7 +42,7 @@
             },
             showTime: {
                 type: Number,
-                default: 3000,
+                default: 2500,
                 required: false
             }
         },
@@ -55,5 +57,8 @@
 </script>
 
 <style scoped>
-
+    .overlap {
+        position: relative;
+        z-index: 99;
+    }
 </style>

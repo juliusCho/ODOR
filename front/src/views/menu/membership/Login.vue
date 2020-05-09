@@ -48,6 +48,7 @@
                                     required
                                     type="text"
                                     v-model="loginInput.userId"
+                                    autofocus
                             />
                             <v-text-field
                                     id="password"

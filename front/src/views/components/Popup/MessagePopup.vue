@@ -1,76 +1,84 @@
 <template>
-    <div>
-        <v-dialog
-            v-model="thisShow"
-            :width="width"
-            persistent
-        >
+    <v-dialog
+        v-model="thisShow"
+        :width="width"
+        persistent
+    >
 
+        <RightTopAlert
+                :status="alertStatus"
+                :msg="alertMsg"
+                :show="alertShow"
+                @hideDisplay="alertShow = false"
+        />
+
+        <v-card>
+            <v-card-title
+                class="headline grey lighten-2"
+                primary-title
+            >
+                {{ '공통메세지선택' }}
+            </v-card-title>
+        </v-card>
+        <v-card class="d-flex">
             <v-card>
-                <v-card-title
-                    class="headline grey lighten-2"
-                    primary-title
-                >
-                    {{ '공통메세지선택' }}
-                </v-card-title>
+                <v-card-text>
+                    <v-row>
+                        <v-col>
+                            <v-autocomplete
+                                :items="searchMessageList"
+                                color="white"
+                                item-value="messageId"
+                                item-text="messageId"
+                                :label="'Message ID'"
+                                v-model="searchKeys.messageId"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col>
+                            <v-autocomplete
+                                :items="searchMessageList"
+                                color="white"
+                                item-value="message"
+                                item-text="message"
+                                :label="'Message'"
+                                v-model="searchKeys.message"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col>
+                            <v-btn @click="searchAction" color="teal lighten-5">
+                                Search
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-data-table
+                            :headers="headers"
+                            :items="messageList"
+                            item-key="messageId"
+                            v-model="listSelected"
+                            show-select
+                            single-select
+                            height="250px"
+                        >
+                            <template slot="items" slot-scope="props">
+                                <tr >
+                                    <td>
+                                        <v-checkbox
+                                            v-model="props.selected"
+                                            hide-details
+                                        ></v-checkbox>
+                                    </td>
+                                    <td>{{ props.item.messageId }}</td>
+                                    <td>{{ props.item.message }}</td>
+                                </tr>
+                            </template>
+                        </v-data-table>
+                    </v-row>
+                </v-card-text>
             </v-card>
-            <v-card class="d-flex">
-                <v-card>
-                    <v-card-text>
-                        <v-row>
-                            <v-col>
-                                <v-autocomplete
-                                    :items="searchMessageList"
-                                    color="white"
-                                    item-value="messageId"
-                                    item-text="messageId"
-                                    :label="'Message ID'"
-                                    v-model="searchKeys.messageId"
-                                ></v-autocomplete>
-                            </v-col>
-                            <v-col>
-                                <v-autocomplete
-                                    :items="searchMessageList"
-                                    color="white"
-                                    item-value="message"
-                                    item-text="message"
-                                    :label="'Message'"
-                                    v-model="searchKeys.message"
-                                ></v-autocomplete>
-                            </v-col>
-                            <v-col>
-                                <v-btn @click="searchAction" color="teal lighten-5">
-                                    Search
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-data-table
-                                :headers="headers"
-                                :items="messageList"
-                                item-key="messageId"
-                                v-model="listSelected"
-                                show-select
-                                single-select
-                            >
-                                <template slot="items" slot-scope="props">
-                                    <tr >
-                                        <td>
-                                            <v-checkbox
-                                                v-model="props.selected"
-                                                hide-details
-                                            ></v-checkbox>
-                                        </td>
-                                        <td>{{ props.item.messageId }}</td>
-                                        <td>{{ props.item.message }}</td>
-                                    </tr>
-                                </template>
-                            </v-data-table>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-                <v-card width="350px">
-                    <v-card-text>
+            <v-card width="350px">
+                <v-card-text>
+                    <v-form v-model="valid">
                         <v-row>
                             <v-btn
                                     @click="addNew"
@@ -86,63 +94,79 @@
                         </v-row>
                         <v-row>
                             <v-text-field
-                                :value="selected.messageId"
+                                v-model="selected.messageId"
                                 label="Message ID"
                                 :disabled="!textEdit"
+                                required
+                                :counter="20"
+                                :rules="idRules"
                             ></v-text-field>
                         </v-row>
                         <v-row>
                             <v-text-field
-                                :value="selected.koMessage"
+                                v-model="selected.koMessage"
                                 label="Korean"
                                 :disabled="!textEdit || selected.countryCode === 'ENG'"
+                                required
+                                :rules="msgRules"
+                                :counter="200"
                             ></v-text-field>
                         </v-row>
                         <v-row>
                             <v-text-field
-                                :value="selected.engMessage"
+                                v-model="selected.engMessage"
                                 label="English"
                                 :disabled="!textEdit || selected.countryCode === 'KO'"
+                                required
+                                :rules="msgRules"
+                                :counter="200"
                             ></v-text-field>
                         </v-row>
-                    </v-card-text>
-                </v-card>
+                    </v-form>
+                </v-card-text>
             </v-card>
-            <v-divider/>
-            <v-card>
-                <v-card-actions>
-                    <v-spacer/>
-                    <v-btn
-                            color="primary"
-                            text
-                            @click="cancelAction"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                            color="primary"
-                            text
-                            @click="addCheck"
-                            :disabled="blockAdd"
-                    >
-                        Add New
-                    </v-btn>
-                    <v-btn
-                            color="green darken-1"
-                            text
-                            @click="selectAction"
-                    >
-                        Select
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-    </div>
+        </v-card>
+        <v-divider/>
+        <v-card>
+            <v-card-actions>
+                <v-spacer/>
+                <v-btn
+                        color="primary"
+                        text
+                        @click="cancelAction"
+                >
+                    Cancel
+                </v-btn>
+                <v-btn
+                        color="green darken-1"
+                        text
+                        @click="addCheck"
+                        :disabled="blockAdd || !valid"
+                >
+                    Add New
+                </v-btn>
+                <v-btn
+                        color="green darken-1"
+                        text
+                        @click="selectAction"
+                        :disabled="!blockAdd"
+                >
+                    Select
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script>
+    import axios from 'axios';
+    import RightTopAlert from "@/views/components/RightTopAlert";
+
     export default {
         name: "SystemPopup",
+        components: {
+            RightTopAlert
+        },
         props: {
             show: {
                 type: Boolean,
@@ -161,10 +185,17 @@
             }
         },
         data() {
+            let idRules = [v => SCRIPT_VALIDATOR.nullCheck(v) || '필수입력사항임다'];
+            let msgRules = idRules;
+            idRules.push(v => v.length <= 20 || '맥스길이초과');
+            msgRules.push(v => v.length <= 200 || '맥스길이초과');
+
+
             return {
                 searchKeys: {
                     messageId: '', message: ''
                 },
+                messageList: [],
                 selected: {},
                 headers: [
                     {
@@ -179,11 +210,21 @@
                     }
                 ],
                 listSelected: [],
+                valid: false,
+                idRules: idRules,
+                msgRules: msgRules,
+
                 blockAdd: true,
-                textEdit: true
+                textEdit: false,
+
+                alertStatus: 'warning',
+                alertMsg: '경고',
+                alertShow: false
             }
         },
         mounted() {
+            this.messageList = MESSAGE?.getMessageList();
+
             if (!this.selected.messageId) {
                 this.setSelected();
                 return;
@@ -197,8 +238,10 @@
             },
             listSelected: {
                 handler() {
-                    if (this.listSelected.length === 0) return;
-
+                    if (this.listSelected?.length !== 1) {
+                        this.setDefaultVal();
+                        return;
+                    }
                     this.selected = this.listSelected[0];
                     let locale = this.selected.countryCode === 'ENG' ? 'engMessage' : 'koMessage';
                     this.selected[locale] = this.selected.message;
@@ -212,9 +255,6 @@
             thisShow() {
                 return this.show;
             },
-            messageList() {
-                return MESSAGE?.getMessageList();
-            },
             searchMessageList() {
                 return MESSAGE?.getMessageList(true);
             }
@@ -222,9 +262,12 @@
         methods: {
             setSelected() {
                 if (this.messageId) {
-                    this.selected = MESSAGE.getMessageData(this.messageId);
-                    let locale = this.selected.countryCode === 'ENG' ? 'engMessage' : 'koMessage';
-                    this.selected[locale] = this.selected.message;
+                    let selected = MESSAGE.getMessageData(this.messageId);
+                    let locale = selected.countryCode === 'ENG' ? 'engMessage' : 'koMessage';
+                    selected[locale] = selected.message;
+
+                    this.listSelected = [];
+                    this.listSelected.push(selected);
                 } else {
                     this.setDefaultVal();
                 }
@@ -243,21 +286,64 @@
                 this.blockAdd = !boo;
             },
             addCheck() {
+                if (this.duplicateValidation()) {
+                    this.alertStatus = 'warning';
+                    this.alertMsg = 'ID가 중복되면 쓰나';
+                    this.alertShow = true;
+                    return;
+                }
+                this.createMessage();
+            },
+            duplicateValidation() {
+                console.log(this.selected);
+                return MESSAGE.getMessageList().some(v => v.messageId === this.selected.messageId);
+            },
+            createMessage() {
+                console.log('YEAE');
+                let list = [
+                    {messageId: this.selected.messageId, countryCode: 'KO', message: this.selected.koMessage},
+                    {messageId: this.selected.messageId, countryCode: 'ENG', message: this.selected.engMessage}
+                ];
+
 
             },
             addAction() {
-                this.$emit('addAction', true);
+                this.$emit('addAction', this.selected);
             },
             searchAction() {
+                this.setSelected();
 
+                if (!this.searchKeys.messageId && !this.searchKeys.message) {
+                    this.messageList = MESSAGE.getMessageList();
+                }
+
+                axios.post(
+                    API.MessageMgmtController.getMessageList,
+                    Object.assign(this.searchKeys, {countryCode: this.$i18n.locale})
+                )
+                .then(res => {
+                    this.messageList = res.data;
+                });
             },
             selectAction() {
-                if (this.listSelected.length === 0) return;
-
-                this.$emit('selectAction', true);
+                if (this.listSelected.length === 0) {
+                    this.alertStatus = 'warning';
+                    this.alertMsg = '선택된 메시지가 없다';
+                    this.alertShow = true;
+                    return;
+                }
+                this.$emit('selectAction', this.listSelected[0]);
+                this.cancelAction();
             },
             cancelAction() {
                 this.$emit('cancelAction', false);
+                this.reinitialize();
+            },
+            reinitialize() {
+                this.selected = {};
+                this.listSelected = [];
+                this.searchKeys = {messageId: '', message: ''};
+                this.editable(false);
             }
         }
     }

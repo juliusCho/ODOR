@@ -30,7 +30,6 @@ public class ForumMgmtController {
             @RequestBody UserVO user,
             HttpServletRequest req
     ) {
-        log.warn("SYSTETMTATYSSTYTEM");
         return ResponseEntity.ok(forumMgmtService.getSystemList(user, req));
     }
 
