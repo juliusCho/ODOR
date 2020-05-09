@@ -29,7 +29,6 @@
                                         <v-text-field
                                             :value="newValue[field.value]"
                                             :label="field.text"
-                                            single-line
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'select'">
@@ -57,6 +56,17 @@
                                             :value="newValue[field.value]"
                                         ></v-textarea>
                                     </template>
+                                    <template v-else-if="field.updateType === 'message'">
+                                        <v-chip class="ma-2">
+                                            [MSG ID]: {{newValue[field.value]}} / [MSG]: {{newValue.localeMessage}}
+                                        </v-chip>
+                                        <v-btn
+                                            color="primary"
+                                            @click="selectMessage(newValue[field.value])"
+                                        >
+                                            {{'메세지선택한당'}}
+                                        </v-btn>
+                                    </template>
                                 </template>
 
                                 <template v-else>
@@ -64,7 +74,6 @@
                                         <v-text-field
                                             :value="newValue[field.value]"
                                             :label="field.text"
-                                            single-line
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.insertType === 'select'">
@@ -79,17 +88,17 @@
                                     </template>
                                     <template v-else-if="field.insertType === 'switch'">
                                         <v-switch
-                                                v-model="newValue[field.value]"
-                                                class="ma-2"
-                                                :label="field.text"
+                                            v-model="newValue[field.value]"
+                                            class="ma-2"
+                                            :label="field.text"
                                         ></v-switch>
                                     </template>
                                     <template v-else-if="field.updateType === 'textarea'">
                                         <v-textarea
-                                                outlined
-                                                name="input-7-4"
-                                                :label="field.text"
-                                                :value="newValue[field.value]"
+                                            outlined
+                                            name="input-7-4"
+                                            :label="field.text"
+                                            :value="newValue[field.value]"
                                         ></v-textarea>
                                     </template>
                                 </template>
@@ -120,12 +129,24 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <MessagePopup
+            :show="messagePopShow"
+            :width="900"
+            :messageId="messageId"
+            @cancelAction="messagePopShow = false"
+        />
     </div>
 </template>
 
 <script>
+    import MessagePopup from "@/views/components/Popup/MessagePopup";
+
     export default {
         name: "SystemPopup",
+        components: {
+            MessagePopup
+        },
         props: {
             show: {
                 type: Boolean,
@@ -179,7 +200,9 @@
         },
         data() {
             return {
-                newValue: {}
+                newValue: {},
+                messagePopShow: false,
+                messageId: ''
             }
         },
         watch: {
@@ -196,6 +219,10 @@
             }
         },
         methods: {
+            selectMessage(messageId) {
+                this.messagePopShow = true;
+                this.messageId = messageId;
+            },
             initializeNewValue() {
                 if (this.fields.length === 0) return;
 

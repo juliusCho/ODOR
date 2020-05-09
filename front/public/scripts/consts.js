@@ -5,7 +5,7 @@ class ODOR {
         this.odorLoginUser = {};
         this.odorMessageList = [];
         this.odorCodeList = [];
-    }00
+    }
 
     set odorLoginUser(user) {
         this.odorLoginUser = SCRIPT_VALIDATOR.nullCheck(user?.userId) ? user : {};
@@ -67,21 +67,19 @@ const TMP_SESSION = {
 // Multilanguage Message
 const MESSAGE = {
     setMessageList(list = []) {
-        let newList = [];
-        for (let i in list) {
-            newList.push({
-                messageId: list[i].messageId,
-                message: list[i].message
-            });
-        }
-        ODOR.odorMessageList = newList.filter(v => v.messageId && v.message);
+        ODOR.odorMessageList = list.filter(v => v.messageId && v.message && v.countryCode);
     },
-    getMessageList() {
-        return ODOR.odorMessageList || [];
+    getMessageList(all = false) {
+        return (all ? [{messageId: '', message: 'ALL', countryCode: ''}] : [])
+            .concat(ODOR.odorMessageList || []);
     },
     getMessage(messageId = '') {
         messageId = messageId.toString();
         return ODOR.odorMessageList.find(v => v.messageId === messageId)?.message || '';
+    },
+    getMessageData(messageId = '') {
+        messageId = messageId.toString();
+        return ODOR.odorMessageList.find(v => v.messageId === messageId) || {};
     }
 }
 
