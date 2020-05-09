@@ -155,17 +155,31 @@
                 </v-btn>
             </v-card-actions>
         </v-card>
+
+        <ConfirmDialog
+            :show="confirmShow"
+            :title="'확인'"
+            :content="'저장 ㄱ?'"
+            type="C"
+            :yesBtnText="'ㅇㅇ'"
+            :noBtnText="'ㄴㄴ'"
+            :width="500"
+            @yesAction="createMessage"
+            @noAction="confirmShow = false"
+        />
     </v-dialog>
 </template>
 
 <script>
     import axios from 'axios';
     import RightTopAlert from "@/views/components/RightTopAlert";
+    import ConfirmDialog from "@/views/components/Dialog";
 
     export default {
         name: "SystemPopup",
         components: {
-            RightTopAlert
+            RightTopAlert,
+            ConfirmDialog
         },
         props: {
             show: {
@@ -219,7 +233,9 @@
 
                 alertStatus: 'warning',
                 alertMsg: '경고',
-                alertShow: false
+                alertShow: false,
+
+                confirmShow: false
             }
         },
         mounted() {
@@ -292,20 +308,32 @@
                     this.alertShow = true;
                     return;
                 }
-                this.createMessage();
+                this.confirmShow = true;
             },
             duplicateValidation() {
-                console.log(this.selected);
                 return MESSAGE.getMessageList().some(v => v.messageId === this.selected.messageId);
             },
             createMessage() {
-                console.log('YEAE');
                 let list = [
                     {messageId: this.selected.messageId, countryCode: 'KO', message: this.selected.koMessage},
                     {messageId: this.selected.messageId, countryCode: 'ENG', message: this.selected.engMessage}
                 ];
 
+                axios.put(API.MessageMgmtController.insertMessage, list)
+                .then(res => {
+                    if (res.data === 'success') {
+                        this.addNewMessageToCommonList(list);
 
+                        let message = this.$i18n.locale === 'KO' ? this.selected.koMessage : this.selected.engMessage;
+                        this.$emit('selectAction', Object.assign(this.selected, {message: message}));
+                        this.cancelAction();
+                    }
+                });
+            },
+            addNewMessageToCommonList(list) {
+                let newMsg = list.find(v => v.countryCode === this.$i18n.locale);
+                this.messageList.push({messageId: newMsg.messageId, message: newMsg.message, countryCode: newMsg.countryCode});
+                MESSAGE.setMessageList(this.messageList);
             },
             addAction() {
                 this.$emit('addAction', this.selected);

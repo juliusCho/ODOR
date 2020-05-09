@@ -29,6 +29,9 @@ public class MessageMgmtService implements MessageMgmtServiceSpec {
     @Override
     public void insertMessage(List<MessageVO> list) {
         messageMgmtMapper.insertMessageGroup(list.get(0));
-        messageMgmtMapper.insertMessage(list);
+
+        for (MessageVO vo : list) {
+            messageMgmtMapper.insertMessage(vo);
+        }
     }
 }

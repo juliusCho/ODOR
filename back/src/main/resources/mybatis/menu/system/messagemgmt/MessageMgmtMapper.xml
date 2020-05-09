@@ -45,12 +45,48 @@
 
     <insert id="insertMessageGroup">
         /* 공통 메세지 그룹 생성 */
-
+        INSERT
+          INTO MESSAGE_GROUP
+               (
+                    MESSAGE_ID,
+                    USE_YN,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    #{vo.messageId},
+                    1,
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
     </insert>
 
     <insert id="insertMessage">
         /* 공통 메세지 생성 */
-
+        INSERT
+          INTO COUNTRY_MESSAGE
+               (
+                    MESSAGE_ID,
+                    COUNTRY_CODE,
+                    MESSAGE,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    #{vo.messageId},
+                    #{vo.countryCode},
+                    #{vo.message},
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
     </insert>
 
 </mapper>

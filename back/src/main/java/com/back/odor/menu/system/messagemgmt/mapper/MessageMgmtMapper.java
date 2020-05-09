@@ -14,6 +14,6 @@ public interface MessageMgmtMapper {
     List<MessageVO> getMessageListSearch(@Param("vo") MessageVO vo);
 
     void insertMessageGroup(@Param("vo") MessageVO vo);
-    void insertMessage(@Param("list") List<MessageVO> list);
+    void insertMessage(@Param("vo") MessageVO vo);
 
 }

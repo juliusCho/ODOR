@@ -28,7 +28,8 @@ const API = class {
     };
 
     static MessageMgmtController = {
-        getMessageList: 'odor/msg/getMessageList/system'
+        getMessageList: 'odor/msg/getMessageList/system',
+        insertMessage: 'odor/msg/insertMessage/system'
     };
 
 };
