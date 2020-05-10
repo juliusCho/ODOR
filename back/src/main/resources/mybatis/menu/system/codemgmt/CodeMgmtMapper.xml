@@ -50,4 +50,57 @@
         </where>
     </select>
 
+    <select id="checkDuplication" resultType="Integer">
+        /* 코드그룹 중복체크 */
+        SELECT COUNT(1)
+          FROM CODE_GROUP
+         WHERE CODE_GROUP_ID = UPPER(#{codeGroupId})
+    </select>
+
+    <insert id="insertCodeGroup">
+        /* 코드그룹 신규 생성 */
+        INSERT
+          INTO CODE_GROUP
+               (
+                    CODE_GROUP_ID,
+                    CODE_GROUP_MESSAGE,
+                    CODE_GROUP_NAME,
+                    USE_YN,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    UPPER(#{vo.codeGroupId}),
+                    #{vo.codeGroupMessage},
+                    #{vo.codeGroupName},
+                    #{vo.useYn},
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <update id="updateCodeGroup">
+        /* 코드그룹 수정 */
+        UPDATE CODE_GROUP
+           SET CODE_GROUP_MESSAGE   = #{vo.codeGroupMessage}
+             , CODE_GROUP_NAME      = #{vo.codeGroupName}
+             , USE_YN               = #{vo.useYn}
+             , UPDATER_ID           = #{vo.updaterId}
+             , UPDATE_DATE          = UTC_TIMESTAMP()
+         WHERE CODE_GROUP_ID = UPPER(#{vo.codeGroupId})
+    </update>
+
+    <update id="deleteCodeGroup">
+        /* 코드그룹 삭제 */
+        UPDATE CODE_GROUP
+           SET USE_YN               = 0
+             , UPDATER_ID           = #{vo.updaterId}
+             , UPDATE_DATE          = UTC_TIMESTAMP()
+         WHERE CODE_GROUP_ID = UPPER(#{vo.codeGroupId})
+    </update>
+
 </mapper>

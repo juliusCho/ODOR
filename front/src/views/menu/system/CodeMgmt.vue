@@ -1,5 +1,12 @@
 <template>
     <v-container>
+        <RightTopAlert
+                :status="alertStatus"
+                :msg="alertMsg"
+                :show="alertShow"
+                @hideDisplay="alertShow = false"
+        />
+
         <v-form id="search">
             <v-row>
                 <v-col>
@@ -77,6 +84,7 @@
         />
 
         <UpdatePopup
+            ref="updatePopup"
             :show="updatePopShow"
             :title="'코드그룹수정'"
             :update="true"
@@ -90,12 +98,15 @@
         />
 
         <InsertPopup
+            ref="insertPopup"
             :show="insertPopShow"
             :title="'코드그룹생성'"
             :okBtnText="'ㄱㄱ'"
             :cancelBtnText="'ㄴㄴ'"
             :width="1000"
             :fields="headers"
+            :validation="duplicateValidation"
+            :invalidMsg="'코드ID중복!!'"
             @okAction="addItem"
             @cancelAction="insertPopShow = false"
         />
@@ -108,6 +119,7 @@
     import DeleteDialog from "@/views/components/Dialog";
     import UpdatePopup from "@/views/components/Popup/SystemPopup";
     import InsertPopup from "@/views/components/Popup/SystemPopup";
+    import RightTopAlert from "@/views/components/RightTopAlert";
 
     export default {
         name: 'CodeMgmt',
@@ -115,7 +127,8 @@
             SystemBtn,
             DeleteDialog,
             UpdatePopup,
-            InsertPopup
+            InsertPopup,
+            RightTopAlert
         },
         mounted() {
             this.getCodeGroupList();
@@ -143,7 +156,7 @@
                         width: '180px',
                         type: 'string',
                         updateType: 'disabled',
-                        insertType: 'text'
+                        insertType: 'id'
                         // fixed: true
                         // sortable: false
                     },
@@ -193,7 +206,11 @@
 
                 confirmShow: false,
                 updatePopShow: false,
-                insertPopShow: false
+                insertPopShow: false,
+
+                alertShow: false,
+                alertMsg: '',
+                alertStatus: ''
             };
         },
         methods: {
@@ -209,28 +226,73 @@
                         codeGroupId: '',
                         codeGroupName: 'All'
                     }].concat(
-                            this.codeGroupList.map(v => ({
-                                codeGroupId: v.codeGroupId,
-                                codeGroupName: v.codeGroupName
-                            })
-                        ));
+                        this.codeGroupList.map(v => ({
+                            codeGroupId: v.codeGroupId,
+                            codeGroupName: v.codeGroupName
+                        })
+                    ));
                 });
             },
             updateConfirm() {
                 this.updatePopShow = this.selectedCodeGroup.length !== 0;
             },
-            updateItem() {
-            },
             deleteConfirm() {
                 this.confirmShow = this.selectedCodeGroup.length !== 0;
             },
             deleteItem() {
-                this.confirmShow = false;
+                axios.patch(
+                    API.CodeMgmtController.deleteCodeGroup,
+                    this.selectedCodeGroup[0]
+                )
+                .then(res => {
+                    this.confirmShow = false;
+                    this.doneAlert(res.data);
+                    this.getCodeGroupList();
+                });
             },
             addConfirm() {
                 this.insertPopShow = true;
             },
-            addItem() {
+            async duplicateValidation(data) {
+                let result = true;
+
+                await axios.post(
+                    API.CodeMgmtController.checkDuplication,
+                    null,
+                    {
+                        params: {
+                            codeGroupId: data.codeGroupId
+                        }
+                    }
+                )
+                .then(res => {
+                    result = res.data === 0;
+                });
+                return result;
+            },
+            addItem(data) {
+                axios.put(API.CodeMgmtController.insertCodeGroup, data)
+                .then(res => {
+                    this.doneAlert(res.data);
+                    this.getCodeGroupList();
+                });
+            },
+            updateItem(data) {
+                axios.patch(API.CodeMgmtController.updateCodeGroup, data)
+                .then(res => {
+                    this.doneAlert(res.data);
+                    this.getCodeGroupList();
+                });
+            },
+            doneAlert(type) {
+                if (type === 'success') {
+                    this.alertStatus = 'info';
+                    this.alertMsg = '저장완료';
+                } else {
+                    this.alertStatus = 'error';
+                    this.alertMsg = '저장실패';
+                }
+                this.alertShow = true;
             },
             goTo(page) {
                 this.$emit('goTo', page);

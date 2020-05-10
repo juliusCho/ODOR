@@ -79,7 +79,7 @@
                     UPDATE_DATE
                )
         VALUES (
-                    #{vo.messageId},
+                    UPPER(#{vo.messageId}),
                     #{vo.countryCode},
                     #{vo.message},
                     #{vo.creatorId},

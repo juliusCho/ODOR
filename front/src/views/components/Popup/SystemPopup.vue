@@ -5,6 +5,13 @@
             :width="width"
             persistent
         >
+            <RightTopAlert
+                :status="alertStatus"
+                :msg="alertMsg"
+                :show="alertShow"
+                @hideDisplay="alertShow = false"
+            />
+
             <v-card>
                 <v-card-title
                     class="headline grey lighten-2"
@@ -25,10 +32,44 @@
                                             readonly
                                         ></v-text-field>
                                     </template>
+                                    <template v-else-if="field.updateType === 'id'">
+                                        <v-text-field
+                                            v-model="newValue[field.value]"
+                                            :label="field.text"
+                                            :counter="20"
+                                            :rules="idRules"
+                                        ></v-text-field>
+                                    </template>
                                     <template v-else-if="field.updateType === 'text'">
                                         <v-text-field
                                             v-model="newValue[field.value]"
                                             :label="field.text"
+                                            :counter="200"
+                                            :rules="textRules"
+                                        ></v-text-field>
+                                    </template>
+                                    <template v-else-if="field.updateType === 'name'">
+                                        <v-text-field
+                                            v-model="newValue[field.value]"
+                                            :label="field.text"
+                                            :counter="500"
+                                            :rules="nameRules"
+                                        ></v-text-field>
+                                    </template>
+                                    <template v-else-if="field.updateType === 'email'">
+                                        <v-text-field
+                                            v-model="newValue[field.value]"
+                                            :label="field.text"
+                                            :counter="50"
+                                            :rules="emailRules"
+                                        ></v-text-field>
+                                    </template>
+                                    <template v-else-if="field.updateType === 'url'">
+                                        <v-text-field
+                                            v-model="newValue[field.value]"
+                                            :label="field.text"
+                                            :counter="1000"
+                                            :rules="urlRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'select'">
@@ -39,6 +80,7 @@
                                             item-text="text"
                                             :label="field.text"
                                             v-model="newValue[field.value]"
+                                            :rules="selectRules"
                                         ></v-autocomplete>
                                     </template>
                                     <template v-else-if="field.updateType === 'switch'">
@@ -54,6 +96,18 @@
                                             name="input-7-4"
                                             :label="field.text"
                                             v-model="newValue[field.value]"
+                                            :counter="3000"
+                                            :rules="descRules"
+                                        ></v-textarea>
+                                    </template>
+                                    <template v-else-if="field.updateType === 'content'">
+                                        <v-textarea
+                                            outlined
+                                            name="input-7-4"
+                                            :label="field.text"
+                                            v-model="newValue[field.value]"
+                                            :counter="9999"
+                                            :rules="contentRules"
                                         ></v-textarea>
                                     </template>
                                     <template v-else-if="field.updateType === 'message'">
@@ -66,14 +120,53 @@
                                         >
                                             {{'메세지선택한당'}}
                                         </v-btn>
+                                        <v-input
+                                            v-model="newValue[field.value]"
+                                            :rules="selectRules"
+                                            style="display: none;"
+                                        />
                                     </template>
                                 </template>
 
                                 <template v-else>
+                                    <template v-if="field.insertType === 'id'">
+                                        <v-text-field
+                                            v-model="newValue[field.value]"
+                                            :label="field.text"
+                                            :counter="20"
+                                            :rules="idRules"
+                                        ></v-text-field>
+                                    </template>
                                     <template v-if="field.insertType === 'text'">
                                         <v-text-field
                                             v-model="newValue[field.value]"
                                             :label="field.text"
+                                            :counter="200"
+                                            :rules="textRules"
+                                        ></v-text-field>
+                                    </template>
+                                    <template v-if="field.insertType === 'name'">
+                                        <v-text-field
+                                            v-model="newValue[field.value]"
+                                            :label="field.text"
+                                            :counter="500"
+                                            :rules="nameRules"
+                                        ></v-text-field>
+                                    </template>
+                                    <template v-else-if="field.insertType === 'email'">
+                                        <v-text-field
+                                                v-model="newValue[field.value]"
+                                                :label="field.text"
+                                                :counter="50"
+                                                :rules="emailRules"
+                                        ></v-text-field>
+                                    </template>
+                                    <template v-else-if="field.insertType === 'url'">
+                                        <v-text-field
+                                                v-model="newValue[field.value]"
+                                                :label="field.text"
+                                                :counter="1000"
+                                                :rules="urlRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.insertType === 'select'">
@@ -84,6 +177,7 @@
                                             item-text="text"
                                             :label="field.text"
                                             v-model="newValue[field.value]"
+                                            :rules="selectRules"
                                         ></v-autocomplete>
                                     </template>
                                     <template v-else-if="field.insertType === 'switch'">
@@ -99,6 +193,18 @@
                                             name="input-7-4"
                                             :label="field.text"
                                             v-model="newValue[field.value]"
+                                            :counter="3000"
+                                            :rules="descRules"
+                                        ></v-textarea>
+                                    </template>
+                                    <template v-else-if="field.insertType === 'content'">
+                                        <v-textarea
+                                            outlined
+                                            name="input-7-4"
+                                            :label="field.text"
+                                            v-model="newValue[field.value]"
+                                            :counter="9999"
+                                            :rules="contentRules"
                                         ></v-textarea>
                                     </template>
                                     <template v-else-if="field.insertType === 'message'">
@@ -111,6 +217,11 @@
                                         >
                                             {{'메세지선택한당'}}
                                         </v-btn>
+                                        <v-input
+                                            v-model="newValue[field.value]"
+                                            :rules="selectRules"
+                                            style="display: none;"
+                                        />
                                     </template>
                                 </template>
 
@@ -133,7 +244,8 @@
                     <v-btn
                         color="green darken-1"
                         text
-                        @click="okAction"
+                        @click="okConfirm"
+                        :disabled="!valid"
                     >
                         {{ okBtnText }}
                     </v-btn>
@@ -148,16 +260,32 @@
             @cancelAction="hideMessagePop"
             @selectAction="assignMessage"
         />
+
+        <ConfirmDialog
+            :show="confirmShow"
+            :title="'확인'"
+            :content="'저장ㄱ?'"
+            type="C"
+            :yesBtnText="'ㅇㅇ'"
+            :noBtnText="'ㄴㄴ'"
+            :width="500"
+            @yesAction="okAction"
+            @noAction="confirmShow = false"
+        />
     </div>
 </template>
 
 <script>
     import MessagePopup from "@/views/components/Popup/MessagePopup";
+    import ConfirmDialog from "@/views/components/Dialog";
+    import RightTopAlert from "@/views/components/RightTopAlert";
 
     export default {
         name: "SystemPopup",
         components: {
-            MessagePopup
+            MessagePopup,
+            ConfirmDialog,
+            RightTopAlert
         },
         props: {
             show: {
@@ -204,6 +332,16 @@
                 type: Number,
                 default: 500,
                 required: false
+            },
+            validation: {
+                type: Function,
+                default: () => { return true; },
+                required: false
+            },
+            invalidMsg: {
+                type: String,
+                default: '',
+                required: false
             }
         },
         mounted() {
@@ -216,10 +354,27 @@
                 newValue: {},
 
                 valid: false,
+                checkRules: SCRIPT_VALIDATOR.checkRules(),
+                selectRules: SCRIPT_VALIDATOR.selectRules(),
+                ageRules: SCRIPT_VALIDATOR.textRules(3),
+                sortRules: SCRIPT_VALIDATOR.textRules(10),
+                idRules: SCRIPT_VALIDATOR.idRules(),
+                textRules: SCRIPT_VALIDATOR.textRules(200),
+                nameRules: SCRIPT_VALIDATOR.textRules(500),
+                descRules: SCRIPT_VALIDATOR.textRules(3000),
+                contentRules: SCRIPT_VALIDATOR.textRules(9999),
+                emailRules: SCRIPT_VALIDATOR.emailRules(),
+                urlRules: SCRIPT_VALIDATOR.urlRules(),
 
                 messagePopShow: false,
                 messageId: '',
-                messageFieldName: ''
+                messageFieldName: '',
+
+                alertShow: false,
+                alertMsg: '',
+                alertStatus: '',
+
+                confirmShow: false
             };
         },
         watch: {
@@ -263,7 +418,7 @@
                     case 'number':
                         return 0;
                     case 'boolean':
-                        return false;
+                        return true;
                     default:
                         return null;
                 }
@@ -275,9 +430,20 @@
                     this.initializeNewValue();
                 }
             },
-            okAction() {
-                this.$emit('okAction', true);
-                this.setNewValue();
+            async okConfirm() {
+                let validResult = this.validation(this.newValue);
+                if (!validResult) {
+                    this.alertStatus = 'warning';
+                    this.alertMsg = this.invalidMsg;
+                    this.alertShow = true;
+                    return;
+                }
+                this.confirmShow = true;
+            },
+            async okAction() {
+                this.confirmShow = false;
+                await this.$emit('okAction', this.newValue);
+                this.cancelAction();
             },
             cancelAction() {
                 this.$emit('cancelAction', false);
