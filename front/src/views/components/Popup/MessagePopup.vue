@@ -199,12 +199,6 @@
             }
         },
         data() {
-            let idRules = [v => SCRIPT_VALIDATOR.nullCheck(v) || '필수입력사항임다'];
-            let msgRules = idRules;
-            idRules.push(v => (v?.length || 0) <= 20 || '맥스길이초과');
-            msgRules.push(v => (v?.length || 0) <= 200 || '맥스길이초과');
-
-
             return {
                 thisShow: false,
 
@@ -227,8 +221,8 @@
                 ],
                 listSelected: [],
                 valid: false,
-                idRules: idRules,
-                msgRules: msgRules,
+                idRules: SCRIPT_VALIDATOR.textRules(20),
+                msgRules: SCRIPT_VALIDATOR.textRules(200),
 
                 blockAdd: true,
                 textEdit: false,
