@@ -2,6 +2,7 @@ package com.back.odor.menu.system.codemgmt.controller;
 
 import com.back.odor.menu.system.codemgmt.service.CodeMgmtService;
 import com.back.odor.menu.system.codemgmt.vo.CodeGroupVO;
+import com.back.odor.menu.system.codemgmt.vo.CodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,34 @@ public class CodeMgmtController {
     @PatchMapping("deleteCodeGroup/system")
     public ResponseEntity deleteCodeGroup(@RequestBody CodeGroupVO vo) {
         codeMgmtService.deleteCodeGroup(vo);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @PostMapping("getCodeListSystem/system")
+    public ResponseEntity<List<CodeVO>> getCodeListSystem(@RequestBody CodeVO vo) {
+        return ResponseEntity.ok(codeMgmtService.getCodeListSystem(vo));
+    }
+
+    @PostMapping("checkDetailDuplication/system")
+    public ResponseEntity<Integer> checkDetailDuplication(@RequestParam CodeVO vo) {
+        return ResponseEntity.ok(codeMgmtService.checkDetailDuplication(vo));
+    }
+
+    @PutMapping("insertCode/system")
+    public ResponseEntity insertCode(@RequestBody CodeVO vo) {
+        codeMgmtService.insertCode(vo);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @PatchMapping("updateCode/system")
+    public ResponseEntity updateCode(@RequestBody CodeVO vo) {
+        codeMgmtService.updateCode(vo);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @PatchMapping("deleteCode/system")
+    public ResponseEntity deleteCode(@RequestBody CodeVO vo) {
+        codeMgmtService.deleteCode(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 

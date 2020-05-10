@@ -10,21 +10,29 @@
         <v-form id="search">
             <v-row>
                 <v-col>
-                    <v-autocomplete
-                        :items="searchCombos.codeGroupId"
-                        color="white"
-                        label="Code Group ID"
-                        v-model="searchKeys.codeGroupId"
-                    ></v-autocomplete>
+                    <v-text-field
+                        v-model="searchCombos.codeGroupId"
+                        :label="'Code Group ID'"
+                        readonly
+                    ></v-text-field>
                 </v-col>
                 <v-col>
+                    <v-text-field
+                        v-model="searchCombos.codeGroupName"
+                        :label="'Code Group Name'"
+                        readonly
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
                     <v-autocomplete
-                        :items="searchCombos.codeGroupName"
+                        :items="searchCombos.codeName"
                         color="white"
-                        item-value="codeGroupId"
-                        item-text="codeGroupName"
-                        label="Code Group Name"
-                        v-model="searchKeys.codeGroupName"
+                        item-value="codeId"
+                        item-text="codeName"
+                        label="Code Name"
+                        v-model="searchKeys.codeName"
                     ></v-autocomplete>
                 </v-col>
                 <v-col>
@@ -38,7 +46,7 @@
                 </v-col>
             </v-row>
             <SystemBtn
-                @search="getCodeGroupList"
+                @search="getCodeList"
                 @add="addConfirm"
                 @update="updateConfirm"
                 @delete="deleteConfirm"
@@ -46,12 +54,12 @@
         </v-form>
         <v-data-table
             :headers="headers"
-            :items="codeGroupList"
-            item-key="codeGroupId"
-            v-model="selectedCodeGroup"
+            :items="codeList"
+            item-key="codeId"
+            v-model="selectedCode"
             show-select
             single-select
-            @click:row="selectedCodeGroup = [$event]"
+            @click:row="selectedCode = [$event]"
         >
             <template slot="items" slot-scope="props">
                 <tr >
@@ -61,12 +69,12 @@
                             hide-details
                         ></v-checkbox>
                     </td>
-                    <td>{{ props.item.codeGroupId }}</td>
-                    <td>{{ props.item.codeGroupMessage }}</td>
-                    <td>{{ props.item.codeGroupName }}</td>
+                    <td>{{ props.item.codeId }}</td>
+                    <td>{{ props.item.codeMessage }}</td>
+                    <td>{{ props.item.codeName }}</td>
                     <td>{{ props.item.useYn }}</td>
                     <td>{{ props.item.updaterName }}</td>
-                    <td>{{ props.item.updateDate }}</td>
+                    <td>{{ props.item.updateDtTime }}</td>
                 </tr>
             </template>
         </v-data-table>
@@ -86,13 +94,13 @@
         <UpdatePopup
             ref="updatePopup"
             :show="updatePopShow"
-            :title="'코드그룹수정'"
+            :title="'코드수정'"
             :update="true"
             :okBtnText="'ㄱㄱ'"
             :cancelBtnText="'ㄴㄴ'"
             :width="1000"
             :fields="headers"
-            :values="selectedCodeGroup[0]"
+            :values="selectedCode[0]"
             @okAction="updateItem"
             @cancelAction="updatePopShow = false"
         />
@@ -100,7 +108,7 @@
         <InsertPopup
             ref="insertPopup"
             :show="insertPopShow"
-            :title="'코드그룹생성'"
+            :title="'코드생성'"
             :okBtnText="'ㄱㄱ'"
             :cancelBtnText="'ㄴㄴ'"
             :width="1000"
@@ -131,38 +139,38 @@
             RightTopAlert
         },
         mounted() {
-            this.getCodeGroupList();
+            this.getCodeList();
         },
         data() {
-            let codeGroupIdList = CODE.getCodeListAll().map(v => v.codeGroupId);
+            let codeIdList = CODE.getCodeListAll().map(v => v.codeId);
 
             return {
                 searchKeys: {
                     codeGroupId: '',
                     codeGroupName: '',
+                    codeId: '',
+                    codeName: '',
                     useYn: true
                 },
                 searchCombos: {
-                    codeGroupId: [''].concat(COMMON_UTIL.removeArrDuplicate(codeGroupIdList)),
-                    codeGroupName: [],
+                    codeId: [''].concat(COMMON_UTIL.removeArrDuplicate(codeIdList)),
+                    codeName: [],
                     useYn: CODE.getCodeList('USE_YN')
                 },
 
 
                 headers: [
                     {
-                        text: 'Code Group ID',
-                        value: 'codeGroupId',
+                        text: 'Code ID',
+                        value: 'codeId',
                         width: '180px',
                         type: 'string',
                         updateType: 'disabled',
                         insertType: 'id'
-                        // fixed: true
-                        // sortable: false
                     },
                     {
-                        text: 'Code Group Message',
-                        value: 'codeGroupMessage',
+                        text: 'Code Message',
+                        value: 'codeMessage',
                         width: '180px',
                         type: 'string',
                         updateType: 'message',
@@ -174,8 +182,8 @@
                         width: '*'
                     },
                     {
-                        text: 'Code Group Name',
-                        value: 'codeGroupName',
+                        text: 'Code Name',
+                        value: 'codeName',
                         width: '190px',
                         type: 'string',
                         updateType: 'text',
@@ -200,8 +208,8 @@
                         width: '150px'
                     }
                 ],
-                codeGroupList: [],
-                selectedCodeGroup: [],
+                codeList: [],
+                selectedCode: [],
 
 
                 confirmShow: false,
@@ -214,40 +222,40 @@
             };
         },
         methods: {
-            getCodeGroupList() {
-                this.selectedCodeGroup = [];
+            getCodeList() {
+                this.selectedCode = [];
 
                 axios.post(
-                    API.CodeMgmtController.getCodeGroupList,
+                    API.CodeMgmtController.getCodeListSystem,
                     this.searchKeys
                 ).then(res => {
-                    this.codeGroupList = res.data;
-                    this.searchCombos.codeGroupName = [{
-                        codeGroupId: '',
-                        codeGroupName: 'All'
+                    this.codeList = res.data;
+                    this.searchCombos.codeName = [{
+                        codeId: '',
+                        codeName: 'All'
                     }].concat(
-                        this.codeGroupList.map(v => ({
-                            codeGroupId: v.codeGroupId,
-                            codeGroupName: v.codeGroupName
+                        this.codeList.map(v => ({
+                            codeId: v.codeId,
+                            codeName: v.codeName
                         })
                     ));
                 });
             },
             updateConfirm() {
-                this.updatePopShow = this.selectedCodeGroup.length !== 0;
+                this.updatePopShow = this.selectedCode.length !== 0;
             },
             deleteConfirm() {
-                this.confirmShow = this.selectedCodeGroup.length !== 0;
+                this.confirmShow = this.selectedCode.length !== 0;
             },
             deleteItem() {
                 axios.patch(
-                    API.CodeMgmtController.deleteCodeGroup,
-                    this.selectedCodeGroup[0]
+                    API.CodeMgmtController.deleteCode,
+                    this.selectedCode[0]
                 )
                 .then(res => {
                     this.confirmShow = false;
                     this.doneAlert(res.data);
-                    this.getCodeGroupList();
+                    this.getCodeList();
                 });
             },
             addConfirm() {
@@ -257,13 +265,8 @@
                 let result = true;
 
                 await axios.post(
-                    API.CodeMgmtController.checkDuplication,
-                    null,
-                    {
-                        params: {
-                            codeGroupId: data.codeGroupId
-                        }
-                    }
+                    API.CodeMgmtController.checkDetailDuplication,
+                    data
                 )
                 .then(res => {
                     result = res.data === 0;
@@ -271,17 +274,17 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.CodeMgmtController.insertCodeGroup, data)
+                axios.put(API.CodeMgmtController.insertCode, data)
                 .then(res => {
                     this.doneAlert(res.data);
-                    this.getCodeGroupList();
+                    this.getCodeList();
                 });
             },
             updateItem(data) {
-                axios.patch(API.CodeMgmtController.updateCodeGroup, data)
+                axios.patch(API.CodeMgmtController.updateCode, data)
                 .then(res => {
                     this.doneAlert(res.data);
-                    this.getCodeGroupList();
+                    this.getCodeList();
                 });
             },
             doneAlert(type) {

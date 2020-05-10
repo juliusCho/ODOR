@@ -10,11 +10,15 @@ public interface CodeMgmtServiceSpec {
     List<CodeVO> getCodeList();
 
     List<CodeGroupVO> getCodeGroupList(CodeGroupVO vo);
-
     Integer checkDuplication(String codeGroupId);
-
     void insertCodeGroup(CodeGroupVO vo);
     void updateCodeGroup(CodeGroupVO vo);
     void deleteCodeGroup(CodeGroupVO vo);
+
+    List<CodeVO> getCodeListSystem(CodeVO vo);
+    Integer checkDetailDuplication(CodeVO vo);
+    void insertCode(CodeVO vo);
+    void updateCode(CodeVO vo);
+    void deleteCode(CodeVO vo);
 
 }

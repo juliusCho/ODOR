@@ -28,22 +28,22 @@
              , (
                     SELECT U.NICKNAME
                       FROM USER U
-                     WHERE U.USER_ID = G.UPDATER_ID
-                       AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
+                     WHERE U.USER_ID        = G.UPDATER_ID
+                       AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
                )                                                AS UPDATER_NAME
           FROM CODE_GROUP G
          INNER
           JOIN COUNTRY_MESSAGE C
-            ON C.MESSAGE_ID = G.CODE_GROUP_MESSAGE
-           AND C.COUNTRY_CODE = #{vo.countryCode}
+            ON C.MESSAGE_ID     = G.CODE_GROUP_MESSAGE
+           AND C.COUNTRY_CODE   = #{vo.countryCode}
         <where>
             <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
                 AND G.CODE_GROUP_ID = #{vo.codeGroupId}
             </if>
             <if test="vo.codeGroupName != '' and vo.codeGroupName != null">
                 AND (
-                           G.CODE_GROUP_NAME LIKE CONCAT('%', #{vo.codeGroupName}, '%')
-                        OR C.MESSAGE LIKE CONCAT('%', #{vo.codeGroupName}, '%')
+                           G.CODE_GROUP_NAME    LIKE CONCAT('%', #{vo.codeGroupName}, '%')
+                        OR C.MESSAGE            LIKE CONCAT('%', #{vo.codeGroupName}, '%')
                     )
             </if>
             AND G.USE_YN = #{vo.useYn}
@@ -75,7 +75,7 @@
                     UPPER(#{vo.codeGroupId}),
                     #{vo.codeGroupMessage},
                     #{vo.codeGroupName},
-                    #{vo.useYn},
+                    1,
                     #{vo.creatorId},
                     UTC_TIMESTAMP(),
                     #{vo.updaterId},
@@ -97,10 +97,101 @@
     <update id="deleteCodeGroup">
         /* 코드그룹 삭제 */
         UPDATE CODE_GROUP
-           SET USE_YN               = 0
+           SET USE_YN      = 0
+             , UPDATER_ID  = #{vo.updaterId}
+             , UPDATE_DATE = UTC_TIMESTAMP()
+         WHERE CODE_GROUP_ID = UPPER(#{vo.codeGroupId})
+    </update>
+
+    <select id="getCodeListSystem" resultType="CodeVO">
+        /* 공통코드 목록 조회 */
+        SELECT C.*
+             , CM.MESSAGE                                       AS LOCALE_MESSAGE
+             , (
+                   SELECT U.NICKNAME
+                     FROM USER U
+                    WHERE U.USER_ID     = C.UPDATER_ID
+                      AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
+               )                                                AS UPDATER_NAME
+          FROM CODE C
+         INNER
+          JOIN COUNTRY_MESSAGE CM
+            ON CM.MESSAGE_ID    = C.CODE_MESSAGE
+           AND CM.COUNTRY_CODE  = #{vo.countryCode}
+        <where>
+            <if test="vo.codeId != '' and vo.codeId != null">
+                AND C.CODE_ID = #{vo.codeId}
+            </if>
+            <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
+                AND C.CODE_GROUP_ID = #{vo.codeGroupId}
+            </if>
+            <if test="vo.codeName != '' and vo.codeName != null">
+                AND (
+                       C.CODE_NAME   LIKE CONCAT('%', #{vo.codeName}, '%')
+                    OR CM.MESSAGE    LIKE CONCAT('%', #{vo.codeName}, '%')
+                )
+            </if>
+            AND C.USE_YN = #{vo.useYn}
+        </where>
+    </select>
+
+    <select id="checkDetailDuplication" resultType="Integer">
+        /* 코드 중복체크 */
+        SELECT COUNT(1)
+          FROM CODE
+         WHERE CODE_GROUP_ID    = #{vo.codeGroupId}
+           AND CODE_ID          = UPPER(#{vo.codeId})
+    </select>
+
+    <insert id="insertCode">
+        /* 코드 신규 생성 */
+        INSERT
+          INTO CODE
+               (
+                    CODE_ID,
+                    CODE_GROUP_ID,
+                    CODE_MESSAGE,
+                    CODE_NAME,
+                    USE_YN,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    UPPER(#{vo.codeId}),
+                    #{vo.codeGroupId},
+                    #{vo.codeMessage},
+                    #{vo.codeName},
+                    1,
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <update id="updateCode">
+        /* 코드 수정 */
+        UPDATE CODE
+           SET CODE_MESSAGE         = #{vo.codeGroupMessage}
+             , CODE_NAME            = #{vo.codeGroupName}
+             , CODE_GROUP_ID        = #{vo.codeGroupId}
+             , USE_YN               = #{vo.useYn}
              , UPDATER_ID           = #{vo.updaterId}
              , UPDATE_DATE          = UTC_TIMESTAMP()
-         WHERE CODE_GROUP_ID = UPPER(#{vo.codeGroupId})
+         WHERE CODE_GROUP_ID    = #{vo.codeGroupId}
+           AND CODE_ID          = UPPER(#{vo.codeId})
+    </update>
+
+    <update id="deleteCode">
+        /* 코드 삭제 */
+        UPDATE CODE
+           SET USE_YN      = 0
+             , UPDATER_ID  = #{vo.updaterId}
+             , UPDATE_DATE = UTC_TIMESTAMP()
+         WHERE CODE_GROUP_ID    = #{vo.codeGroupId}
+           AND CODE_ID          = UPPER(#{vo.codeId})
     </update>
 
 </mapper>

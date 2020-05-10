@@ -28,7 +28,12 @@ const API = class {
         checkDuplication: 'odor/code/checkDuplication/system',
         insertCodeGroup: 'odor/code/insertCodeGroup/system',
         updateCodeGroup: 'odor/code/updateCodeGroup/system',
-        deleteCodeGroup: 'odor/code/deleteCodeGroup/system'
+        deleteCodeGroup: 'odor/code/deleteCodeGroup/system',
+        getCodeListSystem: 'odor/code/getCodeListSystem/system',
+        checkDetailDuplication: 'odor/code/checkDetailDuplication/system',
+        insertCode: 'odor/code/insertCode/system',
+        updateCode: 'odor/code/updateCode/system',
+        deleteCode: 'odor/code/deleteCode/system'
     };
 
     static MessageMgmtController = {

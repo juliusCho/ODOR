@@ -51,7 +51,7 @@
             v-model="selectedCodeGroup"
             show-select
             single-select
-            @click:row="goTo('CodeDetailMgmt')"
+            @click:row="goTo('CodeDetailMgmt', $event)"
         >
             <template slot="items" slot-scope="props">
                 <tr >
@@ -66,7 +66,7 @@
                     <td>{{ props.item.codeGroupName }}</td>
                     <td>{{ props.item.useYn }}</td>
                     <td>{{ props.item.updaterName }}</td>
-                    <td>{{ props.item.updateDate }}</td>
+                    <td>{{ props.item.updateDtTime }}</td>
                 </tr>
             </template>
         </v-data-table>
@@ -186,8 +186,7 @@
                         value: 'useYn',
                         width: '100px',
                         type: 'boolean',
-                        updateType: 'switch',
-                        insertType: 'switch'
+                        updateType: 'switch'
                     },
                     {
                         text: 'Updater',
@@ -294,8 +293,8 @@
                 }
                 this.alertShow = true;
             },
-            goTo(page) {
-                this.$emit('goTo', page);
+            goTo(page, data) {
+                this.$emit('goTo', page, data);
             }
         }
     }

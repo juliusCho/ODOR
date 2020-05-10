@@ -29,10 +29,10 @@
         </template>
         <template v-else>
             <SessionCheck
-                    :page="routing"
-                    @checkSession="checkSession"
-                    @goTo="goTo"
-                    :key="routing"
+                :page="routing"
+                @checkSession="checkSession"
+                @goTo="goTo"
+                :key="routing"
             />
         </template>
     </v-content>
@@ -97,6 +97,7 @@
                     this.$emit('goTo', 'Home');
                     return;
                 }
+
                 if (this.checkRest()) {
                     this.$emit('goTo', page);
                     let parent = this.getParent('App');
