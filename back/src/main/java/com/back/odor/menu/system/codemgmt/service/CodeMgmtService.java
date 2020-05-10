@@ -27,4 +27,24 @@ public class CodeMgmtService implements CodeMgmtServiceSpec {
         return codeMgmtMapper.getCodeGroupList(vo);
     }
 
+    @Override
+    public Integer checkDuplication(String codeGroupId) {
+        return codeMgmtMapper.checkDuplication(codeGroupId);
+    }
+
+    @Override
+    public void insertCodeGroup(CodeGroupVO vo) {
+        codeMgmtMapper.insertCodeGroup(vo);
+    }
+
+    @Override
+    public void updateCodeGroup(CodeGroupVO vo) {
+        codeMgmtMapper.updateCodeGroup(vo);
+    }
+
+    @Override
+    public void deleteCodeGroup(CodeGroupVO vo) {
+        codeMgmtMapper.deleteCodeGroup(vo);
+    }
+
 }

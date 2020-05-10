@@ -24,7 +24,11 @@ const API = class {
     };
 
     static CodeMgmtController = {
-        getCodeGroupList: 'odor/code/getCodeGroupList/system'
+        getCodeGroupList: 'odor/code/getCodeGroupList/system',
+        checkDuplication: 'odor/code/checkDuplication/system',
+        insertCodeGroup: 'odor/code/insertCodeGroup/system',
+        updateCodeGroup: 'odor/code/updateCodeGroup/system',
+        deleteCodeGroup: 'odor/code/deleteCodeGroup/system'
     };
 
     static MessageMgmtController = {

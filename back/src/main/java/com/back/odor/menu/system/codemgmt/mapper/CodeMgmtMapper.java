@@ -14,4 +14,10 @@ public interface CodeMgmtMapper {
 
     List<CodeGroupVO> getCodeGroupList(@Param("vo") CodeGroupVO vo);
 
+    Integer checkDuplication(@Param("codeGroupId") String codeGroupId);
+
+    void insertCodeGroup(@Param("vo") CodeGroupVO vo);
+    void updateCodeGroup(@Param("vo") CodeGroupVO vo);
+    void deleteCodeGroup(@Param("vo") CodeGroupVO vo);
+
 }

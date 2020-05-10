@@ -146,6 +146,7 @@
                 {params:{locale}}
         ).then(() => {
           this.$i18n.locale = locale;
+          SCRIPT_VALIDATOR.locale = locale;
           this.setMessageList();
         });
       },

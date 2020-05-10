@@ -59,6 +59,7 @@
                             show-select
                             single-select
                             height="250px"
+                            @click:row="listSelected = [$event]"
                         >
                             <template slot="items" slot-scope="props">
                                 <tr >
