@@ -27,9 +27,18 @@ public class GlobalConst {
     ;
 
     public static final String[] SYSTEM_MENU = {
-        "BrandMgmt", "CodeMgmt", "CountryMgmt", "CreatorMgmt",
-        "ForumMgmt", "IngredientMgmt", "MembershipMgmt",
-        "ProductMgmt", "ProductTypeMgmt", "RatingItemMgmt", "UserMgmt"
+        "MessageMgmt",
+        "CountryMgmt",
+        "CodeMgmt",
+        "MembershipMgmt",
+        "UserMgmt",
+        "ForumMgmt",
+        "BrandMgmt",
+        "CreatorMgmt",
+        "ProductTypeMgmt",
+        "ProductMgmt",
+        "IngredientMgmt",
+        "RatingItemMgmt"
     };
 
     public static final String[] LOCALE_LIST = {

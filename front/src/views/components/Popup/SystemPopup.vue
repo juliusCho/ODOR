@@ -13,7 +13,7 @@
                     {{ title }}
                 </v-card-title>
                 <v-card-text>
-                    <v-form>
+                    <v-form v-model="valid">
                         <v-col>
                             <v-row v-for="field in fields" :key="field.value">
 
@@ -214,6 +214,8 @@
             return {
                 thisShow: false,
                 newValue: {},
+
+                valid: false,
 
                 messagePopShow: false,
                 messageId: '',
