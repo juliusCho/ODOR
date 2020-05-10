@@ -6,12 +6,6 @@
             :show-time="2500"
             @hideDisplay="hideAlert"
         />
-<!--        <v-btn @click="logout">Logout</v-btn>-->
-<!--        <v-btn @click="myPage">myPage</v-btn>-->
-<!--        <div>-->
-<!--            {{tmpSession.nickname}}-->
-<!--        </div>-->
-
         <v-layout column style="margin-top:80px;">
            <v-flex>
                <v-layout row>
@@ -20,47 +14,26 @@
                         <p class="display-1 font-weight-light">My Page</p>
                    </v-row>
                     <!-- Avatar Changer -->
-<!--                    <v-container grid-list-xl>-->
-<!--                        <v-row justify="center" align="center">-->
-<!--                        <image-input v-model="avatar">-->
-<!--                            <div slot="activator">-->
-<!--                                <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">-->
-<!--                                    <span>Click to add avatar</span>-->
-<!--                                </v-avatar>-->
-<!--                                <v-avatar size="150px" v-ripple v-else class="mb-3">-->
-<!--                                    <img :src="avatar.imageURL" alt="avatar">-->
-<!--                                </v-avatar>-->
-<!--                            </div>-->
-<!--                        </image-input>-->
-<!--                        <v-slide-x-transition>-->
-<!--                            <div v-if="avatar && saved == false">-->
-<!--                                <v-btn class="primary" @click="uploadImage" :loading="saving">Save Avatar</v-btn>-->
-<!--                            </div>-->
-<!--                        </v-slide-x-transition>-->
-<!--                        </v-row>-->
-<!--                    </v-container>-->
-                    <!-- 상위 컴포넌트가 파일 체인저를 활성화하기 위한 슬롯 -->
-                    <div @click="launchFilePicker()">
-                        <slot name="activator"></slot>
-                    </div>
-                    <!-- Image Input : style is set to hidden and
-                    assigned a ref so that it can be triggered : 누르면 파일선택하는거  -->
-                    <input type="file" ref="file"
-                           :name="uploadFieldName"
-                           @change="onFileChange($event.target.name, $event.target.files)"
-                           style="display:none">
-
-                    <!-- error dialog -->
-                    <v-dialog v-model="errorDialog" max-width="300">
-                        <v-card>
-                            <v-card-text class="subheading">{{errorText}}</v-card-text>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn @click="errorDialog = false" flat>Got It!</v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
-                    <!-- -->
+                    <v-container grid-list-xl>
+                        <v-row justify="center" align="center">
+                        <image-input v-model="avatar">
+                            <div slot="activator">
+                                <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
+                                    <span>Click to add avatar</span>
+                                </v-avatar>
+                                <v-avatar size="150px" v-ripple v-else class="mb-3">
+                                    <img :src="avatar.imageURL" alt="avatar">
+                                </v-avatar>
+                            </div>
+                        </image-input>
+                        <v-slide-x-transition>
+                            <div v-if="avatar && saved == false">
+                                <v-btn class="primary" @click="uploadImage" :loading="saving">Save Avatar</v-btn>
+                            </div>
+                        </v-slide-x-transition>
+                        </v-row>
+                    </v-container>
+                    <ImageInput />
                     <v-row justify="center" align="center">
                         <p class="subtitle-1 font-weight-light">회원등급</p>
                         <p style="padding-left: 5px" class="subtitle-1 font-weight-regular">{{tmpSession.membershipName}}</p>
@@ -80,6 +53,7 @@
                        <v-text-field
                                v-model="tmpSession.userId"
                                :counter="10"
+                               :rules="idRules"
                                label="ID"
                                solo
                                required
@@ -150,10 +124,11 @@
 <script>
     import axios from 'axios';
     import RightTopAlert from "../../components/RightTopAlert";
+    import ImageInput from "../../components/ImageInput";
 
     export default {
         name: "MyPage",
-        components: {RightTopAlert},
+        components: {ImageInput, RightTopAlert},
         data() {
             return {
                 tmpSession: {},
@@ -167,15 +142,19 @@
                 selectedEmail: {emailAdd:'@gmail.com'},
                 genderCode1: 'M',
                 genderCode2: 'F',
-                errorDialog: null,
-                errorText: '',
-                uploadFieldName: 'file',
-                maxSize: 1024
+                avatar: null,
+                saving: false,
+                saved: false,
+                idRules: SCRIPT_VALIDATOR.emailRules()
             };
         },
-        props: {
-            // Use "value" here to enable compatibility with v-model
-            value: Object,
+        watch: {
+            avatar: {
+                handler: function() {
+                    this.saved = false
+                },
+                deep: true
+            }
         },
         mounted() {
             this.checkSession();
@@ -212,34 +191,16 @@
             hideAlert() {
                 this.alertShow = false;
             },
-            launchFilePicker(){
-                this.$refs.file.click();
+            uploadImage() {
+                this.saving = true;
+                setTimeout(() => this.savedAvatar(), 1000);
             },
-            onFileChange(fieldName, file){
-                const { maxSize } = this
-                let imageFile = file[0]
+            savedAvatar() {
+                this.saving = false;
+                this.saved = true;
+            },
+            updateUser() {
 
-                // check if user actually selected a file
-                if (file.length > 0){
-                    let size = imageFile.size / maxSize / maxSize
-                    if (!imageFile.type.match('image.*')) {
-                        // check whether the upload is an image
-                        this.errorDialog = true
-                        this.errorText = 'Please choose an image file'
-                    } else if (size > 1) {
-                        // check whether the size is greater than the size limit
-                        this.errorDialog = true
-                        this.errorText = 'Your file is too Big! Please select an image under 1MB'
-                    } else {
-                        // Append file into FormData & turn file into image URL
-                        let formData = new FormData()
-                        let imageURL = URL.createObjectURL(imageFile)
-                        formData.append(fieldName, imageFile)
-
-                        // Emit FormData & image URL to the parent component
-                        this.$emit('input', { formData, imageURL })
-                    }
-                }
             }
         }
     }

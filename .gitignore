@@ -48,3 +48,4 @@ src/main/resources/templates/
 src/test/java/com/back/odor/common/filters/
 src/test/java/com/back/odor/common/session/mapper/
 src/test/java/com/back/odor/menu/
+/front/package-lock.json
