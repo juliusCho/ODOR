@@ -145,7 +145,7 @@
                 avatar: null,
                 saving: false,
                 saved: false,
-                idRules: SCRIPT_VALIDATOR.emailRules()
+                idRules: SCRIPT_VALIDATOR.idRules()
             };
         },
         watch: {
