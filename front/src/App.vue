@@ -134,7 +134,7 @@
         categoryId: '',
         forum: [],
         system: []
-      }
+      };
     },
     methods: {
       // Set System Language

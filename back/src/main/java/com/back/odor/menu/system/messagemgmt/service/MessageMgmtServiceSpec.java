@@ -8,4 +8,8 @@ public interface MessageMgmtServiceSpec {
 
     List<MessageVO> getMessageList();
 
+    List<MessageVO> getMessageList(MessageVO vo);
+
+    void insertMessage(List<MessageVO> list);
+
 }

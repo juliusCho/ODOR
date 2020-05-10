@@ -56,7 +56,7 @@
                     genderCode: '',
                     age: 0
                 }
-            }
+            };
         },
         methods: {
             hideAlert() {

@@ -183,7 +183,7 @@
                     },
                     {
                         text: 'Update Date',
-                        value: 'updateDate',
+                        value: 'updateDtTime',
                         width: '150px'
                     }
                 ],
@@ -194,7 +194,7 @@
                 confirmShow: false,
                 updatePopShow: false,
                 insertPopShow: false
-            }
+            };
         },
         methods: {
             getCodeGroupList() {

@@ -11,4 +11,9 @@ public interface MessageMgmtMapper {
 
     List<MessageVO> getMessageList(@Param("locale") String locale);
 
+    List<MessageVO> getMessageListSearch(@Param("vo") MessageVO vo);
+
+    void insertMessageGroup(@Param("vo") MessageVO vo);
+    void insertMessage(@Param("vo") MessageVO vo);
+
 }

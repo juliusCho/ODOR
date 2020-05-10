@@ -20,4 +20,18 @@ public class MessageMgmtService implements MessageMgmtServiceSpec {
     public List<MessageVO> getMessageList() {
         return messageMgmtMapper.getMessageList(LocaleUtil.getLocale());
     }
+
+    @Override
+    public List<MessageVO> getMessageList(MessageVO vo) {
+        return messageMgmtMapper.getMessageListSearch(vo);
+    }
+
+    @Override
+    public void insertMessage(List<MessageVO> list) {
+        messageMgmtMapper.insertMessageGroup(list.get(0));
+
+        for (MessageVO vo : list) {
+            messageMgmtMapper.insertMessage(vo);
+        }
+    }
 }

@@ -1,12 +1,16 @@
 package com.back.odor.common.utils.vo;
 
 import com.back.odor.common.etc.GlobalConst;
+import com.back.odor.common.utils.AuthUtil;
+import com.back.odor.common.utils.DateUtil;
 import com.back.odor.common.utils.LocaleUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.Date;
 
 @ToString
 public class CommonVO implements Serializable {
@@ -20,24 +24,42 @@ public class CommonVO implements Serializable {
 
     @Setter
     private String creatorId;
-
     @Getter
+    @Setter
     private String creatorName;
-
-    @Getter
-    private String createDate;
-
     @Setter
     private String updaterId;
-
     @Getter
+    @Setter
     private String updaterName;
 
-    @Getter
-    private String updateDate;
+    @Setter
+    private Date createDate;
+    private String createDt;
+    private String createDtTime;
+    @Setter
+    private Date updateDate;
+    private String updateDt;
+    private String updateDtTime;
 
     @Getter
     private boolean useYn;
+
+    @Setter
+    private String countryCode;
+
+    @Getter
+    @Setter
+    private String localeMessage;
+    @Getter
+    @Setter
+    private String koMessage;
+    @Getter
+    @Setter
+    private String engMessage;
+
+
+
 
     public void setUseYn(Object useYn) {
         if (useYn instanceof Boolean) {
@@ -49,44 +71,48 @@ public class CommonVO implements Serializable {
         }
     }
 
-
-
-    private String countryCode = LocaleUtil.getLocale();
-
     public String getCountryCode() {
         return LocaleUtil.getLocale();
     }
 
-
-    @Getter
-    @Setter
-    private String localeMessage;
-
-    @Getter
-    @Setter
-    private String koMessage;
-
-    @Getter
-    @Setter
-    private String engMessage;
-
-
-
     public String getCreatorId() {
-
-        return null;
+        return AuthUtil.getCurrentUserId();
     }
 
     public String getUpdaterId() {
-        return null;
+        return AuthUtil.getCurrentUserId();
     }
 
-    public void setCreateDate() {
-
+    public String getCreateDt() {
+        try {
+            return DateUtil.getLocalDate(this.createDate);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
-    public void setUpdateDate() {
+    public String getCreateDtTime() {
+        try {
+            return DateUtil.getLocalDateTime(this.createDate);
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
+    public String getUpdateDt() {
+        try {
+            return DateUtil.getLocalDate(this.updateDate);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public String getUpdateDtTime() {
+        try {
+            return DateUtil.getLocalDateTime(this.updateDate);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
 }

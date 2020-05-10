@@ -103,7 +103,7 @@
                     }
                 ],
                 rowData: []
-            }
+            };
         },
         methods: {
             save() {

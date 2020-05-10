@@ -27,4 +27,9 @@ const API = class {
         getCodeGroupList: 'odor/code/getCodeGroupList/system'
     };
 
+    static MessageMgmtController = {
+        getMessageList: 'odor/msg/getMessageList/system',
+        insertMessage: 'odor/msg/insertMessage/system'
+    };
+
 };

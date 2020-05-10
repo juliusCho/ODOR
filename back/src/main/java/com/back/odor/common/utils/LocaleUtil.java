@@ -8,14 +8,14 @@ public class LocaleUtil {
 
     public static void setLocale(String locale) {
         if (GlobalConst.LOCALE_LIST[0].equals(locale)) {
-            LocaleUtil.currentLocale = locale;
+            currentLocale = locale;
         } else {
-            LocaleUtil.currentLocale = GlobalConst.LOCALE_LIST[1];
+            currentLocale = GlobalConst.LOCALE_LIST[1];
         }
     }
 
     public static String getLocale() {
-        return LocaleUtil.currentLocale;
+        return currentLocale;
     }
 
 }
