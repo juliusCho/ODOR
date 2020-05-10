@@ -222,7 +222,7 @@
                 ],
                 listSelected: [],
                 valid: false,
-                idRules: SCRIPT_VALIDATOR.textRules(20),
+                idRules: SCRIPT_VALIDATOR.idRules(),
                 msgRules: SCRIPT_VALIDATOR.textRules(200),
 
                 blockAdd: true,

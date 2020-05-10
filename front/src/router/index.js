@@ -17,6 +17,7 @@ import Perfume from '@/views/menu/perfume/Perfume';
 
 import BrandMgmt from '@/views/menu/system/BrandMgmt';
 import CodeMgmt from '@/views/menu/system/CodeMgmt';
+import CodeDetailMgmt from '@/views/menu/system/CodeDetailMgmt';
 import CountryMgmt from '@/views/menu/system/CountryMgmt';
 import CreatorMgmt from '@/views/menu/system/CreatorMgmt';
 import ForumMgmt from '@/views/menu/system/ForumMgmt';
@@ -93,6 +94,11 @@ const routes = [
     path: '/CodeMgmt',
     name: 'CodeMgmt',
     component: CodeMgmt
+  },
+  {
+    path: '/CodeDetailMgmt',
+    name: 'CodeDetailMgmt',
+    component: CodeDetailMgmt
   },
   {
     path: '/CountryMgmt',

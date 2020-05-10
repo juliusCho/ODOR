@@ -6,6 +6,9 @@
         <template v-else-if="page === 'CodeMgmt'">
             <CodeMgmt :key="page" @goTo="goTo"/>
         </template>
+        <template v-else-if="page === 'CodeDetailMgmt'">
+            <CodeDetailMgmt :key="page" @goTo="goTo"/>
+        </template>
         <template v-else-if="page === 'CountryMgmt'">
             <CountryMgmt :key="page"/>
         </template>
@@ -39,6 +42,7 @@
 <script>
     import BrandMgmt from '@/views/menu/system/BrandMgmt';
     import CodeMgmt from '@/views/menu/system/CodeMgmt';
+    import CodeDetailMgmt from '@/views/menu/system/CodeDetailMgmt';
     import CountryMgmt from '@/views/menu/system/CountryMgmt';
     import CreatorMgmt from '@/views/menu/system/CreatorMgmt';
     import ForumMgmt from '@/views/menu/system/ForumMgmt';
@@ -54,6 +58,7 @@
         components: {
             BrandMgmt,
             CodeMgmt,
+            CodeDetailMgmt,
             CountryMgmt,
             CreatorMgmt,
             ForumMgmt,
