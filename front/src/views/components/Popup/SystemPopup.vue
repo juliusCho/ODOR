@@ -107,7 +107,7 @@
                                         </v-chip>
                                         <v-btn
                                                 color="primary"
-                                                @click="selectMessage('', field.value)"
+                                                @click="selectMessage(newValue[field.value], field.value)"
                                         >
                                             {{'메세지선택한당'}}
                                         </v-btn>
@@ -145,7 +145,7 @@
             :show="messagePopShow"
             :width="900"
             :messageId="messageId"
-            @cancelAction="messagePopShow = false"
+            @cancelAction="hideMessagePop"
             @selectAction="assignMessage"
         />
     </div>
@@ -212,12 +212,13 @@
         },
         data() {
             return {
+                thisShow: false,
                 newValue: {},
 
                 messagePopShow: false,
                 messageId: '',
                 messageFieldName: ''
-            }
+            };
         },
         watch: {
             values: {
@@ -225,14 +226,15 @@
                     this.setNewValue();
                 },
                 deep: true
-            }
-        },
-        computed: {
-            thisShow() {
-                return this.show;
+            },
+            show() {
+                this.thisShow = this.show;
             }
         },
         methods: {
+            hideMessagePop() {
+                this.messagePopShow = false;
+            },
             assignMessage(msg) {
                 this.newValue[this.messageFieldName] = msg.messageId;
                 this.newValue.localeMessage = msg.message;

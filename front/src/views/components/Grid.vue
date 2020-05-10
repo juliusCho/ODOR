@@ -106,7 +106,7 @@
             return {
                 sortKey: '',
                 sortOrders: sortOrders
-            }
+            };
         },
         computed: {
             filteredData() {

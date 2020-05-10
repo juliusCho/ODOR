@@ -194,7 +194,7 @@
                 confirmShow: false,
                 updatePopShow: false,
                 insertPopShow: false
-            }
+            };
         },
         methods: {
             getCodeGroupList() {

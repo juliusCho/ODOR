@@ -96,10 +96,20 @@
                 required: false
             }
         },
-        computed: {
-            thisShow() {
-                return this.show;
+        watch: {
+            show() {
+                this.thisShow = this.show;
             }
+        },
+        // computed: {
+        //     thisShow() {
+        //         return this.show;
+        //     }
+        // },
+        data() {
+            return {
+                thisShow: false
+            };
         },
         methods: {
             okAction() {

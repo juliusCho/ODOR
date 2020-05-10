@@ -201,11 +201,13 @@
         data() {
             let idRules = [v => SCRIPT_VALIDATOR.nullCheck(v) || '필수입력사항임다'];
             let msgRules = idRules;
-            idRules.push(v => v.length <= 20 || '맥스길이초과');
-            msgRules.push(v => v.length <= 200 || '맥스길이초과');
+            idRules.push(v => (v?.length || 0) <= 20 || '맥스길이초과');
+            msgRules.push(v => (v?.length || 0) <= 200 || '맥스길이초과');
 
 
             return {
+                thisShow: false,
+
                 searchKeys: {
                     messageId: '', message: ''
                 },
@@ -249,6 +251,9 @@
             this.listSelected.push(this.selected);
         },
         watch: {
+            show() {
+                this.thisShow = this.show;
+            },
             messageId() {
                 this.setSelected();
             },
@@ -268,9 +273,6 @@
             }
         },
         computed: {
-            thisShow() {
-                return this.show;
-            },
             searchMessageList() {
                 return MESSAGE?.getMessageList(true);
             }
@@ -364,7 +366,7 @@
                 this.cancelAction();
             },
             cancelAction() {
-                this.$emit('cancelAction', false);
+                this.$emit('cancelAction');
                 this.reinitialize();
             },
             reinitialize() {
