@@ -345,7 +345,6 @@
             }
         },
         mounted() {
-            this.initializeNewValue();
             this.setNewValue();
         },
         data() {
@@ -410,6 +409,10 @@
                     this.newValue[v.value] = this.returnDefaultVal(v.type);
                 });
                 this.newValue.localeMessage = '';
+
+                if (this.values) {
+                    Object.assign(this.newValue, this.values);
+                }
             },
             returnDefaultVal(type = null) {
                 switch (type) {
@@ -431,7 +434,7 @@
                 }
             },
             async okConfirm() {
-                let validResult = this.validation(this.newValue);
+                let validResult = await this.validation(this.newValue);
                 if (!validResult) {
                     this.alertStatus = 'warning';
                     this.alertMsg = this.invalidMsg;

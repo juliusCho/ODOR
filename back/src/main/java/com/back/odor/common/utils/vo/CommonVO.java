@@ -1,6 +1,5 @@
 package com.back.odor.common.utils.vo;
 
-import com.back.odor.common.etc.GlobalConst;
 import com.back.odor.common.utils.AuthUtil;
 import com.back.odor.common.utils.DateUtil;
 import com.back.odor.common.utils.LocaleUtil;
@@ -8,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -65,9 +63,9 @@ public class CommonVO implements Serializable {
         if (useYn instanceof Boolean) {
             this.useYn = (Boolean) useYn;
         } else if (useYn instanceof Integer) {
-            this.useYn = "1".equals(useYn) ? true : false;
+            this.useYn = Integer.parseInt(String.valueOf(useYn)) == 1;
         } else if (useYn instanceof String) {
-            this.useYn = "1".equals(useYn) || "true".equals(useYn) ? true : false;
+            this.useYn = "1".equals(useYn) || "true".equals(useYn);
         }
     }
 

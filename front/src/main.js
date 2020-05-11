@@ -5,8 +5,45 @@ import router from '@/router'
 import '@/plugins/axios'
 import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
+import axios from 'axios'
 
 Vue.config.productionTip = false;
+
+
+
+export const eventBus = new Vue({
+  data: {
+    passData: {}
+  },
+
+
+  methods: {
+
+    // Set Message
+    async setMessageList() {
+      await axios.post(
+          API.CommonController.getMessageList
+      ).then(res => {
+        MESSAGE.setMessageList(res.data);
+      });
+    },
+    // Set System Code
+    async setCodeList() {
+      await axios.post(
+          API.CommonController.getCodeList
+      ).then(res => {
+        CODE.setCodeList(res.data);
+      });
+    },
+
+
+    dataCarrier(data) {
+      this.passData = data;
+    }
+  }
+});
+
+
 
 new Vue({
   store,

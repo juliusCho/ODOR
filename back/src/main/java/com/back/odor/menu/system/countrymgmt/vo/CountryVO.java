@@ -1,7 +1,10 @@
 package com.back.odor.menu.system.countrymgmt.vo;
 
 import com.back.odor.common.utils.vo.CommonVO;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -11,12 +14,13 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 public class CountryVO extends CommonVO implements Serializable {
 
-    @NonNull
+    private static final long serialVersionUID = 5232833674673502424L;
+
+
     private String countryCode;
 
     private String countryMessage;
 
-    @NonNull
     private String countryName;
 
 }

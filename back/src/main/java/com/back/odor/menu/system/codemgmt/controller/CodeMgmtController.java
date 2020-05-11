@@ -51,7 +51,7 @@ public class CodeMgmtController {
     }
 
     @PostMapping("checkDetailDuplication/system")
-    public ResponseEntity<Integer> checkDetailDuplication(@RequestParam CodeVO vo) {
+    public ResponseEntity<Integer> checkDetailDuplication(@RequestBody CodeVO vo) {
         return ResponseEntity.ok(codeMgmtService.checkDetailDuplication(vo));
     }
 

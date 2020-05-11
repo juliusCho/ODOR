@@ -120,6 +120,7 @@
     import UpdatePopup from "@/views/components/Popup/SystemPopup";
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
+    import {eventBus} from '@/main';
 
     export default {
         name: 'CodeMgmt',
@@ -294,7 +295,9 @@
                 this.alertShow = true;
             },
             goTo(page, data) {
-                this.$emit('goTo', page, data);
+                eventBus.dataCarrier(data);
+                // this.$emit('dataCarry', data);
+                this.$emit('goTo', page);
             }
         }
     }

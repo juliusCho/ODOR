@@ -174,9 +174,8 @@
     <update id="updateCode">
         /* 코드 수정 */
         UPDATE CODE
-           SET CODE_MESSAGE         = #{vo.codeGroupMessage}
-             , CODE_NAME            = #{vo.codeGroupName}
-             , CODE_GROUP_ID        = #{vo.codeGroupId}
+           SET CODE_MESSAGE         = #{vo.codeMessage}
+             , CODE_NAME            = #{vo.codeName}
              , USE_YN               = #{vo.useYn}
              , UPDATER_ID           = #{vo.updaterId}
              , UPDATE_DATE          = UTC_TIMESTAMP()

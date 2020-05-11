@@ -9,16 +9,21 @@
 
         <v-form id="search">
             <v-row>
+                <v-btn @click="goTo('CodeMgmt')" color="primary">
+                    Back
+                </v-btn>
+            </v-row>
+            <v-row>
                 <v-col>
                     <v-text-field
-                        v-model="searchCombos.codeGroupId"
+                        v-model="searchKeys.codeGroupId"
                         :label="'Code Group ID'"
                         readonly
                     ></v-text-field>
                 </v-col>
                 <v-col>
                     <v-text-field
-                        v-model="searchCombos.codeGroupName"
+                        v-model="searchKeys.codeGroupName"
                         :label="'Code Group Name'"
                         readonly
                     ></v-text-field>
@@ -27,12 +32,12 @@
             <v-row>
                 <v-col>
                     <v-autocomplete
-                        :items="searchCombos.codeName"
+                        :items="searchCombos.codeId"
                         color="white"
                         item-value="codeId"
                         item-text="codeName"
                         label="Code Name"
-                        v-model="searchKeys.codeName"
+                        v-model="searchKeys.codeId"
                     ></v-autocomplete>
                 </v-col>
                 <v-col>
@@ -113,6 +118,7 @@
             :cancelBtnText="'ㄴㄴ'"
             :width="1000"
             :fields="headers"
+            :values="{codeGroupId: searchKeys.codeGroupId}"
             :validation="duplicateValidation"
             :invalidMsg="'코드ID중복!!'"
             @okAction="addItem"
@@ -128,6 +134,7 @@
     import UpdatePopup from "@/views/components/Popup/SystemPopup";
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
+    import {eventBus} from "@/main";
 
     export default {
         name: 'CodeDetailMgmt',
@@ -142,19 +149,15 @@
             this.getCodeList();
         },
         data() {
-            let codeIdList = CODE.getCodeListAll().map(v => v.codeId);
-
             return {
                 searchKeys: {
-                    codeGroupId: '',
-                    codeGroupName: '',
+                    codeGroupId: eventBus.passData?.codeGroupId,
+                    codeGroupName: eventBus.passData?.codeGroupName,
                     codeId: '',
-                    codeName: '',
                     useYn: true
                 },
                 searchCombos: {
-                    codeId: [''].concat(COMMON_UTIL.removeArrDuplicate(codeIdList)),
-                    codeName: [],
+                    codeId: CODE.getCodeList(eventBus.passData?.codeGroupId, true),
                     useYn: CODE.getCodeList('USE_YN')
                 },
 
@@ -194,8 +197,7 @@
                         value: 'useYn',
                         width: '100px',
                         type: 'boolean',
-                        updateType: 'switch',
-                        insertType: 'switch'
+                        updateType: 'switch'
                     },
                     {
                         text: 'Updater',
@@ -230,16 +232,10 @@
                     this.searchKeys
                 ).then(res => {
                     this.codeList = res.data;
-                    this.searchCombos.codeName = [{
-                        codeId: '',
-                        codeName: 'All'
-                    }].concat(
-                        this.codeList.map(v => ({
-                            codeId: v.codeId,
-                            codeName: v.codeName
-                        })
-                    ));
                 });
+            },
+            async resetComCodes() {
+                await eventBus.setCodeList();
             },
             updateConfirm() {
                 this.updatePopShow = this.selectedCode.length !== 0;
@@ -256,6 +252,7 @@
                     this.confirmShow = false;
                     this.doneAlert(res.data);
                     this.getCodeList();
+                    this.resetComCodes();
                 });
             },
             addConfirm() {
@@ -278,6 +275,7 @@
                 .then(res => {
                     this.doneAlert(res.data);
                     this.getCodeList();
+                    this.resetComCodes();
                 });
             },
             updateItem(data) {
@@ -285,6 +283,7 @@
                 .then(res => {
                     this.doneAlert(res.data);
                     this.getCodeList();
+                    this.resetComCodes();
                 });
             },
             doneAlert(type) {

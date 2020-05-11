@@ -1,7 +1,10 @@
 package com.back.odor.menu.system.usermgmt.vo;
 
 import com.back.odor.common.utils.vo.CommonVO;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
@@ -19,14 +22,11 @@ public class UserVO extends CommonVO implements Serializable {
         this.membershipKey = role;
     }
 
-    @NonNull
     @Setter
     private String userId;
 
-    @NonNull
     private String password;
 
-    @NonNull
     @Setter
     private String email;
 

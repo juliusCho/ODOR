@@ -1,7 +1,10 @@
 package com.back.odor.menu.system.brandmgmt.vo;
 
 import com.back.odor.common.utils.vo.CommonVO;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -15,10 +18,8 @@ public class BrandVO extends CommonVO implements Serializable {
 
     private Long brandKey;
 
-    @NonNull
     private String countryCode;
 
-    @NonNull
     private String name;
     private String engName;
     private String desc;
