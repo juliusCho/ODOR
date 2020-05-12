@@ -6,6 +6,8 @@ import '@/plugins/axios'
 import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
 import axios from 'axios'
+// import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
+import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
 
 Vue.config.productionTip = false;
 
@@ -44,8 +46,11 @@ export const eventBus = new Vue({
 });
 
 
+// Vue.use(pluginTest, {activate: false});
 
 new Vue({
+  name: 'Vue',
+  // mixins: [lifecycleLogger],
   store,
   router,
   vuetify,

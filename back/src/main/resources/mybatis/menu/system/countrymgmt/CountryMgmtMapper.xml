@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.back.odor.menu.system.countrymgmt.mapper.CountryMgmtMapper">
+
+    <select id="getCountryListAll" resultType="CountryVO">
+        /* 국가전체 목록 조회 */
+        SELECT C.COUNTRY_CODE                                       AS COUNTRY_CODE
+             , (
+                    SELECT CM.MESSAGE
+                      FROM COUNTRY_MESSAGE CM
+                     WHERE CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
+                       AND CM.COUNTRY_CODE  = #{locale}
+               )                                                    AS COUNTRY_NAME
+          FROM COUNTRY C
+         WHERE C.USE_YN         <![CDATA[<>]]> 0
+    </select>
+
+    <select id="getCountryList" resultType="CountryVO">
+        /* 국가 목록 조회 */
+        SELECT C.*
+             , (
+                   SELECT CM.MESSAGE
+                     FROM COUNTRY_MESSAGE CM
+                    WHERE CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
+                      AND CM.COUNTRY_CODE  = #{vo.locale}
+               )                                                AS LOCALE_MESSAGE
+             , (
+                    SELECT U.NICKNAME
+                      FROM USER U
+                     WHERE U.USER_ID        = C.UPDATER_ID
+                       AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
+               )                                                AS UPDATER_NAME
+          FROM COUNTRY C
+        <where>
+            <if test="vo.countryCode != '' and vo.countryCode != null">
+                AND C.COUNTRY_CODE = #{vo.countryCode}
+            </if>
+            <if test="vo.countryName != '' and vo.countryName != null">
+                AND (
+                           C.COUNTRY_NAME       LIKE CONCAT('%', #{vo.countryName}, '%')
+                        OR CM.MESSAGE           LIKE CONCAT('%', #{vo.countryName}, '%')
+                    )
+            </if>
+            AND C.USE_YN = #{vo.useYn}
+        </where>
+    </select>
+
+    <select id="checkDuplication" resultType="Integer">
+        /* 국가 중복체크 */
+        SELECT COUNT(1)
+          FROM COUNTRY
+         WHERE COUNTRY_CODE = UPPER(#{countryCode})
+    </select>
+
+    <insert id="insertCountry">
+        /* 국가 신규 생성 */
+        INSERT
+          INTO COUNTRY
+               (
+                    COUNTRY_CODE,
+                    COUNTRY_MESSAGE,
+                    COUNTRY_NAME,
+                    USE_YN,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    UPPER(#{vo.countryCode}),
+                    #{vo.countryMessage},
+                    #{vo.countryName},
+                    1,
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <update id="updateCountry">
+        /* 국가 수정 */
+        UPDATE COUNTRY
+           SET COUNTRY_MESSAGE      = #{vo.countryMessage}
+             , COUNTRY_NAME         = #{vo.countryName}
+             , USE_YN               = #{vo.useYn}
+             , UPDATER_ID           = #{vo.updaterId}
+             , UPDATE_DATE          = UTC_TIMESTAMP()
+         WHERE COUNTRY_CODE = UPPER(#{vo.countryCode})
+    </update>
+
+    <update id="deleteCountry">
+        /* 국가 삭제 */
+        UPDATE COUNTRY
+           SET USE_YN      = 0
+             , UPDATER_ID  = #{vo.updaterId}
+             , UPDATE_DATE = UTC_TIMESTAMP()
+         WHERE COUNTRY_CODE = UPPER(#{vo.countryCode})
+    </update>
+
+</mapper>

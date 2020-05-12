@@ -41,4 +41,13 @@ const API = class {
         insertMessage: 'odor/msg/insertMessage/system'
     };
 
+    static CountryMgmtController = {
+        getCountryListAll: 'odor/country/getCountryListAll/system',
+        getCountryList: 'odor/country/getCountryList/system',
+        checkDuplication: 'odor/country/checkDuplication/system',
+        insertCountry: 'odor/country/insertCountry/system',
+        updateCountry: 'odor/country/updateCountry/system',
+        deleteCountry: 'odor/country/deleteCountry/system'
+    };
+
 };

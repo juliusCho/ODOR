@@ -107,7 +107,7 @@
                             <v-text-field
                                 v-model="selected.koMessage"
                                 label="Korean"
-                                :disabled="!textEdit || selected.countryCode === 'ENG'"
+                                :disabled="!textEdit || selected.locale === 'ENG'"
                                 required
                                 :rules="msgRules"
                                 :counter="200"
@@ -117,7 +117,7 @@
                             <v-text-field
                                 v-model="selected.engMessage"
                                 label="English"
-                                :disabled="!textEdit || selected.countryCode === 'KO'"
+                                :disabled="!textEdit || selected.locale === 'KO'"
                                 required
                                 :rules="msgRules"
                                 :counter="200"
@@ -259,7 +259,7 @@
                         return;
                     }
                     this.selected = this.listSelected[0];
-                    let locale = this.selected.countryCode === 'ENG' ? 'engMessage' : 'koMessage';
+                    let locale = this.selected.locale === 'ENG' ? 'engMessage' : 'koMessage';
                     this.selected[locale] = this.selected.message;
 
                     this.editable(false);
@@ -287,7 +287,7 @@
                 this.editable(false);
             },
             setDefaultVal() {
-                this.selected = {messageId: '', message: '', countryCode: '', koMessage: '', engMessage: ''};
+                this.selected = {messageId: '', message: '', locale: '', koMessage: '', engMessage: ''};
             },
             addNew() {
                 this.listSelected = [];

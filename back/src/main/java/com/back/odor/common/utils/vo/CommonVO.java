@@ -31,20 +31,26 @@ public class CommonVO implements Serializable {
     @Setter
     private String updaterName;
 
+    @Getter
     @Setter
     private Date createDate;
+    @Setter
     private String createDt;
+    @Setter
     private String createDtTime;
+    @Getter
     @Setter
     private Date updateDate;
+    @Setter
     private String updateDt;
+    @Setter
     private String updateDtTime;
 
     @Getter
     private boolean useYn;
 
     @Setter
-    private String countryCode;
+    private String locale;
 
     @Getter
     @Setter
@@ -69,7 +75,7 @@ public class CommonVO implements Serializable {
         }
     }
 
-    public String getCountryCode() {
+    public String getLocale() {
         return LocaleUtil.getLocale();
     }
 
@@ -83,7 +89,7 @@ public class CommonVO implements Serializable {
 
     public String getCreateDt() {
         try {
-            return DateUtil.getLocalDate(this.createDate);
+            return DateUtil.getLocalDate(getCreateDate());
         } catch (Exception e) {
             return "";
         }
@@ -91,7 +97,7 @@ public class CommonVO implements Serializable {
 
     public String getCreateDtTime() {
         try {
-            return DateUtil.getLocalDateTime(this.createDate);
+            return DateUtil.getLocalDateTime(getCreateDate());
         } catch (Exception e) {
             return "";
         }
@@ -99,7 +105,7 @@ public class CommonVO implements Serializable {
 
     public String getUpdateDt() {
         try {
-            return DateUtil.getLocalDate(this.updateDate);
+            return DateUtil.getLocalDate(getUpdateDate());
         } catch (Exception e) {
             return "";
         }
@@ -107,7 +113,7 @@ public class CommonVO implements Serializable {
 
     public String getUpdateDtTime() {
         try {
-            return DateUtil.getLocalDateTime(this.updateDate);
+            return DateUtil.getLocalDateTime(getUpdateDate());
         } catch (Exception e) {
             return "";
         }

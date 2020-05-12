@@ -3,8 +3,8 @@
 // eslint-disable-next-line
 const SCRIPT_VALIDATOR = class {
 
-    constructor(locale = 'ENG') {
-        this.locale = locale;
+    constructor() {
+        this.locale = '';
     };
 
     set locale(locale) {
@@ -65,28 +65,28 @@ const SCRIPT_VALIDATOR = class {
     static textRules(num = 200) {
         return [
             v => this.nullCheck(v) || (this.locale === 'KO' ? '필수 입력 사항입니다.' : 'Required to fill in.'),
-            v => (v?.length || 0) <= num || (this.locale === 'KO' ? '최대 입력 길이를 초과하였습니다.' : 'Exceeded max input length'),
+            v => (v?.length || 0) <= num || (this.locale === 'KO' ? '최대 입력 길이를 초과하였습니다.' : 'Exceeded max input length.'),
         ];
     };
 
     static idRules() {
         return this.textRules(20).concat([
-            v => /^\S+$/.test(v) || (this.locale === 'KO' ? '공백은 입력할 수 없습니다.' : 'No whitespace allowed.')
+            v => /^\S+$/.test(v) || (this.locale === 'KO' ? '공백은 입력할 수 없습니다.' : 'No whitespace is allowed.')
         ])
     }
 
     static emailRules() {
         return this.textRules(50).concat([
-            v => /.+@.+\..+/.test(v) || (this.locale === 'KO' ? '이메일 형식에 맞지 않습니다.' : 'Invalid email format'),
+            v => /.+@.+\..+/.test(v) || (this.locale === 'KO' ? '이메일 형식에 맞지 않습니다.' : 'Invalid email format.'),
             v => /\s/.test(v) || (this.locale === 'KO' ? '공백은 입력할 수 없습니다.' : 'No whitespace allowed.')
         ])
     };
 
     static urlRules() {
         return this.textRules(1000).concat([
-                v => /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(v)
-                || (this.locale === 'KO' ? 'URL 형식에 맞지 않습니다.' : 'Invalid URL format'),
-                v => /\s/.test(v) || (this.locale === 'KO' ? '공백은 입력할 수 없습니다.' : 'No whitespace allowed.')
+                v => /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(v)
+                || (this.locale === 'KO' ? 'URL 형식에 맞지 않습니다.' : 'Invalid URL format.'),
+                v => /\s/.test(v) || (this.locale === 'KO' ? '공백은 입력할 수 없습니다.' : 'No whitespace is allowed.')
         ]);
     };
 

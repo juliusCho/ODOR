@@ -35,7 +35,7 @@
          INNER
           JOIN COUNTRY_MESSAGE C
             ON C.MESSAGE_ID     = G.CODE_GROUP_MESSAGE
-           AND C.COUNTRY_CODE   = #{vo.countryCode}
+           AND C.COUNTRY_CODE   = #{vo.locale}
         <where>
             <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
                 AND G.CODE_GROUP_ID = #{vo.codeGroupId}
@@ -117,7 +117,7 @@
          INNER
           JOIN COUNTRY_MESSAGE CM
             ON CM.MESSAGE_ID    = C.CODE_MESSAGE
-           AND CM.COUNTRY_CODE  = #{vo.countryCode}
+           AND CM.COUNTRY_CODE  = #{vo.locale}
         <where>
             <if test="vo.codeId != '' and vo.codeId != null">
                 AND C.CODE_ID = #{vo.codeId}

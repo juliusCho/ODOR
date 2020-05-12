@@ -296,7 +296,6 @@
             },
             goTo(page, data) {
                 eventBus.dataCarrier(data);
-                // this.$emit('dataCarry', data);
                 this.$emit('goTo', page);
             }
         }

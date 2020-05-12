@@ -13,10 +13,11 @@ public class DateUtil {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final String timeZone = Calendar.getInstance().getTimeZone().getID();
 
     public static Date convertToLocalDate(Date inputDate) {
-        return new Date(inputDate.getTime() + TimeZone.getTimeZone(timeZone).getOffset(inputDate.getTime()));
+//        String timeZone = Calendar.getInstance().getTimeZone().getID();
+//        return new Date(inputDate.getTime() + TimeZone.getTimeZone(timeZone).getOffset(inputDate.getTime()));
+        return new Date(inputDate.getTime());
     }
 
     public static String getLocalDate(Date date) throws Exception {
