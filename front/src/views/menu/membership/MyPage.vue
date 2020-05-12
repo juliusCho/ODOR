@@ -145,7 +145,7 @@
                 avatar: null,
                 saving: false,
                 saved: false,
-                idRules: SCRIPT_VALIDATOR.idRules()
+                idRules: SCRIPT_VALIDATOR.idRules(),
             };
         },
         watch: {
@@ -158,7 +158,7 @@
         },
         mounted() {
             this.checkSession();
-            console.log('tepsession >',this.tmpSession);
+            console.log('tmpSession >',this.tmpSession);
             //dd
         },
         methods: {
