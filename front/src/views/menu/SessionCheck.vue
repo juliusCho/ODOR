@@ -1,5 +1,8 @@
 <template>
     <div>
+        <template v-if="page === 'MessageMgmt'">
+            <MessageMgmt :key="page"/>
+        </template>
         <template v-if="page === 'BrandMgmt'">
             <BrandMgmt :key="page"/>
         </template>
@@ -40,6 +43,7 @@
 </template>
 
 <script>
+    import MessageMgmt from "@/views/menu/system/MessageMgmt";
     import BrandMgmt from '@/views/menu/system/BrandMgmt';
     import CodeMgmt from '@/views/menu/system/CodeMgmt';
     import CodeDetailMgmt from '@/views/menu/system/CodeDetailMgmt';
@@ -56,6 +60,7 @@
     export default {
         name: 'SessionCheck',
         components: {
+            MessageMgmt,
             BrandMgmt,
             CodeMgmt,
             CodeDetailMgmt,

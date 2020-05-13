@@ -27,4 +27,26 @@ public class MessageMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
+    @PostMapping("getMessageListSystem/system")
+    public ResponseEntity<List<MessageVO>> getMessageListSystem(@RequestBody MessageVO vo) {
+        return ResponseEntity.ok(messageMgmtService.getMessageListSystem(vo));
+    }
+
+    @PostMapping("checkDuplication/system")
+    public ResponseEntity<Integer> checkDuplication(@RequestBody MessageVO vo) {
+        return ResponseEntity.ok(messageMgmtService.checkDuplication(vo));
+    }
+
+    @PatchMapping("updateMessage/system")
+    public ResponseEntity updateMessage(@RequestBody List<MessageVO> list) {
+        messageMgmtService.updateMessage(list);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @PatchMapping("deleteMessageGroup/system")
+    public ResponseEntity deleteMessageGroup(@RequestBody MessageVO vo) {
+        messageMgmtService.deleteMessageGroup(vo);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
 }

@@ -35,7 +35,7 @@
           FROM COUNTRY C
         <where>
             <if test="vo.countryCode != '' and vo.countryCode != null">
-                AND C.COUNTRY_CODE = #{vo.countryCode}
+                AND C.COUNTRY_CODE = UPPER(#{vo.countryCode})
             </if>
             <if test="vo.countryName != '' and vo.countryName != null">
                 AND (

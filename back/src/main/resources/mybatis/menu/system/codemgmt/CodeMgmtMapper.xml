@@ -38,7 +38,7 @@
            AND C.COUNTRY_CODE   = #{vo.locale}
         <where>
             <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
-                AND G.CODE_GROUP_ID = #{vo.codeGroupId}
+                AND G.CODE_GROUP_ID = UPPER(#{vo.codeGroupId})
             </if>
             <if test="vo.codeGroupName != '' and vo.codeGroupName != null">
                 AND (
@@ -120,7 +120,7 @@
            AND CM.COUNTRY_CODE  = #{vo.locale}
         <where>
             <if test="vo.codeId != '' and vo.codeId != null">
-                AND C.CODE_ID = #{vo.codeId}
+                AND C.CODE_ID = UPPER(#{vo.codeId})
             </if>
             <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
                 AND C.CODE_GROUP_ID = #{vo.codeGroupId}

@@ -15,6 +15,7 @@ import Etc from '@/views/menu/forum/Etc';
 
 import Perfume from '@/views/menu/perfume/Perfume';
 
+import MessageMgmt from "@/views/menu/system/MessageMgmt";
 import BrandMgmt from '@/views/menu/system/BrandMgmt';
 import CodeMgmt from '@/views/menu/system/CodeMgmt';
 import CodeDetailMgmt from '@/views/menu/system/CodeDetailMgmt';
@@ -84,6 +85,11 @@ const routes = [
     path: '/Perfume',
     name: 'Perfume',
     component: Perfume
+  },
+  {
+    path: '/MessageMgmt',
+    name: 'MessageMgmt',
+    component: MessageMgmt
   },
   {
     path: '/BrandMgmt',

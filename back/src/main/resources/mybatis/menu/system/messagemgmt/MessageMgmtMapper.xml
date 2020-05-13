@@ -28,7 +28,7 @@
             ON C.COUNTRY_CODE = CM.COUNTRY_CODE
            AND C.COUNTRY_CODE = #{vo.countryCode}
         <if test="vo.messageId != '' and vo.messageId != null">
-            AND CM.MESSAGE_ID = #{vo.messageId}
+            AND CM.MESSAGE_ID = UPPER(#{vo.messageId})
         </if>
         <if test="vo.message != '' and vo.message != null">
             AND CM.MESSAGE LIKE CONCAT('%', #{vo.message}, '%')
@@ -56,7 +56,7 @@
                     UPDATE_DATE
                )
         VALUES (
-                    #{vo.messageId},
+                    UPPER(#{vo.messageId}),
                     1,
                     #{vo.creatorId},
                     UTC_TIMESTAMP(),
@@ -88,5 +88,78 @@
                     UTC_TIMESTAMP()
                )
     </insert>
+
+    <select id="getMessageListSystem" resultType="MessageVO">
+        /* 메세지 목록 */
+        SELECT MG.MESSAGE_ID                                    AS MESSAGE_ID
+             , KO.MESSAGE                                       AS KO_MESSAGE
+             , ENG.MESSAGE                                      AS ENG_MESSAGE
+             , MG.USE_YN                                        AS USE_YN
+             , (
+                   SELECT U.NICKNAME
+                     FROM USER U
+                    WHERE U.USER_ID     = MG.UPDATER_ID
+                      AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
+               )                                                AS UPDATER_NAME
+             , MG.UPDATE_DATE                                   AS UPDATE_DATE
+          FROM MESSAGE_GROUP MG
+         INNER
+          JOIN COUNTRY_MESSAGE KO
+            ON KO.MESSAGE_ID    = MG.MESSAGE_ID
+        <if test="vo.messageId != '' and vo.messageId != null">
+            AND MG.MESSAGE_ID = UPPER(#{vo.messageId})
+        </if>
+           AND MG.USE_YN        = #{vo.useYn}
+           AND KO.COUNTRY_CODE  = 'KO'
+         INNER
+          JOIN COUNTRY_MESSAGE ENG
+            ON ENG.MESSAGE_ID   = MG.MESSAGE_ID
+        <if test="vo.message != '' and vo.message != null">
+            AND KO.MESSAGE  = CASE WHEN KO.COUNTRY_CODE = #{vo.locale}
+                                   THEN #{vo.message}
+                                   ELSE KO.MESSAGE
+                                    END
+            AND ENG.MESSAGE = CASE WHEN ENG.COUNTRY_CODE = #{vo.locale}
+                                   THEN #{vo.message}
+                                   ELSE ENG.MESSAGE
+                                    END
+        </if>
+           AND ENG.COUNTRY_CODE = 'ENG'
+    </select>
+
+    <select id="checkDuplication" resultType="Integer">
+        /* 메세지 중복체크 */
+        SELECT COUNT(1)
+          FROM MESSAGE_GROUP
+         WHERE MESSAGE_ID    = UPPER(#{messageId})
+    </select>
+
+    <update id="updateMessageGroup">
+        /* 메세지 그룹 수정 */
+        UPDATE MESSAGE_GROUP
+           SET USE_YN       = #{vo.useYn}
+             , UPDATER_ID   = #{vo.updaterId}
+             , UPDATE_DATE  = UTC_TIMESTAMP()
+         WHERE MESSAGE_ID = UPPER(#{vo.messageId})
+    </update>
+
+    <update id="updateMessage">
+        /* 메시지 수정 */
+        UPDATE COUNTRY_MESSAGE
+           SET MESSAGE      = #{vo.message}
+             , UPDATER_ID   = #{vo.updaterId}
+             , UPDATE_DATE  = UTC_TIMESTAMP()
+         WHERE MESSAGE_ID   = UPPER(#{vo.messageId})
+           AND COUNTRY_CODE = #{vo.countryCode}
+    </update>
+
+    <update id="deleteMessageGroup">
+        /* 메시지 삭제 */
+        UPDATE MESSAGE_GROUP
+           SET USE_YN       = 0
+             , UPDATER_ID   = #{vo.updaterId}
+             , UPDATE_DATE  = UTC_TIMESTAMP()
+         WHERE MESSAGE_ID = UPPER(#{vo.messageId})
+    </update>
 
 </mapper>

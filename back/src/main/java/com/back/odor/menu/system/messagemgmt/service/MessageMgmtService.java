@@ -34,4 +34,26 @@ public class MessageMgmtService implements MessageMgmtServiceSpec {
             messageMgmtMapper.insertMessage(vo);
         }
     }
+
+    @Override
+    public List<MessageVO> getMessageListSystem(MessageVO vo) {
+        return messageMgmtMapper.getMessageListSystem(vo);
+    }
+
+    @Override
+    public Integer checkDuplication(MessageVO vo) {
+        return messageMgmtMapper.checkDuplication(vo.getMessageId());
+    }
+
+    @Override
+    public void updateMessage(List<MessageVO> list) {
+        messageMgmtMapper.updateMessageGroup(list.get(0));
+        messageMgmtMapper.updateMessage(list.get(0));
+        messageMgmtMapper.updateMessage(list.get(1));
+    }
+
+    @Override
+    public void deleteMessageGroup(MessageVO vo) {
+        messageMgmtMapper.deleteMessageGroup(vo);
+    }
 }

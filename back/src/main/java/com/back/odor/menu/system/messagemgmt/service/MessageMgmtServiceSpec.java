@@ -12,4 +12,10 @@ public interface MessageMgmtServiceSpec {
 
     void insertMessage(List<MessageVO> list);
 
+    List<MessageVO> getMessageListSystem(MessageVO vo);
+
+    Integer checkDuplication(MessageVO vo);
+    void updateMessage(List<MessageVO> list);
+    void deleteMessageGroup(MessageVO vo);
+
 }

@@ -16,4 +16,11 @@ public interface MessageMgmtMapper {
     void insertMessageGroup(@Param("vo") MessageVO vo);
     void insertMessage(@Param("vo") MessageVO vo);
 
+    List<MessageVO> getMessageListSystem(@Param("vo") MessageVO vo);
+
+    Integer checkDuplication(@Param("messageId") String messageId);
+    void updateMessageGroup(@Param("vo") MessageVO vo);
+    void updateMessage(@Param("vo") MessageVO vo);
+    void deleteMessageGroup(@Param("vo") MessageVO vo);
+
 }

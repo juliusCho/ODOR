@@ -38,7 +38,11 @@ const API = class {
 
     static MessageMgmtController = {
         getMessageList: 'odor/msg/getMessageList/system',
-        insertMessage: 'odor/msg/insertMessage/system'
+        insertMessage: 'odor/msg/insertMessage/system',
+        getMessageListSystem: 'odor/msg/getMessageListSystem/system',
+        checkDuplication: 'odor/msg/checkDuplication/system',
+        updateMessage: 'odor/msg/updateMessage/system',
+        deleteMessageGroup: 'odor/msg/deleteMessageGroup/system'
     };
 
     static CountryMgmtController = {

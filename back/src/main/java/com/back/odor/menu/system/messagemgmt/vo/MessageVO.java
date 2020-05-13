@@ -21,6 +21,9 @@ public class MessageVO extends CommonVO implements Serializable {
 
     private String countryCode = LocaleUtil.getLocale();
 
+    private String koMessage;
+    private String engMessage;
+
     private String message;
 
 }
