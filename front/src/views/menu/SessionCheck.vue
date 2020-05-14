@@ -3,6 +3,9 @@
         <template v-if="page === 'MessageMgmt'">
             <MessageMgmt :key="page"/>
         </template>
+        <template v-if="page === 'CategoryMgmt'">
+            <CategoryMgmt :key="page"/>
+        </template>
         <template v-if="page === 'BrandMgmt'">
             <BrandMgmt :key="page"/>
         </template>
@@ -44,6 +47,7 @@
 
 <script>
     import MessageMgmt from "@/views/menu/system/MessageMgmt";
+    import CategoryMgmt from "@/views/menu/system/CategoryMgmt";
     import BrandMgmt from '@/views/menu/system/BrandMgmt';
     import CodeMgmt from '@/views/menu/system/CodeMgmt';
     import CodeDetailMgmt from '@/views/menu/system/CodeDetailMgmt';
@@ -61,6 +65,7 @@
         name: 'SessionCheck',
         components: {
             MessageMgmt,
+            CategoryMgmt,
             BrandMgmt,
             CodeMgmt,
             CodeDetailMgmt,

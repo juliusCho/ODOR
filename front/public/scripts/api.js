@@ -54,4 +54,13 @@ const API = class {
         deleteCountry: 'odor/country/deleteCountry/system'
     };
 
+    static CategoryMgmtController = {
+        getCategoryListAll: 'odor/category/getCategoryListAll/system',
+        getCategoryList: 'odor/category/getCategoryList/system',
+        checkDuplication: 'odor/category/checkDuplication/system',
+        insertCategory: 'odor/category/insertCategory/system',
+        updateCategory: 'odor/category/updateCategory/system',
+        deleteCategory: 'odor/category/deleteCategory/system'
+    };
+
 };

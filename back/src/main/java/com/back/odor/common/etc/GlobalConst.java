@@ -13,6 +13,7 @@ public class GlobalConst {
         "com.back.odor.menu.forum.etc.vo,"  +
         "com.back.odor.menu.perfume.vo," +
         "com.back.odor.menu.system.forummgmt.vo," +
+        "com.back.odor.menu.system.categorymgmt.vo," +
         "com.back.odor.menu.system.messagemgmt.vo," +
         "com.back.odor.menu.system.codemgmt.vo," +
         "com.back.odor.menu.system.usermgmt.vo," +
