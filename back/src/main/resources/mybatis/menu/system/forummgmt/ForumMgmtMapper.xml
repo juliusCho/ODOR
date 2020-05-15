@@ -6,11 +6,153 @@
 
     <select id="getForumList" resultType="ForumVO">
         /* 포럼 목록 조회 */
-        SELECT *
-          FROM FORUM
-         WHERE USE_YN <![CDATA[<>]]> 0
+        <![CDATA[
+        SELECT F.*
+          FROM FORUM F
+         INNER
+          JOIN CATEGORY C
+            ON C.CATEGORY_ID = F.CATEGORY_ID
+           AND F.USE_YN <> 0
+           AND C.USE_YN <> 0
+        ]]>
     </select>
 
+    <select id="getForumListAll" resultType="ForumVO">
+        /* 포럼ID,명 전체 조회 */
+        <![CDATA[
+        SELECT F.FORUM_KEY
+             , F.FORUM_NAME
+          FROM FORUM F
+         INNER
+          JOIN CATEGORY CAT
+            ON CAT.CATEGORY_ID  = F.CATEGORY_ID
+           AND F.USE_YN         <> 0
+           AND CAT.USE_YN       <> 0
+         INNER
+          JOIN CODE C
+            ON C.CODE_ID        = F.FORUM_TYPE_CODE
+           AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
+           AND C.USE_YN         <> 0
+         INNER
+          JOIN CODE_GROUP CG
+            ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
+           AND CG.USE_YN        <> 0
+        ]]>
+    </select>
 
+    <select id="getForumListSystem" resultType="ForumVO">
+        /* 포럼 조회 */
+        SELECT F.*
+             , IFNULL(
+                    (
+                        SELECT CM.MESSAGE
+                          FROM COUNTRY_MESSAGE CM
+                         INNER
+                          JOIN MESSAGE_GROUP MG
+                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+                           AND MG.USE_YN        <![CDATA[<>]]> 0
+                           AND CM.COUNTRY_CODE  = #{vo.locale}
+                         WHERE CM.MESSAGE_ID    = CAT.CATEGORY_MESSAGE
+                    ),
+                    CAT.CATEGORY_NAME
+               )                                            AS CATEGORY_NAME
+             , IFNULL(
+                    (
+                        SELECT CM.MESSAGE
+                          FROM COUNTRY_MESSAGE CM
+                         INNER
+                          JOIN MESSAGE_GROUP MG
+                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+                           AND MG.USE_YN        <![CDATA[<>]]> 0
+                           AND CM.COUNTRY_CODE  = #{vo.locale}
+                         WHERE CM.MESSAGE_ID    = C.CODE_MESSAGE
+                    ),
+                    C.CODE_MESSAGE
+               )                                            AS FORUM_TYPE_NAME
+          FROM FORUM F
+         INNER
+          JOIN CATEGORY CAT
+            ON CAT.CATEGORY_ID  = F.CATEGORY_ID
+        <if test="vo.forumKey gt 0 and vo.forumKey != null">
+            AND F.FORUM_KEY = #{vo.forumKey}
+        </if>
+        <if test="vo.categoryId gt 0 and vo.categoryId != null">
+            AND CAT.CATEGORY_ID = #{vo.categoryId}
+        </if>
+        <if test="vo.forumTypeCode gt 0 and vo.forumTypeCode != null">
+            AND F.FORUM_TYPE_CODE = #{vo.forumTypeCode}
+        </if>
+        <![CDATA[
+           AND F.USE_YN         = #{vo.useYn}
+           AND CAT.USE_YN       <> 0
+         INNER
+          JOIN CODE C
+            ON C.CODE_ID        = F.FORUM_TYPE_CODE
+           AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
+           AND C.USE_YN         <> 0
+         INNER
+          JOIN CODE_GROUP CG
+            ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
+           AND CG.USE_YN        <> 0
+        ]]>
+    </select>
+
+    <select id="checkDuplication" resultType="Integer">
+        /* 중복체크 */
+        SELECT COUNT(1)
+          FROM FORUM
+         WHERE CATEGORY_ID  = #{vo.categoryId}
+           AND FORUM_NAME   = #{vo.forumName}
+    </select>
+
+    <update id="deleteForum">
+        /* 포럼 삭제 */
+        UPDATE FORUM
+           SET USE_YN       = 0
+             , UPDATE_DATE  = UTC_TIMESTAMP()
+             , UPDATER_ID   = #{vo.updaterId}
+         WHERE FORUM_KEY = #{vo.forumKey}
+    </update>
+
+    <update id="updateForum">
+        /* 포럼 수정 */
+        UPDATE FORUM
+           SET USE_YN           = #{vo.useYn}
+             , CATEGORY_ID      = #{vo.categoryId}
+             , FORUM_NAME       = #{vo.forumName}
+             , FORUM_TYPE_CODE  = #{vo.forumTypeCode}
+             , REVIEW_YN        = #{vo.reviewYn}
+             , UPDATE_DATE      = UTC_TIMESTAMP()
+             , UPDATER_ID       = #{vo.updaterId}
+         WHERE FORUM_KEY = #{vo.forumKey}
+    </update>
+
+    <insert id="insertForum">
+        /* 포럼 신규 생성 */
+        INSERT
+          INTO FORUM
+               (
+                    CATEGORY_ID,
+                    FORUM_NAME,
+                    FORUM_TYPE_CODE,
+                    REVIEW_YN,
+                    USE_YN,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    #{vo.categoryId},
+                    #{vo.forumName},
+                    #{vo.forumTypeCode},
+                    #{vo.reviewYn},
+                    #{vo.useYn},
+                    #{creatorId},
+                    UTC_TIMESTAMP(),
+                    #{updaterID},
+                    UTC_TIMESTAMP()
+               )
+    </insert>
 
 </mapper>

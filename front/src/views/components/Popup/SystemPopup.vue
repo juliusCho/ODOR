@@ -79,7 +79,7 @@
                                             item-value="value"
                                             item-text="text"
                                             :label="field.text"
-                                            v-model="newValue[field.value]"
+                                            v-model="newValue[field.selectKey]"
                                             :rules="selectRules"
                                         ></v-autocomplete>
                                     </template>
@@ -176,7 +176,7 @@
                                             item-value="value"
                                             item-text="text"
                                             :label="field.text"
-                                            v-model="newValue[field.value]"
+                                            v-model="newValue[field.selectKey]"
                                             :rules="selectRules"
                                         ></v-autocomplete>
                                     </template>

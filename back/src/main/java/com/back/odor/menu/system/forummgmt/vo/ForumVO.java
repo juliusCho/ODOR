@@ -19,10 +19,12 @@ public class ForumVO extends CommonVO implements Serializable {
     private Long forumKey;
 
     private String categoryId;
+    private String categoryName;
 
     private String forumName;
 
     private String forumTypeCode;
+    private String forumTypeName;
 
     private boolean reviewYn;
 

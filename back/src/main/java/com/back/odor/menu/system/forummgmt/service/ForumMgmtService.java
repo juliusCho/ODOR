@@ -51,4 +51,34 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
         }
         return result;
     }
+
+    @Override
+    public List<ForumVO> getForumListAll() {
+        return forumMgmtMapper.getForumListAll();
+    }
+
+    @Override
+    public List<ForumVO> getForumListSystem(ForumVO vo) {
+        return forumMgmtMapper.getForumListSystem(vo);
+    }
+
+    @Override
+    public Integer checkDuplication(ForumVO vo) {
+        return forumMgmtMapper.checkDuplication(vo);
+    }
+
+    @Override
+    public void deleteForum(ForumVO vo) {
+        forumMgmtMapper.deleteForum(vo);
+    }
+
+    @Override
+    public void updateForum(ForumVO vo) {
+        forumMgmtMapper.updateForum(vo);
+    }
+
+    @Override
+    public void insertForum(ForumVO vo) {
+        forumMgmtMapper.insertForum(vo);
+    }
 }

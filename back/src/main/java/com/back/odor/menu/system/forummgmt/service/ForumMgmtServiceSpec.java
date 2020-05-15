@@ -12,4 +12,12 @@ public interface ForumMgmtServiceSpec {
 
     List<ForumVO> getSystemList(UserVO user, HttpServletRequest req);
 
+    List<ForumVO> getForumListAll();
+    List<ForumVO> getForumListSystem(ForumVO vo);
+
+    Integer checkDuplication(ForumVO vo);
+    void deleteForum(ForumVO vo);
+    void updateForum(ForumVO vo);
+    void insertForum(ForumVO vo);
+
 }
