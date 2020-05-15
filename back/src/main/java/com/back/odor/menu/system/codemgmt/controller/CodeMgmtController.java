@@ -17,6 +17,11 @@ public class CodeMgmtController {
     @Autowired
     private CodeMgmtService codeMgmtService;
 
+    @GetMapping("getCodeGroupListAll/system")
+    public ResponseEntity<List<CodeGroupVO>> getCodeGroupListAll() {
+        return ResponseEntity.ok(codeMgmtService.getCodeGroupListAll());
+    }
+
     @PostMapping("getCodeGroupList/system")
     public ResponseEntity<List<CodeGroupVO>> getCodeGroupList(@RequestBody CodeGroupVO vo) {
         return ResponseEntity.ok(codeMgmtService.getCodeGroupList(vo));
@@ -71,6 +76,11 @@ public class CodeMgmtController {
     public ResponseEntity deleteCode(@RequestBody CodeVO vo) {
         codeMgmtService.deleteCode(vo);
         return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @GetMapping("getForumCodeList/system")
+    public ResponseEntity<List<CodeVO>> getForumCodeList() {
+        return ResponseEntity.ok(codeMgmtService.getForumCodeList());
     }
 
 }

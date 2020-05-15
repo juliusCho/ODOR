@@ -245,8 +245,7 @@
                     .then(res => {
                         this.confirmShow = false;
                         this.doneAlert(res.data);
-                        this.getCategoryListAll();
-                        this.getCategoryList();
+                        this.reset();
                     });
             },
             addConfirm() {
@@ -273,16 +272,14 @@
                 axios.put(API.CategoryMgmtController.insertCategory, data)
                     .then(res => {
                         this.doneAlert(res.data);
-                        this.getCategoryListAll();
-                        this.getCategoryList();
+                        this.reset();
                     });
             },
             updateItem(data) {
                 axios.patch(API.CategoryMgmtController.updateCategory, data)
                     .then(res => {
                         this.doneAlert(res.data);
-                        this.getCategoryListAll();
-                        this.getCategoryList();
+                        this.reset();
                     });
             },
             doneAlert(type) {
@@ -294,6 +291,15 @@
                     this.alertMsg = '저장실패';
                 }
                 this.alertShow = true;
+            },
+            reset() {
+                this.searchKeys = {
+                    categoryId: '',
+                    categoryName: '',
+                    useYn: true
+                };
+                this.getCategoryListAll();
+                this.getCategoryList();
             }
         }
     }

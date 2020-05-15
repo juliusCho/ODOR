@@ -7,30 +7,45 @@
     <select id="getCategoryListAll" resultType="CategoryVO">
         /* 카테고리전체 목록 조회 */
         SELECT C.CATEGORY_ID                                        AS CATEGORY_ID
-             , (
-                    SELECT CM.MESSAGE
-                      FROM COUNTRY_MESSAGE CM
-                     WHERE CM.MESSAGE_ID    = C.CATEGORY_MESSAGE
-                       AND CM.COUNTRY_CODE  = #{locale}
+             , IFNULL(
+                    (
+                        SELECT CM.MESSAGE
+                          FROM COUNTRY_MESSAGE CM
+                         INNER
+                          JOIN MESSAGE_GROUP MG
+                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+                           AND MG.USE_YN        <![CDATA[<>]]> 0
+                         WHERE CM.MESSAGE_ID    = C.CATEGORY_MESSAGE
+                           AND CM.COUNTRY_CODE  = #{locale}
+                    ),
+                    C.CATEGORY_NAME
                )                                                    AS CATEGORY_NAME
           FROM CATEGORY C
-         WHERE C.USE_YN         <![CDATA[<>]]> 0
+         WHERE C.USE_YN <![CDATA[<>]]> 0
     </select>
 
     <select id="getCategoryList" resultType="CategoryVO">
         /* 카테고리 목록 조회 */
         SELECT C.*
-             , (
-                   SELECT CM.MESSAGE
-                     FROM COUNTRY_MESSAGE CM
-                    WHERE CM.MESSAGE_ID    = C.CATEGORY_MESSAGE
-                      AND CM.COUNTRY_CODE  = #{vo.locale}
+             , IFNULL(
+                    (
+                       SELECT CM.MESSAGE
+                         FROM COUNTRY_MESSAGE CM
+                        INNER
+                         JOIN MESSAGE_GROUP MG
+                           ON MG.MESSAGE_ID = CM.MESSAGE_ID
+                          AND MG.USE_YN     <![CDATA[<>]]> 0
+                        WHERE CM.MESSAGE_ID    = C.CATEGORY_MESSAGE
+                          AND CM.COUNTRY_CODE  = #{vo.locale}
+                    ),
+                    C.CATEGORY_NAME
                )                                                AS LOCALE_MESSAGE
              , (
                     SELECT U.NICKNAME
                       FROM USER U
                      WHERE U.USER_ID        = C.UPDATER_ID
                        AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
+                       AND U.USE_YN         <![CDATA[<>]]> 0
                )                                                AS UPDATER_NAME
           FROM CATEGORY C
         <where>
@@ -39,8 +54,8 @@
             </if>
             <if test="vo.categoryName != '' and vo.categoryName != null">
                 AND (
-                           C.CATEGORY_NAME      LIKE CONCAT('%', #{vo.categoryName}, '%')
-                        OR CM.MESSAGE           LIKE CONCAT('%', #{vo.categoryName}, '%')
+                           C.CATEGORY_NAME        LIKE CONCAT('%', #{vo.categoryName}, '%')
+                        OR IFNULL(CM.MESSAGE, '') LIKE CONCAT('%', #{vo.categoryName}, '%')
                     )
             </if>
             AND C.USE_YN = #{vo.useYn}

@@ -224,10 +224,10 @@
             };
         },
         methods: {
-            getCodeList() {
+            async getCodeList() {
                 this.selectedCode = [];
 
-                axios.post(
+                await axios.post(
                     API.CodeMgmtController.getCodeListSystem,
                     this.searchKeys
                 ).then(res => {
@@ -251,9 +251,19 @@
                 .then(res => {
                     this.confirmShow = false;
                     this.doneAlert(res.data);
-                    this.getCodeList();
-                    this.resetComCodes();
+                    this.reset();
+
                 });
+            },
+            reset() {
+                this.searchKeys.codeId = '';
+                this.searchKeys.useYn = true;
+                this.getCodeList();
+                this.resetComCodes();
+                this.searchCombos = {
+                    codeId: CODE.getCodeList(eventBus.passData?.codeGroupId, true),
+                    useYn: CODE.getCodeList('USE_YN')
+                };
             },
             addConfirm() {
                 this.insertPopShow = true;
@@ -274,16 +284,14 @@
                 axios.put(API.CodeMgmtController.insertCode, data)
                 .then(res => {
                     this.doneAlert(res.data);
-                    this.getCodeList();
-                    this.resetComCodes();
+                    this.reset();
                 });
             },
             updateItem(data) {
                 axios.patch(API.CodeMgmtController.updateCode, data)
                 .then(res => {
                     this.doneAlert(res.data);
-                    this.getCodeList();
-                    this.resetComCodes();
+                    this.reset();
                 });
             },
             doneAlert(type) {

@@ -8,13 +8,13 @@
         /* 공통메세지 목록 조회 */
         SELECT CM.MESSAGE_ID
              , CM.MESSAGE
-             , C.COUNTRY_CODE
+             , CM.COUNTRY_CODE
           FROM COUNTRY_MESSAGE CM
          INNER
-          JOIN COUNTRY C
-            ON C.COUNTRY_CODE = CM.COUNTRY_CODE
-           AND C.COUNTRY_CODE = #{locale}
-           AND C.USE_YN       <![CDATA[<>]]> 0
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+           AND CM.COUNTRY_CODE  = #{locale}
+           AND MG.USE_YN        <![CDATA[<>]]> 0
     </select>
 
     <select id="getMessageListSearch" resultType="MessageVO">
@@ -24,9 +24,9 @@
              , C.COUNTRY_CODE
           FROM COUNTRY_MESSAGE CM
          INNER
-          JOIN COUNTRY C
-            ON C.COUNTRY_CODE = CM.COUNTRY_CODE
-           AND C.COUNTRY_CODE = #{vo.countryCode}
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+           AND CM.COUNTRY_CODE  = #{vo.countryCode}
         <if test="vo.messageId != '' and vo.messageId != null">
             AND CM.MESSAGE_ID = UPPER(#{vo.messageId})
         </if>
@@ -35,10 +35,10 @@
         </if>
         <choose>
             <when test="vo.useYn != '' and vo.useYn != null">
-                AND C.USE_YN = #{vo.useYn}
+                AND MG.USE_YN = #{vo.useYn}
             </when>
             <otherwise>
-                AND C.USE_YN <![CDATA[<>]]> 0
+                AND MG.USE_YN <![CDATA[<>]]> 0
             </otherwise>
         </choose>
     </select>

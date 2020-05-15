@@ -23,6 +23,11 @@ public class CodeMgmtService implements CodeMgmtServiceSpec {
     }
 
     @Override
+    public List<CodeGroupVO> getCodeGroupListAll() {
+        return codeMgmtMapper.getCodeGroupListAll(LocaleUtil.getLocale());
+    }
+
+    @Override
     public List<CodeGroupVO> getCodeGroupList(CodeGroupVO vo) {
         return codeMgmtMapper.getCodeGroupList(vo);
     }
@@ -70,6 +75,11 @@ public class CodeMgmtService implements CodeMgmtServiceSpec {
     @Override
     public void deleteCode(CodeVO vo) {
         codeMgmtMapper.deleteCode(vo);
+    }
+
+    @Override
+    public List<CodeVO> getForumCodeList() {
+        return codeMgmtMapper.getForumCodeList(LocaleUtil.getLocale());
     }
 
 }

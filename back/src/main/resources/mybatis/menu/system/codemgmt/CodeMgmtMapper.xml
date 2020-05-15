@@ -6,44 +6,68 @@
 
     <select id="getCodeList" resultType="CodeVO">
         /* 공통코드 목록 조회 */
-        SELECT C.CODE_ID            AS CODE_ID
-             , C.CODE_GROUP_ID      AS CODE_GROUP_ID
-             , CM.MESSAGE           AS CODE_MESSAGE
+        SELECT C.CODE_ID                        AS CODE_ID
+             , C.CODE_GROUP_ID                  AS CODE_GROUP_ID
+             , IFNULL(CM.MESSAGE, C.CODE_NAME)  AS CODE_MESSAGE
           FROM CODE C
-         INNER
+          LEFT
           JOIN COUNTRY_MESSAGE CM
             ON CM.MESSAGE_ID    = C.CODE_MESSAGE
            AND CM.COUNTRY_CODE  = #{locale}
-         INNER
-          JOIN COUNTRY CTR
-            ON CTR.COUNTRY_CODE = CM.COUNTRY_CODE
-           AND CTR.USE_YN       = C.USE_YN
-           AND CTR.USE_YN       <![CDATA[<>]]> 0
+           AND CM.MESSAGE_ID    IN (
+                    SELECT MG.MESSAGE_ID
+                      FROM MESSAGE_GROUP MG
+                     WHERE MG.USE_YN <![CDATA[<>]]> 0
+               )
+         WHERE C.USE_YN <![CDATA[<>]]> 0
+    </select>
+
+    <select id="getCodeGroupListAll" resultType="CodeGroupVO">
+        /* 공통코드그룹 전체 조회 */
+        SELECT G.CODE_GROUP_ID                          AS CODE_GROUP_ID
+             , IFNULL(C.MESSAGE, G.CODE_GROUP_NAME)     AS CODE_GROUP_NAME
+          FROM CODE_GROUP G
+          LEFT
+          JOIN COUNTRY_MESSAGE C
+            ON C.MESSAGE_ID     = G.CODE_GROUP_MESSAGE
+           AND C.COUNTRY_CODE   = #{locale}
+           AND C.MESSAGE_ID     IN (
+                    SELECT MG.MESSAGE_ID
+                      FROM MESSAGE_GROUP MG
+                     WHERE MG.USE_YN <![CDATA[<>]]> 0
+               )
+         WHERE G.USE_YN <![CDATA[<>]]> 0
     </select>
 
     <select id="getCodeGroupList" resultType="CodeGroupVO">
         /* 공통코드그룹 목록 조회 */
         SELECT G.*
-             , C.MESSAGE                                        AS LOCALE_MESSAGE
+             , IFNULL(C.MESSAGE, G.CODE_GROUP_NAME)             AS LOCALE_MESSAGE
              , (
                     SELECT U.NICKNAME
                       FROM USER U
                      WHERE U.USER_ID        = G.UPDATER_ID
                        AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
+                       AND U.USE_YN         <![CDATA[<>]]> 0
                )                                                AS UPDATER_NAME
           FROM CODE_GROUP G
-         INNER
+          LEFT
           JOIN COUNTRY_MESSAGE C
             ON C.MESSAGE_ID     = G.CODE_GROUP_MESSAGE
            AND C.COUNTRY_CODE   = #{vo.locale}
+           AND C.MESSAGE_ID     IN (
+                    SELECT MG.MESSAGE_ID
+                      FROM MESSAGE_GROUP MG
+                     WHERE MG.USE_YN <![CDATA[<>]]> 0
+               )
         <where>
             <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
                 AND G.CODE_GROUP_ID = UPPER(#{vo.codeGroupId})
             </if>
             <if test="vo.codeGroupName != '' and vo.codeGroupName != null">
                 AND (
-                           G.CODE_GROUP_NAME    LIKE CONCAT('%', #{vo.codeGroupName}, '%')
-                        OR C.MESSAGE            LIKE CONCAT('%', #{vo.codeGroupName}, '%')
+                           G.CODE_GROUP_NAME        LIKE CONCAT('%', #{vo.codeGroupName}, '%')
+                        OR IFNULL(C.MESSAGE, '')    LIKE CONCAT('%', #{vo.codeGroupName}, '%')
                     )
             </if>
             AND G.USE_YN = #{vo.useYn}
@@ -106,18 +130,24 @@
     <select id="getCodeListSystem" resultType="CodeVO">
         /* 공통코드 목록 조회 */
         SELECT C.*
-             , CM.MESSAGE                                       AS LOCALE_MESSAGE
+             , IFNULL(CM.MESSAGE, C.CODE_NAME)                  AS LOCALE_MESSAGE
              , (
                    SELECT U.NICKNAME
                      FROM USER U
                     WHERE U.USER_ID     = C.UPDATER_ID
                       AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
+                      AND U.USE_YN      <![CDATA[<>]]> 0
                )                                                AS UPDATER_NAME
           FROM CODE C
-         INNER
+          LEFT
           JOIN COUNTRY_MESSAGE CM
             ON CM.MESSAGE_ID    = C.CODE_MESSAGE
            AND CM.COUNTRY_CODE  = #{vo.locale}
+           AND CM.MESSAGE_ID    IN (
+                    SELECT MG.MESSAGE_ID
+                      FROM MESSAGE_GROUP MG
+                     WHERE MG.USE_YN <![CDATA[<>]]> 0
+               )
         <where>
             <if test="vo.codeId != '' and vo.codeId != null">
                 AND C.CODE_ID = UPPER(#{vo.codeId})
@@ -127,8 +157,8 @@
             </if>
             <if test="vo.codeName != '' and vo.codeName != null">
                 AND (
-                       C.CODE_NAME   LIKE CONCAT('%', #{vo.codeName}, '%')
-                    OR CM.MESSAGE    LIKE CONCAT('%', #{vo.codeName}, '%')
+                       C.CODE_NAME              LIKE CONCAT('%', #{vo.codeName}, '%')
+                    OR IFNULL(CM.MESSAGE, '')   LIKE CONCAT('%', #{vo.codeName}, '%')
                 )
             </if>
             AND C.USE_YN = #{vo.useYn}
@@ -192,5 +222,29 @@
          WHERE CODE_GROUP_ID    = #{vo.codeGroupId}
            AND CODE_ID          = UPPER(#{vo.codeId})
     </update>
+
+    <select id="getForumCodeList" resultType="CodeVO">
+        /* 포럼 코드 조회 */
+        <![CDATA[
+            SELECT C.CODE_ID                         AS CODE_ID
+                 , IFNULL(CM.MESSAGE, C.CODE_NAME)   AS CODE_NAME
+              FROM CODE C
+             INNER
+              JOIN CODE_GROUP CG
+                ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
+               AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
+               AND C.USE_YN         <> 0
+               AND CG.USE_YN        <> 0
+              LEFT
+              JOIN COUNTRY_MESSAGE CM
+                ON CM.MESSAGE_ID    = C.CODE_MESSAGE
+               AND CM.COUNTRY_CODE  = #{locale}
+               AND CM.MESSAGE_ID    IN (
+                        SELECT MG.MESSAGE_ID
+                          FROM MESSAGE_GROUP MG
+                         WHERE MG.USE_YN <> 0
+                   )
+        ]]>
+    </select>
 
 </mapper>

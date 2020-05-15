@@ -11,6 +11,7 @@ import java.util.List;
 public interface CodeMgmtMapper {
 
     List<CodeVO> getCodeList(@Param("locale") String locale);
+    List<CodeGroupVO> getCodeGroupListAll(@Param("locale") String locale);
 
     List<CodeGroupVO> getCodeGroupList(@Param("vo") CodeGroupVO vo);
     Integer checkDuplication(@Param("codeGroupId") String codeGroupId);
@@ -23,5 +24,7 @@ public interface CodeMgmtMapper {
     void insertCode(@Param("vo") CodeVO vo);
     void updateCode(@Param("vo") CodeVO vo);
     void deleteCode(@Param("vo") CodeVO vo);
+
+    List<CodeVO> getForumCodeList(@Param("locale") String locale);
 
 }

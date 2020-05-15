@@ -25,6 +25,7 @@ const API = class {
 
     static CodeMgmtController = {
         getCodeGroupList: 'odor/code/getCodeGroupList/system',
+        getCodeGroupListAll: 'odor/code/getCodeGroupListAll/system',
         checkDuplication: 'odor/code/checkDuplication/system',
         insertCodeGroup: 'odor/code/insertCodeGroup/system',
         updateCodeGroup: 'odor/code/updateCodeGroup/system',
@@ -33,7 +34,8 @@ const API = class {
         checkDetailDuplication: 'odor/code/checkDetailDuplication/system',
         insertCode: 'odor/code/insertCode/system',
         updateCode: 'odor/code/updateCode/system',
-        deleteCode: 'odor/code/deleteCode/system'
+        deleteCode: 'odor/code/deleteCode/system',
+        getForumCodeList: 'odor/code/getForumCodeList/system'
     };
 
     static MessageMgmtController = {

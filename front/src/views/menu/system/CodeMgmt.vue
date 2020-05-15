@@ -214,6 +214,19 @@
             };
         },
         methods: {
+            getCodeGroupListAll() {
+                this.searchCombos.codeGroupId = [];
+                this.searchCombos.codeGroupName = [];
+
+                axios.get(
+                    API.CodeMgmtController.getCodeGroupListAll
+                ).then(res => {
+                    let codeGroupId = [''].concat(res.data.map(v => v.codeGroupId));
+                    let codeGroupName = [''].concat(res.data.map(v => v.codeGroupName));
+                    this.searchCombos.codeGroupId = codeGroupId;
+                    this.searchCombos.codeGroupName = codeGroupName;
+                });
+            },
             getCodeGroupList() {
                 this.selectedCodeGroup = [];
 
@@ -247,8 +260,18 @@
                 .then(res => {
                     this.confirmShow = false;
                     this.doneAlert(res.data);
-                    this.getCodeGroupList();
+                    this.reset();
+
                 });
+            },
+            reset() {
+                this.searchKeys = {
+                    codeGroupId: '',
+                    codeGroupName: '',
+                    useYn: true
+                };
+                this.getCodeGroupList();
+                this.getCodeGroupListAll();
             },
             addConfirm() {
                 this.insertPopShow = true;
@@ -274,14 +297,14 @@
                 axios.put(API.CodeMgmtController.insertCodeGroup, data)
                 .then(res => {
                     this.doneAlert(res.data);
-                    this.getCodeGroupList();
+                    this.reset();
                 });
             },
             updateItem(data) {
                 axios.patch(API.CodeMgmtController.updateCodeGroup, data)
                 .then(res => {
                     this.doneAlert(res.data);
-                    this.getCodeGroupList();
+                    this.reset();
                 });
             },
             doneAlert(type) {

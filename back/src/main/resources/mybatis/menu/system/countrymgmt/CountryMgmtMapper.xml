@@ -7,11 +7,18 @@
     <select id="getCountryListAll" resultType="CountryVO">
         /* 국가전체 목록 조회 */
         SELECT C.COUNTRY_CODE                                       AS COUNTRY_CODE
-             , (
+             , IFNULL(
+                 (
                     SELECT CM.MESSAGE
                       FROM COUNTRY_MESSAGE CM
+                     INNER
+                      JOIN MESSAGE_GROUP MG
+                        ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+                       AND MG.USE_YN        <![CDATA[<>]]> 0
                      WHERE CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
                        AND CM.COUNTRY_CODE  = #{locale}
+                 ),
+                 C.COUNTRY_NAME
                )                                                    AS COUNTRY_NAME
           FROM COUNTRY C
          WHERE C.USE_YN         <![CDATA[<>]]> 0
@@ -20,17 +27,25 @@
     <select id="getCountryList" resultType="CountryVO">
         /* 국가 목록 조회 */
         SELECT C.*
-             , (
+             , IFNULL(
+                 (
                    SELECT CM.MESSAGE
                      FROM COUNTRY_MESSAGE CM
+                    INNER
+                     JOIN MESSAGE_GROUP MG
+                       ON MG.MESSAGE_ID = CM.MESSAGE_ID
+                      AND MG.USE_YN     <![CDATA[<>]]> 0
                     WHERE CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
                       AND CM.COUNTRY_CODE  = #{vo.locale}
+                 ),
+                 C.COUNTRY_NAME
                )                                                AS LOCALE_MESSAGE
              , (
                     SELECT U.NICKNAME
                       FROM USER U
                      WHERE U.USER_ID        = C.UPDATER_ID
                        AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
+                       AND U.USE_YN         <![CDATA[<>]]> 0
                )                                                AS UPDATER_NAME
           FROM COUNTRY C
         <where>
@@ -39,8 +54,8 @@
             </if>
             <if test="vo.countryName != '' and vo.countryName != null">
                 AND (
-                           C.COUNTRY_NAME       LIKE CONCAT('%', #{vo.countryName}, '%')
-                        OR CM.MESSAGE           LIKE CONCAT('%', #{vo.countryName}, '%')
+                           C.COUNTRY_NAME           LIKE CONCAT('%', #{vo.countryName}, '%')
+                        OR IFNULL(CM.MESSAGE, '')   LIKE CONCAT('%', #{vo.countryName}, '%')
                     )
             </if>
             AND C.USE_YN = #{vo.useYn}

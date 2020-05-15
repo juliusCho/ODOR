@@ -212,6 +212,12 @@
 
                 this.searchCombos.messageId = messageId;
                 this.searchCombos.message = message;
+
+                this.searchKeys = {
+                    messageId: '',
+                    message: '',
+                    useYn: true
+                };
             },
             getMessageList() {
                 this.selectedMessage = [];
@@ -226,6 +232,7 @@
             async resetComMessages() {
                 await eventBus.setMessageList();
                 this.initializeSearchCombos();
+                this.getMessageList();
             },
             updateConfirm() {
                 this.updatePopShow = this.selectedMessage.length !== 0;

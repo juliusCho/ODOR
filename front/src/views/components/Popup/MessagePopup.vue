@@ -298,8 +298,9 @@
                 this.textEdit = boo;
                 this.blockAdd = !boo;
             },
-            addCheck() {
-                if (this.duplicateValidation()) {
+            async addCheck() {
+                let validResult = await this.duplicateValidation();
+                if (validResult) {
                     this.alertStatus = 'warning';
                     this.alertMsg = 'ID가 중복되면 쓰나';
                     this.alertShow = true;
@@ -307,8 +308,17 @@
                 }
                 this.confirmShow = true;
             },
-            duplicateValidation() {
-                return MESSAGE.getMessageList().some(v => v.messageId === this.selected.messageId);
+            async duplicateValidation() {
+                let result = true;
+
+                await axios.post(
+                    API.MessageMgmtController.checkDuplication,
+                    {messageId: this.selected.messageId}
+                )
+                .then(res => {
+                    result = res.data > 0;
+                });
+                return result;
             },
             createMessage() {
                 let list = [

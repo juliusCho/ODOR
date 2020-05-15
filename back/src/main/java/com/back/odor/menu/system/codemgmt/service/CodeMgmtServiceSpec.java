@@ -8,6 +8,7 @@ import java.util.List;
 public interface CodeMgmtServiceSpec {
 
     List<CodeVO> getCodeList();
+    List<CodeGroupVO> getCodeGroupListAll();
 
     List<CodeGroupVO> getCodeGroupList(CodeGroupVO vo);
     Integer checkDuplication(String codeGroupId);
@@ -20,5 +21,7 @@ public interface CodeMgmtServiceSpec {
     void insertCode(CodeVO vo);
     void updateCode(CodeVO vo);
     void deleteCode(CodeVO vo);
+
+    List<CodeVO> getForumCodeList();
 
 }
