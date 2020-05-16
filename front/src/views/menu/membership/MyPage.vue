@@ -108,6 +108,7 @@
                                    @click="updateUser"
                                    align="center"
                                    color="primary"
+                                   block
                                    rounded
                            >
                                변경하기
