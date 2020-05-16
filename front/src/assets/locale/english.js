@@ -8,7 +8,8 @@ const ENG = {
         loginWelcome: 'Welcome!',
         loginButton: 'Login',
         joinMessage: 'Not a member of ODOR yet?',
-        joinButton: 'Join ODOR'
+        joinButton: 'Join ODOR',
+        findIdPw: 'Find ID/Password'
     }
 }
 

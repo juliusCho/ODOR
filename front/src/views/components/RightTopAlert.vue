@@ -1,34 +1,41 @@
 <template>
-<!--    <div>-->
-<!--    <v-snackbar-->
-<!--        v-model="alertShow"-->
-<!--        v-if="show"-->
-<!--        :mode="mode"-->
-<!--        :type="status"-->
-<!--        transition="scale-transition"-->
-<!--    >-->
-<!--        {{msg}}-->
-<!--    </v-snackbar>-->
-<!--    </div>-->
-    <div class="overlap">
-        <v-row justify="center"
-             v-if="show">
-            <v-col col="12" md="3">
-                <v-alert
-                        :mode="mode"
-                        :type="status"
-                        transition="scale-transition"
-                >
-                    {{msg}}
-                </v-alert>
-            </v-col>
-        </v-row>
+    <div>
+    <v-snackbar
+        v-model="show"
+        :right="x === 'right'"
+        :top="y === 'top'"
+        :color="color"
+    >
+        {{msg}}
+    </v-snackbar>
     </div>
+<!--    <div class="overlap">-->
+<!--        <v-row justify="center"-->
+<!--             v-if="show">-->
+<!--            <v-col col="12" md="3">-->
+<!--                <v-alert-->
+<!--                        :mode="mode"-->
+<!--                        :type="status"-->
+<!--                        transition="scale-transition"-->
+<!--                >-->
+<!--                    {{msg}}-->
+<!--                </v-alert>-->
+<!--            </v-col>-->
+<!--        </v-row>-->
+<!--    </div>-->
 </template>
 
 <script>
     export default {
         name: "RightTopAlert",
+        data() {
+          return {
+              x: 'right',
+              y: 'top',
+              color: 'cyan darken-2',
+              snackbar: false,
+          }
+        },
         props: {
             // info / success / warning / error
             status: {
@@ -53,14 +60,15 @@
             },
             showTime: {
                 type: Number,
-                default: 2500,
+                default: 3000,
                 required: false
-            }
+            },
         },
         watch: {
             show() {
+                //this.$emit('hideDisplay');
                 setTimeout(() => {
-                    this.$emit('hideDisplay');
+                     this.$emit('hideDisplay');
                 }, this.showTime);
             }
         }
@@ -68,8 +76,8 @@
 </script>
 
 <style scoped>
-    .overlap {
-        position: relative;
-        z-index: 99;
-    }
+    /*.overlap {*/
+    /*    position: fixed;*/
+    /*    z-index: 99;*/
+    /*}*/
 </style>

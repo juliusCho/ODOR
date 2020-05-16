@@ -1,142 +1,80 @@
 <template>
     <v-container class="fill-height" fluid>
-        <RightTopAlert
-                :msg="alertMsg"
-                :show="alertShow"
-                :showTime="2500"
-                :status="loginStatus"
-                @hideDisplay="hideAlert"
-        />
         <v-layout column>
-            <v-flex xs3 />
-            <v-flex xs9>
-                <v-row justify="center" align="center">
-                    <p class="display-1 font-weight-thin">{{$t('membership.loginWelcome')}}</p>
-                </v-row>
+        <v-row align="center" justify="center" style="margin-bottom: -50px">
+            <p class="display-1 font-weight-thin">{{$t('membership.loginWelcome')}}</p>
+        </v-row>
+        <v-row justify="center">
+            <v-col cols="12" sm="8" md="4">
+            <v-layout column>
+            <RightTopAlert
+                    :msg="alertMsg"
+                    :show="alertShow"
+                    :showTime="2500"
+                    :status="loginStatus"
+                    @hideDisplay="hideAlert"
+            />
                 <v-layout row>
-                <v-flex xs4></v-flex>
-                <v-flex xs4>
-                    <v-row>
-                        <v-col cols="12" sm="6">
-                            <v-text-field
-                                v-model="loginInput.userId"
-                                :rules="idRules"
-                                v-bind:label="$t('membership.id')"
-                                name="id"
-                                solo
-                                required
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                            <v-text-field
-                                v-model="loginInput.password"
-                                v-bind:label="$t('membership.password')"
-                                name="password"
-                                solo
-                                required
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <div class="text-center">
-                        <v-btn
-                            class="pl-12 pr-12"
-                            @click="loginRequest"
-                            align="center"
-                            color="secondary"
-                            rounded
-                            block
-                            large
-                        >
-                            {{$t('membership.loginButton')}}
-                        </v-btn>
-                    </div>
-                    <v-row justify="center" align="center">
-                        <p class="subtitle-1 font-weight-thin" style="margin-top:25px; margin-bottom:20px">
-                            {{$t('membership.joinMessage')}}</p>
-                    </v-row>
-                    <div class="text-center">
-                        <v-btn
-                                class="pl-12 pr-12"
-                                @click="goTo('Join')"
-                                align="center"
-                                color="accent"
-                                rounded
-                                large
-                        >
-                            {{$t('membership.joinButton')}}
-                        </v-btn>
-                    </div>
-                </v-flex>
-                <v-flex xs4></v-flex>
+                    <v-text-field
+                        style="margin-right: 5px"
+                        v-model="loginInput.userId"
+                        :rules="idRules"
+                        v-bind:label="$t('membership.id')"
+                        name="id"
+                        solo
+                        required
+                    ></v-text-field>
+                    <v-text-field
+                        style="margin-left: 5px"
+                        v-model="loginInput.password"
+                        v-bind:label="$t('membership.password')"
+                        name="password"
+                        solo
+                        required
+                    ></v-text-field>
                 </v-layout>
-            </v-flex>
+            <div class="text-center">
+            <v-btn
+                    class="pl-12 pr-12"
+                    @click="loginRequest"
+                    align="center"
+                    color="secondary"
+                    block
+                    rounded
+                    large
+                >
+                    {{$t('membership.loginButton')}}
+                </v-btn>
+            </div>
+            <div class="text-right">
+                <p type="button"
+                   id="findId"
+                   class="subtitle-1 font-weight-thin"
+                   style="margin-top:5px; margin-bottom:20px"
+                   @click="goTo('IdPwFinder')"
+                >
+                    {{$t('membership.findIdPw')}}</p>
+            </div>
+            <v-row justify="center" align="center">
+                <p class="subtitle-1 font-weight-thin" style="margin-top:25px; margin-bottom:20px">
+                    {{$t('membership.joinMessage')}}</p>
+            </v-row>
+            <div class="text-center">
+                <v-btn
+                        class="pl-12 pr-12"
+                        @click="goTo('Join')"
+                        align="center"
+                        color="accent"
+                        rounded
+                        large
+                >
+                    {{$t('membership.joinButton')}}
+                </v-btn>
+            </div>
         </v-layout>
-                    <!--        <v-row justify="center">-->
-<!--            <v-col md="4">-->
-<!--                <v-card class="elevation-10">-->
-<!--                    <v-toolbar color="primary" dark flat>-->
-<!--                        <v-toolbar-title>Login</v-toolbar-title>-->
-<!--                        <v-spacer/>-->
-<!--                        <v-tooltip bottom>-->
-<!--                            <template v-slot:activator="{ on }">-->
-<!--                                <v-btn-->
-<!--                                    @click="goTo('IdPwFinder')"-->
-<!--                                    icon-->
-<!--                                    large-->
-<!--                                    v-on="on"-->
-<!--                                >-->
-<!--                                    <v-icon>mdi-account-alert-outline</v-icon>-->
-<!--                                </v-btn>-->
-<!--                            </template>-->
-<!--                            <span>I Forgot T_T</span>-->
-<!--                        </v-tooltip>-->
-<!--                        <v-tooltip right>-->
-<!--                            <template v-slot:activator="{ on }">-->
-<!--                                <v-btn-->
-<!--                                    @click="goTo('Join')"-->
-<!--                                    icon-->
-<!--                                    large-->
-<!--                                    v-on="on"-->
-<!--                                >-->
-<!--                                    <v-icon>mdi-account-box-multiple-outline</v-icon>-->
-<!--                                </v-btn>-->
-<!--                            </template>-->
-<!--                            <span>First Time?</span>-->
-<!--                        </v-tooltip>-->
-<!--                    </v-toolbar>-->
-<!--                    <v-card-text>-->
-<!--                        <v-form>-->
-<!--                            <v-text-field-->
-<!--                                    label="ID"-->
-<!--                                    name="id"-->
-<!--                                    required-->
-<!--                                    type="text"-->
-<!--                                    v-model="loginInput.userId"-->
-<!--                                    autofocus-->
-<!--                            />-->
-<!--                            <v-text-field-->
-<!--                                    id="password"-->
-<!--                                    label="PW"-->
-<!--                                    name="password"-->
-<!--                                    required-->
-<!--                                    type="password"-->
-<!--                                    v-model="loginInput.password"-->
-<!--                            />-->
-<!--                        </v-form>-->
-<!--                    </v-card-text>-->
-<!--                    <v-card-actions>-->
-<!--                        <v-spacer/>-->
-<!--                        <v-btn-->
-<!--                                @click="loginRequest"-->
-<!--                                class="mr-4"-->
-<!--                                color="primary"-->
-<!--                        >-->
-<!--                            Login-->
-<!--                        </v-btn>-->
-<!--                    </v-card-actions>-->
-<!--                </v-card>-->
-<!--            </v-col>-->
-<!--        </v-row>-->
+            </v-col>
+        </v-row>
+        </v-layout>
     </v-container>
 </template>
 
@@ -171,7 +109,7 @@
                     this.loginInput.password
                 )) {
                     this.loginStatus = 'info';
-                    this.alertMsg = '제대로 입력해!';
+                    this.alertMsg = '아이디 또는 패스워드를 입력하세요.';
                     this.alertShow = true;
                     return;
                 }
@@ -194,7 +132,7 @@
             loginResult(user) {
                 if (!SCRIPT_VALIDATOR.nullCheck(user)) {
                     this.loginStatus = 'warning';
-                    this.alertMsg = 'Login실패ㅠ';
+                    this.alertMsg = '아이디나 비밀번호가 맞지 않습니다.';
 
                 } else if ('reasonCode' in user) {
                     this.loginStatus = 'error';

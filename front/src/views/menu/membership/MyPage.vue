@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="fill-height" fluid>
         <RightTopAlert
             :msg="alertMsg"
             :show="alertShow"
