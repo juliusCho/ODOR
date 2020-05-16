@@ -1,8 +1,19 @@
 <template>
+<!--    <div>-->
+<!--    <v-snackbar-->
+<!--        v-model="alertShow"-->
+<!--        v-if="show"-->
+<!--        :mode="mode"-->
+<!--        :type="status"-->
+<!--        transition="scale-transition"-->
+<!--    >-->
+<!--        {{msg}}-->
+<!--    </v-snackbar>-->
+<!--    </div>-->
     <div class="overlap">
         <v-row justify="center"
              v-if="show">
-            <v-col md="3">
+            <v-col col="12" md="3">
                 <v-alert
                         :mode="mode"
                         :type="status"

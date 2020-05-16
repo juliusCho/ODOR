@@ -82,7 +82,7 @@
                        <v-row>
                            <v-col cols="12" sm="6">
                                <v-text-field
-                                       v-model="tmpSession.email"
+                                       v-model="tmpSession.emailId"
                                        :counter="10"
                                        label="Email"
                                        solo
@@ -92,6 +92,7 @@
                            <v-col cols="12" sm="6">
                                <v-select
                                        v-model="selectedEmail"
+                                       item-value="emailAdd"
                                        :counter="10"
                                        :items="emailItems"
                                        label="Email"
@@ -139,7 +140,7 @@
                     {emailAdd:'@naver.com'},
                     {emailAdd:'@daum.net'}
                     ],
-                selectedEmail: {emailAdd:'@gmail.com'},
+                selectedEmail: {},
                 genderCode1: 'M',
                 genderCode2: 'F',
                 avatar: null,
@@ -169,6 +170,9 @@
                     return;
                 }
                 this.tmpSession = TMP_SESSION.getLoginUser();
+                let email = this.tmpSession.email.split('@');
+                this.selectedEmail = '@'+email[1];
+                this.tmpSession.emailId = email[0];
                 this.tmpSession.membershipName = CODE.getCodeName('MEMBERSHIP_LVL_CODE', this.tmpSession.membershipKey);
                 //this.tmpSession.genderCode = CODE.getCodeName('GENDER_CODE', this.tmpSession.genderCode);
 
