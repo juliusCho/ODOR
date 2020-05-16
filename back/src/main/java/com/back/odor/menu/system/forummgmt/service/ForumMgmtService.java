@@ -32,6 +32,7 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
     }
 
     @Override
+    @Transactional
     public List<ForumVO> getSystemList(UserVO user, HttpServletRequest req) {
         List<ForumVO> result = new ArrayList<>();
 

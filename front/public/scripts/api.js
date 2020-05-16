@@ -71,4 +71,16 @@ const API = class {
         deleteCategory: 'odor/category/deleteCategory/system'
     };
 
+    static MembershipMgmtController = {
+        getMembershipListAll: 'odor/membership/getMembershipListAll/system',
+        getMembershipList: 'odor/membership/getMembershipList/system',
+        checkDuplication: 'odor/membership/checkDuplication/system',
+        deleteMembership: 'odor/membership/deleteMembership/system',
+        updateMembership: 'odor/membership/updateMembership/system',
+        insertMembership: 'odor/membership/insertMembership/system',
+        getMappedForumList: 'odor/membership/getMappedForumList/system',
+        deleteMapping: 'odor/membership/deleteMapping/system',
+        saveMapping: 'odor/membership/saveMapping/system'
+    }
+
 };

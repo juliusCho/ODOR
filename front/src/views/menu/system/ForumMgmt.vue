@@ -105,6 +105,8 @@
                 :width="1000"
                 :fields="headers"
                 :values="selectedForum[0]"
+                :validation="duplicateValidation"
+                :invalidMsg="'중복포럼!!'"
                 @okAction="updateItem"
                 @cancelAction="updatePopShow = false"
         />

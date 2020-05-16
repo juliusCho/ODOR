@@ -28,13 +28,13 @@ public class GlobalConst {
     ;
 
     public static final String[] SYSTEM_MENU = {
+//        "CountryMgmt",
         "MessageMgmt",
         "CategoryMgmt",
         "CodeMgmt",
         "ForumMgmt",
         "MembershipMgmt",
         "UserMgmt",
-//        "CountryMgmt",
         "BrandMgmt",
         "CreatorMgmt",
         "ProductTypeMgmt",

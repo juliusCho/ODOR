@@ -27,6 +27,7 @@ public class SessionService implements SessionServiceSpec {
 
 
     @Override
+    @Transactional
     public Object validateLogin(UserVO user) {
         SessionServiceSpec.loginTrialConsole(user);
         UserVO loginUser = sessionMapper.validateLogin(user);

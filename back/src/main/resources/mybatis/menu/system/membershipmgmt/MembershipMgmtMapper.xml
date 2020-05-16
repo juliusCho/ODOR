@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.back.odor.menu.system.membershipmgmt.mapper.MembershipMgmtMapper">
+
+    <select id="getMembershipListAll" resultType="MembershipVO">
+        /* 맴버쉽 목록 전체 조회 */
+        <![CDATA[
+            SELECT M.MEMBERSHIP_KEY                         AS MEMBERSHIP_KEY
+                 , IFNULL(CM.MESSAGE, M.MEMBERSHIP_NAME)    AS MEMBERSHIP_NAME
+              FROM MEMBERSHIP M
+              LEFT
+              JOIN COUNTRY_MESSAGE CM
+                ON CM.MESSAGE_ID    = M.MEMBERSHIP_MESSAGE
+               AND CM.COUNTRY_CODE  = #{locale}
+               AND CM.MESSAGE_ID    IN (
+                        SELECT MG.MESSAGE_ID
+                          FROM MESSAGE_GROUP MG
+                         WHERE MG.USE_YN <> 0
+                   )
+        ]]>
+    </select>
+
+    <select id="getMembershipList" resultType="MembershipVO">
+        /* 맴버쉽 목록 조회 */
+        <![CDATA[
+            SELECT M.*
+                 , IFNULL(
+                        (
+                           SELECT CM.MESSAGE
+                             FROM COUNTRY_MESSAGE CM
+                            INNER
+                             JOIN MESSAGE_GROUP MG
+                               ON MG.MESSAGE_ID = CM.MESSAGE_ID
+                              AND MG.USE_YN     <> 0
+                            WHERE CM.MESSAGE_ID    = M.MEMBERSHIP_MESSAGE
+                              AND CM.COUNTRY_CODE  = #{vo.locale}
+                        ),
+                        M.MEMBERSHIP_NAME
+                   )                                                AS LOCALE_MESSAGE
+                 , IFNULL(
+                        (
+                            SELECT IFNULL(CM.MESSAGE, C.CODE_NAME)
+                              FROM CODE C
+                             INNER
+                              JOIN CODE_GROUP CG
+                                ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
+                               AND CG.CODE_GROUP_ID = 'MEMBERSHIP_LVL_CODE'
+                               AND CG.USE_YN        <> 0
+                               AND C.USE_YN         <> 0
+                              LEFT
+                              JOIN COUNTRY_MESSAGE CM
+                                ON CM.MESSAGE_ID    = C.CODE_MESSAGE
+                               AND CM.COUNTRY_CODE  = #{vo.locale}
+                               AND CM.MESSAGE_ID    IN (
+                                        SELECT MG.MESSAGE_ID
+                                          FROM MESSAGE_GROUP MG
+                                         WHERE MG.USE_YN <> 0
+                                   )
+                             WHERE C.CODE_ID = M.LVL_CODE
+                        ),
+                        ''
+                   )                                                AS LVL_NAME
+                 , (
+                        SELECT U.NICKNAME
+                          FROM USER U
+                         WHERE U.USER_ID        = M.UPDATER_ID
+                           AND U.SYS_MNGR_YN    <> 0
+                           AND U.USE_YN         <> 0
+                   )                                                AS UPDATER_NAME
+              FROM MEMBERSHIP M
+             WHERE M.USE_YN = #{vo.useYn}
+        ]]>
+        <if test="vo.membershipKey gt 0 and vo.membershipKey != null">
+            AND M.MEMBERSHIP_KEY = #{vo.membershipKey}
+        </if>
+        <if test="vo.lvlCode != '' and vo.lvlCode != null">
+            AND M.LVL_CODE = #{vo.lvlCode}
+        </if>
+    </select>
+
+    <select id="checkDuplication" resultType="Integer">
+        /* 중복체크 */
+        SELECT COUNT(1)
+          FROM MEMBERSHIP
+         WHERE LVL_CODE             = #{vo.lvlCode}
+           AND MEMBERSHIP_MESSAGE   = #{vo.membershipMessage}
+        <if test="vo.membershipKey gt 0 and vo.membershipKey != null">
+            AND MEMBERSHIP_KEY <![CDATA[<>]]> #{vo.membershipKey}
+        </if>
+    </select>
+
+    <update id="deleteMembership">
+        /* 맴버쉽 삭제 */
+        UPDATE MEMBERSHIP
+           SET USE_YN       = 0
+             , UPDATE_DATE  = UTC_TIMESTAMP()
+             , UPDATER_ID   = #{vo.updaterId}
+         WHERE MEMBERSHIP_KEY = #{vo.membershipKey}
+    </update>
+
+    <update id="updateMembership">
+        /* 맴버쉽 수정 */
+        UPDATE MEMBERSHIP
+           SET USE_YN               = #{vo.useYn}
+             , MEMBERSHIP_MESSAGE   = #{vo.membershipMessage}
+             , MEMBERSHIP_NAME      = #{vo.membershipName}
+             , LVL_CODE             = #{vo.lvlCode}
+             , UPDATE_DATE          = UTC_TIMESTAMP()
+             , UPDATER_ID           = #{vo.updaterId}
+         WHERE MEMBERSHIP_KEY = #{vo.membershipKey}
+    </update>
+
+    <insert id="insertMembership">
+        /* 맴버쉽 신규 생성 */
+        INSERT
+          INTO MEMBERSHIP
+               (
+                    MEMBERSHIP_MESSAGE,
+                    MEMBERSHIP_NAME,
+                    LVL_CODE,
+                    USE_YN,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    #{vo.membershipMessage},
+                    #{vo.membershipName},
+                    #{vo.lvlCode},
+                    #{vo.useYn},
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <select id="getMappedForumList" resultType="MembershipForumMapperVO">
+        /* 매핑된 포럼 목록 조회 */
+        SELECT CATEGORY_ID
+             , FORUM_KEY
+          FROM MEMBERSHIP_FORUM_MAPPER
+         WHERE MEMBERSHIP_KEY = #{membershipKey}
+    </select>
+
+    <delete id="deleteMapping">
+        /* 매핑 삭제 */
+        DELETE
+          FROM MEMBERSHIP_FORUM_MAPPER
+         WHERE MEMBERSHIP_KEY   = #{vo.membershipKey}
+           AND CATEGORY_ID      = #{vo.categoryId}
+    </delete>
+
+    <insert id="insertMapping">
+        /* 매핑 신규 등록 */
+        INSERT
+          INTO MEMBERSHIP_FORUM_MAPPER
+               (
+                    MEMBERSHIP_KEY,
+                    CATEGORY_ID,
+                    FORUM_KEY,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    #{vo.membershipKey},
+                    #{vo.categoryId},
+                    #{vo.forumKey},
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
+    </insert>
+
+</mapper>

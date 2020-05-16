@@ -27,6 +27,7 @@ public class MessageMgmtService implements MessageMgmtServiceSpec {
     }
 
     @Override
+    @Transactional
     public void insertMessage(List<MessageVO> list) {
         messageMgmtMapper.insertMessageGroup(list.get(0));
 
@@ -46,6 +47,7 @@ public class MessageMgmtService implements MessageMgmtServiceSpec {
     }
 
     @Override
+    @Transactional
     public void updateMessage(List<MessageVO> list) {
         messageMgmtMapper.updateMessageGroup(list.get(0));
         messageMgmtMapper.updateMessage(list.get(0));

@@ -245,8 +245,7 @@
                     .then(res => {
                         this.confirmShow = false;
                         this.doneAlert(res.data);
-                        this.getCountryListAll();
-                        this.getCountryList();
+                        this.reset();
                     });
             },
             addConfirm() {
@@ -273,16 +272,14 @@
                 axios.put(API.CountryMgmtController.insertCountry, data)
                     .then(res => {
                         this.doneAlert(res.data);
-                        this.getCountryListAll();
-                        this.getCountryList();
+                        this.reset();
                     });
             },
             updateItem(data) {
                 axios.patch(API.CountryMgmtController.updateCountry, data)
                     .then(res => {
                         this.doneAlert(res.data);
-                        this.getCountryListAll();
-                        this.getCountryList();
+                        this.reset();
                     });
             },
             doneAlert(type) {
@@ -294,6 +291,15 @@
                     this.alertMsg = '저장실패';
                 }
                 this.alertShow = true;
+            },
+            reset() {
+                this.searchKeys = {
+                    countryCode: '',
+                    countryName: '',
+                    useYn: true
+                };
+                this.getCountryListAll();
+                this.getCountryList();
             }
         }
     }
