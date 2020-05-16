@@ -159,7 +159,7 @@
                 },
                 searchCombos: {
                     forumKey: [{forumKey: 0, forumName: 'All'}],
-                    categoryId: [{categoryId: '', categoryName: 'All'}],
+                    categoryId: [],
                     forumTypeCode: [{codeId: '', codeName: 'All'}].concat(forumTypeCode),
                     useYn: CODE.getCodeList('USE_YN')
                 },
@@ -171,8 +171,10 @@
                         value: 'categoryName',
                         width: '180px',
                         type: 'string',
-                        updateType: 'category',
-                        insertType: 'category'
+                        updateType: 'select',
+                        insertType: 'select',
+                        selectItems: [],
+                        selectKey: 'categoryId'
                     },
                     {
                         text: 'Forum Name',
@@ -233,14 +235,12 @@
         },
         methods: {
             async getCategoryListAll() {
-                this.searchCombos.categoryId = [];
-
                 await axios.get(
                     API.CategoryMgmtController.getCategoryListAll
                 ).then(res => {
-                    let categoryId = [{categoryId: '', categoryName: 'All'}]
+                    this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
-                    this.searchCombos.categoryId = categoryId;
+                    this.headers[0].selectItems = res.data.map(v => ({value: v.categoryId, text: v.categoryName}));
                 });
             },
             async getForumListAll() {
@@ -327,7 +327,6 @@
                     forumTypeCode: '',
                     useYn: true
                 };
-                this.getCategoryListAll();
                 this.getForumListAll();
                 this.getForumList();
             }

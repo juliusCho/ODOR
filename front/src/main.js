@@ -7,7 +7,7 @@ import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
 import axios from 'axios'
 // import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
-import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
+// import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
 
 Vue.config.productionTip = false;
 
@@ -23,7 +23,7 @@ export const eventBus = new Vue({
 
     // Set Message
     async setMessageList() {
-      await axios.post(
+      await axios.get(
           API.CommonController.getMessageList
       ).then(res => {
         MESSAGE.setMessageList(res.data);
@@ -31,7 +31,7 @@ export const eventBus = new Vue({
     },
     // Set System Code
     async setCodeList() {
-      await axios.post(
+      await axios.get(
           API.CommonController.getCodeList
       ).then(res => {
         CODE.setCodeList(res.data);

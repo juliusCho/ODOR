@@ -76,10 +76,10 @@
         <if test="vo.forumKey gt 0 and vo.forumKey != null">
             AND F.FORUM_KEY = #{vo.forumKey}
         </if>
-        <if test="vo.categoryId gt 0 and vo.categoryId != null">
+        <if test="vo.categoryId != '' and vo.categoryId != null">
             AND CAT.CATEGORY_ID = #{vo.categoryId}
         </if>
-        <if test="vo.forumTypeCode gt 0 and vo.forumTypeCode != null">
+        <if test="vo.forumTypeCode != '' and vo.forumTypeCode != null">
             AND F.FORUM_TYPE_CODE = #{vo.forumTypeCode}
         </if>
         <![CDATA[
@@ -148,9 +148,9 @@
                     #{vo.forumTypeCode},
                     #{vo.reviewYn},
                     #{vo.useYn},
-                    #{creatorId},
+                    #{vo.creatorId},
                     UTC_TIMESTAMP(),
-                    #{updaterID},
+                    #{vo.updaterId},
                     UTC_TIMESTAMP()
                )
     </insert>

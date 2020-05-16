@@ -152,7 +152,7 @@
       },
       // Set System Message
       async setMessageList() {
-        await axios.post(
+        await axios.get(
                 API.CommonController.getMessageList
         ).then(res => {
           MESSAGE.setMessageList(res.data);
@@ -161,7 +161,7 @@
       },
       // Set System Code
       async setCodeList() {
-        await axios.post(
+        await axios.get(
                 API.CommonController.getCodeList
         ).then(res => {
           CODE.setCodeList(res.data);
