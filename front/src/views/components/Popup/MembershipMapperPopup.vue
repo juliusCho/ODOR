@@ -74,6 +74,8 @@
                         show-select
                         height="250px"
                         @click:row="selectedForum = [$event]"
+                        :loading="rightLoading"
+                        loading-text="카테고리를 선택해줘"
                     >
                     </v-data-table>
                 </v-card-text>
@@ -159,6 +161,7 @@
                     categoryId: [],
                     forumKey: []
                 },
+                rightLoading: true,
 
                 categoryHeaders: [
                     {
@@ -168,7 +171,7 @@
                     },
                     {
                         text: 'Category Name',
-                        value: 'categoryName',
+                        value: 'localeMessage',
                         width: '100px'
                     }
                 ],
@@ -208,6 +211,16 @@
             'searchKeys.categoryId': {
                 handler() {
                     this.getForumListAll();
+                },
+                deep: true
+            },
+            selectedForum: {
+                handler() {
+                    if (this.selectedForum.length === 0) {
+                        this.rightLoading = true;
+                    } else {
+                        this.rightLoading = false;
+                    }
                 },
                 deep: true
             }
