@@ -21,9 +21,12 @@ public class ForumMgmtController {
     private ForumMgmtService forumMgmtService;
 
 
-    @GetMapping("getForumList/rest")
-    public ResponseEntity<List<ForumVO>> getForumList() {
-        return ResponseEntity.ok(forumMgmtService.getForumList());
+    @PostMapping("getForumList/rest")
+    public ResponseEntity<List<ForumVO>> getForumList(
+            @RequestBody UserVO user,
+            HttpServletRequest req
+    ) {
+        return ResponseEntity.ok(forumMgmtService.getForumList(user, req));
     }
 
     @PostMapping("getSystemList/system")

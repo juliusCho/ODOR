@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface ForumMgmtMapper {
 
-    List<ForumVO> getForumList();
+    List<ForumVO> getForumList(@Param("lvlCode") String lvlCode);
 
     List<ForumVO> getForumListAll();
     List<ForumVO> getForumListSystem(@Param("vo") ForumVO vo);

@@ -2,6 +2,7 @@ package com.back.odor.menu.system.forummgmt.service;
 
 import com.back.odor.common.etc.GlobalConst;
 import com.back.odor.common.session.service.SessionService;
+import com.back.odor.common.utils.AuthUtil;
 import com.back.odor.menu.system.forummgmt.mapper.ForumMgmtMapper;
 import com.back.odor.menu.system.forummgmt.vo.ForumVO;
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
@@ -27,8 +28,12 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
 
 
     @Override
-    public List<ForumVO> getForumList() {
-        return forumMgmtMapper.getForumList();
+    public List<ForumVO> getForumList(UserVO user, HttpServletRequest req) {
+        UserVO vo = AuthUtil.getCurrentUser();
+        if (!sessionService.sessionCheck(user, req)) {
+            vo = new UserVO("", "", "0");
+        }
+        return forumMgmtMapper.getForumList(vo.getMembershipKey());
     }
 
     @Override
@@ -47,6 +52,7 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
                 vo.setForumTypeCode("ETC");
                 vo.setReviewYn(false);
                 vo.setUseYn(true);
+                vo.setDisabled(false);
                 result.add(vo);
             }
         }

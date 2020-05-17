@@ -28,4 +28,6 @@ public class ForumVO extends CommonVO implements Serializable {
 
     private boolean reviewYn;
 
+    private boolean disabled;
+
 }

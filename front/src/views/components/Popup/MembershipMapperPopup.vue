@@ -208,12 +208,6 @@
                     this.getCategoryList();
                 }
             },
-            'searchKeys.categoryId': {
-                handler() {
-                    this.getForumListAll();
-                },
-                deep: true
-            },
             selectedForum: {
                 handler() {
                     if (this.selectedForum.length === 0) {

@@ -113,6 +113,7 @@
       loggedInBoo() {
         this.sysMngrYn = this.sysMngrCheck();
         this.setSystemLocale();
+        this.getForumList();
         this.getSystemList();
       },
       locale() {
@@ -181,10 +182,10 @@
       },
       // get forum list
       getForumList() {
-        if (this.forum.length > 0) {
-          return;
-        }
-        axios.get(API.ForumMgmtController.getForumList)
+        axios.post(
+                API.ForumMgmtController.getForumList,
+                TMP_SESSION.getLoginUser()
+        )
         .then(res => {
           this.forum = res.data.length > 0 ? res.data : [];
         });

@@ -10,6 +10,8 @@
                         :key="sub[keyCol]"
                         link
                         @click="goTo(sub)"
+                        style="height: 20px;"
+                        :disabled="sub.disabled"
                 >
                     <v-list-item-title
                             v-text="sub[labelCol]"

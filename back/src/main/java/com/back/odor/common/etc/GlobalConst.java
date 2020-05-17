@@ -38,8 +38,8 @@ public class GlobalConst {
         "BrandMgmt",
         "CreatorMgmt",
         "ProductTypeMgmt",
-        "ProductMgmt",
         "IngredientMgmt",
+        "ProductMgmt",
         "RatingItemMgmt"
     };
 

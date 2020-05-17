@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ForumMgmtServiceSpec {
 
-    List<ForumVO> getForumList();
+    List<ForumVO> getForumList(UserVO user, HttpServletRequest req);
 
     List<ForumVO> getSystemList(UserVO user, HttpServletRequest req);
 
