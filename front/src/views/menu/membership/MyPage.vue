@@ -11,7 +11,7 @@
                <v-layout row>
                 <v-flex xs3>
                    <v-row justify="center" align="center">
-                        <p class="display-1 font-weight-light">My Page</p>
+                        <p class="display-1 font-weight-light">{{$t('membership.myPage')}}</p>
                    </v-row>
                     <!-- Avatar Changer -->
                     <v-container grid-list-xl>
@@ -35,13 +35,13 @@
                     </v-container>
                     <ImageInput />
                     <v-row justify="center" align="center">
-                        <p class="subtitle-1 font-weight-light">회원등급</p>
+                        <p class="subtitle-1 font-weight-light">{{$t('membership.membershipLvl')}}</p>
                         <p style="padding-left: 5px" class="subtitle-1 font-weight-regular">{{tmpSession.membershipName}}</p>
                     </v-row>
                 </v-flex>
                 <v-flex xs6>
                    <div>
-                       <p class="display-1 font-weight-regular">회원정보 변경</p>
+                       <p class="display-1 font-weight-regular">{{$t('membership.chgMembershipInfo')}}</p>
                    </div>
                    <v-row align="center">
                          <v-radio-group v-model="tmpSession.genderCode" row>
@@ -54,28 +54,28 @@
                                v-model="tmpSession.userId"
                                :counter="10"
                                :rules="idRules"
-                               label="ID"
+                               v-bind:label="$t('membership.id')"
                                solo
                                required
                        ></v-text-field>
                        <v-text-field
                                v-model="tmpSession.password"
                                :counter="20"
-                               label="Password"
+                               v-bind:label="$t('membership.password')"
                                solo
                                required
                        ></v-text-field>
                        <v-text-field
                                v-model="tmpSession.nickname"
                                :counter="10"
-                               label="Nickname"
+                               v-bind:label="$t('membership.nickname')"
                                solo
                                required
                        ></v-text-field>
                        <v-text-field
                                v-model="tmpSession.age"
                                :counter="10"
-                               label="Age"
+                               v-bind:label="$t('membership.age')"
                                solo
                                required
                        ></v-text-field>
@@ -84,7 +84,7 @@
                                <v-text-field
                                        v-model="tmpSession.emailId"
                                        :counter="10"
-                                       label="Email"
+                                       v-bind:label="$t('membership.email')"
                                        solo
                                        required
                                ></v-text-field>
@@ -111,7 +111,7 @@
                                    block
                                    rounded
                            >
-                               변경하기
+                               {{$t('membership.updateButton')}}
                            </v-btn>
                        </div>
                    </v-form>

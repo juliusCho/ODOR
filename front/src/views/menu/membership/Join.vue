@@ -1,73 +1,129 @@
 <template>
-    <v-container>
-        <RightTopAlert
-                :msg="alertMsg"
-                :show="alertShow"
-                :showTime="2500"
-                :status="alertStatus"
-                @hideDisplay="hideAlert"
-        />
-        <v-row justify="center" class="main_content">
-            <v-col md="7">
-                <v-card class="elevation-10">
-                    <v-toolbar color="primary" dark flat>
-                        <v-toolbar-title>Join</v-toolbar-title>
-                        <v-spacer/>
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-form>
+    <v-container class="fill-height" fluid>
+        <v-layout column>
+            <v-row align="center" justify="center" style="margin-bottom: -50px">
+                <p class="display-1 font-weight-thin">{{$t('membership.joinMainMessage')}}</p>
+            </v-row>
+        <v-row justify="center">
+            <v-col cols="12" sm="8" md="8">
+                <v-container column>
+                    <v-row align="center">
+                        <v-radio-group v-model="tmpSession.genderCode" row>
+                            <v-radio class="ma-4" color="primary" label="Male" value="M"></v-radio>
+                            <v-radio class="ma-4" color="primary" label="Female" value="F"></v-radio>
+                        </v-radio-group>
+                    </v-row>
+                    <v-flex row>
+                        <v-col cols="12" sm="6">
                             <v-text-field
-                                label="ID"
-                                name="id"
-                                required
-                                type="text"
-                                v-model="joinInput.userId"
-                            >
+                                    v-model="tmpSession.userId"
+                                    :counter="10"
+                                    :rules="idRules"
+                                    v-bind:label="$t('membership.id')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-text-field
+                                    v-model="tmpSession.password"
+                                    :counter="20"
+                                    v-bind:label="$t('membership.password')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                        </v-col>
+                    </v-flex>
+                    <v-flex row>
+                        <v-col cols="12" sm="6">
+                            <v-text-field
+                                    v-model="tmpSession.nickname"
+                                    :counter="10"
+                                    v-bind:label="$t('membership.nickname')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-text-field
+                                    v-model="tmpSession.age"
+                                    :counter="10"
+                                    v-bind:label="$t('membership.age')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                        </v-col>
+                    </v-flex>
+                    <v-flex row>
+                        <v-col cols="12" sm="6">
+                            <v-text-field
+                                    v-model="tmpSession.emailId"
+                                    :counter="10"
+                                    v-bind:label="$t('membership.email')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-select
+                                    v-model="selectedEmail"
+                                    item-value="emailAdd"
+                                    :counter="10"
+                                    :items="emailItems"
+                                    label="Email"
+                                    item-text="emailAdd"
+                                    solo
+                                    required
+                            ></v-select>
+                        </v-col>
+                    </v-flex>
 
-                            </v-text-field>
-                        </v-form>
-                    </v-card-text>
-                </v-card>
+                    <div class="text-center">
+                        <v-btn
+                                style="padding-left: 100px; padding-right: 100px"
+                                @click="createUser"
+                                align="center"
+                                color="secondary"
+                                large
+                                rounded
+                        >
+                            {{$t('membership.joinButton')}}
+                        </v-btn>
+                    </div>
+                </v-container>
             </v-col>
         </v-row>
+        </v-layout>
     </v-container>
 </template>
 
 <script>
-    import RightTopAlert from '@/views/components/RightTopAlert';
-    import axios from 'axios';
 
     export default {
-        name: 'Join',
-        components: {
-            RightTopAlert
-        },
+        name: "IdPwFinder",
         data() {
             return {
-                alertMsg: '',
-                alertShow: false,
-                alertStatus: '',
-
-                joinInput: {
-                    userId: '',
-                    password: '',
-                    email: '',
-                    nickname: '',
-                    genderCode: '',
-                    age: 0
-                }
+                tmpSession: {},
+                genderCode1: 'M',
+                genderCode2: 'F',
+                idRules: SCRIPT_VALIDATOR.idRules(),
+                emailItems: [
+                    {emailAdd:'@gmail.com'},
+                    {emailAdd:'@naver.com'},
+                    {emailAdd:'@daum.net'}
+                ],
+                selectedEmail: {},
             };
         },
         methods: {
-            hideAlert() {
-                this.alertShow = false;
+            createUser() {
+
             }
-        }
+        },
+
     }
 </script>
 
 <style scoped>
-    .main_content {
-        padding-bottom: 7%;
-    }
+
 </style>
