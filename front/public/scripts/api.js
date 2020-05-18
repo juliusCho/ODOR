@@ -83,4 +83,16 @@ const API = class {
         saveMapping: 'odor/membership/saveMapping/system'
     }
 
+    static UserMgmtController = {
+        getUserListAll: 'odor/user/getUserListAll/system',
+        getUserList: 'odor/user/getUserList/system',
+        checkDuplication: 'odor/user/checkDuplication/system',
+        checkEmailDuplication: 'odor/user/checkEmailDuplication/system',
+        insertUser: 'odor/user/insertUser/system',
+        updateUser: 'odor/user/updateUser/system',
+        deleteUser: 'odor/user/deleteUser/system',
+        unblockUser: 'odor/user/unblockUser/system',
+        blockUser: 'odor/user/blockUser/system'
+    }
+
 };

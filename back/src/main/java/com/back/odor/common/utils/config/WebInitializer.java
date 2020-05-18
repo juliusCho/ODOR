@@ -1,5 +1,6 @@
 package com.back.odor.common.utils.config;
 
+import com.back.odor.common.filters.AuditingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletContext;
@@ -12,7 +13,9 @@ public class WebInitializer
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] {
-                JavaConfig.class, SecurityConfig.class, DatabaseConfig.class
+                JavaConfig.class,
+                SecurityConfig.class,
+                DatabaseConfig.class
         };
     }
 

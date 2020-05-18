@@ -48,7 +48,7 @@ public class SessionService implements SessionServiceSpec {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 vo.getUserId(),
                 vo.getPassword(),
-                AuthorityUtils.createAuthorityList(vo.getMembershipKey())
+                AuthorityUtils.createAuthorityList(vo.getLvlCode())
         );
 
         CustomAuthenticationProvider auth = new CustomAuthenticationProvider();

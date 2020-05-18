@@ -69,17 +69,23 @@ const SCRIPT_VALIDATOR = class {
         ];
     };
 
+    static numRules(num = 4) {
+        return [
+            v => /^[0-9]*$/.test(v) || (this.locale === 'KO' ? '숫자만 입력 가능합니다.' : 'Only numbers are allowed.')
+        ].concat(this.textRules(num));
+    }
+
     static idRules() {
         return this.textRules(20).concat([
             v => /^\S+$/.test(v) || (this.locale === 'KO' ? '공백은 입력할 수 없습니다.' : 'No whitespace is allowed.')
-        ])
+        ]);
     }
 
     static emailRules() {
         return this.textRules(50).concat([
             v => /.+@.+\..+/.test(v) || (this.locale === 'KO' ? '이메일 형식에 맞지 않습니다.' : 'Invalid email format.'),
-            v => /\s/.test(v) || (this.locale === 'KO' ? '공백은 입력할 수 없습니다.' : 'No whitespace allowed.')
-        ])
+            v => /^\S+$/.test(v) || (this.locale === 'KO' ? '공백은 입력할 수 없습니다.' : 'No whitespace allowed.')
+        ]);
     };
 
     static urlRules() {

@@ -22,7 +22,7 @@
                        AND M.USE_YN         <![CDATA[<>]]> 0
                  ),
                  ''
-               )                                                AS MEMBERSHIP_KEY
+               )                                                AS LVL_CODE
           FROM USER U
          WHERE U.USER_ID    = #{user.userId}
            AND u.PASSWORD   = #{user.password}

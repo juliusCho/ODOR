@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.back.odor.menu.system.usermgmt.mapper.UserMgmtMapper">
+
+    <select id="getUserListAll" resultType="UserVO">
+        /* 사용자전체 목록 조회 */
+        SELECT U.USER_ID
+             , U.EMAIL
+             , U.NICKNAME
+          FROM USER U
+    </select>
+
+    <select id="getUserList" resultType="UserVO">
+        /* 사용자 목록 조회 */
+        <![CDATA[
+            SELECT U.*
+                 , IFNULL(
+                       (
+                           SELECT IFNULL(CM.MESSAGE, C.CODE_NAME)
+                             FROM CODE C
+                            INNER
+                             JOIN CODE_GROUP CG
+                               ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
+                              AND CG.CODE_GROUP_ID = 'GENDER_CODE'
+                              AND CG.USE_YN        <> 0
+                              AND C.USE_YN         <> 0
+                             LEFT
+                             JOIN COUNTRY_MESSAGE CM
+                               ON CM.MESSAGE_ID    = C.CODE_MESSAGE
+                              AND CM.COUNTRY_CODE  = #{vo.locale}
+                              AND CM.MESSAGE_ID    IN (
+                                      SELECT MG.MESSAGE_ID
+                                        FROM MESSAGE_GROUP MG
+                                       WHERE MG.USE_YN <> 0
+                                  )
+                            WHERE C.CODE_ID = U.GENDER_CODE
+                       ),
+                       ''
+                   )                                                AS GENDER_NAME
+                 , IFNULL(
+                        (
+                            SELECT IFNULL(CM.MESSAGE, M.MEMBERSHIP_NAME)
+                              FROM MEMBERSHIP M
+                              LEFT
+                              JOIN COUNTRY_MESSAGE CM
+                                ON CM.MESSAGE_ID    = M.MEMBERSHIP_MESSAGE
+                               AND CM.COUNTRY_CODE  = #{vo.locale}
+                               AND CM.MESSAGE_ID    IN (
+                                        SELECT MG.MESSAGE_ID
+                                          FROM MESSAGE_GROUP MG
+                                         WHERE MG.USE_YN <> 0
+                                   )
+                             WHERE M.MEMBERSHIP_KEY = U.MEMBERSHIP_KEY
+                               AND M.USE_YN         <> 0
+                        ),
+                        ''
+                   )                                                AS MEMBERSHIP_NAME
+                 , (
+                       SELECT SUB.NICKNAME
+                         FROM USER SUB
+                        WHERE SUB.USER_ID        = U.UPDATER_ID
+                          AND SUB.USE_YN         <> 0
+                   )                                                AS UPDATER_NAME
+                 , CASE WHEN (
+                                SELECT COUNT(1)
+                                  FROM BLOCKED_USER SUB_BU
+                                 WHERE SUB_BU.EMAIL = U.EMAIL
+                             ) > 0
+                        THEN 'Y'
+                        ELSE 'N'
+                         END                                        AS BLOCKED
+              FROM USER U
+        ]]>
+        <choose>
+            <when test='"Y".equals(vo.blocked)'>
+                 INNER
+                  JOIN BLOCKED_USER BU
+                    ON BU.USER_ID   = U.USER_ID
+                   AND BU.EMAIL     = U.EMAIL
+                 WHERE U.USE_YN = #{vo.useYn}
+            </when>
+            <when test='"N".equals(vo.blocked)'>
+                 WHERE U.USE_YN = #{vo.useYn}
+                   AND U.EMAIL NOT IN (
+                            SELECT BU.EMAIL
+                              FROM BLOCKED_USER BU
+                       )
+            </when>
+            <otherwise>
+                 WHERE U.USE_YN = #{vo.useYn}
+            </otherwise>
+        </choose>
+        <if test="vo.userId != '' and vo.userId != null">
+            AND UPPER(U.USER_ID) = UPPER(#{vo.userId})
+        </if>
+        <if test="vo.email != '' and vo.email != null">
+            AND UPPER(U.EMAIL) = UPPER(#{vo.email})
+        </if>
+        <if test="vo.nickname != '' and vo.nickname != null">
+            AND UPPER(U.NICKNAME) = UPPER(#{vo.nickname})
+        </if>
+        <if test="vo.genderCode != '' and vo.genderCode != null">
+            AND U.GENDER_CODE = #{vo.genderCode}
+        </if>
+        <if test="vo.ageFr gt 0 and vo.ageFr != null">
+            AND U.AGE <![CDATA[>=]]> #{vo.ageFr}
+        </if>
+        <if test="vo.ageTo gt 0 and vo.ageTo != null">
+            AND U.AGE <![CDATA[<=]]> #{vo.ageTo}
+        </if>
+        <if test="vo.membershipKey gt 0 and vo.membershipKey != null">
+            AND U.MEMBERSHIP_KEY = #{vo.membershipKey}
+        </if>
+    </select>
+
+    <select id="checkDuplication" resultType="Integer">
+        /* 사용자 중복체크 */
+        SELECT SUM(CNT)
+          FROM (
+                SELECT COUNT(1) AS CNT
+                  FROM USER
+                 WHERE UPPER(USER_ID) = UPPER(#{vo.userId})
+
+                 UNION
+                   ALL
+
+                SELECT COUNT(1) AS CNT
+                  FROM USER
+                 WHERE UPPER(EMAIL) = UPPER(#{vo.email})
+               ) A
+    </select>
+
+    <select id="checkEmailDuplication" resultType="Integer">
+        /* 사용자 이메일 중복체크 */
+        SELECT COUNT(1) AS CNT
+          FROM USER
+         WHERE UPPER(EMAIL)     = UPPER(#{vo.email})
+           AND UPPER(USER_ID)   <![CDATA[<>]]> UPPER(#{vo.userId})
+    </select>
+
+    <insert id="insertUser">
+        /* 사용자 신규 생성 */
+        INSERT
+          INTO USER
+               (
+                   USER_ID,
+                   PASSWORD,
+                   EMAIL,
+                   NICKNAME,
+                   GENDER_CODE,
+                   AGE,
+                   USE_YN,
+                   SYS_MNGR_YN,
+                   MEMBERSHIP_KEY,
+                   CREATOR_ID,
+                   CREATE_DATE,
+                   UPDATER_ID,
+                   UPDATE_DATE
+               )
+        VALUES (
+                   #{vo.userId},
+                   #{vo.password},
+                   #{vo.email},
+                   #{vo.nickname},
+                   #{vo.genderCode},
+                   #{vo.age},
+                   1,
+                   #{vo.sysMngrYn},
+                   #{vo.membershipKey},
+                   #{vo.creatorId},
+                   UTC_TIMESTAMP(),
+                   #{vo.updaterId},
+                   UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <update id="updateUser">
+        /* 사용자 수정 */
+        UPDATE USER
+           SET PASSWORD         = #{vo.password}
+             , EMAIL            = #{vo.email}
+             , NICKNAME         = #{vo.nickname}
+             , GENDER_CODE      = #{vo.genderCode}
+             , AGE              = #{vo.age}
+             , USE_YN           = #{vo.useYn}
+             , SYS_MNGR_YN      = #{vo.sysMngrYn}
+             , MEMBERSHIP_KEY   = #{vo.membershipKey}
+             , UPDATER_ID       = #{vo.updaterId}
+             , UPDATE_DATE      = UTC_TIMESTAMP()
+         WHERE UPPER(USER_ID) = UPPER(#{vo.userId})
+    </update>
+
+    <update id="deleteUser">
+        /* 사용자 삭제 */
+        UPDATE USER
+           SET USE_YN      = 0
+             , UPDATER_ID  = #{vo.updaterId}
+             , UPDATE_DATE = UTC_TIMESTAMP()
+        WHERE UPPER(USER_ID) = UPPER(#{vo.userId})
+    </update>
+
+    <delete id="unblockUser">
+        /* 사용자 정지 해제 */
+        DELETE
+          FROM BLOCKED_USER
+         WHERE USER_ID = #{vo.userId}
+           AND EMAIL = #{vo.email}
+    </delete>
+
+    <insert id="blockUser">
+        /* 사용자 정지 */
+        INSERT
+          INTO BLOCKED_USER
+               (
+                    USER_ID,
+                    EMAIL,
+                    REASON_CODE,
+                    REASON,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    #{vo.userId},
+                    #{vo.email},
+                    #{vo.reasonCode},
+                    #{vo.reason},
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
+    </insert>
+
+</mapper>

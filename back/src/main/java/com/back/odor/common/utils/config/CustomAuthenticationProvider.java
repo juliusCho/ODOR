@@ -45,7 +45,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         log.warn(userOptional.toString());
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(userOptional.get().getMembershipKey()));
+        grantedAuthorities.add(new SimpleGrantedAuthority(userOptional.get().getLvlCode()));
         Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuthorities);
         return auth;
     }

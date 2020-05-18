@@ -33,7 +33,7 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
         if (!sessionService.sessionCheck(user, req)) {
             vo = new UserVO("", "", "0");
         }
-        return forumMgmtMapper.getForumList(vo.getMembershipKey());
+        return forumMgmtMapper.getForumList(vo.getLvlCode());
     }
 
     @Override

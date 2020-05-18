@@ -37,7 +37,7 @@
                                             v-model="newValue[field.value]"
                                             :label="field.text"
                                             :counter="20"
-                                            :rules="idRules"
+                                            :rules="field.noRequire ? [true] : idRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'text'">
@@ -45,7 +45,16 @@
                                             v-model="newValue[field.value]"
                                             :label="field.text"
                                             :counter="200"
-                                            :rules="textRules"
+                                            :rules="field.noRequire ? [true] : textRules"
+                                        ></v-text-field>
+                                    </template>
+                                    <template v-else-if="field.updateType === 'number'">
+                                        <v-text-field
+                                            v-model="newValue[field.value]"
+                                            :label="field.text"
+                                            type="number"
+                                            :counter="4"
+                                            :rules="field.noRequire ? [true] : numRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'name'">
@@ -53,7 +62,7 @@
                                             v-model="newValue[field.value]"
                                             :label="field.text"
                                             :counter="500"
-                                            :rules="nameRules"
+                                            :rules="field.noRequire ? [true] : nameRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'email'">
@@ -61,7 +70,7 @@
                                             v-model="newValue[field.value]"
                                             :label="field.text"
                                             :counter="50"
-                                            :rules="emailRules"
+                                            :rules="field.noRequire ? [true] : emailRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'url'">
@@ -69,7 +78,7 @@
                                             v-model="newValue[field.value]"
                                             :label="field.text"
                                             :counter="1000"
-                                            :rules="urlRules"
+                                            :rules="field.noRequire ? [true] : urlRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.updateType === 'select'">
@@ -80,7 +89,7 @@
                                             item-text="text"
                                             :label="field.text"
                                             v-model="newValue[field.selectKey]"
-                                            :rules="selectRules"
+                                            :rules="field.noRequire ? [true] : selectRules"
                                         ></v-autocomplete>
                                     </template>
                                     <template v-else-if="field.updateType === 'switch'">
@@ -97,7 +106,7 @@
                                             :label="field.text"
                                             v-model="newValue[field.value]"
                                             :counter="3000"
-                                            :rules="descRules"
+                                            :rules="field.noRequire ? [true] : descRules"
                                         ></v-textarea>
                                     </template>
                                     <template v-else-if="field.updateType === 'content'">
@@ -107,7 +116,7 @@
                                             :label="field.text"
                                             v-model="newValue[field.value]"
                                             :counter="9999"
-                                            :rules="contentRules"
+                                            :rules="field.noRequire ? [true] : contentRules"
                                         ></v-textarea>
                                     </template>
                                     <template v-else-if="field.updateType === 'message'">
@@ -122,7 +131,7 @@
                                         </v-btn>
                                         <v-input
                                             v-model="newValue[field.value]"
-                                            :rules="selectRules"
+                                            :rules="field.noRequire ? [true] : selectRules"
                                             style="display: none;"
                                         />
                                     </template>
@@ -134,7 +143,7 @@
                                             v-model="newValue[field.value]"
                                             :label="field.text"
                                             :counter="20"
-                                            :rules="idRules"
+                                            :rules="field.noRequire ? [true] : idRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-if="field.insertType === 'text'">
@@ -142,7 +151,16 @@
                                             v-model="newValue[field.value]"
                                             :label="field.text"
                                             :counter="200"
-                                            :rules="textRules"
+                                            :rules="field.noRequire ? [true] : textRules"
+                                        ></v-text-field>
+                                    </template>
+                                    <template v-else-if="field.insertType === 'number'">
+                                        <v-text-field
+                                                v-model="newValue[field.value]"
+                                                :label="field.text"
+                                                type="number"
+                                                :counter="4"
+                                                :rules="field.noRequire ? [true] : numRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-if="field.insertType === 'name'">
@@ -150,7 +168,7 @@
                                             v-model="newValue[field.value]"
                                             :label="field.text"
                                             :counter="500"
-                                            :rules="nameRules"
+                                            :rules="field.noRequire ? [true] : nameRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.insertType === 'email'">
@@ -158,7 +176,7 @@
                                                 v-model="newValue[field.value]"
                                                 :label="field.text"
                                                 :counter="50"
-                                                :rules="emailRules"
+                                                :rules="field.noRequire ? [true] : emailRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.insertType === 'url'">
@@ -166,7 +184,7 @@
                                                 v-model="newValue[field.value]"
                                                 :label="field.text"
                                                 :counter="1000"
-                                                :rules="urlRules"
+                                                :rules="field.noRequire ? [true] : urlRules"
                                         ></v-text-field>
                                     </template>
                                     <template v-else-if="field.insertType === 'select'">
@@ -177,7 +195,7 @@
                                             item-text="text"
                                             :label="field.text"
                                             v-model="newValue[field.selectKey]"
-                                            :rules="selectRules"
+                                            :rules="field.noRequire ? [true] : selectRules"
                                         ></v-autocomplete>
                                     </template>
                                     <template v-else-if="field.insertType === 'switch'">
@@ -194,7 +212,7 @@
                                             :label="field.text"
                                             v-model="newValue[field.value]"
                                             :counter="3000"
-                                            :rules="descRules"
+                                            :rules="field.noRequire ? [true] : descRules"
                                         ></v-textarea>
                                     </template>
                                     <template v-else-if="field.insertType === 'content'">
@@ -204,7 +222,7 @@
                                             :label="field.text"
                                             v-model="newValue[field.value]"
                                             :counter="9999"
-                                            :rules="contentRules"
+                                            :rules="field.noRequire ? [true] : contentRules"
                                         ></v-textarea>
                                     </template>
                                     <template v-else-if="field.insertType === 'message'">
@@ -219,7 +237,7 @@
                                         </v-btn>
                                         <v-input
                                             v-model="newValue[field.value]"
-                                            :rules="selectRules"
+                                            :rules="field.noRequire ? [true] : selectRules"
                                             style="display: none;"
                                         />
                                     </template>
@@ -359,6 +377,7 @@
                 sortRules: SCRIPT_VALIDATOR.textRules(10),
                 idRules: SCRIPT_VALIDATOR.idRules(),
                 textRules: SCRIPT_VALIDATOR.textRules(200),
+                numRules: SCRIPT_VALIDATOR.numRules(4),
                 nameRules: SCRIPT_VALIDATOR.textRules(500),
                 descRules: SCRIPT_VALIDATOR.textRules(3000),
                 contentRules: SCRIPT_VALIDATOR.textRules(9999),

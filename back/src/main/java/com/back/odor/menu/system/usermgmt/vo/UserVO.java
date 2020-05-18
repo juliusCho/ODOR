@@ -19,7 +19,7 @@ public class UserVO extends CommonVO implements Serializable {
     public UserVO(String userId, String password, String role) {
         this.userId = userId;
         this.password = password;
-        this.membershipKey = role;
+        this.lvlCode = role;
     }
 
     @Setter
@@ -35,15 +35,34 @@ public class UserVO extends CommonVO implements Serializable {
 
     @Setter
     private String genderCode;
+    @Getter
+    @Setter
+    private String genderName;
 
     @Setter
     private Integer age;
+    @Getter
+    @Setter
+    private Integer ageFr;
+    @Getter
+    @Setter
+    private Integer ageTo;
+
+    @Getter
+    @Setter
+    private String blocked;
 
     @Setter
     private boolean sysMngrYn;
 
+    @Getter
     @Setter
-    private String membershipKey;
+    private Integer membershipKey;
+    @Setter
+    private String lvlCode;
+    @Getter
+    @Setter
+    private String membershipName;
 
 
     public void setPassword(Object password) {
