@@ -101,8 +101,10 @@
                 @click:row="selectedUser = [$event]"
         >
             <template v-slot:item.blocked="{item}">
-                <v-btn color="yellow lighten-4"
+                <v-btn v-if="item.blocked === 'N'" color="yellow lighten-4"
                        @click="block(item)">{{item.blocked}}</v-btn>
+                <v-btn v-else color="grey lighten-4"
+                       @click="unblockConfirm(item)">{{item.blocked}}</v-btn>
             </template>
         </v-data-table>
 
@@ -116,6 +118,18 @@
                 :width="300"
                 @yesAction="deleteItem"
                 @noAction="confirmShow = false"
+        />
+
+        <UnblockDialog
+                :show="unblockConfirmShow"
+                :title="'확인'"
+                :content="'활동 정지 해제?'"
+                type="C"
+                :yesBtnText="'넹'"
+                :noBtnText="'ㄴㄴ'"
+                :width="300"
+                @yesAction="unblock"
+                @noAction="cancelUnblock"
         />
 
         <UpdatePopup
@@ -147,6 +161,14 @@
                 @okAction="addItem"
                 @cancelAction="insertPopShow = false"
         />
+
+        <UserBlockPopup
+                :show="blockPopShow"
+                :userId="blockUserId"
+                :email="blockEmail"
+                @okAction="showProceededMsg"
+                @cancelAction="blockPopShow = false"
+        />
     </v-container>
 </template>
 
@@ -154,9 +176,11 @@
     import axios from 'axios';
     import SystemBtn from "@/views/components/SystemBtn";
     import DeleteDialog from "@/views/components/Dialog";
+    import UnblockDialog from "@/views/components/Dialog";
     import UpdatePopup from "@/views/components/Popup/SystemPopup";
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
+    import UserBlockPopup from "@/views/components/Popup/UserBlockPopup";
 
     export default {
         name: 'UserMgmt',
@@ -165,7 +189,9 @@
             DeleteDialog,
             UpdatePopup,
             InsertPopup,
-            RightTopAlert
+            RightTopAlert,
+            UnblockDialog,
+            UserBlockPopup
         },
         mounted() {
             this.getUserListAll();
@@ -202,7 +228,7 @@
                     {
                         text: 'User ID',
                         value: 'userId',
-                        width: '100px',
+                        width: '80px',
                         type: 'string',
                         updateType: 'disabled',
                         insertType: 'id'
@@ -210,7 +236,7 @@
                     {
                         text: 'Password',
                         value: 'password',
-                        width: '180px',
+                        width: '150px',
                         type: 'string',
                         updateType: 'text',
                         insertType: 'text'
@@ -226,7 +252,7 @@
                     {
                         text: 'Nickname',
                         value: 'nickname',
-                        width: '120px',
+                        width: '100px',
                         type: 'string',
                         updateType: 'text',
                         insertType: 'text'
@@ -234,7 +260,7 @@
                     {
                         text: 'Gender',
                         value: 'genderName',
-                        width: '100px',
+                        width: '80px',
                         type: 'string',
                         updateType: 'select',
                         insertType: 'select',
@@ -246,7 +272,7 @@
                     {
                         text: 'Age',
                         value: 'age',
-                        width: '80px',
+                        width: '60px',
                         type: 'number',
                         updateType: 'number',
                         insertType: 'number'
@@ -254,14 +280,14 @@
                     {
                         text: 'Use YN',
                         value: 'useYn',
-                        width: '100px',
+                        width: '60px',
                         type: 'boolean',
                         updateType: 'switch'
                     },
                     {
                         text: 'System Manager',
                         value: 'sysMngrYn',
-                        width: '100px',
+                        width: '80px',
                         type: 'boolean',
                         updateType: 'switch',
                         insertType: 'switch'
@@ -269,7 +295,7 @@
                     {
                         text: 'Membership',
                         value: 'membershipName',
-                        width: '100px',
+                        width: '80px',
                         type: 'number',
                         updateType: 'select',
                         insertType: 'select',
@@ -283,7 +309,7 @@
                     {
                         text: 'Update Date',
                         value: 'updateDtTime',
-                        width: '150px'
+                        width: '120px'
                     },
                     {
                         text: '활동정지',
@@ -301,7 +327,12 @@
 
                 alertShow: false,
                 alertMsg: '',
-                alertStatus: ''
+                alertStatus: '',
+
+                unblockConfirmShow: false,
+                blockPopShow: false,
+                blockUserId: '',
+                blockEmail: ''
             };
         },
         methods: {
@@ -426,7 +457,45 @@
                 this.getUserList();
             },
             block(item) {
-                console.log(item);
+                this.blockUserId = item.userId;
+                this.blockEmail = item.email;
+                this.blockPopShow = true;
+            },
+            unblockConfirm(item) {
+                this.blockUserId = item.userId;
+                this.blockEmail = item.email;
+                this.unblockConfirmShow = true;
+            },
+            unblock() {
+                this.unblockConfirmShow = false;
+
+                axios.delete(
+                    API.UserMgmtController.unblockUser,
+                    {
+                        params: {
+                            userId: this.blockUserId,
+                            email: this.blockEmail
+                        }
+                    }
+                ).then(() => {
+                    this.showProceededMsg();
+                });
+            },
+            showProceededMsg() {
+                this.alertStatus = 'info';
+                this.alertMsg = '처리완료';
+                this.alertShow = true;
+
+                this.blockUserId = '';
+                this.blockEmail = '';
+
+                this.getUserList();
+                this.reset();
+            },
+            cancelUnblock() {
+                this.unblockConfirmShow = false;
+                this.blockUserId = '';
+                this.blockEmail = '';
             }
         }
     }
