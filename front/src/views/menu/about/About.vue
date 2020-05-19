@@ -9,12 +9,22 @@
             </v-row>
             <div style="margin: 20px 0 0 0">
                 <v-row justify="center" align="center">
-                    <v-col cols="12" sm="8" md="8">
+                    <v-col cols="12" sm="8" md="6">
                         <v-layout row align-center>
                             <v-col cols="12" sm="6">
-                                <p class="subtitle-1 font-weight-thin" style="text-align: center">
-                                    몽총이 깨구리
-                                </p>
+                                <v-row justify="center" align="center">
+                                    <p class="subtitle-1 font-weight-thin" style="text-align: center">
+                                        몽총이 깨구리
+                                    </p>
+                                </v-row>
+                                <v-row justify="center" align="center">
+                                    <v-btn small class="ma-1" outlined>
+                                        <v-icon left>mdi-blogger</v-icon> blog</v-btn>
+                                    <v-btn onclick="window.open('https://github.com/juliusCho','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');"
+                                           small class="ma-1" outlined>
+                                        <v-icon left>mdi-github</v-icon> github
+                                    </v-btn>
+                                </v-row>
                             </v-col>
                             <v-col cols="12" sm="6">
                                 <v-row justify="center" align="center">
@@ -29,14 +39,14 @@
                                     <p class="subtitle-1 font-weight-regular" style="margin-top: 16px; margin-bottom: 0">Julius</p>
                                 </v-row>
                                 <v-row justify="center" align="center">
-                                    <p class="subtitle-1 font-weight-thin">Backend, Server</p>
+                                    <p class="subtitle-1 font-weight-thin">Full Stack</p>
                                 </v-row>
                             </v-col>
                         </v-layout>
                     </v-col>
                 </v-row>
                 <v-row justify="center" align="center">
-                    <v-col cols="12" sm="8" md="8">
+                    <v-col cols="12" sm="8" md="6">
                         <v-layout row align-center>
                             <v-col cols="12" sm="6">
                                 <v-row justify="center" align="center">
@@ -55,10 +65,21 @@
                                 </v-row>
                             </v-col>
                             <v-col cols="12" sm="6">
-                                <p class="subtitle-1 font-weight-thin"
-                                   style="text-align: center">
-                                    똑순이 햄토리
-                                </p>
+                                <v-row justify="center" align="center">
+                                    <p class="subtitle-1 font-weight-thin"
+                                       style="text-align: center">
+                                        똑순이 햄토리
+                                    </p>
+                                </v-row>
+                                <v-row justify="center" align="center">
+                                    <v-btn onclick="window.open('https://github.com/uzicandi','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');"
+                                           small class="ma-1" outlined>
+                                        <v-icon left>mdi-blogger</v-icon> blog</v-btn>
+                                    <v-btn onclick="window.open('https://github.com/uzicandi','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');"
+                                           small class="ma-1" outlined>
+                                        <v-icon left>mdi-github</v-icon> github
+                                    </v-btn>
+                                </v-row>
                             </v-col>
                         </v-layout>
                     </v-col>
@@ -230,6 +251,9 @@
 </template>
 
 <script>
+    import { mdiGithub } from '@mdi/js';
+    import { mdiBlogger } from '@mdi/js';
+
     export default {
         name: 'About',
         methods: {
