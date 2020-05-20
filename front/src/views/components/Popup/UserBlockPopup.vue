@@ -34,6 +34,7 @@
                                         :label="'Reason'"
                                         v-model="user.reasonCode"
                                         :rules="selectRules"
+                                        :readonly="blockYn === 'N'"
                                 ></v-autocomplete>
                             </v-row>
                             <v-row style="margin-top: 10px;">
@@ -43,6 +44,7 @@
                                         label="Detail Reason"
                                         v-model="user.reason"
                                         :counter="9999"
+                                        :readonly="blockYn === 'N'"
                                 ></v-textarea>
                             </v-row>
                         </v-form>
@@ -58,13 +60,20 @@
                     >
                         Cancel
                     </v-btn>
-                    <v-btn
+                    <v-btn  v-if="blockYn === 'Y'"
                             color="green darken-1"
                             text
                             @click="okConfirm"
                             :disabled="!valid"
                     >
                         Ok
+                    </v-btn>
+                    <v-btn  v-else
+                            color="green darken-1"
+                            text
+                            @click="unblock"
+                    >
+                        Unblock
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -108,6 +117,11 @@
                 type: String,
                 default: '',
                 required: true
+            },
+            blockYn: {
+                type: String,
+                default: 'Y',
+                required: false
             }
         },
         data() {
@@ -137,13 +151,7 @@
                     return;
                 }
 
-                if (SCRIPT_VALIDATOR.nullCheck(
-                    this.userId,
-                    this.email
-                )) {
-                    this.user.userId = this.userId;
-                    this.user.email = this.email;
-                }
+                this.setBlockInfo();
             }
         },
         methods: {
@@ -154,6 +162,21 @@
                     reasonCode: '',
                     reason: ''
                 };
+            },
+            setBlockInfo() {
+                if (SCRIPT_VALIDATOR.nullCheck(
+                    this.userId,
+                    this.email
+                )) {
+                    this.user.userId = this.userId;
+                    this.user.email = this.email;
+                }
+                if (this.blockYn === 'Y') return;
+
+                axios.post(API.UserMgmtController.getBlockInfo, this.user)
+                .then(res => {
+                    Object.assign(this.user, res.data);
+                });
             },
             cancelAction() {
                 this.initialize();
@@ -170,6 +193,9 @@
                     this.cancelAction();
                     this.$emit('okAction');
                 });
+            },
+            unblock() {
+                this.$emit('unblock');
             }
         }
     }

@@ -251,8 +251,8 @@
 </template>
 
 <script>
-    import { mdiGithub } from '@mdi/js';
-    import { mdiBlogger } from '@mdi/js';
+    // import { mdiGithub } from '@mdi/js';
+    // import { mdiBlogger } from '@mdi/js';
 
     export default {
         name: 'About',

@@ -79,4 +79,9 @@ public class UserMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
+    @PostMapping("getBlockInfo/system")
+    public ResponseEntity<BlockedUserVO> getBlockInfo(@RequestBody BlockedUserVO vo) {
+        return ResponseEntity.ok(userMgmtService.getBlockInfo(vo));
+    }
+
 }

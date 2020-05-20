@@ -64,4 +64,9 @@ public class UserMgmtService implements UserMgmtServiceSpec {
         userMgmtMapper.blockUser(vo);
     }
 
+    @Override
+    public BlockedUserVO getBlockInfo(BlockedUserVO vo) {
+        return userMgmtMapper.getBlockInfo(vo);
+    }
+
 }

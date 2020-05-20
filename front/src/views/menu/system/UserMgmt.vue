@@ -120,18 +120,6 @@
                 @noAction="confirmShow = false"
         />
 
-        <UnblockDialog
-                :show="unblockConfirmShow"
-                :title="'확인'"
-                :content="'활동 정지 해제?'"
-                type="C"
-                :yesBtnText="'넹'"
-                :noBtnText="'ㄴㄴ'"
-                :width="300"
-                @yesAction="unblock"
-                @noAction="cancelUnblock"
-        />
-
         <UpdatePopup
                 ref="updatePopup"
                 :show="updatePopShow"
@@ -168,6 +156,8 @@
                 :email="blockEmail"
                 @okAction="showProceededMsg"
                 @cancelAction="blockPopShow = false"
+                :blockYn="blockYn"
+                @unblock="unblock"
         />
     </v-container>
 </template>
@@ -176,7 +166,6 @@
     import axios from 'axios';
     import SystemBtn from "@/views/components/SystemBtn";
     import DeleteDialog from "@/views/components/Dialog";
-    import UnblockDialog from "@/views/components/Dialog";
     import UpdatePopup from "@/views/components/Popup/SystemPopup";
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
@@ -190,7 +179,6 @@
             UpdatePopup,
             InsertPopup,
             RightTopAlert,
-            UnblockDialog,
             UserBlockPopup
         },
         mounted() {
@@ -302,6 +290,11 @@
                         selectKey: 'membershipKey'
                     },
                     {
+                        text: '활동정지내역',
+                        value: 'blocked',
+                        width: '100px'
+                    },
+                    {
                         text: 'Updater',
                         value: 'updaterName',
                         width: '100px'
@@ -310,11 +303,6 @@
                         text: 'Update Date',
                         value: 'updateDtTime',
                         width: '120px'
-                    },
-                    {
-                        text: '활동정지',
-                        value: 'blocked',
-                        width: '100px'
                     }
                 ],
                 userList: [],
@@ -329,7 +317,7 @@
                 alertMsg: '',
                 alertStatus: '',
 
-                unblockConfirmShow: false,
+                blockYn: 'Y',
                 blockPopShow: false,
                 blockUserId: '',
                 blockEmail: ''
@@ -459,15 +447,17 @@
             block(item) {
                 this.blockUserId = item.userId;
                 this.blockEmail = item.email;
+                this.blockYn = 'Y';
                 this.blockPopShow = true;
             },
             unblockConfirm(item) {
                 this.blockUserId = item.userId;
                 this.blockEmail = item.email;
-                this.unblockConfirmShow = true;
+                this.blockYn = 'N';
+                this.blockPopShow = true;
             },
             unblock() {
-                this.unblockConfirmShow = false;
+                this.blockPopShow = false;
 
                 axios.delete(
                     API.UserMgmtController.unblockUser,
@@ -491,11 +481,6 @@
 
                 this.getUserList();
                 this.reset();
-            },
-            cancelUnblock() {
-                this.unblockConfirmShow = false;
-                this.blockUserId = '';
-                this.blockEmail = '';
             }
         }
     }

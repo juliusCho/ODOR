@@ -235,4 +235,15 @@
                )
     </insert>
 
+    <select id="getBlockInfo" resultType="BlockedUserVO">
+        /* 활동정지 내역 */
+        SELECT BU.USER_ID
+             , BU.EMAIL
+             , BU.REASON_CODE
+             , BU.REASON
+          FROM BLOCKED_USER BU
+         WHERE BU.USER_ID   = #{vo.userId}
+           AND BU.EMAIL     = #{vo.email}
+    </select>
+
 </mapper>

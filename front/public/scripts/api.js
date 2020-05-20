@@ -92,7 +92,8 @@ const API = class {
         updateUser: 'odor/user/updateUser/system',
         deleteUser: 'odor/user/deleteUser/system',
         unblockUser: 'odor/user/unblockUser/system',
-        blockUser: 'odor/user/blockUser/system'
+        blockUser: 'odor/user/blockUser/system',
+        getBlockInfo: 'odor/user/getBlockInfo/system'
     }
 
 };

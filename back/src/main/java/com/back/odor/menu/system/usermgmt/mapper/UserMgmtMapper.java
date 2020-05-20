@@ -22,4 +22,6 @@ public interface UserMgmtMapper {
     void unblockUser(@Param("vo") BlockedUserVO vo);
     void blockUser(@Param("vo") BlockedUserVO vo);
 
+    BlockedUserVO getBlockInfo(@Param("vo") BlockedUserVO vo);
+
 }

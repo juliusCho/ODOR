@@ -19,4 +19,6 @@ public interface UserMgmtServiceSpec {
     void unblockUser(String userId, String email);
     void blockUser(BlockedUserVO vo);
 
+    BlockedUserVO getBlockInfo(BlockedUserVO vo);
+
 }
