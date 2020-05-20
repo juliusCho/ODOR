@@ -18,4 +18,29 @@ public class BrandMgmtService implements BrandMgmtServiceSpec {
         return brandMgmtMapper.getBrandList(vo);
     }
 
+    @Override
+    public List<BrandVO> getBrandListAll() {
+        return brandMgmtMapper.getBrandListAll();
+    }
+
+    @Override
+    public Integer checkDuplication(BrandVO vo) {
+        return brandMgmtMapper.checkDuplication(vo);
+    }
+
+    @Override
+    public void insertBrand(BrandVO vo) {
+        brandMgmtMapper.insertBrand(vo);
+    }
+
+    @Override
+    public void updateBrand(BrandVO vo) {
+        brandMgmtMapper.updateBrand(vo);
+    }
+
+    @Override
+    public void deleteBrand(BrandVO vo) {
+        brandMgmtMapper.deleteBrand(vo);
+    }
+
 }

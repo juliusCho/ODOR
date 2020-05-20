@@ -1,127 +1,352 @@
 <template>
-    <v-container class="grey lighten-5" >
+    <v-container>
+        <RightTopAlert
+                :status="alertStatus"
+                :msg="alertMsg"
+                :show="alertShow"
+                @hideDisplay="alertShow = false"
+        />
+
         <v-form id="search">
             <v-row>
                 <v-col>
-                    <v-text-field
-                        v-model="countryCode"
-                        label="Country Code"
-                    />
+                    <v-autocomplete
+                            :items="searchCombos.brandKey"
+                            item-text="name"
+                            item-value="brandKey"
+                            color="white"
+                            label="Brand"
+                            v-model="searchKeys.brandKey"
+                    ></v-autocomplete>
                 </v-col>
                 <v-col>
-                    <v-text-field
-                        v-model="name"
-                        label="Name"
+                    <v-autocomplete
+                            :items="searchCombos.link"
+                            color="white"
+                            label="Link"
+                            v-model="searchKeys.link"
+                    ></v-autocomplete>
+                </v-col>
+                <v-col>
+                    <v-select
+                            :items="searchCombos.useYn"
+                            item-text="codeName"
+                            item-value="codeId"
+                            v-model="searchKeys.useYn"
+                            label="Use"
                     />
                 </v-col>
             </v-row>
+            <SystemBtn
+                    @search="getBrandList"
+                    @add="addConfirm"
+                    @update="updateConfirm"
+                    @delete="deleteConfirm"
+            />
         </v-form>
-        <Grid
-            :columns="columns"
-            :rowData="rowData"
-            :searchKeys="[name, countryCode]"
-            @save="save"
-            @add="add"
-            @search="search"
+        <v-data-table
+                :headers="headers"
+                :items="brandList"
+                item-key="brandKey"
+                v-model="selectedBrand"
+                show-select
+                single-select
+                @click:row="selectedBrand = [$event]"
+        >
+            <template v-slot:item.mapping="{item}">
+                <v-btn color="yellow lighten-4"
+                       @click="mapping(item)">MAPPING</v-btn>
+            </template>
+        </v-data-table>
+
+        <DeleteDialog
+                :show="confirmShow"
+                :title="'확인'"
+                :content="'진짜 삭제 ㄱ?'"
+                type="C"
+                :yesBtnText="'ㅇㅇ'"
+                :noBtnText="'ㄴㄴ'"
+                :width="300"
+                @yesAction="deleteItem"
+                @noAction="confirmShow = false"
+        />
+
+        <UpdatePopup
+                ref="updatePopup"
+                :show="updatePopShow"
+                :title="'브랜드수정'"
+                :update="true"
+                :okBtnText="'ㄱㄱ'"
+                :cancelBtnText="'ㄴㄴ'"
+                :width="500"
+                :fields="headers"
+                :values="selectedBrand[0]"
+                :validation="duplicateValidation"
+                :invalidMsg="'중복브랜드!!'"
+                @okAction="updateItem"
+                @cancelAction="updatePopShow = false"
+        />
+
+        <InsertPopup
+                ref="insertPopup"
+                :show="insertPopShow"
+                :title="'브랜드생성'"
+                :okBtnText="'ㄱㄱ'"
+                :cancelBtnText="'ㄴㄴ'"
+                :width="500"
+                :fields="headers"
+                :validation="duplicateValidation"
+                :invalidMsg="'중복브랜드!!'"
+                @okAction="addItem"
+                @cancelAction="insertPopShow = false"
         />
     </v-container>
 </template>
 
 <script>
-    import Grid from '@/views/components/Grid';
     import axios from 'axios';
+    import SystemBtn from "@/views/components/SystemBtn";
+    import DeleteDialog from "@/views/components/Dialog";
+    import UpdatePopup from "@/views/components/Popup/SystemPopup";
+    import InsertPopup from "@/views/components/Popup/SystemPopup";
+    import RightTopAlert from "@/views/components/RightTopAlert";
 
     export default {
         name: 'BrandMgmt',
         components: {
-            Grid
+            SystemBtn,
+            DeleteDialog,
+            UpdatePopup,
+            InsertPopup,
+            RightTopAlert
         },
         mounted() {
-            this.search();
+            this.getCountryListAll();
+            this.getBrandListAll();
+            this.getBrandList();
         },
         data() {
             return {
                 searchKeys: {
+                    brandKey: 0,
                     countryCode: '',
-                    name: '',
+                    link: '',
                     useYn: true
                 },
-                name: '',
-                countryCode: '',
-                columns: [
+                searchCombos: {
+                    brandKey: [],
+                    countryCode: [],
+                    link: [],
+                    useYn: CODE.getCodeList('USE_YN')
+                },
+
+
+                headers: [
                     {
-                        key: 'brandKey'
+                        text: 'Country',
+                        value: 'countryName',
+                        width: '100px',
+                        type: 'string',
+                        updateType: 'select',
+                        insertType: 'select',
+                        selectKey: 'countryCode'
                     },
                     {
-                        key: 'countryCode',
-                        label: '국가코드',
-                        editor: 'select',
-                        display: true,
-                        required: true
+                        text: 'Brand Name',
+                        value: 'name',
+                        width: '150px',
+                        type: 'string',
+                        updateType: 'text',
+                        insertType: 'text'
                     },
                     {
-                        key: 'name',
-                        label: '브랜드명',
-                        editor: 'text',
-                        display: true,
-                        required: true
+                        text: 'English Name',
+                        value: 'engName',
+                        width: '150px',
+                        type: 'string',
+                        updateType: 'text',
+                        insertType: 'text',
+                        noRequire: true
                     },
                     {
-                        key: 'engName',
-                        label: '영문 브랜드명',
-                        editor: 'text',
-                        display: true,
-                        required: true
+                        text: 'Link',
+                        value: 'link',
+                        width: '150px',
+                        type: 'string',
+                        updateType: 'url',
+                        insertType: 'url',
+                        noRequire: true
                     },
                     {
-                        key: 'desc',
-                        label: '설명',
-                        editor: 'textarea',
-                        display: true
+                        text: 'Description',
+                        value: 'desc',
+                        width: '180px',
+                        type: 'string',
+                        updateType: 'textarea',
+                        insertType: 'textarea',
+                        noRequire: true
                     },
                     {
-                        key: 'link',
-                        label: '웹사이트 URL',
-                        editor: 'text',
-                        display: true
+                        text: 'Use YN',
+                        value: 'useYn',
+                        width: '80px',
+                        type: 'boolean',
+                        updateType: 'switch'
                     },
                     {
-                        key: 'useYn',
-                        label: '사용',
-                        editor: 'checkbox',
-                        display: true
+                        text: 'Updater',
+                        value: 'updaterName',
+                        width: '100px'
                     },
                     {
-                        key: 'updaterName',
-                        label: '수정자',
-                        display: true
+                        text: 'Update Date',
+                        value: 'updateDtTime',
+                        width: '150px'
                     },
                     {
-                        key: 'updateDate',
-                        label: '수정일시',
-                        display: true
+                        text: 'Mapping',
+                        value: 'mapping',
+                        width: '150px'
                     }
                 ],
-                rowData: []
+                brandList: [],
+                selectedBrand: [],
+
+                confirmShow: false,
+                updatePopShow: false,
+                insertPopShow: false,
+
+                alertShow: false,
+                alertMsg: '',
+                alertStatus: '',
+
+                mappingShow: false,
+                mappingKey: 0,
+                mappingSelected: []
             };
         },
         methods: {
-            save() {
+            async getCountryListAll() {
+                this.searchCombos.countryCode = [];
 
+                await axios.get(
+                    API.CountryMgmtController.getCountryListAll
+                ).then(res => {
+                    let list = res.data.map(v => ({countryCode: v.countryCode, countryName: v.countryName}));
+                    this.searchCombos.countryCode = [{countryCode: '', countryName: 'All'}].concat(list);
+                    this.headers[0].selectItems = list.map(v => ({value: v.countryCode, text: v.countryName}));
+                });
             },
-            add() {
+            async getBrandListAll() {
+                this.searchCombos.brandKey = [];
+                this.searchCombos.link = [];
 
+                await axios.get(
+                    API.BrandMgmtController.getBrandListAll
+                ).then(res => {
+                    this.searchCombos.brandKey = [{brandKey: 0, name: 'All'}]
+                        .concat(COMMON_UTIL.removeArrDuplicate(
+                            res.data.map(v => ({brandKey: v.brandKey, name: v.name}))
+                        ));
+                    this.searchCombos.link = ['']
+                        .concat(COMMON_UTIL.removeArrDuplicate(
+                            res.data.map(v => v.link)
+                        ));
+                });
             },
-            search() {
+            getBrandList() {
+                this.selectedBrand = [];
+
                 axios.post(
                     API.BrandMgmtController.getBrandList,
-                    {
-                        countryCode: this.countryCode,
-                        name: this.name
-                    }
+                    this.searchKeys
                 ).then(res => {
-                    this.rowData = res.data;
+                    this.brandList = res.data;
                 });
+            },
+            updateConfirm() {
+                this.updatePopShow = this.selectedBrand.length !== 0;
+            },
+            deleteConfirm() {
+                this.confirmShow = this.selectedBrand.length !== 0;
+            },
+            deleteItem() {
+                axios.patch(
+                    API.BrandMgmtController.deleteBrand,
+                    this.selectedBrand[0]
+                )
+                    .then(res => {
+                        this.confirmShow = false;
+                        this.doneAlert(res.data);
+                        this.reset();
+                    });
+            },
+            addConfirm() {
+                this.insertPopShow = true;
+            },
+            async duplicateValidation(data) {
+                let result = true;
+
+                await axios.post(
+                    API.BrandMgmtController.checkDuplication,
+                    data
+                )
+                    .then(res => {
+                        result = res.data === 0;
+                    });
+                return result;
+            },
+            addItem(data) {
+                axios.put(API.BrandMgmtController.insertBrand, data)
+                    .then(res => {
+                        this.doneAlert(res.data);
+                        this.reset();
+                    });
+            },
+            updateItem(data) {
+                axios.patch(API.BrandMgmtController.updateBrand, data)
+                    .then(res => {
+                        this.doneAlert(res.data);
+                        this.reset();
+                    });
+            },
+            doneAlert(type) {
+                if (type === 'success') {
+                    this.alertStatus = 'info';
+                    this.alertMsg = '저장완료';
+                } else {
+                    this.alertStatus = 'error';
+                    this.alertMsg = '저장실패';
+                }
+                this.alertShow = true;
+            },
+            reset() {
+                this.searchKeys = {
+                    brandKey: 0,
+                    countryCode: '',
+                    link: '',
+                    useYn: true
+                };
+                this.getBrandListAll();
+                this.getBrandList();
+            },
+            async mapping(item) {
+                // let {membershipKey} = item;
+                // await axios.post(
+                //     API.MembershipMgmtController.getMappedForumList,
+                //     {membershipKey}
+                // ).then(res => {
+                //     let forumList = res.data;
+                //     let categoryList = forumList.map(v => v.categoryId);
+                //     categoryList = COMMON_UTIL.removeArrDuplicate(categoryList);
+                //
+                //     this.mappingSelected = {categoryList, forumList};
+                //     this.mappingKey = membershipKey;
+                //     this.mappingShow = true;
+                // });
+            },
+            mappingClose() {
+                this.mappingShow = false;
             }
         }
     }

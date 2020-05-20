@@ -6,16 +6,129 @@
 
     <select id="getBrandList" resultType="BrandVO">
         /* 브랜드 목록 조회 */
-        SELECT B.*
-             , (
-                 SELECT U.NICKNAME
-                   FROM USER U
-                  WHERE U.USER_ID = B.UPDATER_ID
-                    AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
-               )                                                AS UPDATER_NAME
-             , DATE_FORMAT(B.UPDATE_DATE, '%Y-%m-%d %H:%i:%s')  AS UPDATE_DATE
-          FROM BRAND B
-         LIMIT 100
+        <![CDATA[
+            SELECT B.*
+                 , IFNULL(
+                        (
+                            SELECT IFNULL(CM.MESSAGE, C.COUNTRY_NAME)
+                              FROM COUNTRY C
+                              LEFT
+                              JOIN COUNTRY_MESSAGE CM
+                                ON CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
+                               AND CM.COUNTRY_CODE  = #{vo.locale}
+                               AND CM.MESSAGE_ID    IN (
+                                        SELECT MG.MESSAGE_ID
+                                          FROM MESSAGE_GROUP MG
+                                         WHERE MG.USE_YN <> 0
+                                   )
+                             WHERE C.COUNTRY_CODE = B.COUNTRY_CODE
+                               AND C.USE_YN        <> 0
+                        ),
+                        ''
+                   )                                                AS COUNTRY_NAME
+                 , (
+                     SELECT U.NICKNAME
+                       FROM USER U
+                      WHERE U.USER_ID     = B.UPDATER_ID
+                        AND U.SYS_MNGR_YN <> 0
+                   )                                                AS UPDATER_NAME
+                 , DATE_FORMAT(B.UPDATE_DATE, '%Y-%m-%d %H:%i:%s')  AS UPDATE_DATE
+              FROM BRAND B
+        ]]>
+        <where>
+            B.USE_YN = #{vo.useYn}
+            <if test="vo.countryCode != '' and vo.countryCode != null">
+                AND B.COUNTRY_CODE = #{vo.countryCode}
+            </if>
+            <if test="vo.brandKey gt 0 and vo.brandKey != null">
+                AND B.BRAND_KEY = #{vo.brandKey}
+            </if>
+            <if test="vo.name != '' and vo.name != null">
+                AND (
+                           UPPER(B.NAME)       = UPPER(#{vo.name})
+                        OR UPPER(B.ENG_NAME)   = UPPER(#{vo.name})
+                    )
+            </if>
+            <if test="vo.link != '' and vo.link != null">
+                AND UPPER(B.LINK) LIKE CONCAT('%', UPPER(#{vo.link}), '%')
+            </if>
+        </where>
     </select>
+
+    <select id="getBrandListAll" resultType="BrandVO">
+        /* 브랜드 목록 전체 조회 */
+        SELECT B.BRAND_KEY        AS BRAND_KEY
+             , B.NAME             AS NAME
+             , IFNULL(B.LINK, '') AS LINK
+          FROM BRAND B
+
+         UNION
+
+        SELECT B.BRAND_KEY              AS BRAND_KEY
+             , IFNULL(B.ENG_NAME, '')   AS NAME
+             , IFNULL(B.LINK, '')       AS LINK
+          FROM BRAND B
+    </select>
+
+    <select id="checkDuplication" resultType="Integer">
+        /* 브랜드 중복체크 */
+        SELECT COUNT(1)
+          FROM BRAND
+         WHERE UPPER(NAME)  = UPPER(#{vo.name})
+           AND COUNTRY_CODE = #{vo.countryCode}
+        <if test="vo.brandKey gt 0 and vo.brandKey != null">
+            AND BRAND_KEY <![CDATA[<>]]> #{vo.brandKey}
+        </if>
+    </select>
+
+    <insert id="insertBrand">
+        /* 브랜드 신규 생성 */
+        INSERT
+          INTO BRAND
+               (
+                   COUNTRY_CODE,
+                   NAME,
+                   ENG_NAME,
+                   DESC,
+                   USE_YN,
+                   CREATOR_ID,
+                   CREATE_DATE,
+                   UPDATER_ID,
+                   UPDATE_DATE
+               )
+        VALUES (
+                   #{vo.countryCode},
+                   #{vo.name},
+                   #{vo.engName},
+                   #{vo.desc},
+                   1,
+                   #{vo.creatorId},
+                   UTC_TIMESTAMP(),
+                   #{vo.updaterId},
+                   UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <update id="updateBrand">
+        /* 브랜드 수정 */
+        UPDATE BRAND
+           SET COUNTRY_CODE = #{vo.countryCode}
+             , NAME         = #{vo.name}
+             , ENG_NAME     = #{vo.engName}
+             , DESC         = #{vo.desc}
+             , USE_YN       = #{vo.useYn}
+             , UPDATER_ID   = #{vo.updaterId}
+             , UPDATE_DATE  = UTC_TIMESTAMP()
+         WHERE BRAND_KEY = #{vo.brandKey}
+    </update>
+
+    <update id="deleteBrand">
+        /* 브랜드 삭제 */
+        UPDATE BRAND
+           SET USE_YN      = 0
+             , UPDATER_ID  = #{vo.updaterId}
+             , UPDATE_DATE = UTC_TIMESTAMP()
+         WHERE BRAND_KEY = #{vo.brandKey}
+    </update>
 
 </mapper>

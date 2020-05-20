@@ -19,6 +19,7 @@ public class BrandVO extends CommonVO implements Serializable {
     private Long brandKey;
 
     private String countryCode;
+    private String countryName;
 
     private String name;
     private String engName;

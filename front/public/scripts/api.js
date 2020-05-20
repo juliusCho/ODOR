@@ -26,7 +26,12 @@ const API = class {
     };
 
     static BrandMgmtController = {
-        getBrandList: 'odor/brand/getBrandList/system'
+        getBrandList: 'odor/brand/getBrandList/system',
+        getBrandListAll: 'odor/brand/getBrandListAll/system',
+        checkDuplication: 'odor/brand/checkDuplication/system',
+        insertBrand: 'odor/brand/insertBrand/system',
+        updateBrand: 'odor/brand/updateBrand/system',
+        deleteBrand: 'odor/brand/deleteBrand/system'
     };
 
     static CodeMgmtController = {
