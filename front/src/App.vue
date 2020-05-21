@@ -54,6 +54,7 @@
         v-if="locale === 'KO'"
         x-small
         color="#66afd9"
+        class="elevation-1"
       >
         KOR
       </v-icon>
@@ -61,6 +62,7 @@
         v-else
         x-small
         color="#d9d766"
+        class="elevation-1"
       >
         ENG
       </v-icon>
@@ -71,7 +73,7 @@
               color="#bdd4ff"
               small
               fab
-              elevation="1"
+              elevation="2"
       >
         <v-icon small>
           mdi-account-cog
@@ -84,9 +86,9 @@
               small
               color="#d9d9d9"
               class="mx-2"
-              elevation="1"
+              elevation="2"
       >
-        <v-icon>mdi-account-arrow-left-outline</v-icon>
+        <v-icon small>mdi-account-arrow-left-outline</v-icon>
       </v-btn>
 
     </v-app-bar>
