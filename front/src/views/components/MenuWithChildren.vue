@@ -1,16 +1,21 @@
 <template>
     <div v-if="menu.length > 0">
-        <v-menu transition="scroll-y-transition">
+        <v-menu
+                :offset-y="true"
+                transition="scroll-y-transition"
+                open-on-hover
+        >
             <template v-slot:activator="{ on }">
                 <v-btn v-on="on" small text>{{ menuName }}</v-btn>
             </template>
-            <v-list style="margin-top: 35px;">
+            <v-list
+                style="max-height: 600px;"
+            >
                 <v-list-item
                         v-for="sub in menu"
                         :key="sub[keyCol]"
                         link
                         @click="goTo(sub)"
-                        style="height: 20px;"
                         :disabled="sub.disabled"
                 >
                     <v-list-item-title

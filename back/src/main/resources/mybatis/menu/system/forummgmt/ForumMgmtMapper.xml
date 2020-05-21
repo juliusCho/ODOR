@@ -28,7 +28,7 @@
                                 ON M.MEMBERSHIP_KEY = MFM.MEMBERSHIP_KEY
                                AND M.USE_YN <> 0
                              INNER
-                              JOIN CODE C
+                              JOIN `CODE` C
                                 ON C.CODE_ID = M.LVL_CODE
                                AND C.CODE_GROUP_ID = 'MEMBERSHIP_LVL_CODE'
                                AND C.USE_YN <> 0
@@ -61,7 +61,7 @@
                AND F.USE_YN         <> 0
                AND CAT.USE_YN       <> 0
              INNER
-              JOIN CODE C
+              JOIN `CODE` C
                 ON C.CODE_ID        = F.FORUM_TYPE_CODE
                AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
                AND C.USE_YN         <> 0
@@ -103,7 +103,7 @@
                )                                            AS FORUM_TYPE_NAME
              , (
                    SELECT U.NICKNAME
-                     FROM USER U
+                     FROM `USER` U
                     WHERE U.USER_ID        = C.UPDATER_ID
                       AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
                       AND U.USE_YN         <![CDATA[<>]]> 0
@@ -125,7 +125,7 @@
            AND F.USE_YN         = #{vo.useYn}
            AND CAT.USE_YN       <> 0
          INNER
-          JOIN CODE C
+          JOIN `CODE` C
             ON C.CODE_ID        = F.FORUM_TYPE_CODE
            AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
            AND C.USE_YN         <> 0

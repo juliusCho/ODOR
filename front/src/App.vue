@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
             app
-            dark
+            elevation="2"
     >
       <v-btn @click="goTo('Home')"
              style="font-size: 30px;" text>ODOR</v-btn>
@@ -42,31 +42,49 @@
       <v-spacer/>
       <v-spacer/>
       <v-spacer/>
+      <v-spacer/>
 
-      <v-col cols="1" style="margin-top: 30px;">
-        <v-combobox
-                v-model="locale"
-                :items="localeList"
-                label="Language"
-        />
-      </v-col>
+    <v-btn
+      @click="changeLocale"
+      small
+      elevation="0"
+      style="margin-right: 10px;"
+    >
+      <v-icon
+        v-if="locale === 'KO'"
+        x-small
+        color="#66afd9"
+      >
+        KOR
+      </v-icon>
+      <v-icon
+        v-else
+        x-small
+        color="#d9d766"
+      >
+        ENG
+      </v-icon>
+    </v-btn>
 
       <v-btn  v-if="loggedInBoo"
               @click="membershipClicked"
-              fab color="secondary"
-              class="mx-2"
-              elevation="5"
+              color="#bdd4ff"
+              small
+              fab
+              elevation="1"
       >
-        <v-icon>
+        <v-icon small>
           mdi-account-cog
         </v-icon>
       </v-btn>
 
       <v-btn  v-else
               @click="membershipClicked"
-              fab color="#d6d6d6"
+              fab
+              small
+              color="#d9d9d9"
               class="mx-2"
-              elevation="5"
+              elevation="1"
       >
         <v-icon>mdi-account-arrow-left-outline</v-icon>
       </v-btn>
@@ -150,6 +168,9 @@
           SCRIPT_VALIDATOR.locale = locale;
           this.setMessageList();
         });
+      },
+      changeLocale() {
+          this.locale = this.locale === 'KO' ? 'ENG' : 'KO';
       },
       // Set System Message
       async setMessageList() {

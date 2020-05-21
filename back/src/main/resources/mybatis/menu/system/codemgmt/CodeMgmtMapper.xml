@@ -9,7 +9,7 @@
         SELECT C.CODE_ID                        AS CODE_ID
              , C.CODE_GROUP_ID                  AS CODE_GROUP_ID
              , IFNULL(CM.MESSAGE, C.CODE_NAME)  AS CODE_MESSAGE
-          FROM CODE C
+          FROM `CODE` C
           LEFT
           JOIN COUNTRY_MESSAGE CM
             ON CM.MESSAGE_ID    = C.CODE_MESSAGE
@@ -45,7 +45,7 @@
              , IFNULL(C.MESSAGE, G.CODE_GROUP_NAME)             AS LOCALE_MESSAGE
              , (
                     SELECT U.NICKNAME
-                      FROM USER U
+                      FROM `USER` U
                      WHERE U.USER_ID        = G.UPDATER_ID
                        AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
                        AND U.USE_YN         <![CDATA[<>]]> 0
@@ -133,12 +133,12 @@
              , IFNULL(CM.MESSAGE, C.CODE_NAME)                  AS LOCALE_MESSAGE
              , (
                    SELECT U.NICKNAME
-                     FROM USER U
+                     FROM `USER` U
                     WHERE U.USER_ID     = C.UPDATER_ID
                       AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
                       AND U.USE_YN      <![CDATA[<>]]> 0
                )                                                AS UPDATER_NAME
-          FROM CODE C
+          FROM `CODE` C
           LEFT
           JOIN COUNTRY_MESSAGE CM
             ON CM.MESSAGE_ID    = C.CODE_MESSAGE
@@ -168,7 +168,7 @@
     <select id="checkDetailDuplication" resultType="Integer">
         /* 코드 중복체크 */
         SELECT COUNT(1)
-          FROM CODE
+          FROM `CODE`
          WHERE CODE_GROUP_ID    = #{vo.codeGroupId}
            AND CODE_ID          = UPPER(#{vo.codeId})
     </select>
@@ -176,7 +176,7 @@
     <insert id="insertCode">
         /* 코드 신규 생성 */
         INSERT
-          INTO CODE
+          INTO `CODE`
                (
                     CODE_ID,
                     CODE_GROUP_ID,
@@ -203,7 +203,7 @@
 
     <update id="updateCode">
         /* 코드 수정 */
-        UPDATE CODE
+        UPDATE `CODE`
            SET CODE_MESSAGE         = #{vo.codeMessage}
              , CODE_NAME            = #{vo.codeName}
              , USE_YN               = #{vo.useYn}
@@ -215,7 +215,7 @@
 
     <update id="deleteCode">
         /* 코드 삭제 */
-        UPDATE CODE
+        UPDATE `CODE`
            SET USE_YN      = 0
              , UPDATER_ID  = #{vo.updaterId}
              , UPDATE_DATE = UTC_TIMESTAMP()
@@ -228,7 +228,7 @@
         <![CDATA[
             SELECT C.CODE_ID                         AS CODE_ID
                  , IFNULL(CM.MESSAGE, C.CODE_NAME)   AS CODE_NAME
-              FROM CODE C
+              FROM `CODE` C
              INNER
               JOIN CODE_GROUP CG
                 ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID

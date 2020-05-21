@@ -42,7 +42,7 @@
                  , IFNULL(
                         (
                             SELECT IFNULL(CM.MESSAGE, C.CODE_NAME)
-                              FROM CODE C
+                              FROM `CODE` C
                              INNER
                               JOIN CODE_GROUP CG
                                 ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
@@ -64,7 +64,7 @@
                    )                                                AS LVL_NAME
                  , (
                         SELECT U.NICKNAME
-                          FROM USER U
+                          FROM `USER` U
                          WHERE U.USER_ID        = M.UPDATER_ID
                            AND U.SYS_MNGR_YN    <> 0
                            AND U.USE_YN         <> 0

@@ -97,7 +97,7 @@
              , MG.USE_YN                                        AS USE_YN
              , (
                    SELECT U.NICKNAME
-                     FROM USER U
+                     FROM `USER` U
                     WHERE U.USER_ID     = MG.UPDATER_ID
                       AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
                )                                                AS UPDATER_NAME

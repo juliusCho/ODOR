@@ -74,7 +74,7 @@
         /* 브랜드 중복체크 */
         SELECT COUNT(1)
           FROM BRAND
-         WHERE UPPER(NAME)  = UPPER(#{vo.name})
+         WHERE UPPER(`NAME`)  = UPPER(#{vo.name})
            AND COUNTRY_CODE = #{vo.countryCode}
         <if test="vo.brandKey gt 0 and vo.brandKey != null">
             AND BRAND_KEY <![CDATA[<>]]> #{vo.brandKey}
@@ -87,9 +87,10 @@
           INTO BRAND
                (
                    COUNTRY_CODE,
-                   NAME,
+                   `NAME`,
                    ENG_NAME,
-                   DESC,
+                   LINK,
+                   `DESC`,
                    USE_YN,
                    CREATOR_ID,
                    CREATE_DATE,
@@ -100,6 +101,7 @@
                    #{vo.countryCode},
                    #{vo.name},
                    #{vo.engName},
+                   #{vo.link},
                    #{vo.desc},
                    1,
                    #{vo.creatorId},
@@ -113,9 +115,10 @@
         /* 브랜드 수정 */
         UPDATE BRAND
            SET COUNTRY_CODE = #{vo.countryCode}
-             , NAME         = #{vo.name}
+             , `NAME`       = #{vo.name}
              , ENG_NAME     = #{vo.engName}
-             , DESC         = #{vo.desc}
+             , LINK         = #{vo.link}
+             , `DESC`       = #{vo.desc}
              , USE_YN       = #{vo.useYn}
              , UPDATER_ID   = #{vo.updaterId}
              , UPDATE_DATE  = UTC_TIMESTAMP()

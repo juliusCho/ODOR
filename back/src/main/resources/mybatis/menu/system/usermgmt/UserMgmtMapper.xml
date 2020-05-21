@@ -9,7 +9,7 @@
         SELECT U.USER_ID
              , U.EMAIL
              , U.NICKNAME
-          FROM USER U
+          FROM `USER` U
     </select>
 
     <select id="getUserList" resultType="UserVO">
@@ -19,7 +19,7 @@
                  , IFNULL(
                        (
                            SELECT IFNULL(CM.MESSAGE, C.CODE_NAME)
-                             FROM CODE C
+                             FROM `CODE` C
                             INNER
                              JOIN CODE_GROUP CG
                                ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
@@ -59,7 +59,7 @@
                    )                                                AS MEMBERSHIP_NAME
                  , (
                        SELECT SUB.NICKNAME
-                         FROM USER SUB
+                         FROM `USER` SUB
                         WHERE SUB.USER_ID        = U.UPDATER_ID
                           AND SUB.USE_YN         <> 0
                    )                                                AS UPDATER_NAME
@@ -71,7 +71,7 @@
                         THEN 'Y'
                         ELSE 'N'
                          END                                        AS BLOCKED
-              FROM USER U
+              FROM `USER` U
         ]]>
         <choose>
             <when test='"Y".equals(vo.blocked)'>
@@ -120,14 +120,14 @@
         SELECT SUM(CNT)
           FROM (
                 SELECT COUNT(1) AS CNT
-                  FROM USER
+                  FROM `USER`
                  WHERE UPPER(USER_ID) = UPPER(#{vo.userId})
 
                  UNION
                    ALL
 
                 SELECT COUNT(1) AS CNT
-                  FROM USER
+                  FROM `USER`
                  WHERE UPPER(EMAIL) = UPPER(#{vo.email})
                ) A
     </select>
@@ -135,7 +135,7 @@
     <select id="checkEmailDuplication" resultType="Integer">
         /* 사용자 이메일 중복체크 */
         SELECT COUNT(1) AS CNT
-          FROM USER
+          FROM `USER`
          WHERE UPPER(EMAIL)     = UPPER(#{vo.email})
            AND UPPER(USER_ID)   <![CDATA[<>]]> UPPER(#{vo.userId})
     </select>
@@ -143,10 +143,10 @@
     <insert id="insertUser">
         /* 사용자 신규 생성 */
         INSERT
-          INTO USER
+          INTO `USER`
                (
                    USER_ID,
-                   PASSWORD,
+                   `PASSWORD`,
                    EMAIL,
                    NICKNAME,
                    GENDER_CODE,
@@ -178,8 +178,8 @@
 
     <update id="updateUser">
         /* 사용자 수정 */
-        UPDATE USER
-           SET PASSWORD         = #{vo.password}
+        UPDATE `USER`
+           SET `PASSWORD`       = #{vo.password}
              , EMAIL            = #{vo.email}
              , NICKNAME         = #{vo.nickname}
              , GENDER_CODE      = #{vo.genderCode}
@@ -194,7 +194,7 @@
 
     <update id="deleteUser">
         /* 사용자 삭제 */
-        UPDATE USER
+        UPDATE `USER`
            SET USE_YN      = 0
              , UPDATER_ID  = #{vo.updaterId}
              , UPDATE_DATE = UTC_TIMESTAMP()

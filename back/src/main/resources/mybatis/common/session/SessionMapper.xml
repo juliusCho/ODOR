@@ -23,7 +23,7 @@
                  ),
                  ''
                )                                                AS LVL_CODE
-          FROM USER U
+          FROM `USER` U
          WHERE U.USER_ID    = #{user.userId}
            AND u.PASSWORD   = #{user.password}
            AND U.USE_YN     <![CDATA[<>]]> 0
