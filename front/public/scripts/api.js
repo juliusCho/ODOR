@@ -31,7 +31,10 @@ const API = class {
         checkDuplication: 'odor/brand/checkDuplication/system',
         insertBrand: 'odor/brand/insertBrand/system',
         updateBrand: 'odor/brand/updateBrand/system',
-        deleteBrand: 'odor/brand/deleteBrand/system'
+        deleteBrand: 'odor/brand/deleteBrand/system',
+        getMappedCategoryList: 'odor/brand/getMappedCategoryList/system',
+        deleteMapping: 'odor/brand/deleteMapping/system',
+        saveMapping: 'odor/brand/saveMapping/system'
     };
 
     static CodeMgmtController = {

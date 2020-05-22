@@ -1,9 +1,11 @@
 package com.back.odor.menu.system.brandmgmt.service;
 
 import com.back.odor.menu.system.brandmgmt.mapper.BrandMgmtMapper;
+import com.back.odor.menu.system.brandmgmt.vo.BrandCategoryMapperVO;
 import com.back.odor.menu.system.brandmgmt.vo.BrandVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,6 +43,26 @@ public class BrandMgmtService implements BrandMgmtServiceSpec {
     @Override
     public void deleteBrand(BrandVO vo) {
         brandMgmtMapper.deleteBrand(vo);
+    }
+
+    @Override
+    public List<BrandCategoryMapperVO> getMappedCategoryList(Long brandKey) {
+        return brandMgmtMapper.getMappedCategoryList(brandKey);
+    }
+
+    @Override
+    public void deleteMapping(Long brandKey) {
+        brandMgmtMapper.deleteMapping(brandKey);
+    }
+
+    @Override
+    @Transactional
+    public void saveMapping(List<BrandCategoryMapperVO> list) {
+        brandMgmtMapper.deleteMapping(list.get(0).getBrandKey());
+
+        for (BrandCategoryMapperVO vo : list) {
+            brandMgmtMapper.insertMapping(vo);
+        }
     }
 
 }

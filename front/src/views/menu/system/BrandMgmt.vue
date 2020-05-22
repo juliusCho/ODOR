@@ -100,6 +100,14 @@
                 @okAction="addItem"
                 @cancelAction="insertPopShow = false"
         />
+
+        <BrandMapperPopup
+                :show="mappingShow"
+                :brandKey="mappingKey"
+                :selected="mappingSelected"
+                @closeAction="mappingClose"
+                @showAlert="mappingAlert"
+        />
     </v-container>
 </template>
 
@@ -110,6 +118,7 @@
     import UpdatePopup from "@/views/components/Popup/SystemPopup";
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
+    import BrandMapperPopup from "@/views/components/Popup/BrandMapperPopup";
 
     export default {
         name: 'BrandMgmt',
@@ -118,7 +127,8 @@
             DeleteDialog,
             UpdatePopup,
             InsertPopup,
-            RightTopAlert
+            RightTopAlert,
+            BrandMapperPopup
         },
         mounted() {
             this.getCountryListAll();
@@ -194,6 +204,11 @@
                         updateType: 'switch'
                     },
                     {
+                        text: 'Mapping',
+                        value: 'mapping',
+                        width: '150px'
+                    },
+                    {
                         text: 'Updater',
                         value: 'updaterName',
                         width: '100px'
@@ -201,11 +216,6 @@
                     {
                         text: 'Update Date',
                         value: 'updateDtTime',
-                        width: '150px'
-                    },
-                    {
-                        text: 'Mapping',
-                        value: 'mapping',
                         width: '150px'
                     }
                 ],
@@ -331,22 +341,28 @@
                 this.getBrandList();
             },
             async mapping(item) {
-                // let {membershipKey} = item;
-                // await axios.post(
-                //     API.MembershipMgmtController.getMappedForumList,
-                //     {membershipKey}
-                // ).then(res => {
-                //     let forumList = res.data;
-                //     let categoryList = forumList.map(v => v.categoryId);
-                //     categoryList = COMMON_UTIL.removeArrDuplicate(categoryList);
-                //
-                //     this.mappingSelected = {categoryList, forumList};
-                //     this.mappingKey = membershipKey;
-                //     this.mappingShow = true;
-                // });
+                let {brandKey} = item;
+                await axios.post(
+                    API.BrandMgmtController.getMappedCategoryList,
+                    null,
+                    {
+                        params: {
+                            brandKey
+                        }
+                    }
+                ).then(res => {
+                    this.mappingSelected = res.data;
+                    this.mappingKey = brandKey;
+                    this.mappingShow = true;
+                });
             },
             mappingClose() {
                 this.mappingShow = false;
+            },
+            mappingAlert() {
+                this.alertStatus = 'success';
+                this.alertMsg = '저장성공!';
+                this.alertShow = true;
             }
         }
     }

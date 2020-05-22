@@ -134,4 +134,44 @@
          WHERE BRAND_KEY = #{vo.brandKey}
     </update>
 
+    <select id="getMappedCategoryList" resultType="BrandCategoryMapperVO">
+        /* 매핑된 카테고리 목록 조회 */
+        SELECT BCM.CATEGORY_ID
+          FROM BRAND_CATEGORY_MAPPER BCM
+         INNER
+          JOIN CATEGORY C
+            ON C.CATEGORY_ID        = BCM.CATEGORY_ID
+           AND BCM.BRAND_KEY        = #{brandKey}
+           AND C.USE_YN             <![CDATA[<>]]> 0
+    </select>
+
+    <delete id="deleteMapping">
+        /* 매핑 삭제 */
+        DELETE
+          FROM BRAND_CATEGORY_MAPPER
+         WHERE BRAND_KEY = #{brandKey}
+    </delete>
+
+    <insert id="insertMapping">
+        /* 매핑 신규 등록 */
+        INSERT
+          INTO BRAND_CATEGORY_MAPPER
+               (
+                   BRAND_KEY,
+                   CATEGORY_ID,
+                   CREATOR_ID,
+                   CREATE_DATE,
+                   UPDATER_ID,
+                   UPDATE_DATE
+               )
+        VALUES (
+                   #{vo.brandKey},
+                   #{vo.categoryId},
+                   #{vo.creatorId},
+                   UTC_TIMESTAMP(),
+                   #{vo.updaterId},
+                   UTC_TIMESTAMP()
+               )
+    </insert>
+
 </mapper>

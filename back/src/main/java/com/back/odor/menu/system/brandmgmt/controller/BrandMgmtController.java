@@ -1,6 +1,7 @@
 package com.back.odor.menu.system.brandmgmt.controller;
 
 import com.back.odor.menu.system.brandmgmt.service.BrandMgmtService;
+import com.back.odor.menu.system.brandmgmt.vo.BrandCategoryMapperVO;
 import com.back.odor.menu.system.brandmgmt.vo.BrandVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,23 @@ public class BrandMgmtController {
     @PatchMapping("deleteBrand/system")
     public ResponseEntity<Integer> deleteBrand(@RequestBody BrandVO vo) {
         brandMgmtService.deleteBrand(vo);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @PostMapping("getMappedCategoryList/system")
+    public ResponseEntity<List<BrandCategoryMapperVO>> getMappedCategoryList(@RequestParam Long brandKey) {
+        return ResponseEntity.ok(brandMgmtService.getMappedCategoryList(brandKey));
+    }
+
+    @DeleteMapping("deleteMapping/system")
+    public ResponseEntity deleteMapping(@RequestParam Long brandKey) {
+        brandMgmtService.deleteMapping(brandKey);
+        return new ResponseEntity("success", HttpStatus.OK);
+    }
+
+    @PatchMapping("saveMapping/system")
+    public ResponseEntity<Integer> saveMapping(@RequestBody List<BrandCategoryMapperVO> list) {
+        brandMgmtService.saveMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 

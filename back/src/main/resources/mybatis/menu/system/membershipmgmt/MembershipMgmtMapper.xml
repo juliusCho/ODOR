@@ -140,10 +140,19 @@
 
     <select id="getMappedForumList" resultType="MembershipForumMapperVO">
         /* 매핑된 포럼 목록 조회 */
-        SELECT CATEGORY_ID
-             , FORUM_KEY
-          FROM MEMBERSHIP_FORUM_MAPPER
-         WHERE MEMBERSHIP_KEY = #{membershipKey}
+        SELECT MFM.CATEGORY_ID
+             , MFM.FORUM_KEY
+          FROM MEMBERSHIP_FORUM_MAPPER MFM
+         INNER
+          JOIN CATEGORY C
+            ON C.CATEGORY_ID        = MFM.CATEGORY_ID
+           AND MFM.MEMBERSHIP_KEY   = #{membershipKey}
+           AND C.USE_YN             <![CDATA[<>]]> 0
+         INNER
+          JOIN FORUM F
+            ON F.FORUM_KEY      = MFM.FORUM_KEY
+           AND F.CATEGORY_ID    = C.CATEGORY_ID
+           AND F.USE_YN         <![CDATA[<>]]> 0
     </select>
 
     <delete id="deleteMapping">

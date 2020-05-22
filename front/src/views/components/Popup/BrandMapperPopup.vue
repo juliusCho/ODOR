@@ -16,7 +16,7 @@
                 class="headline grey lighten-2"
                 primary-title
             >
-                {{ '맴버쉽 포럼 권한 관리' }}
+                {{ '브랜드 카테고리 관리' }}
             </v-card-title>
             <v-card-text>
                 <v-row>
@@ -31,55 +31,23 @@
                         ></v-autocomplete>
                     </v-col>
                     <v-col>
-                        <v-autocomplete
-                                :items="searchCombos.forumKey"
-                                color="white"
-                                item-value="forumKey"
-                                item-text="forumName"
-                                :label="'Forum'"
-                                v-model="searchKeys.forumKey"
-                        ></v-autocomplete>
-                    </v-col>
-                    <v-col>
-                        <v-btn @click="searchAction" color="teal lighten-5">
+                        <v-btn @click="getCategoryList" color="teal lighten-5">
                             Search
                         </v-btn>
                     </v-col>
                 </v-row>
-            </v-card-text>
-        </v-card>
-        <v-card class="d-flex">
-            <v-card width="50%">
-                <v-card-text>
+                <v-row>
                     <v-data-table
                         :headers="categoryHeaders"
                         :items="categoryList"
                         item-key="categoryId"
                         v-model="selectedCategory"
                         show-select
-                        single-select
                         height="250px"
-                        @click:row="categorySelected"
                     >
                     </v-data-table>
-                </v-card-text>
-            </v-card>
-            <v-card width="50%">
-                <v-card-text>
-                    <v-data-table
-                        :headers="forumHeaders"
-                        :items="forumList"
-                        item-key="forumKey"
-                        v-model="selectedForum"
-                        show-select
-                        height="250px"
-                        @click:row="selectedForum = [$event]"
-                        :loading="rightLoading"
-                        loading-text="카테고리를 선택해줘"
-                    >
-                    </v-data-table>
-                </v-card-text>
-            </v-card>
+                </v-row>
+            </v-card-text>
         </v-card>
         <v-divider/>
         <v-card>
@@ -96,7 +64,6 @@
                         color="green darken-1"
                         text
                         @click="selectAction"
-                        :disabled="blockAdd"
                 >
                     Save
                 </v-btn>
@@ -123,7 +90,7 @@
     import ConfirmDialog from "@/views/components/Dialog";
 
     export default {
-        name: "MembershipMapperPopup",
+        name: "BrandMapperPopup",
         components: {
             RightTopAlert,
             ConfirmDialog
@@ -136,32 +103,29 @@
             },
             width: {
                 type: Number,
-                default: 1000,
+                default: 500,
                 required: false
             },
-            membershipKey: {
+            brandKey: {
                 type: Number,
                 default: 0,
                 required: false
             },
             selected: {
-                type: Object,
-                default: () => ({categoryList: [], forumList: []}),
+                type: Array,
+                default: () => [],
                 required: false
             }
         },
         data() {
             return {
                 thisShow: false,
+                dataSelected: [],
 
-                dataSelected: {categoryList: [], forumList: []},
-
-                searchKeys: {categoryId: '', forumKey: 0},
+                searchKeys: {categoryId: ''},
                 searchCombos: {
-                    categoryId: [],
-                    forumKey: []
+                    categoryId: []
                 },
-                rightLoading: true,
 
                 categoryHeaders: [
                     {
@@ -175,19 +139,8 @@
                         width: '100px'
                     }
                 ],
-                forumHeaders: [
-                    {
-                        text: 'Forum Name',
-                        value: 'forumName',
-                        width: '100px'
-                    }
-                ],
                 categoryList: [],
-                forumList: [],
                 selectedCategory: [],
-                selectedForum: [],
-
-                blockAdd: true,
 
                 alertStatus: 'warning',
                 alertMsg: '경고',
@@ -195,9 +148,6 @@
 
                 confirmShow: false
             }
-        },
-        mounted() {
-            this.getForumListAll();
         },
         watch: {
             show() {
@@ -207,25 +157,11 @@
                     this.getCategoryListAll();
                     this.getCategoryList();
                 }
-            },
-            selectedForum: {
-                handler() {
-                    if (this.selectedForum.length === 0) {
-                        this.rightLoading = true;
-                    } else {
-                        this.rightLoading = false;
-                    }
-                },
-                deep: true
             }
         },
         methods: {
             initializeData() {
                 this.dataSelected = this.selected;
-
-                if (this.dataSelected.categoryList.length > 0) {
-                    this.categorySelected(this.dataSelected.categoryList[0]);
-                }
             },
             async getCategoryListAll() {
                 this.searchCombos.categoryId = [];
@@ -237,8 +173,7 @@
                 });
             },
             getCategoryList() {
-                this.forumList = [];
-                this.selectedCategory = this.dataSelected.categoryList.map(v => ({categoryId: v}));
+                this.selectedCategory = this.dataSelected.map(v => ({categoryId: v}));
 
                 axios.post(
                     API.CategoryMgmtController.getCategoryList,
@@ -248,54 +183,24 @@
                     }
                 ).then(res => {
                     this.categoryList = res.data;
+                    this.checkAlreadyAdded();
                 });
             },
-            categorySelected(data) {
-                this.selectedCategory = [data];
-                this.searchKeys.categoryId = data.categoryId;
-                this.blockAdd = false;
-                this.getForumList();
-            },
-            async getForumListAll() {
-                this.searchCombos.forumKey = [];
-                let {categoryId, forumKey} = this.searchKeys;
+            checkAlreadyAdded() {
+                this.selectedCategory = [];
 
-                await axios.post(
-                    API.ForumMgmtController.getForumListSystem,
-                    {categoryId, forumKey, useYn: true}
-                ).then(res => {
-                    let forumKey = [{forumKey: 0, forumName: 'All'}]
-                        .concat(res.data.map(v => ({forumKey: v.forumKey, forumName: v.forumName})));
-                    this.searchCombos.forumKey = forumKey;
+                this.categoryList.forEach(category => {
+                    let idx = this.dataSelected.findIndex(v => v.categoryId === category.categoryId);
+                    if (idx > -1) {
+                        this.selectedCategory.push(category);
+                    }
                 });
-            },
-            getForumList() {
-                this.selectedForum = this.dataSelected.forumList
-                    .map(v => ({categoryId: v.categoryId, forumKey: v.forumKey}));
-
-                let {categoryId, forumKey} = this.searchKeys;
-
-                axios.post(
-                    API.ForumMgmtController.getForumListSystem,
-                    {categoryId, forumKey, useYn: true}
-                ).then(res => {
-                    this.forumList = res.data;
-                });
-            },
-            async searchAction() {
-                await this.getCategoryList();
-
-                if (this.selectedCategory.length === 0) {
-                    this.blockAdd = true;
-                    return;
-                }
-                this.getForumList();
             },
             selectAction() {
                 this.confirmShow = true;
             },
             saveCheck() {
-                if (this.selectedForum.length === 0) {
+                if (this.selectedCategory.length === 0) {
                     this.deleteAction();
                     return;
                 }
@@ -303,11 +208,10 @@
             },
             deleteAction() {
                 axios.delete(
-                    API.MembershipMgmtController.deleteMapping,
+                    API.BrandMgmtController.deleteMapping,
                     {
                         params: {
-                            membershipKey: this.membershipKey,
-                            categoryId: this.selectedCategory[0].categoryId
+                            brandKey: this.brandKey
                         }
                     }
                 ).then(() => {
@@ -318,48 +222,39 @@
             },
             deleteDataSelected() {
                 let idx = 0;
+                let idxList = [];
                 while (idx > -1) {
-                    idx = this.dataSelected.forumList
-                        .findIndex(v => v.categoryId === this.selectedCategory[0].categoryId);
-                    this.dataSelected.forumList.splice(idx, 1);
+                    this.dataSelected.forEach(item => {
+                        idx = this.selectedCategory.findIndex(v => v.categoryId === item.categoryId);
+                    });
+                    idxList.push(idx);
                 }
+                idxList.reverse().forEach(i => {
+                    this.dataSelected.splice(i, 1);
+                });
             },
             showAlert() {
-                this.alertStatus = 'success';
-                this.alertMsg = '저장성공!';
-                this.alertShow = true;
+                this.cancelAction();
+                this.$emit('showAlert');
             },
             saveAction() {
-                let selectedList = this.selectedForum.map(v => (
-                        {membershipKey: this.membershipKey, categoryId: v.categoryId, forumKey: v.forumKey}
-                    ));
-
+                let list = this.selectedCategory.map(v => Object.assign(v, {brandKey: this.brandKey}));
                 axios.patch(
-                    API.MembershipMgmtController.saveMapping,
-                    selectedList
+                    API.BrandMgmtController.saveMapping,
+                    list
                 ).then(() => {
-                    this.updateDataSelected();
                     this.confirmShow = false;
                     this.showAlert();
                 });
-            },
-            updateDataSelected() {
-                this.deleteDataSelected();
-
-                this.dataSelected.forumList = this.dataSelected.forumList.concat(
-                    this.selectedForum.map(v => ({categoryId: v.categoryId, forumKey: v.forumKey}))
-                );
             },
             cancelAction() {
                 this.$emit('closeAction');
                 this.reinitialize();
             },
             reinitialize() {
-                this.dataSelected = {categoryList: [], forumList: []};
-                this.searchKeys = {categoryId: '', forumKey: 0};
+                this.dataSelected = [];
+                this.searchKeys = {categoryId: ''};
                 this.selectedCategory = [];
-                this.selectedForum = [];
-                this.blockAdd = true;
                 this.alertShow = false;
                 this.confirmShow = false;
             }
