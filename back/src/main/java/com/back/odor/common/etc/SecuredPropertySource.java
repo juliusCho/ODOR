@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.core.annotation.Order;
 
 @Configuration
 @PropertySources(value = {
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.PropertySources;
         @PropertySource(value = "file:/Users/yona/documents/odor-project/secured.properties", ignoreResourceNotFound = true)
 })
 @Getter
+@Order(0)
 public class SecuredPropertySource {
 
     @Value("${spring.datasource.driver-class-name}")
@@ -28,5 +30,20 @@ public class SecuredPropertySource {
 
     @Value("${security.user.userId}")
     private String userId;
+
+
+
+
+    @Value("${client-secret}")
+    private String clientSecret;
+
+    @Value("${expiration-time}")
+    private Long expirationTime;
+
+    @Value("${token-prefix}")
+    private String tokenPrefix;
+
+    @Value("${header-string}")
+    private String headerString;
 
 }

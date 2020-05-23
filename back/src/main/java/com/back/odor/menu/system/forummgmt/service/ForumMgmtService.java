@@ -31,7 +31,7 @@ public class ForumMgmtService implements ForumMgmtServiceSpec {
     public List<ForumVO> getForumList(UserVO user, HttpServletRequest req) {
         UserVO vo = AuthUtil.getCurrentUser();
         if (!sessionService.sessionCheck(user, req)) {
-            vo = new UserVO("", "", "0");
+            vo = new UserVO("", "");
         }
         return forumMgmtMapper.getForumList(vo.getLvlCode());
     }

@@ -23,4 +23,12 @@ public class AuthUtil {
         }
     }
 
+    public static UserVO getUserByIdAndPw(String userId, String password) {
+        UserVO vo = getCurrentUser();
+        if (!userId.equals(vo.getUserId()) || !password.equals(vo.getPassword())) {
+            return null;
+        }
+        return vo;
+    }
+
 }

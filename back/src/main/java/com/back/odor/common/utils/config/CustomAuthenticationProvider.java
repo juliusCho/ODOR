@@ -1,57 +1,49 @@
 package com.back.odor.common.utils.config;
 
+import com.back.odor.common.utils.AuthUtil;
+import com.back.odor.common.utils.vo.MyAuthentication;
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Slf4j
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    private static List<UserVO> users = new ArrayList<>();
-
-    public void userSet(UserVO vo) {
-        users.add(vo);
-    }
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String name = authentication.getName();
+        String userId = authentication.getName();
         Object credentials = authentication.getCredentials();
-        log.debug("credentials class: " + credentials.getClass());
         if (!(credentials instanceof String)) {
             return null;
         }
         String password = credentials.toString();
+        return authenticate(userId, password);
+    }
 
-        Optional<UserVO> userOptional = users.stream()
-                                            .filter(user -> user.match(name, password))
-                                            .findFirst();
-
-        if (!userOptional.isPresent()) {
-            throw new BadCredentialsException("Authentication failed for " + name);
+    private Authentication authenticate(String userId, String password) {
+        UserVO user = AuthUtil.getUserByIdAndPw(userId, password);
+        if (user == null) {
+            log.error("Cannot find user with ID: {} / PW: {}", userId, password);
+            return null;
         }
-        log.warn(userOptional.toString());
-
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(userOptional.get().getLvlCode()));
-        Authentication auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuthorities);
-        return auth;
+        List<SimpleGrantedAuthority> authList = new ArrayList<>();
+        authList.add(new SimpleGrantedAuthority("1"));
+        return new MyAuthentication(userId, password, authList, user);
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+//        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
     }
+
 }

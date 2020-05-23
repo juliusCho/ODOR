@@ -1,5 +1,6 @@
 package com.back.odor.common.utils.config;
 
+import com.back.odor.common.etc.SecuredPropertySource;
 import com.back.odor.common.filters.AuditingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -15,7 +16,8 @@ public class WebInitializer
         return new Class[] {
                 JavaConfig.class,
                 SecurityConfig.class,
-                DatabaseConfig.class
+                DatabaseConfig.class,
+                SecuredPropertySource.class
         };
     }
 

@@ -1,5 +1,9 @@
 package com.back.odor.common.utils.config;
 
+import com.back.odor.common.etc.SecuredPropertySource;
+import com.back.odor.common.filters.JwtAuthenticationFilter;
+import com.back.odor.common.filters.JwtAuthorizationFilter;
+import com.back.odor.common.session.service.SessionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +23,22 @@ public class WebSecurityConfig
     @Autowired
     private CustomAuthenticationProvider customAuthenticationProvider;
 
+    @Autowired
+    private SecuredPropertySource securedPropertySource;
+
+    @Autowired
+    private SessionService sessionService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
+            .cors()
+                .and()
+            .csrf()
+                .disable()
+            .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(), securedPropertySource, sessionService))
             .authorizeRequests()
 //                .antMatchers("/odor/**/system").access("hasRole('10')")
                 .antMatchers("/odor/**/system").permitAll()
@@ -49,8 +66,6 @@ public class WebSecurityConfig
                     }
                 })
                         .and()
-            .csrf()
-                .disable()
         ;
     }
 

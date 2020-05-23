@@ -39,25 +39,25 @@ public class SessionService implements SessionServiceSpec {
                 resultUser = blockedUserVO;
                 return resultUser;
             }
-            this.authenticate(loginUser);
+//            this.authenticate(loginUser);
         }
         return resultUser;
     }
 
-    private void authenticate(UserVO vo) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                vo.getUserId(),
-                vo.getPassword(),
-                AuthorityUtils.createAuthorityList(vo.getLvlCode())
-        );
-
-        CustomAuthenticationProvider auth = new CustomAuthenticationProvider();
-        auth.userSet(vo);
-        authentication = auth.authenticate(authentication);
-
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-    }
+//    private void authenticate(UserVO vo) {
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(
+//                vo.getUserId(),
+//                vo.getPassword(),
+//                AuthorityUtils.createAuthorityList(vo.getLvlCode())
+//        );
+//
+//        CustomAuthenticationProvider auth = new CustomAuthenticationProvider();
+//        auth.userSet(vo);
+//        authentication = auth.authenticate(authentication);
+//
+//        SecurityContext securityContext = SecurityContextHolder.getContext();
+//        securityContext.setAuthentication(authentication);
+//    }
 
     @Override
     public Object getSession(HttpServletRequest req) {

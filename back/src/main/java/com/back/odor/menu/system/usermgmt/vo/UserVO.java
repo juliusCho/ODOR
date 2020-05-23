@@ -1,10 +1,7 @@
 package com.back.odor.menu.system.usermgmt.vo;
 
 import com.back.odor.common.utils.vo.CommonVO;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
@@ -12,14 +9,14 @@ import java.nio.charset.StandardCharsets;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 public class UserVO extends CommonVO implements Serializable {
 
     private static final long serialVersionUID = -6611753036370466951L;
 
-    public UserVO(String userId, String password, String role) {
+    public UserVO(String userId, String password) {
         this.userId = userId;
         this.password = password;
-        this.lvlCode = role;
     }
 
     @Setter

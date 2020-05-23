@@ -25,7 +25,9 @@
                )                                                AS LVL_CODE
           FROM `USER` U
          WHERE U.USER_ID    = #{user.userId}
+        <if test="user.password != '' and user.password != null">
            AND u.PASSWORD   = #{user.password}
+        </if>
            AND U.USE_YN     <![CDATA[<>]]> 0
     </select>
 
