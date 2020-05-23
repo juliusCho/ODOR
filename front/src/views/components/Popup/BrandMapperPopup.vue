@@ -173,8 +173,6 @@
                 });
             },
             getCategoryList() {
-                this.selectedCategory = this.dataSelected.map(v => ({categoryId: v}));
-
                 axios.post(
                     API.CategoryMgmtController.getCategoryList,
                     {
@@ -223,12 +221,12 @@
             deleteDataSelected() {
                 let idx = 0;
                 let idxList = [];
-                while (idx > -1) {
-                    this.dataSelected.forEach(item => {
-                        idx = this.selectedCategory.findIndex(v => v.categoryId === item.categoryId);
-                    });
-                    idxList.push(idx);
-                }
+                this.dataSelected.forEach(item => {
+                    idx = this.selectedCategory.findIndex(v => v.categoryId === item.categoryId);
+                    if (idx  > -1) {
+                        idxList.push(idx);
+                    }
+                });
                 idxList.reverse().forEach(i => {
                     this.dataSelected.splice(i, 1);
                 });
