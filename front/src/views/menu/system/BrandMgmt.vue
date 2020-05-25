@@ -21,6 +21,16 @@
                 </v-col>
                 <v-col>
                     <v-autocomplete
+                            :items="searchCombos.countryCode"
+                            item-text="countryName"
+                            item-value="countryCode"
+                            color="white"
+                            label="Country"
+                            v-model="searchKeys.countryCode"
+                    ></v-autocomplete>
+                </v-col>
+                <v-col>
+                    <v-autocomplete
                             :items="searchCombos.link"
                             color="white"
                             label="Link"

@@ -89,7 +89,7 @@ const API = class {
         getMappedForumList: 'odor/membership/getMappedForumList/system',
         deleteMapping: 'odor/membership/deleteMapping/system',
         saveMapping: 'odor/membership/saveMapping/system'
-    }
+    };
 
     static UserMgmtController = {
         getUserListAll: 'odor/user/getUserListAll/system',
@@ -102,6 +102,14 @@ const API = class {
         unblockUser: 'odor/user/unblockUser/system',
         blockUser: 'odor/user/blockUser/system',
         getBlockInfo: 'odor/user/getBlockInfo/system'
-    }
+    };
+
+    static CreatorMgmtController = {
+        getCreatorListAll: 'odor/creator/getCreatorListAll/system',
+        getCreatorList: 'odor/creator/getCreatorList/system',
+        insertCreator: 'odor/creator/insertCreator/system',
+        updateCreator: 'odor/creator/updateCreator/system',
+        deleteCreator: 'odor/creator/deleteCreator/system'
+    };
 
 };

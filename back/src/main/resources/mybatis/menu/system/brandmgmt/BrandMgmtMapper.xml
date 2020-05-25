@@ -43,12 +43,6 @@
             <if test="vo.brandKey gt 0 and vo.brandKey != null">
                 AND B.BRAND_KEY = #{vo.brandKey}
             </if>
-            <if test="vo.name != '' and vo.name != null">
-                AND (
-                           UPPER(B.NAME)       = UPPER(#{vo.name})
-                        OR UPPER(B.ENG_NAME)   = UPPER(#{vo.name})
-                    )
-            </if>
             <if test="vo.link != '' and vo.link != null">
                 AND UPPER(B.LINK) LIKE CONCAT('%', UPPER(#{vo.link}), '%')
             </if>
