@@ -426,6 +426,10 @@
 
                 this.fields.filter(v => v?.type).forEach(v => {
                     this.newValue[v.value] = this.returnDefaultVal(v.type);
+
+                    if (v.selectKey) {
+                        this.newValue[v.selectKey] = v.type === 'number' ? 0 : '';
+                    }
                 });
                 this.newValue.localeMessage = '';
 
