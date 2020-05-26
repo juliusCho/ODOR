@@ -1,15 +1,310 @@
 <template>
     <v-container>
+        <RightTopAlert
+                :status="alertStatus"
+                :msg="alertMsg"
+                :show="alertShow"
+                @hideDisplay="alertShow = false"
+        />
 
+        <v-form id="search">
+            <v-row>
+                <v-col>
+                    <v-autocomplete
+                            :items="searchCombos.productTypeKey"
+                            item-text="productTypeName"
+                            item-value="productTypeKey"
+                            color="white"
+                            label="Product Type"
+                            v-model="searchKeys.productTypeKey"
+                    ></v-autocomplete>
+                </v-col>
+                <v-col>
+                    <v-autocomplete
+                            :items="searchCombos.categoryId"
+                            item-text="categoryName"
+                            item-value="categoryId"
+                            color="white"
+                            label="Category"
+                            v-model="searchKeys.categoryId"
+                    ></v-autocomplete>
+                </v-col>
+                <v-col>
+                    <v-select
+                            :items="searchCombos.useYn"
+                            item-text="codeName"
+                            item-value="codeId"
+                            v-model="searchKeys.useYn"
+                            label="Use"
+                    />
+                </v-col>
+            </v-row>
+            <SystemBtn
+                    @search="getProductTypeList"
+                    @add="addConfirm"
+                    @update="updateConfirm"
+                    @delete="deleteConfirm"
+            />
+        </v-form>
+        <v-data-table
+                :headers="headers"
+                :items="productTypeList"
+                item-key="productTypeKey"
+                v-model="selectedProductType"
+                show-select
+                single-select
+                @click:row="selectedProductType = [$event]"
+        >
+        </v-data-table>
+
+        <DeleteDialog
+                :show="confirmShow"
+                :title="'확인'"
+                :content="'진짜 삭제 ㄱ?'"
+                type="C"
+                :yesBtnText="'ㅇㅇ'"
+                :noBtnText="'ㄴㄴ'"
+                :width="300"
+                @yesAction="deleteItem"
+                @noAction="confirmShow = false"
+        />
+
+        <UpdatePopup
+                ref="updatePopup"
+                :show="updatePopShow"
+                :title="'제품타입수정'"
+                :update="true"
+                :okBtnText="'ㄱㄱ'"
+                :cancelBtnText="'ㄴㄴ'"
+                :width="500"
+                :fields="headers"
+                :values="selectedProductType[0]"
+                :validation="duplicateValidation"
+                :invalidMsg="'중복제품타입!!'"
+                @okAction="updateItem"
+                @cancelAction="updatePopShow = false"
+        />
+
+        <InsertPopup
+                ref="insertPopup"
+                :show="insertPopShow"
+                :title="'제품타입생성'"
+                :okBtnText="'ㄱㄱ'"
+                :cancelBtnText="'ㄴㄴ'"
+                :width="500"
+                :fields="headers"
+                :validation="duplicateValidation"
+                :invalidMsg="'중복제품타입!!'"
+                @okAction="addItem"
+                @cancelAction="insertPopShow = false"
+        />
     </v-container>
 </template>
 
 <script>
+    import axios from 'axios';
+    import SystemBtn from "@/views/components/SystemBtn";
+    import DeleteDialog from "@/views/components/Dialog";
+    import UpdatePopup from "@/views/components/Popup/SystemPopup";
+    import InsertPopup from "@/views/components/Popup/SystemPopup";
+    import RightTopAlert from "@/views/components/RightTopAlert";
+
     export default {
-        name: 'ProductTypeMgmt'
+        name: 'ProductTypeMgmt',
+        components: {
+            SystemBtn,
+            DeleteDialog,
+            UpdatePopup,
+            InsertPopup,
+            RightTopAlert
+        },
+        mounted() {
+            this.getCategoryListAll();
+            this.getProductTypeListAll();
+            this.getProductTypeList();
+        },
+        data() {
+            return {
+                searchKeys: {
+                    productTypeKey: 0,
+                    categoryId: '',
+                    useYn: true
+                },
+                searchCombos: {
+                    productTypeKey: [{productTypeKey: 0, productTypeName: 'All'}],
+                    categoryId: [],
+                    useYn: CODE.getCodeList('USE_YN')
+                },
+
+
+                headers: [
+                    {
+                        text: 'Category',
+                        value: 'categoryName',
+                        width: '120px',
+                        type: 'string',
+                        updateType: 'select',
+                        insertType: 'select',
+                        selectItems: [],
+                        selectKey: 'categoryId'
+                    },
+                    {
+                        text: 'Product Type Message',
+                        value: 'productTypeMessage',
+                        width: '150px',
+                        type: 'string',
+                        updateType: 'message',
+                        insertType: 'message'
+                    },
+                    {
+                        text: 'Locale Message',
+                        value: 'localeMessage',
+                        width: '*'
+                    },
+                    {
+                        text: 'Product Type Name',
+                        value: 'productTypeName',
+                        width: '180px',
+                        type: 'string',
+                        updateType: 'text',
+                        insertType: 'text'
+                    },
+                    {
+                        text: 'Description',
+                        value: 'desc',
+                        width: '100px',
+                        type: 'string',
+                        noRequire: true,
+                        updateType: 'textarea',
+                        insertType: 'textarea'
+                    },
+                    {
+                        text: 'Use YN',
+                        value: 'useYn',
+                        width: '100px',
+                        type: 'boolean',
+                        updateType: 'switch'
+                    },
+                    {
+                        text: 'Updater',
+                        value: 'updaterName',
+                        width: '100px'
+                    },
+                    {
+                        text: 'Update Date',
+                        value: 'updateDtTime',
+                        width: '150px'
+                    }
+                ],
+                productTypeList: [],
+                selectedProductType: [],
+
+
+                confirmShow: false,
+                updatePopShow: false,
+                insertPopShow: false,
+
+                alertShow: false,
+                alertMsg: '',
+                alertStatus: ''
+            };
+        },
+        methods: {
+            async getCategoryListAll() {
+                await axios.get(
+                    API.CategoryMgmtController.getCategoryListAll
+                ).then(res => {
+                    this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
+                        .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
+                    this.headers[0].selectItems = res.data.map(v => ({value: v.categoryId, text: v.categoryName}));
+                });
+            },
+            async getProductTypeListAll() {
+                this.searchCombos.productTypeKey = [];
+
+                await axios.get(
+                    API.ProductTypeController.getProductTypeListAll
+                ).then(res => {
+                    let productTypeKey = [{productTypeKey: 0, productTypeName: 'All'}]
+                        .concat(res.data.map(v => ({productTypeKey: v.productTypeKey, productTypeName: v.productTypeName})));
+                    this.searchCombos.productTypeKey = productTypeKey;
+                });
+            },
+            getProductTypeList() {
+                this.selectedProductType = [];
+
+                axios.post(
+                    API.ProductTypeController.getProductTypeList,
+                    this.searchKeys
+                ).then(res => {
+                    this.productTypeList = res.data;
+                });
+            },
+            updateConfirm() {
+                this.updatePopShow = this.selectedProductType.length !== 0;
+            },
+            deleteConfirm() {
+                this.confirmShow = this.selectedProductType.length !== 0;
+            },
+            deleteItem() {
+                axios.patch(
+                    API.ProductTypeController.deleteProductType,
+                    this.selectedProductType[0]
+                )
+                    .then(res => {
+                        this.confirmShow = false;
+                        this.doneAlert(res.data);
+                        this.reset();
+                    });
+            },
+            addConfirm() {
+                this.insertPopShow = true;
+            },
+            async duplicateValidation(data) {
+                let result = true;
+
+                await axios.post(
+                    API.ProductTypeController.checkDuplication,
+                    data
+                )
+                    .then(res => {
+                        result = res.data === 0;
+                    });
+                return result;
+            },
+            addItem(data) {
+                axios.put(API.ProductTypeController.insertProductType, data)
+                    .then(res => {
+                        this.doneAlert(res.data);
+                        this.reset();
+                    });
+            },
+            updateItem(data) {
+                axios.patch(API.ProductTypeController.updateProductType, data)
+                    .then(res => {
+                        this.doneAlert(res.data);
+                        this.reset();
+                    });
+            },
+            doneAlert(type) {
+                if (type === 'success') {
+                    this.alertStatus = 'info';
+                    this.alertMsg = '저장완료';
+                } else {
+                    this.alertStatus = 'error';
+                    this.alertMsg = '저장실패';
+                }
+                this.alertShow = true;
+            },
+            reset() {
+                this.searchKeys = {
+                    productTypeKey: 0,
+                    categoryId: '',
+                    useYn: true
+                };
+                this.getProductTypeListAll();
+                this.getProductTypeList();
+            }
+        }
     }
 </script>
-
-<style scoped>
-
-</style>

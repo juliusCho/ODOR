@@ -112,4 +112,13 @@ const API = class {
         deleteCreator: 'odor/creator/deleteCreator/system'
     };
 
+    static ProductTypeController = {
+        getProductTypeListAll: 'odor/productTp/getProductTypeListAll/system',
+        getProductTypeList: 'odor/productTp/getProductTypeList/system',
+        checkDuplication: 'odor/productTp/checkDuplication/system',
+        deleteProductType: 'odor/productTp/deleteProductType/system',
+        updateProductType: 'odor/productTp/updateProductType/system',
+        insertProductType: 'odor/productTp/insertProductType/system',
+    };
+
 };
