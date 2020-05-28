@@ -121,4 +121,13 @@ const API = class {
         insertProductType: 'odor/productTp/insertProductType/system',
     };
 
+    static IngredientController = {
+        getIngredientListAll: 'odor/ingredient/getIngredientListAll/system',
+        getIngredientList: 'odor/ingredient/getIngredientList/system',
+        checkDuplication: 'odor/ingredient/checkDuplication/system',
+        deleteIngredient: 'odor/ingredient/deleteIngredient/system',
+        updateIngredient: 'odor/ingredient/updateIngredient/system',
+        insertIngredient: 'odor/ingredient/insertIngredient/system',
+    };
+
 };

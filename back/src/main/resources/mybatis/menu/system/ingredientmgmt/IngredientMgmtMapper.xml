@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.back.odor.menu.system.ingredientmgmt.mapper.IngredientMgmtMapper">
+
+    <select id="getIngredientListAll" resultType="IngredientVO">
+        /* 제품구성요소 키,명 전체 조회 */
+        <![CDATA[
+            SELECT I.INGREDIENT_KEY                         AS INGREDIENT_KEY
+                 , IFNULL(CM.MESSAGE, I.INGREDIENT_NAME)    AS INGREDIENT_NAME
+              FROM INGREDIENT I
+              LEFT
+              JOIN COUNTRY_MESSAGE CM
+                ON CM.MESSAGE_ID = I.INGREDIENT_MESSAGE
+               AND CM.COUNTRY_CODE = #{locale}
+               AND I.USE_YN <> 0
+              LEFT
+              JOIN MESSAGE_GROUP MG
+                ON MG.MESSAGE_ID = CM.MESSAGE_ID
+               AND MG.USE_YN <> 0
+        ]]>
+    </select>
+
+    <select id="getIngredientList" resultType="IngredientVO">
+        /* 제품구성요소 조회 */
+        SELECT I.*
+             , IFNULL(
+                    (
+                        SELECT CM.MESSAGE
+                          FROM COUNTRY_MESSAGE CM
+                         INNER
+                          JOIN MESSAGE_GROUP MG
+                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+                           AND MG.USE_YN        <![CDATA[<>]]> 0
+                           AND CM.COUNTRY_CODE  = #{vo.locale}
+                         WHERE CM.MESSAGE_ID    = I.INGREDIENT_MESSAGE
+                    ),
+                    I.INGREDIENT_NAME
+               )                                            AS LOCALE_MESSAGE
+             , IFNULL(
+                    (
+                        SELECT CM.MESSAGE
+                          FROM COUNTRY_MESSAGE CM
+                         INNER
+                          JOIN MESSAGE_GROUP MG
+                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+                           AND MG.USE_YN        <![CDATA[<>]]> 0
+                           AND CM.COUNTRY_CODE  = #{vo.locale}
+                         WHERE CM.MESSAGE_ID    = CAT.CATEGORY_MESSAGE
+                    ),
+                    CAT.CATEGORY_NAME
+               )                                            AS CATEGORY_NAME
+             , (
+                   SELECT U.NICKNAME
+                     FROM `USER` U
+                    WHERE U.USER_ID        = I.UPDATER_ID
+                      AND U.USE_YN         <![CDATA[<>]]> 0
+               )                                            AS UPDATER_NAME
+          FROM INGREDIENT I
+         INNER
+          JOIN CATEGORY CAT
+            ON CAT.CATEGORY_ID  = I.CATEGORY_ID
+        <if test="vo.ingredientKey gt 0 and vo.ingredientKey != null">
+            AND I.INGREDIENT_KEY = #{vo.ingredientKey}
+        </if>
+        <if test="vo.categoryId != '' and vo.categoryId != null">
+            AND CAT.CATEGORY_ID = #{vo.categoryId}
+        </if>
+        <![CDATA[
+           AND I.USE_YN         = #{vo.useYn}
+           AND CAT.USE_YN       <> 0
+        ]]>
+    </select>
+
+    <select id="checkDuplication" resultType="Integer">
+        /* 중복체크 */
+        SELECT COUNT(1)
+          FROM INGREDIENT
+         WHERE CATEGORY_ID          = #{vo.categoryId}
+           AND INGREDIENT_NAME      = #{vo.ingredientName}
+        <if test="vo.ingredientKey gt 0 and vo.ingredientKey != null">
+           AND INGREDIENT_KEY    <![CDATA[<>]]> #{vo.ingredientKey}
+        </if>
+    </select>
+
+    <update id="deleteIngredient">
+        /* 제품구성요소 삭제 */
+        UPDATE INGREDIENT
+           SET USE_YN           = 0
+             , UPDATE_DATE      = UTC_TIMESTAMP()
+             , UPDATER_ID       = #{vo.updaterId}
+         WHERE INGREDIENT_KEY = #{vo.ingredientKey}
+    </update>
+
+    <update id="updateIngredient">
+        /* 제품구성요소 수정 */
+        UPDATE INGREDIENT
+           SET USE_YN               = #{vo.useYn}
+             , CATEGORY_ID          = #{vo.categoryId}
+             , INGREDIENT_NAME      = #{vo.ingredientName}
+             , INGREDIENT_MESSAGE   = #{vo.ingredientMessage}
+             , `DESC`               = #{vo.desc}
+             , UPDATE_DATE          = UTC_TIMESTAMP()
+             , UPDATER_ID           = #{vo.updaterId}
+         WHERE INGREDIENT_KEY = #{vo.ingredientKey}
+    </update>
+
+    <insert id="insertIngredient">
+        /* 제품구성요소 신규 생성 */
+        INSERT
+          INTO INGREDIENT
+               (
+                    CATEGORY_ID,
+                    INGREDIENT_NAME,
+                    INGREDIENT_MESSAGE,
+                    `DESC`,
+                    USE_YN,
+                    CREATOR_ID,
+                    CREATE_DATE,
+                    UPDATER_ID,
+                    UPDATE_DATE
+               )
+        VALUES (
+                    #{vo.categoryId},
+                    #{vo.ingredientName},
+                    #{vo.ingredientMessage},
+                    #{vo.desc},
+                    #{vo.useYn},
+                    #{vo.creatorId},
+                    UTC_TIMESTAMP(),
+                    #{vo.updaterId},
+                    UTC_TIMESTAMP()
+               )
+    </insert>
+
+</mapper>
