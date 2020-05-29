@@ -130,4 +130,21 @@ const API = class {
         insertIngredient: 'odor/ingredient/insertIngredient/system',
     };
 
+    static ProductMgmtController = {
+        getProductList: 'odor/product/getProductList/system',
+        getProductListAll: 'odor/product/getProductListAll/system',
+        checkDuplication: 'odor/product/checkDuplication/system',
+        insertProduct: 'odor/product/insertProduct/system',
+        updateProduct: 'odor/product/updateProduct/system',
+        deleteProduct: 'odor/product/deleteProduct/system',
+        getMappedBrandList: 'odor/product/getMappedBrandList/system',
+        getMappedCreatorList: 'odor/product/getMappedCreatorList/system',
+        getMappedIngredientList: 'odor/product/getMappedIngredientList/system',
+        getMappedProductTypeList: 'odor/product/getMappedProductTypeList/system',
+        saveBrandMapping: 'odor/product/saveBrandMapping/system',
+        saveCreatorMapping: 'odor/product/saveCreatorMapping/system',
+        saveIngredientMapping: 'odor/product/saveIngredientMapping/system',
+        saveProductTypeMapping: 'odor/product/saveProductTypeMapping/system'
+    };
+
 };

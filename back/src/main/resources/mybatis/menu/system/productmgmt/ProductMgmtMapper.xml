@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.back.odor.menu.system.productmgmt.mapper.ProductMgmtMapper">
+
+    <select id="getProductList" resultType="ProductVO">
+        /* 제품 목록 조회 */
+        <![CDATA[
+            SELECT P.*
+                 , IFNULL(
+                        (
+                            SELECT IFNULL(CM.MESSAGE, C.COUNTRY_NAME)
+                              FROM COUNTRY C
+                              LEFT
+                              JOIN COUNTRY_MESSAGE CM
+                                ON CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
+                               AND CM.COUNTRY_CODE  = #{vo.locale}
+                               AND CM.MESSAGE_ID    IN (
+                                        SELECT MG.MESSAGE_ID
+                                          FROM MESSAGE_GROUP MG
+                                         WHERE MG.USE_YN <> 0
+                                   )
+                             WHERE C.COUNTRY_CODE = P.COUNTRY_CODE
+                               AND C.USE_YN        <> 0
+                        ),
+                        ''
+                   )                                                AS COUNTRY_NAME
+                 , IFNULL(
+                       (
+                           SELECT CM.MESSAGE
+                             FROM COUNTRY_MESSAGE CM
+                            INNER
+                             JOIN MESSAGE_GROUP MG
+                               ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+                              AND MG.USE_YN        <> 0
+                           AND CM.COUNTRY_CODE  = #{vo.locale}
+                           WHERE CM.MESSAGE_ID    = CAT.CATEGORY_MESSAGE
+                       ),
+                       CAT.CATEGORY_NAME
+                   )                                                AS CATEGORY_NAME
+                 , IFNULL(
+                       (
+                           SELECT IFNULL(CM.MESSAGE, C.CODE_NAME)
+                             FROM `CODE` C
+                            INNER
+                             JOIN CODE_GROUP CG
+                               ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
+                              AND CG.CODE_GROUP_ID = 'GENDER_CODE'
+                              AND CG.USE_YN        <> 0
+                              AND C.USE_YN         <> 0
+                             LEFT
+                             JOIN COUNTRY_MESSAGE CM
+                               ON CM.MESSAGE_ID    = C.CODE_MESSAGE
+                              AND CM.COUNTRY_CODE  = #{vo.locale}
+                              AND CM.MESSAGE_ID    IN (
+                                      SELECT MG.MESSAGE_ID
+                                        FROM MESSAGE_GROUP MG
+                                       WHERE MG.USE_YN <> 0
+                                  )
+                            WHERE C.CODE_ID = P.GENDER_CODE
+                       ),
+                       ''
+                   )                                                AS GENDER_NAME
+                 , (
+                     SELECT U.NICKNAME
+                       FROM USER U
+                      WHERE U.USER_ID     = P.UPDATER_ID
+                        AND U.SYS_MNGR_YN <> 0
+                   )                                                AS UPDATER_NAME
+                 , DATE_FORMAT(P.UPDATE_DATE, '%Y-%m-%d %H:%i:%s')  AS UPDATE_DATE
+              FROM PRODUCT P
+             INNER
+              JOIN CATEGORY CAT
+                ON CAT.CATEGORY_ID  = P.CATEGORY_ID
+        ]]>
+        <where>
+            <if test="vo.countryCode != '' and vo.countryCode != null">
+                AND P.COUNTRY_CODE = #{vo.countryCode}
+            </if>
+            <if test="vo.categoryId != '' and vo.categoryId != null">
+                AND P.CATEGORY_ID = #{vo.categoryId}
+            </if>
+            <if test="vo.productKey gt 0 and vo.productKey != null">
+                AND P.PRODUCT_KEY = #{vo.productKey}
+            </if>
+            <if test="vo.yearFr != '' and vo.yearFr != null">
+                AND P.YEAR <![CDATA[>=]]> #{vo.yearFr}
+            </if>
+            <if test="vo.yearTo != '' and vo.yearTo != null">
+                AND P.YEAR <![CDATA[<=]]> #{vo.yearTo}
+            </if>
+            <if test="vo.genderCode != '' and vo.genderCode != null">
+                AND P.GENDER_CODE = #{vo.genderCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="getProductListAll" resultType="ProductVO">
+        /* 제품 목록 전체 조회 */
+        SELECT P.PRODUCT_KEY      AS PRODUCT_KEY
+             , P.NAME             AS NAME
+          FROM PRODUCT P
+
+         UNION
+
+        SELECT P.PRODUCT_KEY            AS PRODUCT_KEY
+             , IFNULL(P.ENG_NAME, '')   AS NAME
+          FROM PRODUCT P
+    </select>
+
+    <select id="checkDuplication" resultType="Integer">
+        /* 제품 중복체크 */
+        SELECT COUNT(1)
+          FROM PRODUCT
+         WHERE UPPER(`NAME`)    = UPPER(#{vo.name})
+           AND COUNTRY_CODE     = #{vo.countryCode}
+           AND CATEGORY_ID      = #{vo.categoryId}
+           AND GENDER_CODE      = #{vo.genderCode}
+        <if test="vo.productKey gt 0 and vo.productKey != null">
+            AND PRODUCT_KEY <![CDATA[<>]]> #{vo.productKey}
+        </if>
+    </select>
+
+    <insert id="insertProduct">
+        /* 제품 신규 생성 */
+        INSERT
+          INTO PRODUCT
+               (
+                   CATEGORY_ID,
+                   COUNTRY_CODE,
+                   `NAME`,
+                   ENG_NAME,
+                   IMAGE,
+                   `DESC`,
+                   `YEAR`,
+                   GENDER_CODE,
+                   CREATOR_ID,
+                   CREATE_DATE,
+                   UPDATER_ID,
+                   UPDATE_DATE
+               )
+        VALUES (
+                   #{vo.categoryId},
+                   #{vo.countryCode},
+                   #{vo.name},
+                   #{vo.engName},
+                   #{vo.image},
+                   #{vo.desc},
+                   #{vo.year},
+                   #{vo.genderCode},
+                   #{vo.creatorId},
+                   UTC_TIMESTAMP(),
+                   #{vo.updaterId},
+                   UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <update id="updateProduct">
+        /* 제품 수정 */
+        UPDATE PRODUCT
+           SET COUNTRY_CODE = #{vo.countryCode}
+             , CATEGORY_ID  = #{vo.categoryId}
+             , `NAME`       = #{vo.name}
+             , ENG_NAME     = #{vo.engName}
+             , IMAGE        = #{vo.image}
+             , `YEAR`       = #{vo.year}
+             , `DESC`       = #{vo.desc}
+             , GENDER_CODE  = #{vo.genderCode}
+             , UPDATER_ID   = #{vo.updaterId}
+             , UPDATE_DATE  = UTC_TIMESTAMP()
+         WHERE PRODUCT_KEY = #{vo.productKey}
+    </update>
+
+    <update id="deleteAllBrandMapper">
+        /* 브랜드 매핑 전체삭제 */
+        DELETE
+          FROM PRODUCT_BRAND_MAPPER
+         WHERE PRODUCT_KEY = #{productKey}
+    </update>
+
+    <update id="deleteAllCreatorMapper">
+        /* 제작자 매핑 전체삭제 */
+        DELETE
+          FROM PRODUCT_CREATOR_MAPPER
+         WHERE PRODUCT_KEY = #{productKey}
+    </update>
+
+    <update id="deleteAllIngredientMapper">
+        /* 제품 구성요소 매핑 전체삭제 */
+        DELETE
+          FROM PRODUCT_INGREDIENT_MAPPER
+         WHERE PRODUCT_KEY = #{productKey}
+    </update>
+
+    <update id="deleteAllProductTypeMapper">
+        /* 제품타입 매핑 전체삭제 */
+        DELETE
+          FROM PRODUCT_PRODUCT_TYPE_MAPPER
+         WHERE PRODUCT_KEY = #{productKey}
+    </update>
+
+    <update id="deleteProduct">
+        /* 제품 삭제 */
+        DELETE
+          FROM PRODUCT
+         WHERE PRODUCT_KEY = #{productKey}
+    </update>
+
+    <select id="getMappedBrandList" resultType="ProductBrandMapperVO">
+        /* 매핑된 브랜드 목록 조회 */
+        SELECT PBM.CATEGORY_ID
+             , PBM.BRAND_KEY
+          FROM PRODUCT_BRAND_MAPPER PBM
+         INNER
+          JOIN CATEGORY C
+            ON C.CATEGORY_ID        = PBM.CATEGORY_ID
+           AND PBM.PRODUCT_KEY      = #{productKey}
+           AND C.USE_YN             <![CDATA[<>]]> 0
+         INNER
+          JOIN BRAND B
+            ON B.BRAND_KEY      = PBM.BRAND_KEY
+           AND B.USE_YN         <![CDATA[<>]]> 0
+    </select>
+
+    <select id="getMappedCreatorList" resultType="ProductCreatorMapperVO">
+        /* 매핑된 제작자 목록 조회 */
+        SELECT PCM.CATEGORY_ID
+             , PCM.CREATOR_KEY
+          FROM PRODUCT_CREATOR_MAPPER PCM
+         INNER
+          JOIN CATEGORY C
+            ON C.CATEGORY_ID        = PCM.CATEGORY_ID
+           AND PCM.PRODUCT_KEY      = #{productKey}
+           AND C.USE_YN             <![CDATA[<>]]> 0
+         INNER
+          JOIN CREATOR CR
+            ON CR.CREATOR_KEY    = PCM.CREATOR_KEY
+           AND CR.USE_YN         <![CDATA[<>]]> 0
+    </select>
+
+    <select id="getMappedIngredientList" resultType="ProductIngredientMapperVO">
+        /* 매핑된 제품구성요소 목록 조회 */
+        SELECT PIM.CATEGORY_ID
+             , PIM.INGREDIENT_KEY
+          FROM PRODUCT_INGREDIENT_MAPPER PIM
+         INNER
+          JOIN CATEGORY C
+            ON C.CATEGORY_ID        = PIM.CATEGORY_ID
+           AND PIM.PRODUCT_KEY      = #{productKey}
+           AND C.USE_YN             <![CDATA[<>]]> 0
+         INNER
+          JOIN INGREDIENT I
+            ON I.CREATOR_KEY    = PIM.INGREDIENT_KEY
+           AND I.USE_YN         <![CDATA[<>]]> 0
+    </select>
+
+    <select id="getMappedProductTypeList" resultType="ProductProductTypeMapperVO">
+        /* 매핑된 제품타입 목록 조회 */
+        SELECT PPTM.CATEGORY_ID
+             , PPTM.PRODUCT_TYPE_KEY
+          FROM PRODUCT_PRODUCT_TYPE_MAPPER PPTM
+         INNER
+          JOIN CATEGORY C
+            ON C.CATEGORY_ID        = PPTM.CATEGORY_ID
+           AND PPTM.PRODUCT_KEY     = #{productKey}
+           AND C.USE_YN             <![CDATA[<>]]> 0
+         INNER
+          JOIN PRODUCT_TYPE PT
+            ON PT.PRODUCT_TYPE_KEY  = PPTM.PRODUCT_TYPE_KEY
+           AND PT.USE_YN            <![CDATA[<>]]> 0
+    </select>
+
+    <update id="deleteBrandMapper">
+        /* 브랜드 매핑 삭제 */
+        DELETE
+          FROM PRODUCT_BRAND_MAPPER
+         WHERE PRODUCT_KEY  = #{vo.productKey}
+           AND CATEGORY_ID  = #{vo.categoryId}
+    </update>
+
+    <update id="deleteCreatorMapper">
+        /* 제작자 매핑 삭제 */
+        DELETE
+          FROM PRODUCT_CREATOR_MAPPER
+         WHERE PRODUCT_KEY  = #{vo.productKey}
+           AND CATEGORY_ID  = #{vo.categoryId}
+    </update>
+
+    <update id="deleteIngredientMapper">
+        /* 제품 구성요소 매핑 삭제 */
+        DELETE
+          FROM PRODUCT_INGREDIENT_MAPPER
+         WHERE PRODUCT_KEY  = #{vo.productKey}
+           AND CATEGORY_ID  = #{vo.categoryId}
+    </update>
+
+    <update id="deleteProductTypeMapper">
+        /* 제품타입 매핑 삭제 */
+        DELETE
+          FROM PRODUCT_PRODUCT_TYPE_MAPPER
+         WHERE PRODUCT_KEY  = #{vo.productKey}
+           AND CATEGORY_ID  = #{vo.categoryId}
+    </update>
+
+    <insert id="insertBrandMapping">
+        /* 브랜드 매핑 신규 등록 */
+        INSERT
+          INTO PRODUCT_BRAND_MAPPER
+               (
+                   CATEGORY_ID,
+                   PRODUCT_KEY,
+                   BRAND_KEY,
+                   CREATOR_ID,
+                   CREATE_DATE,
+                   UPDATER_ID,
+                   UPDATE_DATE
+               )
+        VALUES (
+                   #{vo.categoryId},
+                   #{vo.productKey},
+                   #{vo.brandKey},
+                   #{vo.creatorId},
+                   UTC_TIMESTAMP(),
+                   #{vo.updaterId},
+                   UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <insert id="insertCreatorMapping">
+        /* 제작자 매핑 신규 등록 */
+        INSERT
+          INTO PRODUCT_CREATOR_MAPPER
+               (
+                   CATEGORY_ID,
+                   PRODUCT_KEY,
+                   CREATOR_KEY,
+                   CREATOR_ID,
+                   CREATE_DATE,
+                   UPDATER_ID,
+                   UPDATE_DATE
+               )
+        VALUES (
+                   #{vo.categoryId},
+                   #{vo.productKey},
+                   #{vo.creatorKey},
+                   #{vo.creatorId},
+                   UTC_TIMESTAMP(),
+                   #{vo.updaterId},
+                   UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <insert id="insertIngredientMapping">
+        /* 제품구성요소 매핑 신규 등록 */
+        INSERT
+          INTO PRODUCT_INGREDIENT_MAPPER
+               (
+                   CATEGORY_ID,
+                   PRODUCT_KEY,
+                   INGREDIENT_KEY,
+                   CREATOR_ID,
+                   CREATE_DATE,
+                   UPDATER_ID,
+                   UPDATE_DATE
+               )
+        VALUES (
+                   #{vo.categoryId},
+                   #{vo.productKey},
+                   #{vo.ingredientKey},
+                   #{vo.creatorId},
+                   UTC_TIMESTAMP(),
+                   #{vo.updaterId},
+                   UTC_TIMESTAMP()
+               )
+    </insert>
+
+    <insert id="insertProductTypeMapping">
+        /* 제품타입 매핑 신규 등록 */
+        INSERT
+          INTO PRODUCT_PRODUCT_TYPE_MAPPER
+               (
+                   CATEGORY_ID,
+                   PRODUCT_KEY,
+                   PRODUCT_TYPE_KEY,
+                   CREATOR_ID,
+                   CREATE_DATE,
+                   UPDATER_ID,
+                   UPDATE_DATE
+               )
+        VALUES (
+                   #{vo.categoryId},
+                   #{vo.productKey},
+                   #{vo.productTypeKey},
+                   #{vo.creatorId},
+                   UTC_TIMESTAMP(),
+                   #{vo.updaterId},
+                   UTC_TIMESTAMP()
+               )
+    </insert>
+
+</mapper>
