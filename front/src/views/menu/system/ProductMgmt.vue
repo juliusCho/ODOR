@@ -277,7 +277,7 @@
 
                 mappingShow: false,
                 mappingKey: 0,
-                mappingSelected: []
+                mappingSelected: {categoryList: [], forumList: []}
             };
         },
         methods: {
