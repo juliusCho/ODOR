@@ -9,7 +9,12 @@ import axios from 'axios'
 // import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
 // import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
 
+
+
+
 Vue.config.productionTip = false;
+
+
 
 
 

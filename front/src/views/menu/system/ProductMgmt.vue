@@ -42,12 +42,22 @@
             </v-row>
             <v-row>
                 <v-col>
-<!--                    <v-autocomplete-->
-<!--                            :items="searchCombos.link"-->
-<!--                            color="white"-->
-<!--                            label="Link"-->
-<!--                            v-model="searchKeys.link"-->
-<!--                    ></v-autocomplete>-->
+                    <YearPicker
+                            :date="searchKeys.yearFr"
+                            @bind="bindYearFr"
+                            :max="searchKeys.yearTo"
+                            :label="'Start Year'"
+                    >
+                    </YearPicker>
+                </v-col>
+                <v-col>
+                    <YearPicker
+                            :date="searchKeys.yearTo"
+                            @bind="bindYearTo"
+                            :min="searchKeys.yearFr"
+                            :label="'End Year'"
+                    >
+                    </YearPicker>
                 </v-col>
                 <v-col>
                     <v-select
@@ -139,6 +149,7 @@
     import UpdatePopup from "@/views/components/Popup/SystemPopup";
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
+    import YearPicker from "@/views/components/YearPicker";
     import MembershipMapperPopup from "@/views/components/Popup/MembershipMapperPopup";
 
     export default {
@@ -149,6 +160,7 @@
             UpdatePopup,
             InsertPopup,
             RightTopAlert,
+            YearPicker,
             MembershipMapperPopup
         },
         mounted() {
@@ -166,7 +178,7 @@
                     categoryId: '',
                     countryCode: '',
                     yearFr: 1000,
-                    yearTo: 9999,
+                    yearTo: Number(new Date().toISOString().substr(0, 4)),
                     genderCode: ''
                 },
                 searchCombos: {
@@ -176,6 +188,7 @@
                     genderCode: [{codeId: '', codeName: 'All'}].concat(genderCode),
                 },
 
+                datePickerDisplay: false,
 
                 headers: [
                     {
@@ -322,6 +335,12 @@
                     this.productList = res.data;
                 });
             },
+            bindYearFr(date) {
+                this.searchKeys.yearFr = date;
+            },
+            bindYearTo(date) {
+                this.searchKeys.yearTo = date;
+            },
             updateConfirm() {
                 this.updatePopShow = this.selectedProduct.length !== 0;
             },
@@ -388,7 +407,7 @@
                     categoryId: '',
                     countryCode: '',
                     yearFr: 1000,
-                    yearTo: 9999,
+                    yearTo: Number(new Date().toISOString().substr(0, 4)),
                     genderCode: ''
                 };
                 this.getProductListAll();
