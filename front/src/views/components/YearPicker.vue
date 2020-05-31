@@ -16,6 +16,7 @@
                     readonly
                     v-on="on"
                     prepend-icon="mdi-calendar-today"
+                    :rules="rules"
             >
             </v-text-field>
         </template>
@@ -54,23 +55,33 @@
                 type: Number,
                 default: 1000,
                 required: false
+            },
+            rules: {
+                type: Array,
+                default: () => [true],
+                required: false
             }
         },
         data() {
             return {
-                dateData: '2019-12-27',
                 menu: false,
-                inputDate: 2019,
-            }
+                dateData: '2019-12-27',
+                inputDate: 2019
+            };
         },
         mounted() {
-            this.dateData = this.date + '-01-01';
+            this.dateData = (this.date || new Date().toISOString().substr(0, 4)) + '-01-01';
         },
         watch: {
             date() {
+                console.log(this.date);
+                if (!this.date) return;
+
                 this.dateData = this.date + '-01-01';
             },
             async dateData() {
+                if (!this.dateData) return;
+
                 if (this.dateData.length === 4) {
                     this.dateData += '-01-01';
                 } else {

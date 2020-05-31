@@ -86,8 +86,22 @@
                 @click:row="selectedProduct = [$event]"
         >
             <template v-slot:item.mapping="{item}">
-                <v-btn color="yellow lighten-4"
-                       @click="mapping(item)">MAPPING</v-btn>
+                <v-row>
+                    <v-btn color="yellow lighten-4"
+                           @click="brandMapping(item)">BRAND MAPPING</v-btn>
+                </v-row>
+                <v-row style="margin-top: 5px;">
+                    <v-btn color="green lighten-4"
+                           @click="creatorMapping(item)">CREATOR MAPPING</v-btn>
+                </v-row>
+                <v-row style="margin-top: 5px;">
+                    <v-btn color="blue lighten-4"
+                           @click="ingredientMapping(item)">INGREDIENT MAPPING</v-btn>
+                </v-row>
+                <v-row style="margin-top: 5px;">
+                    <v-btn color="red lighten-4"
+                           @click="productTypeMapping(item)">PRODUCT TYPE MAPPING</v-btn>
+                </v-row>
             </template>
         </v-data-table>
 
@@ -132,13 +146,6 @@
                 @okAction="addItem"
                 @cancelAction="insertPopShow = false"
         />
-
-        <MembershipMapperPopup
-                :show="mappingShow"
-                :membershipKey="mappingKey"
-                :selected="mappingSelected"
-                @closeAction="mappingClose"
-        />
     </v-container>
 </template>
 
@@ -150,7 +157,6 @@
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
     import YearPicker from "@/views/components/YearPicker";
-    import MembershipMapperPopup from "@/views/components/Popup/MembershipMapperPopup";
 
     export default {
         name: 'ProductMgmt',
@@ -160,8 +166,7 @@
             UpdatePopup,
             InsertPopup,
             RightTopAlert,
-            YearPicker,
-            MembershipMapperPopup
+            YearPicker
         },
         mounted() {
             this.getCategoryListAll();
@@ -237,8 +242,8 @@
                         value: 'year',
                         width: '100px',
                         type: 'number',
-                        updateType: 'number',
-                        insertType: 'number'
+                        updateType: 'year',
+                        insertType: 'year'
                     },
                     {
                         text: 'Gender',
@@ -288,9 +293,18 @@
                 alertMsg: '',
                 alertStatus: '',
 
-                mappingShow: false,
-                mappingKey: 0,
-                mappingSelected: {categoryList: [], forumList: []}
+                brandMappingShow: false,
+                brandMappingKey: 0,
+                brandMappingSelected: {categoryList: [], brandList: []},
+                creatorMappingShow: false,
+                creatorMappingKey: 0,
+                creatorMappingSelected: {categoryList: [], creatorList: []},
+                ingredientMappingShow: false,
+                ingredientMappingKey: 0,
+                ingredientMappingSelected: {categoryList: [], ingredientList: []},
+                productTypeMappingShow: false,
+                productTypeMappingKey: 0,
+                productTypeMappingSelected: {categoryList: [], productTypeList: []}
             };
         },
         methods: {
@@ -413,7 +427,7 @@
                 this.getProductListAll();
                 this.getProductList();
             },
-            async mapping(item) {
+            async brandMapping(item) {
                 // let {membershipKey} = item;
                 // await axios.post(
                 //     API.MembershipMgmtController.getMappedForumList,
@@ -428,8 +442,26 @@
                 //     this.mappingShow = true;
                 // });
             },
-            mappingClose() {
-                this.mappingShow = false;
+            async creatorMapping(item) {
+
+            },
+            async ingredientMapping(item) {
+
+            },
+            async productTypeMapping(item) {
+
+            },
+            brandMappingClose() {
+                this.brandMappingShow = false;
+            },
+            creatorMappingClose() {
+                this.creatorMappingShow = false;
+            },
+            ingredientMappingClose() {
+                this.ingredientMappingShow = false;
+            },
+            productTypeMappingClose() {
+                this.productTypeMappingShow = false;
             }
         }
     }

@@ -57,6 +57,15 @@
                                             :rules="field.noRequire ? [true] : numRules"
                                         ></v-text-field>
                                     </template>
+                                    <template v-else-if="field.updateType === 'year'">
+                                        <YearPicker
+                                                :date="newValue[field.value]"
+                                                @bind="date => {newValue[field.value] = date}"
+                                                :label="field.text"
+                                                :rules="field.noRequire ? [true] : numRules"
+                                        >
+                                        </YearPicker>
+                                    </template>
                                     <template v-else-if="field.updateType === 'name'">
                                         <v-text-field
                                             v-model="newValue[field.value]"
@@ -162,6 +171,15 @@
                                                 :counter="4"
                                                 :rules="field.noRequire ? [true] : numRules"
                                         ></v-text-field>
+                                    </template>
+                                    <template v-else-if="field.insertType === 'year'">
+                                        <YearPicker
+                                                :date="newValue[field.value]"
+                                                @bind="date => {newValue[field.value] = date}"
+                                                :label="field.text"
+                                                :rules="field.noRequire ? [true] : numRules"
+                                        >
+                                        </YearPicker>
                                     </template>
                                     <template v-if="field.insertType === 'name'">
                                         <v-text-field
@@ -297,13 +315,15 @@
     import MessagePopup from "@/views/components/Popup/MessagePopup";
     import ConfirmDialog from "@/views/components/Dialog";
     import RightTopAlert from "@/views/components/RightTopAlert";
+    import YearPicker from "@/views/components/YearPicker";
 
     export default {
         name: "SystemPopup",
         components: {
             MessagePopup,
             ConfirmDialog,
-            RightTopAlert
+            RightTopAlert,
+            YearPicker
         },
         props: {
             show: {
