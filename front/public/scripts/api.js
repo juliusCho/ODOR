@@ -112,7 +112,7 @@ const API = class {
         deleteCreator: 'odor/creator/deleteCreator/system'
     };
 
-    static ProductTypeController = {
+    static ProductTypeMgmtController = {
         getProductTypeListAll: 'odor/productTp/getProductTypeListAll/system',
         getProductTypeList: 'odor/productTp/getProductTypeList/system',
         checkDuplication: 'odor/productTp/checkDuplication/system',
@@ -121,7 +121,7 @@ const API = class {
         insertProductType: 'odor/productTp/insertProductType/system',
     };
 
-    static IngredientController = {
+    static IngredientMgmtController = {
         getIngredientListAll: 'odor/ingredient/getIngredientListAll/system',
         getIngredientList: 'odor/ingredient/getIngredientList/system',
         checkDuplication: 'odor/ingredient/checkDuplication/system',
@@ -144,7 +144,11 @@ const API = class {
         saveBrandMapping: 'odor/product/saveBrandMapping/system',
         saveCreatorMapping: 'odor/product/saveCreatorMapping/system',
         saveIngredientMapping: 'odor/product/saveIngredientMapping/system',
-        saveProductTypeMapping: 'odor/product/saveProductTypeMapping/system'
+        saveProductTypeMapping: 'odor/product/saveProductTypeMapping/system',
+        deleteBrandMapping: 'odor/product/deleteBrandMapping/system',
+        deleteCreatorMapping: 'odor/product/deleteCreatorMapping/system',
+        deleteIngredientMapping: 'odor/product/deleteIngredientMapping/system',
+        deleteProductTypeMapping: 'odor/product/deleteProductTypeMapping/system'
     };
 
 };

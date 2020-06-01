@@ -88,19 +88,19 @@
             <template v-slot:item.mapping="{item}">
                 <v-row>
                     <v-btn color="yellow lighten-4"
-                           @click="brandMapping(item)">BRAND MAPPING</v-btn>
+                           @click="mapping(item, 'brand')">BRAND MAPPING</v-btn>
                 </v-row>
                 <v-row style="margin-top: 5px;">
                     <v-btn color="green lighten-4"
-                           @click="creatorMapping(item)">CREATOR MAPPING</v-btn>
+                           @click="mapping(item, 'creator')">CREATOR MAPPING</v-btn>
                 </v-row>
                 <v-row style="margin-top: 5px;">
                     <v-btn color="blue lighten-4"
-                           @click="ingredientMapping(item)">INGREDIENT MAPPING</v-btn>
+                           @click="mapping(item, 'ingredient')">INGREDIENT MAPPING</v-btn>
                 </v-row>
                 <v-row style="margin-top: 5px;">
                     <v-btn color="red lighten-4"
-                           @click="productTypeMapping(item)">PRODUCT TYPE MAPPING</v-btn>
+                           @click="mapping(item, 'productType')">PRODUCT TYPE MAPPING</v-btn>
                 </v-row>
             </template>
         </v-data-table>
@@ -146,6 +146,38 @@
                 @okAction="addItem"
                 @cancelAction="insertPopShow = false"
         />
+
+        <ProductMapperPopup
+                mappingKey="brand"
+                :show="brandMappingShow"
+                :productKey="mappingKey"
+                :selected="brandMappingSelected"
+                @closeAction="brandMappingClose"
+        />
+
+        <ProductMapperPopup
+                mappingKey="creator"
+                :show="creatorMappingShow"
+                :productKey="mappingKey"
+                :selected="creatorMappingSelected"
+                @closeAction="creatorMappingClose"
+        />
+
+        <ProductMapperPopup
+                mappingKey="ingredient"
+                :show="ingredientMappingShow"
+                :productKey="mappingKey"
+                :selected="ingredientMappingSelected"
+                @closeAction="ingredientMappingClose"
+        />
+
+        <ProductMapperPopup
+                mappingKey="productType"
+                :show="productTypeMappingShow"
+                :productKey="mappingKey"
+                :selected="productTypeMappingSelected"
+                @closeAction="productTypeMappingClose"
+        />
     </v-container>
 </template>
 
@@ -157,6 +189,7 @@
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
     import YearPicker from "@/views/components/YearPicker";
+    import ProductMapperPopup from "@/views/components/Popup/ProductMapperPopup";
 
     export default {
         name: 'ProductMgmt',
@@ -166,7 +199,8 @@
             UpdatePopup,
             InsertPopup,
             RightTopAlert,
-            YearPicker
+            YearPicker,
+            ProductMapperPopup
         },
         mounted() {
             this.getCategoryListAll();
@@ -293,17 +327,14 @@
                 alertMsg: '',
                 alertStatus: '',
 
+                mappingKey: 0,
                 brandMappingShow: false,
-                brandMappingKey: 0,
                 brandMappingSelected: {categoryList: [], brandList: []},
                 creatorMappingShow: false,
-                creatorMappingKey: 0,
                 creatorMappingSelected: {categoryList: [], creatorList: []},
                 ingredientMappingShow: false,
-                ingredientMappingKey: 0,
                 ingredientMappingSelected: {categoryList: [], ingredientList: []},
                 productTypeMappingShow: false,
-                productTypeMappingKey: 0,
                 productTypeMappingSelected: {categoryList: [], productTypeList: []}
             };
         },
@@ -427,29 +458,25 @@
                 this.getProductListAll();
                 this.getProductList();
             },
-            async brandMapping(item) {
-                // let {membershipKey} = item;
-                // await axios.post(
-                //     API.MembershipMgmtController.getMappedForumList,
-                //     {membershipKey}
-                // ).then(res => {
-                //     let forumList = res.data;
-                //     let categoryList = forumList.map(v => v.categoryId);
-                //     categoryList = COMMON_UTIL.removeArrDuplicate(categoryList);
-                //
-                //     this.mappingSelected = {categoryList, forumList};
-                //     this.mappingKey = membershipKey;
-                //     this.mappingShow = true;
-                // });
-            },
-            async creatorMapping(item) {
+            async mapping(item, type) {
+                let typeCapital = type.substr(0, 1).toUpperCase() + type.substr(1, type.length);
+                let {productKey} = item;
+                await axios.post(
+                    API.ProductMgmtController['getMapped' + typeCapital + 'List'],
+                    null,
+                    {
+                        params: {productKey}
+                    }
+                ).then(res => {
+                    let mappingList = res.data;
+                    let categoryList = mappingList.map(v => ({categoryId: v.categoryId}));
+                    categoryList = COMMON_UTIL.removeArrDuplicate(categoryList);
 
-            },
-            async ingredientMapping(item) {
-
-            },
-            async productTypeMapping(item) {
-
+                    this[type + 'MappingSelected'] = {categoryList};
+                    this[type + 'MappingSelected'][type + 'List'] = mappingList;
+                    this.mappingKey = productKey;
+                    this[type + 'MappingShow'] = true;
+                });
             },
             brandMappingClose() {
                 this.brandMappingShow = false;

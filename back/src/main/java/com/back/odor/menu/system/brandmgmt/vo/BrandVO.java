@@ -26,4 +26,10 @@ public class BrandVO extends CommonVO implements Serializable {
     private String desc;
     private String link;
 
+    private String brandName;
+
+    public String getBrandName() {
+        return this.name;
+    }
+
 }

@@ -223,7 +223,7 @@
                 this.searchCombos.productTypeKey = [];
 
                 await axios.get(
-                    API.ProductTypeController.getProductTypeListAll
+                    API.ProductTypeMgmtController.getProductTypeListAll
                 ).then(res => {
                     let productTypeKey = [{productTypeKey: 0, productTypeName: 'All'}]
                         .concat(res.data.map(v => ({productTypeKey: v.productTypeKey, productTypeName: v.productTypeName})));
@@ -234,7 +234,7 @@
                 this.selectedProductType = [];
 
                 axios.post(
-                    API.ProductTypeController.getProductTypeList,
+                    API.ProductTypeMgmtController.getProductTypeList,
                     this.searchKeys
                 ).then(res => {
                     this.productTypeList = res.data;
@@ -248,7 +248,7 @@
             },
             deleteItem() {
                 axios.patch(
-                    API.ProductTypeController.deleteProductType,
+                    API.ProductTypeMgmtController.deleteProductType,
                     this.selectedProductType[0]
                 )
                     .then(res => {
@@ -264,7 +264,7 @@
                 let result = true;
 
                 await axios.post(
-                    API.ProductTypeController.checkDuplication,
+                    API.ProductTypeMgmtController.checkDuplication,
                     data
                 )
                     .then(res => {
@@ -273,14 +273,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.ProductTypeController.insertProductType, data)
+                axios.put(API.ProductTypeMgmtController.insertProductType, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.ProductTypeController.updateProductType, data)
+                axios.patch(API.ProductTypeMgmtController.updateProductType, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

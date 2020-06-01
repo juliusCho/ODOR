@@ -223,7 +223,7 @@
                 this.searchCombos.ingredientKey = [];
 
                 await axios.get(
-                    API.IngredientController.getIngredientListAll
+                    API.IngredientMgmtController.getIngredientListAll
                 ).then(res => {
                     let ingredientKey = [{ingredientKey: 0, ingredientName: 'All'}]
                         .concat(res.data.map(v => ({ingredientKey: v.ingredientKey, ingredientName: v.ingredientName})));
@@ -234,7 +234,7 @@
                 this.selectedIngredient = [];
 
                 axios.post(
-                    API.IngredientController.getIngredientList,
+                    API.IngredientMgmtController.getIngredientList,
                     this.searchKeys
                 ).then(res => {
                     this.ingredientList = res.data;
@@ -248,7 +248,7 @@
             },
             deleteItem() {
                 axios.patch(
-                    API.IngredientController.deleteIngredient,
+                    API.IngredientMgmtController.deleteIngredient,
                     this.selectedIngredient[0]
                 )
                     .then(res => {
@@ -264,7 +264,7 @@
                 let result = true;
 
                 await axios.post(
-                    API.IngredientController.checkDuplication,
+                    API.IngredientMgmtController.checkDuplication,
                     data
                 )
                     .then(res => {
@@ -273,14 +273,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.IngredientController.insertIngredient, data)
+                axios.put(API.IngredientMgmtController.insertIngredient, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.IngredientController.updateIngredient, data)
+                axios.patch(API.IngredientMgmtController.updateIngredient, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

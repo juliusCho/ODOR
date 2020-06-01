@@ -316,7 +316,7 @@
                     {membershipKey}
                 ).then(res => {
                     let forumList = res.data;
-                    let categoryList = forumList.map(v => v.categoryId);
+                    let categoryList = forumList.map(v => ({categoryId: v.categoryId}));
                     categoryList = COMMON_UTIL.removeArrDuplicate(categoryList);
 
                     this.mappingSelected = {categoryList, forumList};

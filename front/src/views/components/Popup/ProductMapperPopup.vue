@@ -16,7 +16,7 @@
                 class="headline grey lighten-2"
                 primary-title
             >
-                {{ '맴버쉽 포럼 권한 관리' }}
+                {{ '제품, ' + this.mappingKeyCapital + ' 매핑 관리' }}
             </v-card-title>
             <v-card-text>
                 <v-row>
@@ -32,12 +32,12 @@
                     </v-col>
                     <v-col>
                         <v-autocomplete
-                                :items="searchCombos.forumKey"
+                                :items="searchCombos[this.mappingKey + 'Key']"
                                 color="white"
-                                item-value="forumKey"
-                                item-text="forumName"
-                                :label="'Forum'"
-                                v-model="searchKeys.forumKey"
+                                :item-value="this.mappingKey + 'Key'"
+                                :item-text="this.mappingKey + 'Name'"
+                                :label="this.mappingKeyCapital"
+                                v-model="searchKeys[this.mappingKey + 'Key']"
                         ></v-autocomplete>
                     </v-col>
                     <v-col>
@@ -67,10 +67,10 @@
             <v-card width="50%">
                 <v-card-text>
                     <v-data-table
-                        :headers="forumHeaders"
-                        :items="forumList"
-                        item-key="forumKey"
-                        v-model="selectedForum"
+                        :headers="mappingHeaders"
+                        :items="mappingList"
+                        :item-key="this.mappingKey + 'Key'"
+                        v-model="selectedMapping"
                         show-select
                         height="250px"
                         :loading="rightLoading"
@@ -122,7 +122,7 @@
     import ConfirmDialog from "@/views/components/Dialog";
 
     export default {
-        name: "MembershipMapperPopup",
+        name: "ProductMapperPopup",
         components: {
             RightTopAlert,
             ConfirmDialog
@@ -138,28 +138,41 @@
                 default: 1000,
                 required: false
             },
-            membershipKey: {
+            productKey: {
                 type: Number,
                 default: 0,
                 required: false
             },
+            mappingKey: {
+                type: String,
+                default: '',
+                required: true
+            },
             selected: {
                 type: Object,
-                default: () => ({categoryList: [], forumList: []}),
+                default: () => {
+                    let result = {categoryList: []};
+                    result[this.mappingKey + 'List'] = [];
+                    return result;
+                },
                 required: false
             }
         },
         data() {
+            let dataSelected = {categoryList: []};
+            dataSelected[this.mappingKey + 'List'] = [];
+            let searchKeys = {categoryId: ''};
+            searchKeys[this.mappingKey + 'Key'] = 0;
+            let searchCombos = {categoryId: []};
+            searchCombos[this.mappingKey + 'Key'] = [];
+
             return {
                 thisShow: false,
 
-                dataSelected: {categoryList: [], forumList: []},
+                dataSelected,
 
-                searchKeys: {categoryId: '', forumKey: 0},
-                searchCombos: {
-                    categoryId: [],
-                    forumKey: []
-                },
+                searchKeys,
+                searchCombos,
                 rightLoading: true,
 
                 categoryHeaders: [
@@ -174,17 +187,17 @@
                         width: '100px'
                     }
                 ],
-                forumHeaders: [
+                mappingHeaders: [
                     {
-                        text: 'Forum Name',
-                        value: 'forumName',
+                        text: this.mappingKeyCapital + ' Name',
+                        value: this.mappingKey + 'Name',
                         width: '100px'
                     }
                 ],
                 categoryList: [],
-                forumList: [],
+                mappingList: [],
                 selectedCategory: [],
-                selectedForum: [],
+                selectedMapping: [],
                 clickedCategory: {},
 
                 blockAdd: true,
@@ -193,19 +206,20 @@
                 alertMsg: '경고',
                 alertShow: false,
 
-                confirmShow: false
+                confirmShow: false,
+                mappingKeyCapital: ''
             }
         },
-        mounted() {
-            this.getForumListAll();
-        },
         watch: {
-            show() {
+            async show() {
                 this.thisShow = this.show;
                 if (this.thisShow) {
-                    this.initializeData();
-                    this.getCategoryListAll();
-                    this.getCategoryList();
+                    let result = await this.initializeData();
+                    if (result) {
+                        this.searchCombos[this.mappingKey + 'Key'] = await this.getMappingListAll();
+                        this.searchCombos.categoryId = await this.getCategoryListAll();
+                        this.getCategoryList();
+                    }
                 }
             },
             'clickedCategory.categoryId'() {
@@ -220,20 +234,42 @@
             }
         },
         methods: {
-            initializeData() {
+            async initializeData() {
+                this.mappingKeyCapital = this.mappingKey.substr(0, 1).toUpperCase() +
+                        this.mappingKey.substr(1, this.mappingKey.length);
+
+                this.dataSelected[this.mappingKey + 'List'] = [];
+                this.searchKeys[this.mappingKey + 'Key'] = 0;
+                this.searchCombos[this.mappingKey + 'Key'] = [];
+                this.mappingHeaders = [
+                    {
+                        text: this.mappingKeyCapital + ' Name',
+                        value: this.mappingKey + 'Name',
+                        width: '100px'
+                    }
+                ];
+
                 this.dataSelected = this.selected;
+
+                if (!this.selected[this.mappingKey + 'List']) {
+                    this.dataSelected[this.mappingKey + 'List'] = [];
+                }
                 if (this.dataSelected.categoryList.length > 0) {
                     this.categorySelected(this.dataSelected.categoryList[0]);
                 }
+                await this.$forceUpdate();
+                return true;
             },
             async getCategoryListAll() {
                 this.searchCombos.categoryId = [];
+                let result = [];
 
                 await axios.get(
                     API.CategoryMgmtController.getCategoryListAll
                 ).then(res => {
-                    this.searchCombos.categoryId = [{categoryId: '', categoryName: 'ALL'}].concat(res.data);
+                    result = [{categoryId: '', categoryName: 'ALL'}].concat(res.data);
                 });
+                return result;
             },
             getCategoryList() {
                 axios.post(
@@ -265,39 +301,57 @@
                 this.selectedCategory = [data];
                 this.clickedCategory = data;
                 this.searchKeys.categoryId = data.categoryId;
-                this.getForumList();
+                this.getMappingList();
             },
-            async getForumListAll() {
-                this.searchCombos.forumKey = [];
+            async getMappingListAll() {
+                this.searchCombos[this.mappingKey + 'Key'] = [];
+                let result = [];
+
+                await axios.get(
+                    API[this.mappingKeyCapital + 'MgmtController']['get' + this.mappingKeyCapital + 'ListAll']
+                ).then(res => {
+                    let mappingKey = {};
+                    mappingKey[this.mappingKey + 'Key'] = 0;
+                    mappingKey[this.mappingKey + 'Name'] = 'All';
+
+                    let mappingKeyList = [mappingKey].concat(
+                                            res.data.map(
+                                                v => {
+                                                    let result = {};
+                                                    result[this.mappingKey + 'Key'] = v[this.mappingKey + 'Key'];
+                                                    result[this.mappingKey + 'Name'] = v[this.mappingKey + 'Name'];
+                                                    return result;
+                                                }
+                                            )
+                                        );
+                    result = mappingKeyList;
+                });
+                return result;
+            },
+            async getMappingList() {
                 let {categoryId} = this.searchKeys;
+                let mappingKey = this.searchKeys[this.mappingKey + 'Key'];
+                let searchKeys = {
+                    categoryId, useYn: true
+                };
+                searchKeys[this.mappingKey + 'Key'] = mappingKey;
+                console.log(mappingKey);
 
                 await axios.post(
-                    API.ForumMgmtController.getForumListSystem,
-                    {categoryId, useYn: true}
+                    API[this.mappingKeyCapital + 'MgmtController']['get' + this.mappingKeyCapital + 'List'],
+                    searchKeys
                 ).then(res => {
-                    let forumKey = [{forumKey: 0, forumName: 'All'}]
-                        .concat(res.data.map(v => ({forumKey: v.forumKey, forumName: v.forumName})));
-                    this.searchCombos.forumKey = forumKey;
+                    this.mappingList = res.data;
+                    this.checkAlreadyAddedMapping();
                 });
             },
-            async getForumList() {
-                let {categoryId, forumKey} = this.searchKeys;
-
-                await axios.post(
-                    API.ForumMgmtController.getForumListSystem,
-                    {categoryId, forumKey, useYn: true}
-                ).then(res => {
-                    this.forumList = res.data;
-                    this.checkAlreadyAddedForum();
-                });
-            },
-            checkAlreadyAddedForum() {
-                this.selectedForum = [];
-                this.forumList.forEach(forum => {
-                    let idx = this.dataSelected.forumList
-                        .findIndex(v => v.forumKey === forum.forumKey);
+            checkAlreadyAddedMapping() {
+                this.selectedMapping = [];
+                this.mappingList.forEach(mapping => {
+                    let idx = this.dataSelected[this.mappingKey + 'List']
+                        .findIndex(v => v[this.mappingKey + 'Key'] === mapping[this.mappingKey + 'Key']);
                     if (idx > -1) {
-                        this.selectedForum.push(forum);
+                        this.selectedMapping.push(mapping);
                     }
                 });
             },
@@ -305,7 +359,7 @@
                 this.confirmShow = true;
             },
             saveCheck() {
-                if (this.selectedForum.length === 0) {
+                if (this.selectedMapping.length === 0) {
                     this.deleteAction();
                     return;
                 }
@@ -313,10 +367,10 @@
             },
             deleteAction() {
                 axios.delete(
-                    API.MembershipMgmtController.deleteMapping,
+                    API.ProductMgmtController['delete' + this.mappingKeyCapital + 'Mapping'],
                     {
                         params: {
-                            membershipKey: this.membershipKey,
+                            productKey: this.productKey,
                             categoryId: this.selectedCategory[0].categoryId
                         }
                     }
@@ -329,14 +383,15 @@
             deleteDataSelected() {
                 let idx = 0;
                 let idxList = [];
-                this.forumList.forEach(item => {
-                    idx = this.dataSelected.forumList.findIndex(v => v.forumKey === item.forumKey);
+                this.mappingList.forEach(item => {
+                    idx = this.dataSelected[this.mappingKey + 'List']
+                        .findIndex(v => v[this.mappingKey + 'Key'] === item[this.mappingKey + 'Key']);
                     if (idx > -1) {
                         idxList.push(idx);
                     }
                 });
                 idxList.reverse().forEach(i => {
-                    this.dataSelected.forumList.splice(i, 1);
+                    this.dataSelected[this.mappingKey + 'List'].splice(i, 1);
                 });
             },
             showAlert() {
@@ -345,12 +400,15 @@
                 this.alertShow = true;
             },
             saveAction() {
-                let selectedList = this.selectedForum.map(v =>
-                        Object.assign(v, {membershipKey: this.membershipKey})
+                let selectedList = this.selectedMapping.map(v =>
+                        Object.assign(v, {
+                            productKey: this.productKey,
+                            categoryId: this.clickedCategory.categoryId
+                        })
                     );
 
                 axios.patch(
-                    API.MembershipMgmtController.saveMapping,
+                    API.ProductMgmtController['save' + this.mappingKeyCapital + 'Mapping'],
                     selectedList
                 ).then(() => {
                     this.updateDataSelected();
@@ -361,8 +419,12 @@
             updateDataSelected() {
                 this.deleteDataSelected();
 
-                this.dataSelected.forumList = this.dataSelected.forumList.concat(
-                    this.selectedForum.map(v => ({categoryId: v.categoryId, forumKey: v.forumKey}))
+                this.dataSelected[this.mappingKey + 'List'] = this.dataSelected[this.mappingKey + 'List'].concat(
+                    this.selectedMapping.map(v => {
+                        let result = {categoryId: v.categoryId};
+                        result[this.mappingKey + 'Key'] = v[this.mappingKey + 'Key'];
+                        return result;
+                    })
                 );
             },
             cancelAction() {
@@ -370,10 +432,12 @@
                 this.reinitialize();
             },
             reinitialize() {
-                this.dataSelected = {categoryList: [], forumList: []};
-                this.searchKeys = {categoryId: '', forumKey: 0};
+                this.dataSelected = {categoryList: []};
+                this.dataSelected[this.mappingKey + 'List'] = [];
+                this.searchKeys = {categoryId: ''};
+                this.searchKeys[this.mappingKey + 'Key'] = 0;
                 this.selectedCategory = [];
-                this.selectedForum = [];
+                this.selectedMapping = [];
                 this.blockAdd = true;
                 this.alertShow = false;
                 this.confirmShow = false;

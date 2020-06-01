@@ -251,7 +251,7 @@
            AND C.USE_YN             <![CDATA[<>]]> 0
          INNER
           JOIN INGREDIENT I
-            ON I.CREATOR_KEY    = PIM.INGREDIENT_KEY
+            ON I.INGREDIENT_KEY = PIM.INGREDIENT_KEY
            AND I.USE_YN         <![CDATA[<>]]> 0
     </select>
 

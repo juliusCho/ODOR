@@ -112,4 +112,36 @@ public class ProductMgmtService implements ProductMgmtServiceSpec {
         }
     }
 
+    @Override
+    public void deleteBrandMapping(Long productKey, String categoryId) {
+        ProductBrandMapperVO vo = new ProductBrandMapperVO();
+        vo.setProductKey(productKey);
+        vo.setCategoryId(categoryId);
+        productMgmtMapper.deleteBrandMapper(vo);
+    }
+
+    @Override
+    public void deleteCreatorMapping(Long productKey, String categoryId) {
+        ProductCreatorMapperVO vo = new ProductCreatorMapperVO();
+        vo.setProductKey(productKey);
+        vo.setCategoryId(categoryId);
+        productMgmtMapper.deleteCreatorMapper(vo);
+    }
+
+    @Override
+    public void deleteIngredientMapping(Long productKey, String categoryId) {
+        ProductIngredientMapperVO vo = new ProductIngredientMapperVO();
+        vo.setProductKey(productKey);
+        vo.setCategoryId(categoryId);
+        productMgmtMapper.deleteIngredientMapper(vo);
+    }
+
+    @Override
+    public void deleteProductTypeMapping(Long productKey, String categoryId) {
+        ProductProductTypeMapperVO vo = new ProductProductTypeMapperVO();
+        vo.setProductKey(productKey);
+        vo.setCategoryId(categoryId);
+        productMgmtMapper.deleteProductTypeMapper(vo);
+    }
+
 }

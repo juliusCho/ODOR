@@ -24,4 +24,9 @@ public interface ProductMgmtServiceSpec {
     void saveIngredientMapping(List<ProductIngredientMapperVO> list);
     void saveProductTypeMapping(List<ProductProductTypeMapperVO> list);
 
+    void deleteBrandMapping(Long productKey, String categoryId);
+    void deleteCreatorMapping(Long productKey, String categoryId);
+    void deleteIngredientMapping(Long productKey, String categoryId);
+    void deleteProductTypeMapping(Long productKey, String categoryId);
+
 }

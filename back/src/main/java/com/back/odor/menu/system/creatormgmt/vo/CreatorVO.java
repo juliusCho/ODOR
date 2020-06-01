@@ -25,4 +25,10 @@ public class CreatorVO extends CommonVO implements Serializable {
     private String engName;
     private String desc;
 
+    private String creatorName;
+
+    public String getCreatorName() {
+        return this.name;
+    }
+
 }
