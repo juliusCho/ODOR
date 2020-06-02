@@ -32,12 +32,12 @@
                     </v-col>
                     <v-col>
                         <v-autocomplete
-                                :items="searchCombos[this.mappingKey + 'Key']"
+                                :items="searchCombos[mappingKey + 'Key']"
                                 color="white"
-                                :item-value="this.mappingKey + 'Key'"
-                                :item-text="this.mappingKey + 'Name'"
-                                :label="this.mappingKeyCapital"
-                                v-model="searchKeys[this.mappingKey + 'Key']"
+                                :item-value="mappingKey + 'Key'"
+                                :item-text="mappingKey + 'Name'"
+                                :label="mappingKeyCapital"
+                                v-model="searchKeys[mappingKey + 'Key']"
                         ></v-autocomplete>
                     </v-col>
                     <v-col>
@@ -227,6 +227,7 @@
                     this.rightLoading = false;
                     this.blockAdd = false;
                     this.searchKeys.categoryId = this.clickedCategory.categoryId;
+                    this.searchKeys[this.mappingKey + 'Key'] = 0;
                 } else {
                     this.rightLoading = true;
                     this.blockAdd = true;
@@ -335,7 +336,6 @@
                     categoryId, useYn: true
                 };
                 searchKeys[this.mappingKey + 'Key'] = mappingKey;
-                console.log(mappingKey);
 
                 await axios.post(
                     API[this.mappingKeyCapital + 'MgmtController']['get' + this.mappingKeyCapital + 'List'],

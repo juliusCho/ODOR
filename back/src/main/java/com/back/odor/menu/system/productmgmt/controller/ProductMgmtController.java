@@ -96,28 +96,28 @@ public class ProductMgmtController {
 
     @DeleteMapping("deleteBrandMapping/system")
     public ResponseEntity deleteBrandMapping(
-            @RequestParam("mappingKey") Long productKey, @RequestParam String categoryId) {
+            @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteBrandMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
     @DeleteMapping("deleteCreatorMapping/system")
     public ResponseEntity deleteCreatorMapping(
-            @RequestParam("mappingKey") Long productKey, @RequestParam String categoryId) {
+            @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteCreatorMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
     @DeleteMapping("deleteIngredientMapping/system")
     public ResponseEntity deleteIngredientMapping(
-            @RequestParam("mappingKey") Long productKey, @RequestParam String categoryId) {
+            @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteIngredientMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
     @DeleteMapping("deleteProductTypeMapping/system")
     public ResponseEntity deleteProductTypeMapping(
-            @RequestParam("mappingKey") Long productKey, @RequestParam String categoryId) {
+            @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteProductTypeMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
