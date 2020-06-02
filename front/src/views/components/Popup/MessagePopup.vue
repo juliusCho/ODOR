@@ -321,6 +321,7 @@
                 return result;
             },
             createMessage() {
+                this.confirmShow = false;
                 let list = [
                     {messageId: this.selected.messageId, countryCode: 'KO', message: this.selected.koMessage},
                     {messageId: this.selected.messageId, countryCode: 'ENG', message: this.selected.engMessage}

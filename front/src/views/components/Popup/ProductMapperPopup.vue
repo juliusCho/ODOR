@@ -74,6 +74,7 @@
                         show-select
                         height="250px"
                         :loading="rightLoading"
+                        @click:row="selectedMapping.push($event)"
                         loading-text="카테고리를 선택해줘"
                     >
                     </v-data-table>

@@ -9,6 +9,7 @@
         <![CDATA[
             SELECT PT.PRODUCT_TYPE_KEY                      AS PRODUCT_TYPE_KEY
                  , IFNULL(CM.MESSAGE, PT.PRODUCT_TYPE_NAME) AS PRODUCT_TYPE_NAME
+                 , IFNULL(CM.MESSAGE, PT.PRODUCT_TYPE_NAME) AS LOCALE_MESSAGE
               FROM PRODUCT_TYPE PT
               LEFT
               JOIN COUNTRY_MESSAGE CM
@@ -98,7 +99,12 @@
         UPDATE PRODUCT_TYPE
            SET USE_YN               = #{vo.useYn}
              , CATEGORY_ID          = #{vo.categoryId}
-             , PRODUCT_TYPE_NAME    = #{vo.productTypeName}
+             , PRODUCT_TYPE_NAME    = (
+                                            SELECT CM.MESSAGE
+                                              FROM COUNTRY_MESSAGE CM
+                                             WHERE CM.COUNTRY_CODE = 'ENG'
+                                               AND CM.MESSAGE_ID = #{vo.productTypeMessage}
+                                      )
              , PRODUCT_TYPE_MESSAGE = #{vo.productTypeMessage}
              , `DESC`               = #{vo.desc}
              , UPDATE_DATE          = UTC_TIMESTAMP()

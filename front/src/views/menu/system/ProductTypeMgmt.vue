@@ -151,15 +151,10 @@
                     {
                         text: 'Product Type Message',
                         value: 'productTypeMessage',
-                        width: '150px',
+                        width: '*',
                         type: 'string',
                         updateType: 'message',
                         insertType: 'message'
-                    },
-                    {
-                        text: 'Locale Message',
-                        value: 'localeMessage',
-                        width: '*'
                     },
                     {
                         text: 'Product Type Name',
@@ -168,6 +163,11 @@
                         type: 'string',
                         updateType: 'text',
                         insertType: 'text'
+                    },
+                    {
+                        text: 'Product Type Name2',
+                        value: 'productTypeName2',
+                        width: '0px'
                     },
                     {
                         text: 'Description',
@@ -241,7 +241,10 @@
                 });
             },
             updateConfirm() {
-                this.updatePopShow = this.selectedProductType.length !== 0;
+                if (this.selectedProductType.length === 0) return;
+
+                this.selectedProductType[0].productTypeName = this.selectedProductType[0].productTypeName2;
+                this.updatePopShow = true;
             },
             deleteConfirm() {
                 this.confirmShow = this.selectedProductType.length !== 0;

@@ -1,5 +1,6 @@
 package com.back.odor.menu.system.producttypemgmt.vo;
 
+import com.back.odor.common.utils.LocaleUtil;
 import com.back.odor.common.utils.vo.CommonVO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,5 +26,17 @@ public class ProductTypeVO extends CommonVO implements Serializable {
     private String productTypeMessage;
 
     private String desc;
+
+    public String getProductTypeName() {
+        if ("KO".equals(LocaleUtil.getLocale())) {
+            return super.getLocaleMessage();
+        } else {
+            return this.productTypeName;
+        }
+    }
+
+    public String getProductTypeName2() {
+        return this.productTypeName;
+    }
 
 }
