@@ -102,8 +102,8 @@
              , PRODUCT_TYPE_NAME    = (
                                             SELECT CM.MESSAGE
                                               FROM COUNTRY_MESSAGE CM
-                                             WHERE CM.COUNTRY_CODE = 'ENG'
-                                               AND CM.MESSAGE_ID = #{vo.productTypeMessage}
+                                             WHERE CM.COUNTRY_CODE  = 'ENG'
+                                               AND CM.MESSAGE_ID    = #{vo.productTypeMessage}
                                       )
              , PRODUCT_TYPE_MESSAGE = #{vo.productTypeMessage}
              , `DESC`               = #{vo.desc}

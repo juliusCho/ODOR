@@ -74,11 +74,11 @@ const MESSAGE = {
             .concat(ODOR.odorMessageList || []);
     },
     getMessage(messageId = '') {
-        messageId = messageId.toString();
+        messageId = messageId?.toString();
         return ODOR.odorMessageList.find(v => v.messageId === messageId)?.message || '';
     },
     getMessageData(messageId = '') {
-        messageId = messageId.toString();
+        messageId = messageId?.toString();
         return ODOR.odorMessageList.find(v => v.messageId === messageId) || {};
     }
 }
@@ -106,7 +106,7 @@ const CODE = {
             );
     },
     getCodeName(codeGroupId, codeId = '') {
-        codeId = codeId.toString();
+        codeId = codeId?.toString();
         return ODOR.odorCodeList
             .find(
                 v =>
