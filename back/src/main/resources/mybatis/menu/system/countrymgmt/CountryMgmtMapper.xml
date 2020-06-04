@@ -7,47 +7,38 @@
     <select id="getCountryListAll" resultType="CountryVO">
         /* 국가전체 목록 조회 */
         SELECT C.COUNTRY_CODE                                       AS COUNTRY_CODE
-             , IFNULL(
-                 (
-                    SELECT CM.MESSAGE
-                      FROM COUNTRY_MESSAGE CM
-                     INNER
-                      JOIN MESSAGE_GROUP MG
-                        ON MG.MESSAGE_ID    = CM.MESSAGE_ID
-                       AND MG.USE_YN        <![CDATA[<>]]> 0
-                     WHERE CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
-                       AND CM.COUNTRY_CODE  = #{locale}
-                 ),
-                 C.COUNTRY_NAME
-               )                                                    AS COUNTRY_NAME
+             , IFNULL(CM.MESSAGE, C.COUNTRY_NAME)                   AS COUNTRY_NAME
           FROM COUNTRY C
+          LEFT
+          JOIN COUNTRY_MESSAGE CM
+            ON CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
+           AND CM.COUNTRY_CODE  = #{locale}
+          LEFT
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+           AND MG.USE_YN        <![CDATA[<>]]> 0
          WHERE C.USE_YN         <![CDATA[<>]]> 0
     </select>
 
     <select id="getCountryList" resultType="CountryVO">
         /* 국가 목록 조회 */
+        <![CDATA[
         SELECT C.*
-             , IFNULL(
-                 (
-                   SELECT CM.MESSAGE
-                     FROM COUNTRY_MESSAGE CM
-                    INNER
-                     JOIN MESSAGE_GROUP MG
-                       ON MG.MESSAGE_ID = CM.MESSAGE_ID
-                      AND MG.USE_YN     <![CDATA[<>]]> 0
-                    WHERE CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
-                      AND CM.COUNTRY_CODE  = #{vo.locale}
-                 ),
-                 C.COUNTRY_NAME
-               )                                                AS LOCALE_MESSAGE
-             , (
-                    SELECT U.NICKNAME
-                      FROM `USER` U
-                     WHERE U.USER_ID        = C.UPDATER_ID
-                       AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
-                       AND U.USE_YN         <![CDATA[<>]]> 0
-               )                                                AS UPDATER_NAME
+             , IFNULL(CM.MESSAGE, C.COUNTRY_NAME)               AS LOCALE_MESSAGE
+             , IFNULL(U.NICKNAME, '')                           AS UPDATER_NAME
           FROM COUNTRY C
+          LEFT
+          JOIN COUNTRY_MESSAGE CM
+            ON CM.MESSAGE_ID    = C.COUNTRY_MESSAGE
+           AND CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+           AND MG.USE_YN        = 1
+          LEFT
+          JOIN `USER` U
+            ON U.USER_ID        = C.UPDATER_ID
+        ]]>
         <where>
             <if test="vo.countryCode != '' and vo.countryCode != null">
                 AND C.COUNTRY_CODE = UPPER(#{vo.countryCode})

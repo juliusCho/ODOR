@@ -14,11 +14,10 @@
               JOIN COUNTRY_MESSAGE CM
                 ON CM.MESSAGE_ID    = M.MEMBERSHIP_MESSAGE
                AND CM.COUNTRY_CODE  = #{locale}
-               AND CM.MESSAGE_ID    IN (
-                        SELECT MG.MESSAGE_ID
-                          FROM MESSAGE_GROUP MG
-                         WHERE MG.USE_YN <> 0
-                   )
+              LEFT
+              JOIN MESSAGE_GROUP MG
+                ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+               AND MG.USE_YN        = 1
         ]]>
     </select>
 
@@ -26,52 +25,40 @@
         /* 맴버쉽 목록 조회 */
         <![CDATA[
             SELECT M.*
-                 , IFNULL(
-                        (
-                           SELECT CM.MESSAGE
-                             FROM COUNTRY_MESSAGE CM
-                            INNER
-                             JOIN MESSAGE_GROUP MG
-                               ON MG.MESSAGE_ID = CM.MESSAGE_ID
-                              AND MG.USE_YN     <> 0
-                            WHERE CM.MESSAGE_ID    = M.MEMBERSHIP_MESSAGE
-                              AND CM.COUNTRY_CODE  = #{vo.locale}
-                        ),
-                        M.MEMBERSHIP_NAME
-                   )                                                AS LOCALE_MESSAGE
-                 , IFNULL(
-                        (
-                            SELECT IFNULL(CM.MESSAGE, C.CODE_NAME)
-                              FROM `CODE` C
-                             INNER
-                              JOIN CODE_GROUP CG
-                                ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
-                               AND CG.CODE_GROUP_ID = 'MEMBERSHIP_LVL_CODE'
-                               AND CG.USE_YN        <> 0
-                               AND C.USE_YN         <> 0
-                              LEFT
-                              JOIN COUNTRY_MESSAGE CM
-                                ON CM.MESSAGE_ID    = C.CODE_MESSAGE
-                               AND CM.COUNTRY_CODE  = #{vo.locale}
-                               AND CM.MESSAGE_ID    IN (
-                                        SELECT MG.MESSAGE_ID
-                                          FROM MESSAGE_GROUP MG
-                                         WHERE MG.USE_YN <> 0
-                                   )
-                             WHERE C.CODE_ID = M.LVL_CODE
-                        ),
-                        ''
-                   )                                                AS LVL_NAME
-                 , (
-                        SELECT U.NICKNAME
-                          FROM `USER` U
-                         WHERE U.USER_ID        = M.UPDATER_ID
-                           AND U.SYS_MNGR_YN    <> 0
-                           AND U.USE_YN         <> 0
-                   )                                                AS UPDATER_NAME
+                 , IFNULL(M_CM.MESSAGE, M.MEMBERSHIP_NAME)          AS LOCALE_MESSAGE
+                 , IFNULL(IFNULL(C_CM.MESSAGE, C.CODE_NAME), '')    AS LVL_NAME
+                 , IFNULL(U.NICKNAME, '')                           AS UPDATER_NAME
               FROM MEMBERSHIP M
-             WHERE M.USE_YN = #{vo.useYn}
+              LEFT
+              JOIN COUNTRY_MESSAGE M_CM
+                ON M_CM.MESSAGE_ID    = M.MEMBERSHIP_MESSAGE
+               AND M_CM.COUNTRY_CODE  = #{vo.locale}
+              LEFT
+              JOIN MESSAGE_GROUP M_MG
+                ON M_MG.MESSAGE_ID    = M_CM.MESSAGE_ID
+               AND M_MG.USE_YN        = 1
+              LEFT
+              JOIN `CODE` C
+                ON C.CODE_ID = M.LVL_CODE
+              LEFT
+              JOIN CODE_GROUP CG
+                ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
+               AND CG.CODE_GROUP_ID = 'MEMBERSHIP_LVL_CODE'
+               AND CG.USE_YN        = 1
+               AND C.USE_YN         = 1
+              LEFT
+              JOIN COUNTRY_MESSAGE C_CM
+                ON C_CM.MESSAGE_ID    = C.CODE_MESSAGE
+               AND C_CM.COUNTRY_CODE  = #{vo.locale}
+              LEFT
+              JOIN MESSAGE_GROUP C_MG
+                ON C_MG.MESSAGE_ID    = C_CM.MESSAGE_ID
+               AND C_MG.USE_YN        = 1
+              LEFT
+              JOIN `USER` U
+                ON U.USER_ID        = M.UPDATER_ID
         ]]>
+         WHERE M.USE_YN = #{vo.useYn}
         <if test="vo.membershipKey gt 0 and vo.membershipKey != null">
             AND M.MEMBERSHIP_KEY = #{vo.membershipKey}
         </if>

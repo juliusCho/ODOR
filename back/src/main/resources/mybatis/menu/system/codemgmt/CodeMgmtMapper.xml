@@ -14,11 +14,10 @@
           JOIN COUNTRY_MESSAGE CM
             ON CM.MESSAGE_ID    = C.CODE_MESSAGE
            AND CM.COUNTRY_CODE  = #{locale}
-           AND CM.MESSAGE_ID    IN (
-                    SELECT MG.MESSAGE_ID
-                      FROM MESSAGE_GROUP MG
-                     WHERE MG.USE_YN <![CDATA[<>]]> 0
-               )
+          LEFT
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+           AND MG.USE_YN        <![CDATA[<>]]> 0
          WHERE C.USE_YN <![CDATA[<>]]> 0
     </select>
 
@@ -31,11 +30,10 @@
           JOIN COUNTRY_MESSAGE C
             ON C.MESSAGE_ID     = G.CODE_GROUP_MESSAGE
            AND C.COUNTRY_CODE   = #{locale}
-           AND C.MESSAGE_ID     IN (
-                    SELECT MG.MESSAGE_ID
-                      FROM MESSAGE_GROUP MG
-                     WHERE MG.USE_YN <![CDATA[<>]]> 0
-               )
+          LEFT
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = C.MESSAGE_ID
+           AND MG.USE_YN        <![CDATA[<>]]> 0
          WHERE G.USE_YN <![CDATA[<>]]> 0
     </select>
 
@@ -43,23 +41,21 @@
         /* 공통코드그룹 목록 조회 */
         SELECT G.*
              , IFNULL(C.MESSAGE, G.CODE_GROUP_NAME)             AS LOCALE_MESSAGE
-             , (
-                    SELECT U.NICKNAME
-                      FROM `USER` U
-                     WHERE U.USER_ID        = G.UPDATER_ID
-                       AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
-                       AND U.USE_YN         <![CDATA[<>]]> 0
-               )                                                AS UPDATER_NAME
+             , IFNULL(U.NICKNAME, '')                           AS UPDATER_NAME
           FROM CODE_GROUP G
           LEFT
           JOIN COUNTRY_MESSAGE C
             ON C.MESSAGE_ID     = G.CODE_GROUP_MESSAGE
            AND C.COUNTRY_CODE   = #{vo.locale}
-           AND C.MESSAGE_ID     IN (
-                    SELECT MG.MESSAGE_ID
-                      FROM MESSAGE_GROUP MG
-                     WHERE MG.USE_YN <![CDATA[<>]]> 0
-               )
+          LEFT
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = C.MESSAGE_ID
+           AND MG.USE_YN        <![CDATA[<>]]> 0
+          LEFT
+          JOIN `USER` U
+            ON U.USER_ID        = G.UPDATER_ID
+           AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
+           AND U.USE_YN         <![CDATA[<>]]> 0
         <where>
             <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
                 AND G.CODE_GROUP_ID = UPPER(#{vo.codeGroupId})
@@ -131,23 +127,21 @@
         /* 공통코드 목록 조회 */
         SELECT C.*
              , IFNULL(CM.MESSAGE, C.CODE_NAME)                  AS LOCALE_MESSAGE
-             , (
-                   SELECT U.NICKNAME
-                     FROM `USER` U
-                    WHERE U.USER_ID     = C.UPDATER_ID
-                      AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
-                      AND U.USE_YN      <![CDATA[<>]]> 0
-               )                                                AS UPDATER_NAME
+             , IFNULL(U.NICKNAME, '')                           AS UPDATER_NAME
           FROM `CODE` C
           LEFT
           JOIN COUNTRY_MESSAGE CM
             ON CM.MESSAGE_ID    = C.CODE_MESSAGE
            AND CM.COUNTRY_CODE  = #{vo.locale}
-           AND CM.MESSAGE_ID    IN (
-                    SELECT MG.MESSAGE_ID
-                      FROM MESSAGE_GROUP MG
-                     WHERE MG.USE_YN <![CDATA[<>]]> 0
-               )
+          LEFT
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+           AND MG.USE_YN        <![CDATA[<>]]> 0
+          LEFT
+          JOIN `USER` U
+            ON U.USER_ID     = C.UPDATER_ID
+           AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
+           AND U.USE_YN      <![CDATA[<>]]> 0
         <where>
             <if test="vo.codeId != '' and vo.codeId != null">
                 AND C.CODE_ID = UPPER(#{vo.codeId})
@@ -233,17 +227,16 @@
               JOIN CODE_GROUP CG
                 ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
                AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
-               AND C.USE_YN         <> 0
-               AND CG.USE_YN        <> 0
+               AND C.USE_YN         = 1
+               AND CG.USE_YN        = 1
               LEFT
               JOIN COUNTRY_MESSAGE CM
                 ON CM.MESSAGE_ID    = C.CODE_MESSAGE
                AND CM.COUNTRY_CODE  = #{locale}
-               AND CM.MESSAGE_ID    IN (
-                        SELECT MG.MESSAGE_ID
-                          FROM MESSAGE_GROUP MG
-                         WHERE MG.USE_YN <> 0
-                   )
+              LEFT
+              JOIN MESSAGE_GROUP MG
+                ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+               AND MG.USE_YN        = 1
         ]]>
     </select>
 

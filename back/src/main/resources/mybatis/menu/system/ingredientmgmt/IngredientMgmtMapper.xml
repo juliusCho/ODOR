@@ -12,51 +12,22 @@
               FROM INGREDIENT I
               LEFT
               JOIN COUNTRY_MESSAGE CM
-                ON CM.MESSAGE_ID = I.INGREDIENT_MESSAGE
-               AND CM.COUNTRY_CODE = #{locale}
-               AND I.USE_YN <> 0
+                ON CM.MESSAGE_ID    = I.INGREDIENT_MESSAGE
+               AND CM.COUNTRY_CODE  = #{locale}
+               AND I.USE_YN         = 1
               LEFT
               JOIN MESSAGE_GROUP MG
-                ON MG.MESSAGE_ID = CM.MESSAGE_ID
-               AND MG.USE_YN <> 0
+                ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+               AND MG.USE_YN        = 1
         ]]>
     </select>
 
     <select id="getIngredientList" resultType="IngredientVO">
         /* 제품구성요소 조회 */
         SELECT I.*
-             , IFNULL(
-                    (
-                        SELECT CM.MESSAGE
-                          FROM COUNTRY_MESSAGE CM
-                         INNER
-                          JOIN MESSAGE_GROUP MG
-                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
-                           AND MG.USE_YN        <![CDATA[<>]]> 0
-                           AND CM.COUNTRY_CODE  = #{vo.locale}
-                         WHERE CM.MESSAGE_ID    = I.INGREDIENT_MESSAGE
-                    ),
-                    I.INGREDIENT_NAME
-               )                                            AS LOCALE_MESSAGE
-             , IFNULL(
-                    (
-                        SELECT CM.MESSAGE
-                          FROM COUNTRY_MESSAGE CM
-                         INNER
-                          JOIN MESSAGE_GROUP MG
-                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
-                           AND MG.USE_YN        <![CDATA[<>]]> 0
-                           AND CM.COUNTRY_CODE  = #{vo.locale}
-                         WHERE CM.MESSAGE_ID    = CAT.CATEGORY_MESSAGE
-                    ),
-                    CAT.CATEGORY_NAME
-               )                                            AS CATEGORY_NAME
-             , (
-                   SELECT U.NICKNAME
-                     FROM `USER` U
-                    WHERE U.USER_ID        = I.UPDATER_ID
-                      AND U.USE_YN         <![CDATA[<>]]> 0
-               )                                            AS UPDATER_NAME
+             , IFNULL(I_CM.MESSAGE, I.INGREDIENT_NAME)      AS LOCALE_MESSAGE
+             , IFNULL(CAT_CM.MESSAGE, CAT.CATEGORY_NAME)    AS CATEGORY_NAME
+             , IFNULL(U.NICKNAME, '')                       AS UPDATER_NAME
           FROM INGREDIENT I
          INNER
           JOIN CATEGORY CAT
@@ -69,7 +40,26 @@
         </if>
         <![CDATA[
            AND I.USE_YN         = #{vo.useYn}
-           AND CAT.USE_YN       <> 0
+           AND CAT.USE_YN       = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE I_CM
+            ON I_CM.MESSAGE_ID    = I.INGREDIENT_MESSAGE
+           AND I_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP I_MG
+            ON I_MG.MESSAGE_ID    = I_CM.MESSAGE_ID
+           AND I_MG.USE_YN        = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE CAT_CM
+            ON CAT_CM.MESSAGE_ID    = CAT.CATEGORY_MESSAGE
+           AND CAT_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP CAT_MG
+            ON CAT_MG.MESSAGE_ID    = CAT_CM.MESSAGE_ID
+           AND CAT_MG.USE_YN        = 1
+          LEFT
+          JOIN `USER` U
+            ON U.USER_ID        = I.UPDATER_ID
         ]]>
     </select>
 

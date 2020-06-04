@@ -26,16 +26,16 @@
                              INNER
                               JOIN MEMBERSHIP M
                                 ON M.MEMBERSHIP_KEY = MFM.MEMBERSHIP_KEY
-                               AND M.USE_YN <> 0
+                               AND M.USE_YN         = 1
                              INNER
                               JOIN `CODE` C
-                                ON C.CODE_ID = M.LVL_CODE
-                               AND C.CODE_GROUP_ID = 'MEMBERSHIP_LVL_CODE'
-                               AND C.USE_YN <> 0
+                                ON C.CODE_ID        = M.LVL_CODE
+                               AND C.CODE_GROUP_ID  = 'MEMBERSHIP_LVL_CODE'
+                               AND C.USE_YN         = 1
                              INNER
                               JOIN CODE_GROUP CG
                                 ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
-                               AND CG.USE_YN <> 0
+                               AND CG.USE_YN        = 1
                              WHERE MFM.FORUM_KEY = F.FORUM_KEY
                         ),
                         1
@@ -44,8 +44,8 @@
              INNER
               JOIN CATEGORY C
                 ON C.CATEGORY_ID = F.CATEGORY_ID
-               AND F.USE_YN <> 0
-               AND C.USE_YN <> 0
+               AND F.USE_YN = 1
+               AND C.USE_YN = 1
         ]]>
     </select>
 
@@ -58,60 +58,32 @@
              INNER
               JOIN CATEGORY CAT
                 ON CAT.CATEGORY_ID  = F.CATEGORY_ID
-               AND F.USE_YN         <> 0
-               AND CAT.USE_YN       <> 0
+               AND F.USE_YN         = 1
+               AND CAT.USE_YN       = 1
              INNER
               JOIN `CODE` C
                 ON C.CODE_ID        = F.FORUM_TYPE_CODE
                AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
-               AND C.USE_YN         <> 0
+               AND C.USE_YN         = 1
              INNER
               JOIN CODE_GROUP CG
                 ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
-               AND CG.USE_YN        <> 0
+               AND CG.USE_YN        = 1
         ]]>
     </select>
 
     <select id="getForumListSystem" resultType="ForumVO">
         /* 포럼 조회 */
+        <![CDATA[
         SELECT F.*
-             , IFNULL(
-                    (
-                        SELECT CM.MESSAGE
-                          FROM COUNTRY_MESSAGE CM
-                         INNER
-                          JOIN MESSAGE_GROUP MG
-                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
-                           AND MG.USE_YN        <![CDATA[<>]]> 0
-                           AND CM.COUNTRY_CODE  = #{vo.locale}
-                         WHERE CM.MESSAGE_ID    = CAT.CATEGORY_MESSAGE
-                    ),
-                    CAT.CATEGORY_NAME
-               )                                            AS CATEGORY_NAME
-             , IFNULL(
-                    (
-                        SELECT CM.MESSAGE
-                          FROM COUNTRY_MESSAGE CM
-                         INNER
-                          JOIN MESSAGE_GROUP MG
-                            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
-                           AND MG.USE_YN        <![CDATA[<>]]> 0
-                           AND CM.COUNTRY_CODE  = #{vo.locale}
-                         WHERE CM.MESSAGE_ID    = C.CODE_MESSAGE
-                    ),
-                    C.CODE_MESSAGE
-               )                                            AS FORUM_TYPE_NAME
-             , (
-                   SELECT U.NICKNAME
-                     FROM `USER` U
-                    WHERE U.USER_ID        = C.UPDATER_ID
-                      AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
-                      AND U.USE_YN         <![CDATA[<>]]> 0
-               )                                            AS UPDATER_NAME
+             , IFNULL(CAT_CM.MESSAGE, CAT.CATEGORY_NAME)    AS CATEGORY_NAME
+             , IFNULL(C_CM.MESSAGE, C.CODE_MESSAGE)         AS FORUM_TYPE_NAME
+             , IFNULL(U.NICKNAME, '')                       AS UPDATER_NAME
           FROM FORUM F
          INNER
           JOIN CATEGORY CAT
             ON CAT.CATEGORY_ID  = F.CATEGORY_ID
+        ]]>
         <if test="vo.forumKey gt 0 and vo.forumKey != null">
             AND F.FORUM_KEY = #{vo.forumKey}
         </if>
@@ -123,16 +95,35 @@
         </if>
         <![CDATA[
            AND F.USE_YN         = #{vo.useYn}
-           AND CAT.USE_YN       <> 0
+           AND CAT.USE_YN       = 1
          INNER
           JOIN `CODE` C
             ON C.CODE_ID        = F.FORUM_TYPE_CODE
            AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
-           AND C.USE_YN         <> 0
+           AND C.USE_YN         = 1
          INNER
           JOIN CODE_GROUP CG
             ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
-           AND CG.USE_YN        <> 0
+           AND CG.USE_YN        = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE CAT_CM
+            ON CAT_CM.MESSAGE_ID    = CAT.CATEGORY_MESSAGE
+           AND CAT_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP CAT_MG
+            ON CAT_MG.MESSAGE_ID    = CAT_CM.MESSAGE_ID
+           AND CAT_MG.USE_YN        = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE C_CM
+            ON C_CM.MESSAGE_ID    = C.CODE_MESSAGE
+           AND C_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP C_MG
+            ON C_MG.MESSAGE_ID    = C_CM.MESSAGE_ID
+           AND C_MG.USE_YN        = 1
+          LEFT
+          JOIN `USER` U
+            ON U.USER_ID        = C.UPDATER_ID
         ]]>
     </select>
 

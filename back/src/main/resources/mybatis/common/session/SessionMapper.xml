@@ -14,17 +14,13 @@
              , U.AGE                                            AS AGE
              , U.USE_YN                                         AS USE_YN
              , U.SYS_MNGR_YN                                    AS SYS_MNGR_YN
-             , IFNULL(
-                 (
-                    SELECT M.LVL_CODE
-                      FROM MEMBERSHIP M
-                     WHERE M.MEMBERSHIP_KEY = U.MEMBERSHIP_KEY
-                       AND M.USE_YN         <![CDATA[<>]]> 0
-                 ),
-                 ''
-               )                                                AS LVL_CODE
+             , IFNULL(M.LVL_CODE, '')                           AS LVL_CODE
           FROM `USER` U
-         WHERE U.USER_ID    = #{user.userId}
+          LEFT
+          JOIN MEMBERSHIP M
+            ON M.MEMBERSHIP_KEY = U.MEMBERSHIP_KEY
+           AND M.USE_YN         <![CDATA[<>]]> 0
+         WHERE U.USER_ID        = #{user.userId}
         <if test="user.password != '' and user.password != null">
            AND u.PASSWORD   = #{user.password}
         </if>
