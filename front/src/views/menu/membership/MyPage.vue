@@ -197,14 +197,10 @@
                 this.alertShow = false;
             },
             uploadImage() {
-                console.log('UPLOADIMAGE');
-                console.log(this.avatar);
                 this.saving = true;
                 setTimeout(() => this.savedAvatar(), 1000);
             },
             savedAvatar() {
-                console.log('sAVEDAVATAR');
-                console.log(this.avatar);
                 this.saving = false;
                 this.saved = true;
             },
