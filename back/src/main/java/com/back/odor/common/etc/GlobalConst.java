@@ -1,10 +1,5 @@
 package com.back.odor.common.etc;
 
-import com.back.odor.menu.system.forummgmt.vo.ForumVO;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class GlobalConst {
 
     public static final String VO_PACKAGE =
