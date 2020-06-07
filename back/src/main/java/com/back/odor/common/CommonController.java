@@ -1,5 +1,6 @@
 package com.back.odor.common;
 
+import com.back.odor.common.etc.FileService;
 import com.back.odor.common.utils.LocaleUtil;
 import com.back.odor.menu.system.codemgmt.service.CodeMgmtService;
 import com.back.odor.menu.system.messagemgmt.service.MessageMgmtService;
@@ -22,6 +23,12 @@ public class CommonController {
     @Autowired
     private CodeMgmtService codeMgmtService;
 
+    @Autowired
+    private FileService fileService;
+
+
+
+
     @PostMapping("setSystemLocale/rest")
     public ResponseEntity setSystemLocale(@RequestParam String locale) {
         LocaleUtil.setLocale(locale);
@@ -42,8 +49,13 @@ public class CommonController {
 
 
     @PostMapping("fileUpload/api")
-    public ResponseEntity fileUpload(@RequestPart MultipartFile[] multipartFile, String type) {
+    public ResponseEntity fileUpload(@RequestPart("file") MultipartFile[] multipartFile, @RequestPart("type") String type) {
+        log.warn("==========================================");
+        log.warn(multipartFile.toString());
+        log.warn(type);
+        log.warn("==========================================");
 
+        fileService.fileUpload(multipartFile, type);
 
         return new ResponseEntity("success", HttpStatus.OK);
     }

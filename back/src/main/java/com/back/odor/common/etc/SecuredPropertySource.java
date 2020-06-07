@@ -46,4 +46,23 @@ public class SecuredPropertySource {
     @Value("${header-string}")
     private String headerString;
 
+
+
+
+
+    @Value("${file-path")
+    private String filePath;
+
+    @Value("${file-user-id")
+    private String fileUserId;
+
+    @Value("${file-user-pw")
+    private String fileUserPw;
+
+    @Value("${file-admin-id")
+    private String fileAdminId;
+
+    @Value("${file-admin-pw")
+    private String fileAdminPw;
+
 }

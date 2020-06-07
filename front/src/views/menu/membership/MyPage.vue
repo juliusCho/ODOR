@@ -198,7 +198,17 @@
             },
             uploadImage() {
                 this.saving = true;
-                setTimeout(() => this.savedAvatar(), 1000);
+
+                let formData = new FormData();
+                formData.append('file', new Blob([this.avatar?.imageURL], {type: 'image/*'}));
+                formData.append('type', 'profile');
+
+                axios.post(
+                    API.CommonController.fileUpload,
+                    formData
+                    ).then(() => {
+                        setTimeout(() => this.savedAvatar(), 1000);
+                    });
             },
             savedAvatar() {
                 this.saving = false;
