@@ -49,14 +49,12 @@ public class CommonController {
 
 
     @PostMapping("fileUpload/api")
-    public ResponseEntity fileUpload(@RequestPart("file") MultipartFile[] multipartFile, @RequestPart("type") String type) {
-        log.warn("==========================================");
-        log.warn(multipartFile.toString());
-        log.warn(type);
-        log.warn("==========================================");
-
-        fileService.fileUpload(multipartFile, type);
-
+    public ResponseEntity fileUpload(
+            @RequestPart("file") MultipartFile[] multipartFile,
+            @RequestPart("type") String type,
+            @RequestPart("subPath") String subPath
+    ) {
+        fileService.fileUpload(multipartFile, type, subPath);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 

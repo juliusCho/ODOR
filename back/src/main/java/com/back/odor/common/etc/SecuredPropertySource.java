@@ -50,19 +50,19 @@ public class SecuredPropertySource {
 
 
 
-    @Value("${file-path")
+    @Value("${file-path}")
     private String filePath;
 
-    @Value("${file-user-id")
+    @Value("${file-user-id}")
     private String fileUserId;
 
-    @Value("${file-user-pw")
+    @Value("${file-user-pw}")
     private String fileUserPw;
 
-    @Value("${file-admin-id")
+    @Value("${file-admin-id}")
     private String fileAdminId;
 
-    @Value("${file-admin-pw")
+    @Value("${file-admin-pw}")
     private String fileAdminPw;
 
 }

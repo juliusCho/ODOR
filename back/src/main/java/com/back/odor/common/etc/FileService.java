@@ -1,13 +1,19 @@
 package com.back.odor.common.etc;
 
+import com.back.odor.common.utils.AuthUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,38 +23,72 @@ public class FileService {
     @Autowired
     SecuredPropertySource propertySource;
 
-    public void fileUpload(MultipartFile[] multipartFiles, String type) {
+    public void fileUpload(MultipartFile[] multipartFiles, String type, String subPath) {
         FTPClient client = new FTPClient();
 
         try {
-            client.setControlEncoding("UTF-8");
-            client.connect("localhost", 21);
+            this.connectToFTP(client);
+            this.initializePath(client, type, subPath, type + "/" + subPath);
 
-            int resultCode = client.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(resultCode)) {
-                log.error("FTP Connection Failed");
-                return;
+            int idx = 0;
+            for (MultipartFile file : multipartFiles) {
+                String fileName = type + "_" + file.getOriginalFilename() + idx;
+                if (client.storeFile(fileName, file.getInputStream())) {
+                    log.info("File Uploaded : [" + type + "] " + fileName);
+                }
+                idx++;
             }
-            client.setSoTimeout(1000);
-
-            if (!client.login(propertySource.getFileUserId(), propertySource.getFileUserPw())) {
-                log.error("FTP credential failed");
-                return;
-            }
-
-            List<String> files = new ArrayList<>();
-            List<String> directories = new ArrayList<>();
-
-//            if (getFile)
-
+            client.logout();
 
         } catch (Throwable e) {
-
+            e.printStackTrace();
+        } finally {
+            try {
+                client.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-//        String path = propertySource.getFilePath() +
     }
 
-//    private boolean getFileList(FTPClient client, String )
+    private void connectToFTP(FTPClient client) throws IOException {
+        client.setControlEncoding("UTF-8");
+        client.connect("localhost", 21);
+
+        int resultCode = client.getReplyCode();
+        if (!FTPReply.isPositiveCompletion(resultCode)) {
+            log.error("FTP Connection Failed");
+            return;
+        }
+        client.setSoTimeout(1000);
+
+        if (!client.login(propertySource.getFileUserId(), propertySource.getFileUserPw())) {
+            log.error("FTP credential failed");
+            return;
+        }
+    }
+
+    private void initializePath(FTPClient client, String type, String subPath, String rootPath) throws IOException {
+        this.deleteFile(client, rootPath);
+        client.changeWorkingDirectory(type);
+        client.removeDirectory(subPath);
+        client.makeDirectory(subPath);
+        client.changeWorkingDirectory(subPath);
+    }
+
+    private void deleteFile(FTPClient client, String path) throws IOException {
+        if (client.changeWorkingDirectory(path)) {
+            for (FTPFile file : client.listFiles()) {
+                if (file.isFile()) {
+                    client.deleteFile(file.getName());
+                } else if (file.isDirectory()) {
+                    this.deleteFile(client, file.getName());
+                    client.changeWorkingDirectory(path);
+                    client.removeDirectory(file.getName());
+                }
+            }
+            client.changeWorkingDirectory("/");
+        }
+    }
 
 }

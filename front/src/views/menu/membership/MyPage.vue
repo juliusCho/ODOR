@@ -202,6 +202,7 @@
                 let formData = new FormData();
                 formData.append('file', new Blob([this.avatar?.imageURL], {type: 'image/*'}));
                 formData.append('type', 'profile');
+                formData.append('subPath', TMP_SESSION.getId());
 
                 axios.post(
                     API.CommonController.fileUpload,
