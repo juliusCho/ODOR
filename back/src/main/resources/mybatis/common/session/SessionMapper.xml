@@ -12,6 +12,7 @@
              , U.NICKNAME                                       AS NICKNAME
              , U.GENDER_CODE                                    AS GENDER_CODE
              , U.AGE                                            AS AGE
+             , U.IMAGE                                          AS IMAGE
              , U.USE_YN                                         AS USE_YN
              , U.SYS_MNGR_YN                                    AS SYS_MNGR_YN
              , IFNULL(M.LVL_CODE, '')                           AS LVL_CODE

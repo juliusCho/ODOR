@@ -1,6 +1,5 @@
 package com.back.odor.common.etc;
 
-import com.back.odor.common.utils.AuthUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -9,12 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -23,20 +17,23 @@ public class FileService {
     @Autowired
     SecuredPropertySource propertySource;
 
-    public void fileUpload(MultipartFile[] multipartFiles, String type, String subPath) {
+    public String[] fileUpload(MultipartFile[] multipartFiles, String type, String subPath) {
         FTPClient client = new FTPClient();
 
+        String rootPath = type + "/" + subPath;
+        String[] files = new String[multipartFiles.length];
         try {
             this.connectToFTP(client);
-            this.initializePath(client, type, subPath, type + "/" + subPath);
+            this.initializePath(client, type, subPath, rootPath);
 
             int idx = 0;
             for (MultipartFile file : multipartFiles) {
                 String fileName = type + "_" + file.getOriginalFilename() + idx;
                 if (client.storeFile(fileName, file.getInputStream())) {
                     log.info("File Uploaded : [" + type + "] " + fileName);
+                    files[idx] = rootPath + "/" + fileName;
+                    idx++;
                 }
-                idx++;
             }
             client.logout();
 
@@ -49,6 +46,7 @@ public class FileService {
                 e.printStackTrace();
             }
         }
+        return files;
     }
 
     private void connectToFTP(FTPClient client) throws IOException {

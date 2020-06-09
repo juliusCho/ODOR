@@ -207,13 +207,16 @@
                 axios.post(
                     API.CommonController.fileUpload,
                     formData
-                    ).then(() => {
-                        setTimeout(() => this.savedAvatar(), 1000);
+                    ).then(res => {
+                        setTimeout(() => this.savedAvatar(res.data), 1000);
                     });
             },
-            savedAvatar() {
-                this.saving = false;
-                this.saved = true;
+            savedAvatar(data) {
+                axios.patch(API.UserMgmtController.uploadPhoto, {image: data[0]})
+                .then(() => {
+                    this.saving = false;
+                    this.saved = true;
+                });
             },
             updateUser() {
 

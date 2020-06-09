@@ -47,6 +47,10 @@ public class UserVO extends CommonVO implements Serializable {
 
     @Getter
     @Setter
+    private String image;
+
+    @Getter
+    @Setter
     private String blocked;
 
     @Setter

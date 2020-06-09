@@ -21,4 +21,6 @@ public interface UserMgmtServiceSpec {
 
     BlockedUserVO getBlockInfo(BlockedUserVO vo);
 
+    void uploadPhoto(UserVO vo);
+
 }

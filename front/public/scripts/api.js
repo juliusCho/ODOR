@@ -102,7 +102,8 @@ const API = class {
         deleteUser: 'odor/user/deleteUser/system',
         unblockUser: 'odor/user/unblockUser/system',
         blockUser: 'odor/user/blockUser/system',
-        getBlockInfo: 'odor/user/getBlockInfo/system'
+        getBlockInfo: 'odor/user/getBlockInfo/system',
+        uploadPhoto: 'odor/user/uploadPhoto/api'
     };
 
     static CreatorMgmtController = {

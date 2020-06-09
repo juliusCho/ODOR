@@ -24,4 +24,6 @@ public interface UserMgmtMapper {
 
     BlockedUserVO getBlockInfo(@Param("vo") BlockedUserVO vo);
 
+    void uploadPhoto(@Param("vo") UserVO vo);
+
 }

@@ -1,5 +1,6 @@
 package com.back.odor.menu.system.usermgmt.controller;
 
+import com.back.odor.common.utils.AuthUtil;
 import com.back.odor.menu.system.usermgmt.service.UserMgmtService;
 import com.back.odor.menu.system.usermgmt.vo.BlockedUserVO;
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
@@ -82,6 +83,14 @@ public class UserMgmtController {
     @PostMapping("getBlockInfo/system")
     public ResponseEntity<BlockedUserVO> getBlockInfo(@RequestBody BlockedUserVO vo) {
         return ResponseEntity.ok(userMgmtService.getBlockInfo(vo));
+    }
+
+    @PatchMapping("uploadPhoto/api")
+    public ResponseEntity uploadPhoto(@RequestBody UserVO vo) {
+        UserVO user = AuthUtil.getCurrentUser();
+        user.setImage(vo.getImage());
+        userMgmtService.uploadPhoto(user);
+        return new ResponseEntity("success", HttpStatus.OK);
     }
 
 }

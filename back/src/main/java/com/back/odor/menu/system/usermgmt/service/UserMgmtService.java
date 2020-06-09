@@ -69,4 +69,9 @@ public class UserMgmtService implements UserMgmtServiceSpec {
         return userMgmtMapper.getBlockInfo(vo);
     }
 
+    @Override
+    public void uploadPhoto(UserVO vo) {
+        userMgmtMapper.uploadPhoto(vo);
+    }
+
 }

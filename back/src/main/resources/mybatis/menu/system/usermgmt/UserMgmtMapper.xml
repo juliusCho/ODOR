@@ -142,6 +142,7 @@
                    USE_YN,
                    SYS_MNGR_YN,
                    MEMBERSHIP_KEY,
+                   IMAGE,
                    CREATOR_ID,
                    CREATE_DATE,
                    UPDATER_ID,
@@ -157,6 +158,7 @@
                    1,
                    #{vo.sysMngrYn},
                    #{vo.membershipKey},
+                   #{vo.image},
                    #{vo.creatorId},
                    UTC_TIMESTAMP(),
                    #{vo.updaterId},
@@ -175,6 +177,16 @@
              , USE_YN           = #{vo.useYn}
              , SYS_MNGR_YN      = #{vo.sysMngrYn}
              , MEMBERSHIP_KEY   = #{vo.membershipKey}
+             , IMAGE            = #{vo.image}
+             , UPDATER_ID       = #{vo.updaterId}
+             , UPDATE_DATE      = UTC_TIMESTAMP()
+         WHERE UPPER(USER_ID) = UPPER(#{vo.userId})
+    </update>
+
+    <update id="uploadPhoto">
+        /* 사용자 프로필 사진 수정 */
+        UPDATE `USER`
+           SET IMAGE            = #{vo.image}
              , UPDATER_ID       = #{vo.updaterId}
              , UPDATE_DATE      = UTC_TIMESTAMP()
          WHERE UPPER(USER_ID) = UPPER(#{vo.userId})
