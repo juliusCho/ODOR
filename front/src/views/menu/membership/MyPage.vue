@@ -199,14 +199,12 @@
             uploadImage() {
                 this.saving = true;
 
-                let formData = new FormData();
-                formData.append('file', new Blob([this.avatar?.imageURL], {type: 'image/*'}));
-                formData.append('type', 'profile');
-                formData.append('subPath', TMP_SESSION.getId());
+                this.avatar.formData.append('type', 'profile');
+                this.avatar.formData.append('subPath', TMP_SESSION.getId());
 
                 axios.post(
                     API.CommonController.fileUpload,
-                    formData
+                    this.avatar.formData
                     ).then(res => {
                         setTimeout(() => this.savedAvatar(res.data), 1000);
                     });

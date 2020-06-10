@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 @Slf4j
@@ -19,20 +22,20 @@ public class FileService {
 
     public String[] fileUpload(MultipartFile[] multipartFiles, String type, String subPath) {
         FTPClient client = new FTPClient();
-
         String rootPath = type + "/" + subPath;
         String[] files = new String[multipartFiles.length];
+
         try {
             this.connectToFTP(client);
             this.initializePath(client, type, subPath, rootPath);
 
             int idx = 0;
             for (MultipartFile file : multipartFiles) {
-                String fileName = type + "_" + file.getOriginalFilename() + idx;
-                if (client.storeFile(fileName, file.getInputStream())) {
-                    log.info("File Uploaded : [" + type + "] " + fileName);
-                    files[idx] = rootPath + "/" + fileName;
-                    idx++;
+                try (InputStream is = new BufferedInputStream(file.getInputStream())) {
+                    if (client.storeFile(file.getOriginalFilename(), is)) {
+                        log.info("File Uploaded : [" + type + "] " + file.getOriginalFilename());
+                        files[idx] = rootPath + "/" + file.getOriginalFilename();
+                    }
                 }
             }
             client.logout();
