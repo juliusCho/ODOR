@@ -1,6 +1,7 @@
 package com.back.odor.common.etc;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -29,13 +30,13 @@ public class FileService {
             this.connectToFTP(client);
             this.initializePath(client, type, subPath, rootPath);
 
+            client.setFileType(FTP.BINARY_FILE_TYPE);
+
             int idx = 0;
             for (MultipartFile file : multipartFiles) {
-                try (InputStream is = new BufferedInputStream(file.getInputStream())) {
-                    if (client.storeFile(file.getOriginalFilename(), is)) {
-                        log.info("File Uploaded : [" + type + "] " + file.getOriginalFilename());
-                        files[idx] = rootPath + "/" + file.getOriginalFilename();
-                    }
+                if (client.storeFile(file.getOriginalFilename(), file.getInputStream())) {
+                    log.info("File Uploaded : [" + type + "] " + file.getOriginalFilename());
+                    files[idx] = rootPath + "/" + file.getOriginalFilename();
                 }
             }
             client.logout();
