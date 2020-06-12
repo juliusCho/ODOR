@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("odor/common")
@@ -55,6 +56,11 @@ public class CommonController {
             @RequestPart("subPath") String subPath
     ) {
         return ResponseEntity.ok(fileService.fileUpload(multipartFile, type, subPath));
+    }
+
+    @GetMapping("displayImage/rest")
+    public ResponseEntity<byte[]> getImage(@RequestParam("path") String path) throws IOException {
+        return ResponseEntity.ok(fileService.displayImage(path));
     }
 
 }

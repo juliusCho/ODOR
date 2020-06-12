@@ -6,7 +6,8 @@ const API = class {
         setSystemLocale: 'odor/common/setSystemLocale/rest',
         getMessageList: 'odor/common/getMessageList/rest',
         getCodeList: 'odor/common/getCodeList/rest',
-        fileUpload: 'odor/common/fileUpload/api'
+        fileUpload: 'odor/common/fileUpload/api',
+        displayImage: 'odor/common/displayImage/rest'
     };
 
     static SessionController = {

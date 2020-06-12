@@ -156,6 +156,17 @@
                     this.saved = false
                 },
                 deep: true
+            },
+            tmpSession: {
+                async handler() {
+                    if (this.tmpSession?.image && this.avatar) {
+                        let imageURL = await this.retrieveImage();
+                        let formData = new FormData;
+                        formData.append('file', this.avatar.imageURL);
+                        this.avatar = {imageURL, formData};
+                    }
+                },
+                deep: true
             }
         },
         mounted() {
@@ -164,6 +175,20 @@
             //dd
         },
         methods: {
+            async retrieveImage() {
+                let data = '';
+                await axios.get(
+                    API.CommonController.displayImage,
+                    {
+                        params: {
+                            path: this.tmpSession.image
+                        }
+                    }
+                ).then(res => {
+                    data = res.data;
+                });
+                return data;
+            },
             checkSession() {
                 if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {
                     this.$emit('loggedIn', false);
@@ -198,6 +223,7 @@
             },
             uploadImage() {
                 this.saving = true;
+                console.log(this.avatar);
 
                 this.avatar.formData.append('type', 'profile');
                 this.avatar.formData.append('subPath', TMP_SESSION.getId());

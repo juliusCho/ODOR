@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 @Slf4j
@@ -24,24 +24,25 @@ public class FileService {
     public String[] fileUpload(MultipartFile[] multipartFiles, String type, String subPath) {
         FTPClient client = new FTPClient();
         String rootPath = type + "/" + subPath;
-        String[] files = new String[multipartFiles.length];
+        String[] files = null;
 
         try {
             this.connectToFTP(client);
             this.initializePath(client, type, subPath, rootPath);
 
             client.setFileType(FTP.BINARY_FILE_TYPE);
+            files = this.storeFileToFTP(multipartFiles, client, rootPath);
 
-            int idx = 0;
-            for (MultipartFile file : multipartFiles) {
-                if (client.storeFile(file.getOriginalFilename(), file.getInputStream())) {
-                    log.info("File Uploaded : [" + type + "] " + file.getOriginalFilename());
-                    files[idx] = rootPath + "/" + file.getOriginalFilename();
-                }
-            }
             client.logout();
 
         } catch (Throwable e) {
+            if (client.isConnected()) {
+                try {
+                    client.logout();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
             e.printStackTrace();
         } finally {
             try {
@@ -90,6 +91,67 @@ public class FileService {
                 }
             }
             client.changeWorkingDirectory("/");
+        }
+    }
+
+    private String[] storeFileToFTP(MultipartFile[] multipartFiles, FTPClient client, String rootPath) throws IOException {
+        String[] files = new String[multipartFiles.length];
+        int idx = 0;
+        for (MultipartFile file : multipartFiles) {
+            if (client.storeFile(file.getOriginalFilename(), file.getInputStream())) {
+                log.info("File Uploaded : " + file.getOriginalFilename());
+                files[idx] = rootPath + "/" + file.getOriginalFilename();
+            }
+        }
+        return files;
+    }
+
+
+
+    public byte[] displayImage(String path) {
+        byte[] result = null;
+        try {
+            result = Files.readAllBytes(Paths.get(propertySource.getFileTmpPath() + "/" + path));
+        } catch (IOException e) {
+            this.makeTmpDir(path);
+            result = this.retrieveFileFromFTP(path);
+        } finally {
+            return result;
+        }
+    }
+
+    private void makeTmpDir(String path) {
+        String dir = propertySource.getFileTmpPath() + "/" + path.substring(0, path.lastIndexOf("/"));
+        File folder = new File(dir);
+
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+    }
+
+    private byte[] retrieveFileFromFTP(String path) {
+        FTPClient client = new FTPClient();
+        byte[] result = null;
+        try {
+            this.connectToFTP(client);
+            String localPath = propertySource.getFileTmpPath() + "/" + path;
+
+            try (FileOutputStream fos = new FileOutputStream(localPath)) {
+                if (client.retrieveFile(path, fos)) {
+                    result = Files.readAllBytes(Paths.get(localPath));
+                }
+            }
+            client.logout();
+        } catch(IOException e) {
+            if (client.isConnected()) client.logout();
+            e.printStackTrace();
+        } finally {
+            try {
+                client.disconnect();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+            return result;
         }
     }
 
