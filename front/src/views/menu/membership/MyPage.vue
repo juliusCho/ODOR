@@ -16,7 +16,7 @@
                     <!-- Avatar Changer -->
                     <v-container grid-list-xl>
                         <v-row justify="center" align="center">
-                        <image-input v-model="avatar">
+                        <image-input v-model="avatar" @input="uploadImage">
                             <div slot="activator">
                                 <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
                                     <span>Click to add avatar</span>
@@ -26,11 +26,6 @@
                                 </v-avatar>
                             </div>
                         </image-input>
-                        <v-slide-x-transition>
-                            <div v-if="avatar && saved == false">
-                                <v-btn class="primary" @click="uploadImage" :loading="saving">Save Avatar</v-btn>
-                            </div>
-                        </v-slide-x-transition>
                         </v-row>
                     </v-container>
                     <ImageInput />
@@ -146,23 +141,16 @@
                 genderCode2: 'F',
                 avatar: null,
                 saving: false,
-                saved: false,
                 idRules: SCRIPT_VALIDATOR.idRules(),
             };
         },
         watch: {
-            avatar: {
-                handler: function() {
-                    this.saved = false
-                },
-                deep: true
-            },
             tmpSession: {
                 async handler() {
-                    if (this.tmpSession?.image && this.avatar) {
-                        let imageURL = await this.retrieveImage();
+                    if (this.tmpSession?.image) {
+                        let imageURL = this.retrieveImage();
                         let formData = new FormData;
-                        formData.append('file', this.avatar.imageURL);
+                        formData.append('file', imageURL);
                         this.avatar = {imageURL, formData};
                     }
                 },
@@ -175,19 +163,8 @@
             //dd
         },
         methods: {
-            async retrieveImage() {
-                let data = '';
-                await axios.get(
-                    API.CommonController.displayImage,
-                    {
-                        params: {
-                            path: this.tmpSession.image
-                        }
-                    }
-                ).then(res => {
-                    data = res.data;
-                });
-                return data;
+            retrieveImage() {
+                return API.CommonController.displayImage + '?path=' + this.tmpSession.image;
             },
             checkSession() {
                 if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {
@@ -221,9 +198,11 @@
             hideAlert() {
                 this.alertShow = false;
             },
-            uploadImage() {
+            uploadImage(data) {
                 this.saving = true;
-                console.log(this.avatar);
+
+                let {formData, imageURL} = data;
+                this.avatar = {formData, imageURL};
 
                 this.avatar.formData.append('type', 'profile');
                 this.avatar.formData.append('subPath', TMP_SESSION.getId());
@@ -239,7 +218,9 @@
                 axios.patch(API.UserMgmtController.uploadPhoto, {image: data[0]})
                 .then(() => {
                     this.saving = false;
-                    this.saved = true;
+
+                    this.tmpSession.image = data[0];
+                    TMP_SESSION.setLognUser(this.tmpSession);
                 });
             },
             updateUser() {

@@ -111,7 +111,7 @@ public class FileService {
     public byte[] displayImage(String path) {
         byte[] result = null;
         try {
-            result = Files.readAllBytes(Paths.get(propertySource.getFileTmpPath() + "/" + path));
+            result = Files.readAllBytes(Paths.get(propertySource.getFileTmpPath() + path));
         } catch (IOException e) {
             this.makeTmpDir(path);
             result = this.retrieveFileFromFTP(path);
@@ -121,7 +121,7 @@ public class FileService {
     }
 
     private void makeTmpDir(String path) {
-        String dir = propertySource.getFileTmpPath() + "/" + path.substring(0, path.lastIndexOf("/"));
+        String dir = propertySource.getFileTmpPath() + path.substring(0, path.lastIndexOf("/"));
         File folder = new File(dir);
 
         if (!folder.exists()) {
@@ -134,7 +134,7 @@ public class FileService {
         byte[] result = null;
         try {
             this.connectToFTP(client);
-            String localPath = propertySource.getFileTmpPath() + "/" + path;
+            String localPath = propertySource.getFileTmpPath() + path;
 
             try (FileOutputStream fos = new FileOutputStream(localPath)) {
                 if (client.retrieveFile(path, fos)) {
