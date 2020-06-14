@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
@@ -28,7 +29,7 @@ public class FileService {
 
         try {
             this.connectToFTP(client);
-            this.initializePath(client, type, subPath, rootPath);
+            this.initializeFTPPath(client, type, subPath, rootPath);
 
             client.setFileType(FTP.BINARY_FILE_TYPE);
             files = this.storeFileToFTP(multipartFiles, client, rootPath);
@@ -71,21 +72,21 @@ public class FileService {
         }
     }
 
-    private void initializePath(FTPClient client, String type, String subPath, String rootPath) throws IOException {
-        this.deleteFile(client, rootPath);
+    private void initializeFTPPath(FTPClient client, String type, String subPath, String rootPath) throws IOException {
+        this.deleteFTPFile(client, rootPath);
         client.changeWorkingDirectory(type);
         client.removeDirectory(subPath);
         client.makeDirectory(subPath);
         client.changeWorkingDirectory(subPath);
     }
 
-    private void deleteFile(FTPClient client, String path) throws IOException {
+    private void deleteFTPFile(FTPClient client, String path) throws IOException {
         if (client.changeWorkingDirectory(path)) {
             for (FTPFile file : client.listFiles()) {
                 if (file.isFile()) {
                     client.deleteFile(file.getName());
                 } else if (file.isDirectory()) {
-                    this.deleteFile(client, file.getName());
+                    this.deleteFTPFile(client, file.getName());
                     client.changeWorkingDirectory(path);
                     client.removeDirectory(file.getName());
                 }
@@ -99,8 +100,8 @@ public class FileService {
         int idx = 0;
         for (MultipartFile file : multipartFiles) {
             if (client.storeFile(file.getOriginalFilename(), file.getInputStream())) {
-                log.info("File Uploaded : " + file.getOriginalFilename());
                 files[idx] = rootPath + "/" + file.getOriginalFilename();
+                log.info("File Uploaded : " + files[idx]);
             }
         }
         return files;

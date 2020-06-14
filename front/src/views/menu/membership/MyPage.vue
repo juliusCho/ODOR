@@ -16,16 +16,16 @@
                     <!-- Avatar Changer -->
                     <v-container grid-list-xl>
                         <v-row justify="center" align="center">
-                        <image-input v-model="avatar" @input="uploadImage">
-                            <div slot="activator">
-                                <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
-                                    <span>Click to add avatar</span>
-                                </v-avatar>
-                                <v-avatar size="150px" v-ripple v-else class="mb-3">
-                                    <img :src="avatar.imageURL" alt="avatar">
-                                </v-avatar>
-                            </div>
-                        </image-input>
+                            <image-input v-model="avatar" @input="updateAvatar">
+                                <div slot="activator">
+                                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
+                                        <span>Click to add avatar</span>
+                                    </v-avatar>
+                                    <v-avatar size="150px" v-ripple v-else class="mb-3">
+                                        <img :src="avatar.imageURL" alt="avatar">
+                                    </v-avatar>
+                                </div>
+                            </image-input>
                         </v-row>
                     </v-container>
                     <ImageInput />
@@ -144,28 +144,26 @@
                 idRules: SCRIPT_VALIDATOR.idRules(),
             };
         },
+
+        //============ tmpSession이 바뀔때, tmpSession에 image가 존재하면 이미지 표시
         watch: {
             tmpSession: {
-                async handler() {
+                handler() {
                     if (this.tmpSession?.image) {
-                        let imageURL = this.retrieveImage();
-                        let formData = new FormData;
-                        formData.append('file', imageURL);
-                        this.avatar = {imageURL, formData};
+                        this.displayImage();
                     }
                 },
                 deep: true
             }
         },
+        //============ tmpSession이 바뀔때, tmpSession에 image가 존재하면 이미지 표시
+
         mounted() {
             this.checkSession();
             console.log('tmpSession >',this.tmpSession);
             //dd
         },
         methods: {
-            retrieveImage() {
-                return API.CommonController.displayImage + '?path=' + this.tmpSession.image;
-            },
             checkSession() {
                 if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {
                     this.$emit('loggedIn', false);
@@ -198,11 +196,24 @@
             hideAlert() {
                 this.alertShow = false;
             },
-            uploadImage(data) {
-                this.saving = true;
-
+            updateAvatar(data) {
                 let {formData, imageURL} = data;
                 this.avatar = {formData, imageURL};
+            },
+
+            //=======================이미지 표시=====================
+            displayImage() {
+                let imageURL = API.CommonController.displayImage + '?path=' + this.tmpSession.image;
+                let formData = new FormData;
+                formData.append('file', imageURL);
+                this.avatar = {imageURL, formData};
+            },
+            //=======================이미지 표시=====================
+
+
+            //=======================이미지 업로드=====================
+            uploadImage() {
+                this.saving = true;
 
                 this.avatar.formData.append('type', 'profile');
                 this.avatar.formData.append('subPath', TMP_SESSION.getId());
@@ -223,8 +234,15 @@
                     TMP_SESSION.setLognUser(this.tmpSession);
                 });
             },
+            //=======================이미지 업로드=====================
+
+
+            // mypage수정 버튼 클릭 시, 이미지가 존재하면 이미지 업로드도 함께 진행
             updateUser() {
 
+                if (this.avatar) {
+                    this.uploadImage();
+                }
             }
         }
     }
