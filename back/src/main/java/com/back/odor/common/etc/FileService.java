@@ -60,7 +60,8 @@ public class FileService {
 
     private void connectToFTP(FTPClient client) throws IOException {
         client.setControlEncoding("UTF-8");
-        client.connect("localhost", 21);
+
+        client.connect(propertySource.getFileIp(), propertySource.getFilePort());
 
         int resultCode = client.getReplyCode();
         if (!FTPReply.isPositiveCompletion(resultCode)) {

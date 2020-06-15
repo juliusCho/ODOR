@@ -50,6 +50,12 @@ public class SecuredPropertySource {
 
 
 
+    @Value("${file-ip}")
+    private String fileIp;
+
+    @Value("${file-port}")
+    private int filePort;
+
     @Value("${file-path}")
     private String filePath;
 
