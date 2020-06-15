@@ -128,7 +128,7 @@
           JOIN CATEGORY C
             ON C.CATEGORY_ID        = BCM.CATEGORY_ID
            AND BCM.BRAND_KEY        = #{brandKey}
-           AND C.USE_YN             <![CDATA[<>]]> 0
+           AND C.USE_YN             = 1
     </select>
 
     <delete id="deleteMapping">

@@ -17,8 +17,8 @@
           LEFT
           JOIN MESSAGE_GROUP MG
             ON MG.MESSAGE_ID    = CM.MESSAGE_ID
-           AND MG.USE_YN        <![CDATA[<>]]> 0
-         WHERE C.USE_YN <![CDATA[<>]]> 0
+           AND MG.USE_YN        = 1
+         WHERE C.USE_YN = 1
     </select>
 
     <select id="getCodeGroupListAll" resultType="CodeGroupVO">
@@ -33,8 +33,8 @@
           LEFT
           JOIN MESSAGE_GROUP MG
             ON MG.MESSAGE_ID    = C.MESSAGE_ID
-           AND MG.USE_YN        <![CDATA[<>]]> 0
-         WHERE G.USE_YN <![CDATA[<>]]> 0
+           AND MG.USE_YN        = 1
+         WHERE G.USE_YN = 1
     </select>
 
     <select id="getCodeGroupList" resultType="CodeGroupVO">
@@ -50,12 +50,11 @@
           LEFT
           JOIN MESSAGE_GROUP MG
             ON MG.MESSAGE_ID    = C.MESSAGE_ID
-           AND MG.USE_YN        <![CDATA[<>]]> 0
+           AND MG.USE_YN        = 1
           LEFT
           JOIN `USER` U
             ON U.USER_ID        = G.UPDATER_ID
-           AND U.SYS_MNGR_YN    <![CDATA[<>]]> 0
-           AND U.USE_YN         <![CDATA[<>]]> 0
+           AND U.USE_YN         = 1
         <where>
             <if test="vo.codeGroupId != '' and vo.codeGroupId != null">
                 AND G.CODE_GROUP_ID = UPPER(#{vo.codeGroupId})
@@ -136,12 +135,11 @@
           LEFT
           JOIN MESSAGE_GROUP MG
             ON MG.MESSAGE_ID    = CM.MESSAGE_ID
-           AND MG.USE_YN        <![CDATA[<>]]> 0
+           AND MG.USE_YN        = 1
           LEFT
           JOIN `USER` U
             ON U.USER_ID     = C.UPDATER_ID
-           AND U.SYS_MNGR_YN <![CDATA[<>]]> 0
-           AND U.USE_YN      <![CDATA[<>]]> 0
+           AND U.USE_YN      = 1
         <where>
             <if test="vo.codeId != '' and vo.codeId != null">
                 AND C.CODE_ID = UPPER(#{vo.codeId})

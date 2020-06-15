@@ -197,11 +197,11 @@
           JOIN CATEGORY C
             ON C.CATEGORY_ID        = PBM.CATEGORY_ID
            AND PBM.PRODUCT_KEY      = #{productKey}
-           AND C.USE_YN             <![CDATA[<>]]> 0
+           AND C.USE_YN             = 1
          INNER
           JOIN BRAND B
             ON B.BRAND_KEY      = PBM.BRAND_KEY
-           AND B.USE_YN         <![CDATA[<>]]> 0
+           AND B.USE_YN         = 1
     </select>
 
     <select id="getMappedCreatorList" resultType="ProductCreatorMapperVO">
@@ -213,11 +213,11 @@
           JOIN CATEGORY C
             ON C.CATEGORY_ID        = PCM.CATEGORY_ID
            AND PCM.PRODUCT_KEY      = #{productKey}
-           AND C.USE_YN             <![CDATA[<>]]> 0
+           AND C.USE_YN             = 1
          INNER
           JOIN CREATOR CR
             ON CR.CREATOR_KEY    = PCM.CREATOR_KEY
-           AND CR.USE_YN         <![CDATA[<>]]> 0
+           AND CR.USE_YN         = 1
     </select>
 
     <select id="getMappedIngredientList" resultType="ProductIngredientMapperVO">
@@ -229,11 +229,11 @@
           JOIN CATEGORY C
             ON C.CATEGORY_ID        = PIM.CATEGORY_ID
            AND PIM.PRODUCT_KEY      = #{productKey}
-           AND C.USE_YN             <![CDATA[<>]]> 0
+           AND C.USE_YN             = 1
          INNER
           JOIN INGREDIENT I
             ON I.INGREDIENT_KEY = PIM.INGREDIENT_KEY
-           AND I.USE_YN         <![CDATA[<>]]> 0
+           AND I.USE_YN         = 1
     </select>
 
     <select id="getMappedProductTypeList" resultType="ProductProductTypeMapperVO">
@@ -245,11 +245,11 @@
           JOIN CATEGORY C
             ON C.CATEGORY_ID        = PPTM.CATEGORY_ID
            AND PPTM.PRODUCT_KEY     = #{productKey}
-           AND C.USE_YN             <![CDATA[<>]]> 0
+           AND C.USE_YN             = 1
          INNER
           JOIN PRODUCT_TYPE PT
             ON PT.PRODUCT_TYPE_KEY  = PPTM.PRODUCT_TYPE_KEY
-           AND PT.USE_YN            <![CDATA[<>]]> 0
+           AND PT.USE_YN            = 1
     </select>
 
     <update id="deleteBrandMapper">

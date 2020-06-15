@@ -20,7 +20,7 @@
           LEFT
           JOIN MEMBERSHIP M
             ON M.MEMBERSHIP_KEY = U.MEMBERSHIP_KEY
-           AND M.USE_YN         <![CDATA[<>]]> 0
+           AND M.USE_YN         = 1
          WHERE U.USER_ID        = #{user.userId}
         <if test="user.password != '' and user.password != null">
            AND u.PASSWORD   = #{user.password}

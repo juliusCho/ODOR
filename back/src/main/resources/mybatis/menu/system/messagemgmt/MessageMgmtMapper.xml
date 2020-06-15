@@ -14,7 +14,7 @@
           JOIN MESSAGE_GROUP MG
             ON MG.MESSAGE_ID    = CM.MESSAGE_ID
            AND CM.COUNTRY_CODE  = #{locale}
-           AND MG.USE_YN        <![CDATA[<>]]> 0
+           AND MG.USE_YN        = 1
     </select>
 
     <select id="getMessageListSearch" resultType="MessageVO">
@@ -38,7 +38,7 @@
                 AND MG.USE_YN = #{vo.useYn}
             </when>
             <otherwise>
-                AND MG.USE_YN <![CDATA[<>]]> 0
+                AND MG.USE_YN = 1
             </otherwise>
         </choose>
     </select>

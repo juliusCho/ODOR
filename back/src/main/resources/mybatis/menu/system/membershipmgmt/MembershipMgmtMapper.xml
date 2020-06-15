@@ -134,12 +134,12 @@
           JOIN CATEGORY C
             ON C.CATEGORY_ID        = MFM.CATEGORY_ID
            AND MFM.MEMBERSHIP_KEY   = #{membershipKey}
-           AND C.USE_YN             <![CDATA[<>]]> 0
+           AND C.USE_YN             = 1
          INNER
           JOIN FORUM F
             ON F.FORUM_KEY      = MFM.FORUM_KEY
            AND F.CATEGORY_ID    = C.CATEGORY_ID
-           AND F.USE_YN         <![CDATA[<>]]> 0
+           AND F.USE_YN         = 1
     </select>
 
     <delete id="deleteMapping">
