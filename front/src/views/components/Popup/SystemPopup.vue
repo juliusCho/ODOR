@@ -521,17 +521,12 @@
                         this.showAlert(this.$t('membership.unableImgUpload'));
                         return;
                     }
-                    setTimeout(() => {
-                        this.newValue[this.checkImageCol().value] = res.data[0];
-                        this.savedAvatar(res.data);
+                    this.newValue[this.checkImageCol().value] = res.data[0];
+
+                    setTimeout(async () => {
+                        await this.$emit('okAction', this.newValue);
+                        this.cancelAction();
                     }, 1000);
-                });
-            },
-            savedAvatar(data) {
-                axios.patch(API.UserMgmtController.uploadPhoto, {image: data[0]})
-                .then(async () => {
-                    await this.$emit('okAction', this.newValue);
-                    this.cancelAction();
                 });
             },
 

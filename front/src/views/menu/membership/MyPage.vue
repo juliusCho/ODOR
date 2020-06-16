@@ -230,8 +230,10 @@
                     });
             },
             savedAvatar(data) {
-                axios.patch(API.UserMgmtController.uploadPhoto, {image: data[0]})
-                .then(() => {
+                axios.patch(API.UserMgmtController.uploadPhoto, {
+                    userId: this.tmpSession.userId,
+                    image: data[0]
+                }).then(() => {
                     this.tmpSession.image = data[0];
                     TMP_SESSION.setLognUser(this.tmpSession);
                 });

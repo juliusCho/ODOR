@@ -87,9 +87,7 @@ public class UserMgmtController {
 
     @PatchMapping("uploadPhoto/api")
     public ResponseEntity uploadPhoto(@RequestBody UserVO vo) {
-        UserVO user = AuthUtil.getCurrentUser();
-        user.setImage(vo.getImage());
-        userMgmtService.uploadPhoto(user);
+        userMgmtService.uploadPhoto(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
