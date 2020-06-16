@@ -118,8 +118,12 @@ public class FileService {
         try {
             result = Files.readAllBytes(Paths.get(propertySource.getFileTmpPath() + path));
         } catch (IOException e) {
-            this.makeTmpDir(path);
-            result = this.retrieveFileFromFTP(path);
+            try {
+                this.makeTmpDir(path);
+                result = this.retrieveFileFromFTP(path);
+            } catch (Exception e2) {
+                this.displayImage(path);
+            }
         } finally {
             return result;
         }
@@ -145,11 +149,16 @@ public class FileService {
                 if (client.retrieveFile(path, fos)) {
                     result = Files.readAllBytes(Paths.get(localPath));
                 }
+            } catch (Throwable e) {
+                this.retrieveFileFromFTP(path);
             }
             client.logout();
+
         } catch(IOException e) {
             if (client.isConnected()) client.logout();
             e.printStackTrace();
+            this.retrieveFileFromFTP(path);
+
         } finally {
             try {
                 client.disconnect();

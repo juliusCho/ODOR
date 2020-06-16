@@ -157,6 +157,19 @@
                                             </div>
                                         </imageInput>
                                     </template>
+                                    <template v-else-if="field.updateType === 'image'">
+                                        <div>Image</div>
+                                        <imageInput v-model="avatar" @input="updateAvatar">
+                                            <div slot="activator">
+                                                <v-avatar size="400px" tile v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
+                                                    <span>Click to add avatar</span>
+                                                </v-avatar>
+                                                <v-avatar size="400px" tile v-ripple v-else class="mb-3">
+                                                    <img :src="avatar.imageURL" alt="avatar">
+                                                </v-avatar>
+                                            </div>
+                                        </imageInput>
+                                    </template>
                                 </template>
 
                                 <template v-else>
@@ -273,9 +286,20 @@
                                         />
                                     </template>
                                     <template v-else-if="field.insertType === 'thumbnail'">
+                                        <div>Thumbnail</div>
                                         <imageInput v-model="avatar" @input="updateAvatar">
                                             <div slot="activator">
                                                 <v-avatar size="150px" v-ripple class="grey lighten-3 mb-3">
+                                                    <span>Click to add avatar</span>
+                                                </v-avatar>
+                                            </div>
+                                        </imageInput>
+                                    </template>
+                                    <template v-else-if="field.insertType === 'image'">
+                                        <div>Image</div>
+                                        <imageInput v-model="avatar" @input="updateAvatar">
+                                            <div slot="activator">
+                                                <v-avatar size="400px" tile v-ripple class="grey lighten-3 mb-3">
                                                     <span>Click to add avatar</span>
                                                 </v-avatar>
                                             </div>
