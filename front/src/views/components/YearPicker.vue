@@ -74,7 +74,6 @@
         },
         watch: {
             date() {
-                console.log(this.date);
                 if (!this.date) return;
 
                 this.dateData = this.date + '-01-01';

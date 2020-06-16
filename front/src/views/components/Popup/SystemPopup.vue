@@ -496,7 +496,10 @@
                 );
             },
             displayImage(data) {
-                if (!data) return;
+                if (!data || !this.newValue[data?.value]) {
+                    this.avatar = null;
+                    return;
+                }
                 let imageURL = API.CommonController.displayImage + '?path=' + this.newValue[data.value];
                 let formData = new FormData;
                 formData.append('file', imageURL);
@@ -534,7 +537,6 @@
 
 
             initializeNewValue() {
-                this.avatar = null;
                 if (this.fields.length === 0) return;
 
                 this.fields.filter(v => v?.type).forEach(v => {
