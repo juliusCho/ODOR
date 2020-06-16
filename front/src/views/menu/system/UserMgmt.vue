@@ -106,6 +106,9 @@
                 <v-btn v-else color="grey lighten-4"
                        @click="unblockConfirm(item)">{{item.blocked}}</v-btn>
             </template>
+            <template v-slot:item.image="{item}">
+                <img v-if="item.image" :src="getImage(item.image)" style="width: 100%; height: 100%; margin: 10px;">
+            </template>
         </v-data-table>
 
         <DeleteDialog
@@ -238,6 +241,16 @@
                         insertType: 'email'
                     },
                     {
+                        text: 'Thumbnail',
+                        value: 'image',
+                        width: '60px',
+                        type: 'string',
+                        updateType: 'thumbnail',
+                        insertType: 'thumbnail',
+                        imageType: 'profile',
+                        subPath: 'userId'
+                    },
+                    {
                         text: 'Nickname',
                         value: 'nickname',
                         width: '100px',
@@ -324,6 +337,9 @@
             };
         },
         methods: {
+            getImage(path) {
+                return API.CommonController.displayImage + '?path=' + path;
+            },
             async getUserListAll() {
                 this.searchCombos.userId = [];
                 this.searchCombos.email = [];

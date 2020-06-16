@@ -28,7 +28,6 @@
                             </image-input>
                         </v-row>
                     </v-container>
-                    <ImageInput />
                     <v-row justify="center" align="center">
                         <p class="subtitle-1 font-weight-light">{{$t('membership.membershipLvl')}}</p>
                         <p style="padding-left: 5px" class="subtitle-1 font-weight-regular">{{tmpSession.membershipName}}</p>
@@ -140,7 +139,6 @@
                 genderCode1: 'M',
                 genderCode2: 'F',
                 avatar: null,
-                saving: false,
                 idRules: SCRIPT_VALIDATOR.idRules(),
             };
         },
@@ -200,10 +198,6 @@
                 this.alertMsg = msg;
                 this.alertShow = true;
             },
-            updateAvatar(data) {
-                let {formData, imageURL} = data;
-                this.avatar = {formData, imageURL};
-            },
 
             //=======================이미지 표시=====================
             displayImage() {
@@ -216,9 +210,11 @@
 
 
             //=======================이미지 업로드=====================
+            updateAvatar(data) {
+                let {formData, imageURL} = data;
+                this.avatar = {formData, imageURL};
+            },
             uploadImage() {
-                this.saving = true;
-
                 this.avatar.formData.append('type', 'profile');
                 this.avatar.formData.append('subPath', TMP_SESSION.getId());
 
@@ -236,8 +232,6 @@
             savedAvatar(data) {
                 axios.patch(API.UserMgmtController.uploadPhoto, {image: data[0]})
                 .then(() => {
-                    this.saving = false;
-
                     this.tmpSession.image = data[0];
                     TMP_SESSION.setLognUser(this.tmpSession);
                 });

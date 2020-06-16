@@ -144,6 +144,19 @@
                                             style="display: none;"
                                         />
                                     </template>
+                                    <template v-else-if="field.updateType === 'thumbnail'">
+                                        <div>Thumbnail</div>
+                                        <imageInput v-model="avatar" @input="updateAvatar">
+                                            <div slot="activator">
+                                                <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
+                                                    <span>Click to add avatar</span>
+                                                </v-avatar>
+                                                <v-avatar size="150px" v-ripple v-else class="mb-3">
+                                                    <img :src="avatar.imageURL" alt="avatar">
+                                                </v-avatar>
+                                            </div>
+                                        </imageInput>
+                                    </template>
                                 </template>
 
                                 <template v-else>
@@ -259,6 +272,15 @@
                                             style="display: none;"
                                         />
                                     </template>
+                                    <template v-else-if="field.insertType === 'thumbnail'">
+                                        <imageInput v-model="avatar" @input="updateAvatar">
+                                            <div slot="activator">
+                                                <v-avatar size="150px" v-ripple class="grey lighten-3 mb-3">
+                                                    <span>Click to add avatar</span>
+                                                </v-avatar>
+                                            </div>
+                                        </imageInput>
+                                    </template>
                                 </template>
 
                             </v-row>
@@ -316,6 +338,8 @@
     import ConfirmDialog from "@/views/components/Dialog";
     import RightTopAlert from "@/views/components/RightTopAlert";
     import YearPicker from "@/views/components/YearPicker";
+    import ImageInput from "../../components/ImageInput";
+    import axios from "axios";
 
     export default {
         name: "SystemPopup",
@@ -323,7 +347,8 @@
             MessagePopup,
             ConfirmDialog,
             RightTopAlert,
-            YearPicker
+            YearPicker,
+            ImageInput
         },
         props: {
             show: {
@@ -412,7 +437,8 @@
                 alertMsg: '',
                 alertStatus: '',
 
-                confirmShow: false
+                confirmShow: false,
+                avatar: null
             };
         },
         watch: {
@@ -439,9 +465,52 @@
                 this.messageId = messageId;
                 this.messageFieldName = fieldName;
             },
+            checkImageCol() {
+                return this.fields.find(v =>
+                    v.insertType === 'thumbnail' || v.updateType === 'thumbnail' ||
+                    v.insertType === 'image' || v.updateType === 'image'
+                );
+            },
+            displayImage(data) {
+                if (!data) return;
+                let imageURL = API.CommonController.displayImage + '?path=' + this.newValue[data.value];
+                let formData = new FormData;
+                formData.append('file', imageURL);
+                this.avatar = {imageURL, formData};
+            },
+            updateAvatar(data) {
+                let {formData, imageURL} = data;
+                this.avatar = {formData, imageURL};
+            },
+            async uploadImage(data) {
+                this.avatar.formData.append('type', data.imageType);
+                this.avatar.formData.append('subPath', this.newValue[data.subPath]);
+
+                await axios.post(
+                    API.CommonController.fileUpload,
+                    this.avatar.formData
+                ).then(res => {
+                    if (res.status !== 200) {
+                        this.showAlert(this.$t('membership.unableImgUpload'));
+                        return;
+                    }
+                    setTimeout(() => {
+                        this.newValue[this.checkImageCol().value] = res.data[0];
+                        this.savedAvatar(res.data);
+                    }, 1000);
+                });
+            },
+            savedAvatar(data) {
+                axios.patch(API.UserMgmtController.uploadPhoto, {image: data[0]})
+                .then(async () => {
+                    await this.$emit('okAction', this.newValue);
+                    this.cancelAction();
+                });
+            },
 
 
             initializeNewValue() {
+                this.avatar = null;
                 if (this.fields.length === 0) return;
 
                 this.fields.filter(v => v?.type).forEach(v => {
@@ -472,6 +541,7 @@
             setNewValue() {
                 if (this.update && this.values) {
                     Object.assign(this.newValue, this.values);
+                    this.displayImage(this.checkImageCol());
                 } else {
                     this.initializeNewValue();
                 }
@@ -488,8 +558,13 @@
             },
             async okAction() {
                 this.confirmShow = false;
-                await this.$emit('okAction', this.newValue);
-                this.cancelAction();
+                let data = this.checkImageCol();
+                if (data) {
+                    await this.uploadImage(this.checkImageCol());
+                } else {
+                    await this.$emit('okAction', this.newValue);
+                    this.cancelAction();
+                }
             },
             cancelAction() {
                 this.$emit('cancelAction', false);
