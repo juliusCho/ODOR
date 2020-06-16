@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -118,12 +119,8 @@ public class FileService {
         try {
             result = Files.readAllBytes(Paths.get(propertySource.getFileTmpPath() + path));
         } catch (IOException e) {
-            try {
-                this.makeTmpDir(path);
-                result = this.retrieveFileFromFTP(path);
-            } catch (Exception e2) {
-                this.displayImage(path);
-            }
+            this.makeTmpDir(path);
+            result = this.retrieveFileFromFTP(path);
         } finally {
             return result;
         }
@@ -145,11 +142,15 @@ public class FileService {
             this.connectToFTP(client);
             String localPath = propertySource.getFileTmpPath() + path;
 
-            try (FileOutputStream fos = new FileOutputStream(localPath)) {
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(localPath);
                 if (client.retrieveFile(path, fos)) {
                     result = Files.readAllBytes(Paths.get(localPath));
                 }
-            } catch (Throwable e) {
+                fos.close();
+            } catch (FileNotFoundException e) {
+                fos.close();
                 this.retrieveFileFromFTP(path);
             }
             client.logout();
