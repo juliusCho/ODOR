@@ -21,7 +21,9 @@ const KOR = {
         findId: '아이디 찾기',
         findIdMsg: '가입하신 이메일로 아이디를 보내드립니다.',
         findPw: '비밀번호 찾기',
-        findPwMsg: '가입하신 이메일로 임시 비밀번호를 보내드립니다.'
+        findPwMsg: '가입하신 이메일로 임시 비밀번호를 보내드립니다.',
+        unableImgUpload: '이미지 업로딩에 오류가 발생했습니다. 다시 시도해 주세요.',
+        myInfoUpdated: '정보가 수정되었습니다.'
     }
 }
 

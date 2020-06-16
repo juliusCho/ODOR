@@ -21,8 +21,9 @@ const ENG = {
         findId: 'Find ID',
         findIdMsg: 'We will send your ID to the email you registered.',
         findPw: 'Find Password',
-        findPwMsg: 'We will send a temporary password to the email you registered.'
-
+        findPwMsg: 'We will send a temporary password to the email you registered.',
+        unableImgUpload: 'There has been an error while uploading an image. Please retry.',
+        myInfoUpdated: 'Info has been updated.'
     }
 }
 

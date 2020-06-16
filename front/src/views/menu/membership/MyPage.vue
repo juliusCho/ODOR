@@ -196,6 +196,10 @@
             hideAlert() {
                 this.alertShow = false;
             },
+            showAlert(msg) {
+                this.alertMsg = msg;
+                this.alertShow = true;
+            },
             updateAvatar(data) {
                 let {formData, imageURL} = data;
                 this.avatar = {formData, imageURL};
@@ -222,6 +226,10 @@
                     API.CommonController.fileUpload,
                     this.avatar.formData
                     ).then(res => {
+                        if (res.status !== 200) {
+                            this.showAlert(this.$t('membership.unableImgUpload'));
+                            return;
+                        }
                         setTimeout(() => this.savedAvatar(res.data), 1000);
                     });
             },
@@ -243,6 +251,7 @@
                 if (this.avatar) {
                     this.uploadImage();
                 }
+                this.showAlert(this.$t('membership.myInfoUpdated'));
             }
         }
     }

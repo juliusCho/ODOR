@@ -176,8 +176,9 @@ public class FileService {
         for (File file : fileList) {
             if (file.isDirectory()) {
                 this.emptyTmpFolder(file.getAbsolutePath());
+            } else {
+                file.delete();
             }
-            file.delete();
         }
     }
 
