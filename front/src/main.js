@@ -25,7 +25,17 @@ export const eventBus = new Vue({
 
 
   methods: {
-
+    // Get Login User
+    async loginRequest(data = {}) {
+      if (data?.userId && data?.password) {
+        await axios.post(
+            API.SessionController.validateLogin, //url
+            data
+        ).then(res => {
+          ODOR.odorLoginUser = res.data;
+        });
+      }
+    },
     // Set Message
     async setMessageList() {
       await axios.get(

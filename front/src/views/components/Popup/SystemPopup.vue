@@ -521,13 +521,19 @@
                         this.showAlert(this.$t('membership.unableImgUpload'));
                         return;
                     }
-                    this.newValue[this.checkImageCol().value] = res.data[0];
+                    this.updateImage(res.data[0]);
 
                     setTimeout(async () => {
                         await this.$emit('okAction', this.newValue);
                         this.cancelAction();
                     }, 1000);
                 });
+            },
+            updateImage(image) {
+                let imageKey = this.checkImageCol();
+                if (imageKey) {
+                    this.newValue[imageKey.value] = image;
+                }
             },
 
 

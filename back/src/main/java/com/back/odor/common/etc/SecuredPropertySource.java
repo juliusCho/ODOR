@@ -65,7 +65,4 @@ public class SecuredPropertySource {
     @Value("${file-user-pw}")
     private String fileUserPw;
 
-    @Value("${file-tmp-path}")
-    private String fileTmpPath;
-
 }

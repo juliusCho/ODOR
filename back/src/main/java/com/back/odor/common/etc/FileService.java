@@ -6,18 +6,12 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.InputStream;
 
 @Service
 @Slf4j
@@ -115,50 +109,14 @@ public class FileService {
 
 
     public byte[] displayImage(String path) {
-        byte[] result = null;
-        try {
-            result = Files.readAllBytes(Paths.get(propertySource.getFileTmpPath() + path));
-        } catch (IOException e) {
-            this.makeTmpDir(path);
-            result = this.retrieveFileFromFTP(path);
-        } finally {
-            return result;
-        }
-    }
-
-    private void makeTmpDir(String path) {
-        String dir = propertySource.getFileTmpPath() + path.substring(0, path.lastIndexOf("/"));
-        File folder = new File(dir);
-
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-    }
-
-    private byte[] retrieveFileFromFTP(String path) {
         FTPClient client = new FTPClient();
         byte[] result = null;
         try {
             this.connectToFTP(client);
-            String localPath = propertySource.getFileTmpPath() + path;
-
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(localPath);
-                if (client.retrieveFile(path, fos)) {
-                    result = Files.readAllBytes(Paths.get(localPath));
-                }
-                fos.close();
-            } catch (FileNotFoundException e) {
-                fos.close();
-                this.retrieveFileFromFTP(path);
-            }
-            client.logout();
+            result = this.retrieveFileFromFTP(path, client);
 
         } catch(IOException e) {
             if (client.isConnected()) client.logout();
-            e.printStackTrace();
-            this.retrieveFileFromFTP(path);
 
         } finally {
             try {
@@ -171,24 +129,27 @@ public class FileService {
     }
 
 
+    private byte[] retrieveFileFromFTP(String path, FTPClient client) {
+        byte[] result = null;
+        try {
+            InputStream is = client.retrieveFileStream(path);
 
+            if (client.completePendingCommand()) {
+                byte[] bt = new byte[is.available()];
 
-    @Scheduled(fixedDelay = 600000) // 10분에 한번씩 tmp폴더 삭제
-    public void deleteFilesScheduledTask() throws IOException {
-        this.emptyTmpFolder(propertySource.getFileTmpPath());
-    }
-
-    private void emptyTmpFolder(String tmpPath) throws IOException {
-        List<File> fileList = Files.list(Paths.get(tmpPath))
-                .map(path -> path.toFile())
-                .collect(Collectors.toList());
-
-        for (File file : fileList) {
-            if (file.isDirectory()) {
-                this.emptyTmpFolder(file.getAbsolutePath());
-            } else {
-                file.delete();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                int nRead;
+                while ((nRead = is.read(bt, 0, bt.length)) != -1) {
+                    baos.write(bt, 0, nRead);
+                }
+                baos.flush();
+                result = baos.toByteArray();
             }
+            is.close();
+        } catch (IOException e) {
+            if (client.isConnected()) client.logout();
+        } finally {
+            return result;
         }
     }
 

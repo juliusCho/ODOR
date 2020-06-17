@@ -173,6 +173,7 @@
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
     import UserBlockPopup from "@/views/components/Popup/UserBlockPopup";
+    import {eventBus} from "@/main";
 
     export default {
         name: 'UserMgmt',
@@ -363,7 +364,7 @@
                     API.MembershipMgmtController.getMembershipListAll
                 ).then(res => {
                     this.searchCombos.membershipKey = this.searchCombos.membershipKey.concat(res.data);
-                    this.headers[8].selectItems = res.data.map(v => ({value: v.membershipKey, text: v.membershipName}));
+                    this.headers[9].selectItems = res.data.map(v => ({value: v.membershipKey, text: v.membershipName}));
                 });
             },
             getUserList() {
@@ -430,9 +431,16 @@
             updateItem(data) {
                 axios.patch(API.UserMgmtController.updateUser, data)
                     .then(res => {
+                        this.updateSessionIfMyself(data);
                         this.doneAlert(res.data);
                         this.reset();
                     });
+            },
+            async updateSessionIfMyself(data) {
+                if (data.userId !== TMP_SESSION.getId()) {
+                    return;
+                }
+                eventBus.loginRequest(data);
             },
             doneAlert(type) {
                 if (type === 'success') {
