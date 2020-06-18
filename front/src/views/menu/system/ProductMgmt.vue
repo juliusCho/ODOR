@@ -103,6 +103,9 @@
                            @click="mapping(item, 'productType')">PRODUCT TYPE MAPPING</v-btn>
                 </v-row>
             </template>
+            <template v-slot:item.image="{item}">
+                <img v-if="item.image" :src="getImage(item.image)" style="width: 100%; height: 100%; margin: 10px;">
+            </template>
         </v-data-table>
 
         <DeleteDialog
@@ -269,7 +272,12 @@
                     {
                         text: 'Image',
                         value: 'image',
-                        width: '150px'
+                        width: '150px',
+                        type: 'string',
+                        updateType: 'image',
+                        insertType: 'image',
+                        imageType: 'product',
+                        subPath: 'productKey'
                     },
                     {
                         text: 'Year',
@@ -339,6 +347,9 @@
             };
         },
         methods: {
+            getImage(path) {
+                return API.CommonController.displayImage + '?path=' + path;
+            },
             async getCategoryListAll() {
                 await axios.get(
                     API.CategoryMgmtController.getCategoryListAll

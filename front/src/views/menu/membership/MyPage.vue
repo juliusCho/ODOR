@@ -121,7 +121,6 @@
     import axios from 'axios';
     import RightTopAlert from "../../components/RightTopAlert";
     import ImageInput from "../../components/ImageInput";
-    import {eventBus} from "@/main";
 
     export default {
         name: "MyPage",
