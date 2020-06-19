@@ -206,6 +206,7 @@
             ProductMapperPopup
         },
         mounted() {
+            ENTER_ACTION(this.getProductList);
             this.getCategoryListAll();
             this.getCountryListAll();
             this.getProductListAll();
@@ -490,15 +491,19 @@
                 });
             },
             brandMappingClose() {
+                ENTER_ACTION(this.getProductList);
                 this.brandMappingShow = false;
             },
             creatorMappingClose() {
+                ENTER_ACTION(this.getProductList);
                 this.creatorMappingShow = false;
             },
             ingredientMappingClose() {
+                ENTER_ACTION(this.getProductList);
                 this.ingredientMappingShow = false;
             },
             productTypeMappingClose() {
+                ENTER_ACTION(this.getProductList);
                 this.productTypeMappingShow = false;
             }
         }

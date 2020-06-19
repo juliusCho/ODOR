@@ -186,6 +186,7 @@
             UserBlockPopup
         },
         mounted() {
+            ENTER_ACTION(this.getUserList);
             this.getUserListAll();
             this.getMembershipListAll();
             this.getUserList();

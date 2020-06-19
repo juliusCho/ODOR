@@ -215,6 +215,7 @@
             async show() {
                 this.thisShow = this.show;
                 if (this.thisShow) {
+                    ENTER_ACTION(this.getCategoryList);
                     let result = await this.initializeData();
                     if (result) {
                         this.searchCombos[this.mappingKey + 'Key'] = await this.getMappingListAll();

@@ -119,6 +119,7 @@
             RightTopAlert
         },
         mounted() {
+            ENTER_ACTION(this.getIngredientList);
             this.getCategoryListAll();
             this.getIngredientListAll();
             this.getIngredientList();

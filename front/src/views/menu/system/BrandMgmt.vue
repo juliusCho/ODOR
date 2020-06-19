@@ -141,6 +141,7 @@
             BrandMapperPopup
         },
         mounted() {
+            ENTER_ACTION(this.getBrandList);
             this.getCountryListAll();
             this.getBrandListAll();
             this.getBrandList();
@@ -367,6 +368,7 @@
                 });
             },
             mappingClose() {
+                ENTER_ACTION(this.getBrandList);
                 this.mappingShow = false;
             },
             mappingAlert() {

@@ -132,6 +132,7 @@
             MembershipMapperPopup
         },
         mounted() {
+            ENTER_ACTION(this.getMembershipList);
             this.getMembershipListAll();
             this.getMembershipList();
         },
@@ -325,6 +326,7 @@
                 });
             },
             mappingClose() {
+                ENTER_ACTION(this.getMembershipList);
                 this.mappingShow = false;
             }
         }

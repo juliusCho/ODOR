@@ -40,10 +40,10 @@
               LEFT
               JOIN `CODE` C
                 ON C.CODE_ID = M.LVL_CODE
+               AND C.CODE_GROUP_ID = 'MEMBERSHIP_LVL_CODE'
               LEFT
               JOIN CODE_GROUP CG
                 ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
-               AND CG.CODE_GROUP_ID = 'MEMBERSHIP_LVL_CODE'
                AND CG.USE_YN        = 1
                AND C.USE_YN         = 1
               LEFT

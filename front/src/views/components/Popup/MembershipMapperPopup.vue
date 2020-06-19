@@ -207,6 +207,7 @@
                     this.initializeData();
                     this.getCategoryListAll();
                     this.getCategoryList();
+                    ENTER_ACTION(this.getCategoryList);
                 }
             },
             'clickedCategory.categoryId'() {

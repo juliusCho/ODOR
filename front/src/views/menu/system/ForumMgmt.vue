@@ -145,6 +145,7 @@
             RightTopAlert
         },
         mounted() {
+            ENTER_ACTION(this.getForumList);
             this.getCategoryListAll();
             this.getForumListAll();
             this.getForumList();

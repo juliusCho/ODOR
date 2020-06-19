@@ -119,6 +119,7 @@
             RightTopAlert
         },
         mounted() {
+            ENTER_ACTION(this.getProductTypeList);
             this.getCategoryListAll();
             this.getProductTypeListAll();
             this.getProductTypeList();

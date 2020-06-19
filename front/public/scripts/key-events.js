@@ -1,18 +1,25 @@
 /*global */
 // eslint-disable-next-line
-const ENTER_ACTION = func => {
 
-    document.addEventListener('keyup', e => {
+let ACTION_TARGET = e => {};
+
+const ENTER_ACTION = (func = () => {}) => {
+
+    if (typeof func !== 'function') {
+        return;
+    }
+    document.removeEventListener('keyup', ACTION_TARGET);
+
+    ACTION_TARGET = e => {
         switch (e.key) {
             case 'Enter' :
-                if (typeof func !== 'function') {
-                    return;
-                }
                 func();
                 break;
             default :
                 break;
         }
-    });
+    };
+
+    document.addEventListener('keyup', ACTION_TARGET);
 
 };

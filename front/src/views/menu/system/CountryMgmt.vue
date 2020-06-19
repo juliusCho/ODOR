@@ -129,6 +129,7 @@
             RightTopAlert
         },
         mounted() {
+            ENTER_ACTION(this.getCountryList);
             this.getCountryListAll();
             this.getCountryList();
         },

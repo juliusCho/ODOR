@@ -128,6 +128,9 @@
             InsertPopup,
             RightTopAlert
         },
+        created() {
+            ENTER_ACTION(this.getCategoryList);
+        },
         mounted() {
             this.getCategoryListAll();
             this.getCategoryList();

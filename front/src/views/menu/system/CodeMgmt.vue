@@ -132,6 +132,7 @@
             RightTopAlert
         },
         mounted() {
+            ENTER_ACTION(this.getCodeGroupList);
             this.getCodeGroupList();
         },
         data() {

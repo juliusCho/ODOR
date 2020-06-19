@@ -153,6 +153,7 @@
             show() {
                 this.thisShow = this.show;
                 if (this.thisShow) {
+                    ENTER_ACTION(this.getCategoryList);
                     this.initializeData();
                     this.getCategoryListAll();
                     this.getCategoryList();

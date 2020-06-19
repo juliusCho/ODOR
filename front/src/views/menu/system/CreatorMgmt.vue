@@ -115,6 +115,7 @@
             RightTopAlert
         },
         mounted() {
+            ENTER_ACTION(this.getCreatorList);
             this.getCountryListAll();
             this.getCreatorListAll();
             this.getCreatorList();

@@ -130,6 +130,7 @@
             RightTopAlert
         },
         mounted() {
+            ENTER_ACTION(this.getMessageList);
             this.initializeSearchCombos();
             this.getMessageList();
         },
