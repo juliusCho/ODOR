@@ -2,6 +2,12 @@
 향수를 좋아하던 우리는 한국에 그럴듯한 향수 커뮤니티가 없는 것을 확인하고 그럴듯한 향수 커뮤니티를 제작하기로 하였다! <br>
 최근 공부하던 Vue.js와 Springboot를 가지고. 예이!
 <br>
+
+# 🔧 Stacks
+- Vue.js, Vuetify
+- Springboot, mybatis, mysql, maven
+- AWS(예정)
+
 ## 💻 Developers
 - Julius Cho : https://github.com/juliusCho
 - Renee Kim : https://github.com/uzicandi
