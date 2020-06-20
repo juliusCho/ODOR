@@ -25,8 +25,8 @@ prototype은 proto.io로 제작하였다.
 
 ## 3. Perfume
 <img src="/front/src/assets/img/prototype/perfume/PerfumeList.png" alt="PerfumeList" width="700px">
-<img src="/front/src/assets/img/prototype/forum/perfume-detail-1.png" alt="perfume-detail-1" width="700px">
-<img src="/front/src/assets/img/prototype/forum/perfume-detail-2.png" alt="perfume-detail-2" width="700px">
+<img src="/front/src/assets/img/prototype/perfume/perfume-detail-1.png" alt="perfume-detail-1" width="700px">
+<img src="/front/src/assets/img/prototype/perfume/perfume-detail-2.png" alt="perfume-detail-2" width="700px">
 
 ## 4. About
 <img src="/front/src/assets/img/prototype/about/about.png" alt="about" width="700px">
