@@ -14,7 +14,7 @@
                             <v-col cols="12" sm="6">
                                 <v-row justify="center" align="center">
                                     <p class="subtitle-1 font-weight-thin" style="text-align: center">
-                                        몽총이 깨구리
+                                        전반적인 시스템 개발
                                     </p>
                                 </v-row>
                                 <v-row justify="center" align="center">
@@ -68,7 +68,7 @@
                                 <v-row justify="center" align="center">
                                     <p class="subtitle-1 font-weight-thin"
                                        style="text-align: center">
-                                        똑순이 햄토리
+                                        기획, 디자인, 프론트엔드
                                     </p>
                                 </v-row>
                                 <v-row justify="center" align="center">
