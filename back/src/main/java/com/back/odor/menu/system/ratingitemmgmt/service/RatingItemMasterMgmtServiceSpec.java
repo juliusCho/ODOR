@@ -9,6 +9,7 @@ import java.util.List;
 public interface RatingItemMasterMgmtServiceSpec {
 
     List<RatingItemMasterVO> getRatingItemMasterList(RatingItemMasterVO vo);
+    List<RatingItemMasterVO> getRatingItemMasterListAll();
 
     Integer checkDuplication(RatingItemMasterVO vo);
     void deleteRatingItemMaster(RatingItemMasterVO vo);

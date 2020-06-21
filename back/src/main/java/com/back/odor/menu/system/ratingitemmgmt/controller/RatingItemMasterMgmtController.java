@@ -28,6 +28,11 @@ public class RatingItemMasterMgmtController {
         return ResponseEntity.ok(ratingItemMasterMgmtService.getRatingItemMasterList(vo));
     }
 
+    @GetMapping("getRatingItemMasterListAll/system")
+    public ResponseEntity<List<RatingItemMasterVO>> getRatingItemMasterListAll() {
+        return ResponseEntity.ok(ratingItemMasterMgmtService.getRatingItemMasterListAll());
+    }
+
     @PostMapping("checkDuplication/system")
     public ResponseEntity<Integer> checkDuplication(@RequestBody RatingItemMasterVO vo) {
         return ResponseEntity.ok(ratingItemMasterMgmtService.checkDuplication(vo));

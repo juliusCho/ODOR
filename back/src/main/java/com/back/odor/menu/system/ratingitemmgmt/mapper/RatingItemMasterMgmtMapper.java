@@ -10,6 +10,7 @@ import java.util.List;
 public interface RatingItemMasterMgmtMapper {
 
     List<RatingItemMasterVO> getRatingItemMasterList(@Param("vo") RatingItemMasterVO vo);
+    List<RatingItemMasterVO> getRatingItemMasterListAll(@Param("locale") String locale);
 
     Integer checkDuplication(@Param("vo") RatingItemMasterVO vo);
     void deleteRatingItemMaster(@Param("vo") RatingItemMasterVO vo);
