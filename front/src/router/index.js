@@ -27,7 +27,7 @@ import IngredientMgmt from '@/views/menu/system/IngredientMgmt';
 import MembershipMgmt from '@/views/menu/system/MembershipMgmt';
 import ProductMgmt from '@/views/menu/system/ProductMgmt';
 import ProductTypeMgmt from '@/views/menu/system/ProductTypeMgmt';
-import RatingItemMgmt from '@/views/menu/system/RatingItemMgmt';
+import RatingItemMgmt from '@/views/menu/system/RatingItemMasterMgmt';
 import UserMgmt from '@/views/menu/system/UserMgmt';
 
 import SessionCheck from '@/views/menu/SessionCheck';
