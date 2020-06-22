@@ -154,4 +154,13 @@ const API = class {
         deleteProductTypeMapping: 'odor/product/deleteProductTypeMapping/system'
     };
 
+    static RatingItemMasterMgmtController = {
+        getRatingItemMasterList: '/odor/rating/getRatingItemMasterList/system',
+        getRatingItemMasterListAll: '/odor/rating/getRatingItemMasterListAll/system',
+        checkDuplication: '/odor/rating/checkDuplication/system',
+        deleteRatingItemMaster: '/odor/rating/deleteRatingItemMaster/system',
+        updateRatingItemMaster: '/odor/rating/updateRatingItemMaster/system',
+        insertRatingItemMaster: '/odor/rating/insertRatingItemMaster/system'
+    };
+
 };
