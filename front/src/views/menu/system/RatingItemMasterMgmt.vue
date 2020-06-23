@@ -180,7 +180,8 @@
                         width: '80px',
                         type: 'number',
                         updateType: 'number',
-                        insertType: 'number'
+                        insertType: 'number',
+                        noRequire: true
                     },
                     {
                         text: 'Item Message',
@@ -229,7 +230,8 @@
                         width: '80px',
                         type: 'number',
                         updateType: 'number',
-                        insertType: 'number'
+                        insertType: 'number',
+                        noRequire: true
                     },
                     {
                         text: 'Display Option',
@@ -265,7 +267,8 @@
                         width: '180px',
                         type: 'string',
                         updateType: 'text',
-                        insertType: 'text'
+                        insertType: 'text',
+                        noRequire: true
                     },
                     {
                         text: 'Maximum Value',
@@ -273,7 +276,8 @@
                         width: '180px',
                         type: 'string',
                         updateType: 'text',
-                        insertType: 'text'
+                        insertType: 'text',
+                        noRequire: true
                     },
                     {
                         text: 'Use YN',
@@ -290,7 +294,8 @@
                         updateType: 'select',
                         insertType: 'select',
                         selectItems: rankCode.map(v => ({value: v.codeId, text: v.codeName})),
-                        selectKey: 'rankCode'
+                        selectKey: 'rankCode',
+                        noRequire: true
                     },
                     {
                         text: 'Updater',
@@ -355,7 +360,7 @@
             },
             deleteItem() {
                 axios.patch(
-                    API.RatingItemMasterMgmtController.deleteForum,
+                    API.RatingItemMasterMgmtController.deleteRatingItemMaster,
                     this.selectedRatingItem[0]
                 )
                     .then(res => {
@@ -380,14 +385,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.RatingItemMasterMgmtController.insertForum, data)
+                axios.put(API.RatingItemMasterMgmtController.insertRatingItemMaster, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.RatingItemMasterMgmtController.updateForum, data)
+                axios.patch(API.RatingItemMasterMgmtController.updateRatingItemMaster, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

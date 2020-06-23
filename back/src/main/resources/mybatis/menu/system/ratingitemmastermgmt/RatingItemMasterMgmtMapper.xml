@@ -8,14 +8,14 @@
         /* 투표 항목 마스터 목록 조회 */
         <![CDATA[
         SELECT RIM.*
-             , IFNULL(CAT_CM.MESSAGE, CAT.CATEGORY_NAME)    AS CATEGORY_NAME
-             , IFNULL(RIM_CM.MESSAGE, RIM.ITEM_NAME)        AS LOCALE_MESSAGE
-             , IFNULL(DT_C_CM.MESSAGE, DT_C.CODE_NAME)      AS DATA_TYPE_NAME
-             , IFNULL(DST_C_CM.MESSAGE, DST_C.CODE_NAME)    AS DISPLAY_TYPE_NAME
-             , IFNULL(DO_C_CM.MESSAGE, DO_C.CODE_NAME)      AS DISPLAY_OPTION_NAME
-             , IFNULL(IO_C_CM.MESSAGE, IO_C.CODE_NAME)      AS INPUT_OPTION_NAME
-             , IFNULL(R_C_CM.MESSAGE, R_C.CODE_NAME)        AS RANK_NAME
-             , IFNULL(U.NICKNAME, '')                       AS UPDATER_NAME
+             , IFNULL(CAT_CM.MESSAGE, CAT.CATEGORY_NAME)            AS CATEGORY_NAME
+             , IFNULL(RIM_CM.MESSAGE, RIM.ITEM_NAME)                AS LOCALE_MESSAGE
+             , IFNULL(DT_C_CM.MESSAGE, DT_C.CODE_NAME)              AS DATA_TYPE_NAME
+             , IFNULL(DST_C_CM.MESSAGE, DST_C.CODE_NAME)            AS DISPLAY_TYPE_NAME
+             , IFNULL(DO_C_CM.MESSAGE, DO_C.CODE_NAME)              AS DISPLAY_OPTION_NAME
+             , IFNULL(IO_C_CM.MESSAGE, IO_C.CODE_NAME)              AS INPUT_OPTION_NAME
+             , IFNULL(IFNULL(R_C_CM.MESSAGE, R_C.CODE_NAME), '')    AS RANK_NAME
+             , IFNULL(U.NICKNAME, '')                               AS UPDATER_NAME
           FROM RATING_ITEM_MASTER RIM
          INNER
           JOIN CATEGORY CAT
@@ -64,7 +64,7 @@
          INNER
           JOIN `CODE` DT_C
             ON DT_C.CODE_ID        = RIM.DATA_TYPE_CODE
-           AND DT_C.CODE_GROUP_ID  = 'RIM_DATA_TYPE_CODE'
+           AND DT_C.CODE_GROUP_ID  = 'DATA_TYPE_CODE'
            AND DT_C.USE_YN         = 1
          INNER
           JOIN CODE_GROUP DT_CG
@@ -81,7 +81,7 @@
          INNER
           JOIN `CODE` DST_C
             ON DST_C.CODE_ID        = RIM.DISPLAY_TYPE_CODE
-           AND DST_C.CODE_GROUP_ID  = 'RIM_DISPLAY_TYPE_CODE'
+           AND DST_C.CODE_GROUP_ID  = 'DISPLAY_TYPE_CODE'
            AND DST_C.USE_YN         = 1
          INNER
           JOIN CODE_GROUP DST_CG
@@ -98,7 +98,7 @@
          INNER
           JOIN `CODE` DO_C
             ON DO_C.CODE_ID        = RIM.DISPLAY_OPTION_CODE
-           AND DO_C.CODE_GROUP_ID  = 'RIM_DISPLAY_OPTION_CODE'
+           AND DO_C.CODE_GROUP_ID  = 'DISPLAY_OPTION_CODE'
            AND DO_C.USE_YN         = 1
          INNER
           JOIN CODE_GROUP DO_CG
@@ -115,7 +115,7 @@
          INNER
           JOIN `CODE` IO_C
             ON IO_C.CODE_ID        = RIM.INPUT_OPTION_CODE
-           AND IO_C.CODE_GROUP_ID  = 'RIM_INPUT_OPTION_CODE'
+           AND IO_C.CODE_GROUP_ID  = 'INPUT_OPTION_CODE'
            AND IO_C.USE_YN         = 1
          INNER
           JOIN CODE_GROUP IO_CG
@@ -129,12 +129,12 @@
           JOIN MESSAGE_GROUP IO_C_MG
             ON IO_C_MG.MESSAGE_ID    = IO_C_CM.MESSAGE_ID
            AND IO_C_MG.USE_YN        = 1
-         INNER
+          LEFT
           JOIN `CODE` R_C
             ON R_C.CODE_ID        = RIM.RANK_CODE
-           AND R_C.CODE_GROUP_ID  = 'RIM_RANK_CODE'
+           AND R_C.CODE_GROUP_ID  = 'RANK_CODE'
            AND R_C.USE_YN         = 1
-         INNER
+          LEFT
           JOIN CODE_GROUP R_CG
             ON R_CG.CODE_GROUP_ID = R_C.CODE_GROUP_ID
            AND R_CG.USE_YN        = 1
