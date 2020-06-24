@@ -13,7 +13,7 @@ Fragrance Community Platform Development Project <br>
 - Julius Cho : https://github.com/juliusCho
 - Renee Kim : https://github.com/uzicandi
 
-## Database Architecture
+## Database ERD
 <img src="/front/src/assets/img/prototype/erd/odor-erd.png" alt="mainTop" width="100%">
 
 # 💎 Prototype
