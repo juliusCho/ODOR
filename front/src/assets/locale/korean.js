@@ -2,6 +2,18 @@ const KOR = {
     main: {
         welcome: 'ODOR의 세계로 오신걸 환영합니다'
     },
+    about: {
+        julius: {
+            name: '줄리어스',
+            intro: '시스템 설계 및 개발',
+            sub: '개발 리딩'
+        },
+        renee:  {
+            name: '르네',
+            intro: '기획, 디자인, 프론트엔드',
+            sub: '디자인, 프론트엔드'
+        }
+    },
     membership: {
         id: '아이디',
         password: '비밀번호',
