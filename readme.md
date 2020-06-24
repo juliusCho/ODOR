@@ -1,4 +1,5 @@
 # 🥑 O D O R 
+Fragrance Community Platform Development Project <br>
 향수 커뮤니티 플랫폼 구축 프로젝트
 <br>
 
@@ -6,7 +7,7 @@
 - Vue.js 2, Vuetify
 - Spring Boot 5, MyBatis, MySQL, Maven
 - FTP
-- AWS(예정)
+- AWS(TOBE)
 
 ## 💻 Developers
 - Julius Cho : https://github.com/juliusCho
@@ -16,6 +17,7 @@
 <img src="/front/src/assets/img/prototype/erd/odor-erd.png" alt="mainTop" width="100%">
 
 # 💎 Prototype
+proto.io has been used to make the prototype. <br>
 prototype은 proto.io로 제작하였다. 
 
 ## 1. Main
