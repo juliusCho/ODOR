@@ -1,16 +1,19 @@
 # 🥑 O D O R 
-향수를 좋아하던 우리는 한국에 그럴듯한 향수 커뮤니티가 없는 것을 확인하고 그럴듯한 향수 커뮤니티를 제작하기로 하였다! <br>
-최근 공부하던 Vue.js와 Springboot를 가지고. 예이!
+향수 커뮤니티 플랫폼 구축 프로젝트
 <br>
 
 # 🔧 Stacks
-- Vue.js, Vuetify
-- Springboot, mybatis, mysql, maven
+- Vue.js 2, Vuetify
+- Spring Boot 5, MyBatis, MySQL, Maven
+- FTP
 - AWS(예정)
 
 ## 💻 Developers
 - Julius Cho : https://github.com/juliusCho
 - Renee Kim : https://github.com/uzicandi
+
+## Database Architecture
+<img src="/front/src/assets/img/prototype/erd/odor-erd.png" alt="mainTop" width="100%">
 
 # 💎 Prototype
 prototype은 proto.io로 제작하였다. 
