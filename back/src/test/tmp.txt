@@ -1,0 +1,88 @@
+Partner shopping mall web data crawling and monitoring system 2nd development
+
+* Improved accuracy of crawling up to 200% comparing to the 1st system
+* Provided detailed management of crawling options per shopping mall
+* Provided various monitoring system per crawling data's types and formats
+
+* Developed crawling option data management system
+* Developed crawling data monitoring system
+* Improved UI/UX to be more user-friendly
+
+* Language/Database : Javascript ES5, Java 8, MySQL 5.6
+* Framework/Library : JSP, Spring Boot +2, AXBoot, JPA, Hibernate, QueryDSL, MyBatis, Maven
+* Management/Cooperation : AWS VPC, FTP, Jenkins, Git, Jira, Confluence
+
+* Implemented code separation and legacy code management for compatibility with different web browsers
+* Modified and improved in-system code managing functions
+* Participated in database schema modification
+
+
+
+Samsung Digital Next ERP Automation Platform
+
+Development of management platform for automation programs such as OCR, RPA, Batch Interface, and etc, for Samsung Global ERP System
+
+Developed management system for registering and managing automation programs
+
+* Participated in database architecture and program development
+* Managed 2 assistant developers' tasks and schedule as a project module leader
+* Proceeded weekly meetings with the clients
+
+* Language/Database : Javascript ES6, Java 8, MySQL 8+
+* Framework/Library : Vue.js, Vuex, Vuetify, Axios, Spring Boot +2, MyBatis, Maven
+* Management/Cooperation : SonarQube, Jenkins, Git, Liquibase
+
+* Created databse tables and developed programs under the consideration for system function changes and expansions
+* Managed authorities for different automating target business task administrators
+* Developed system linkage along with Samsung global approval and emailing systems
+
+
+
+OneVu OCR
+
+Monitoring system development for various OCR solutions
+
+Compared 4 OCR solutions in terms of user experiences and accuracy of outcome
+
+* Setup schedulers for ABBYY Finereader, OpenText OCC, Google Vision, Automation Anywhere IQBot
+* Managed file server for each OCR solution inputs and outputs as well as the server linkage
+* Developed Google Vision API calling service and monitoring page
+
+* Language/Database : Javascript ES5, Java 8+, MS-SQL 2016, Automation Anywhere(RPA)
+* Framework/Library : FTPClient, Gcloud, Spring Boot +2, MyBatis, Maven
+* Management/Cooperation : Jenkins, Git
+
+Compared pros and cons, and limits for each OCR Solution
+
+
+
+
+Samsung Digital Interface Energy Malaysia Time Management System
+
+Employee's work time management system development
+
+* Drew out actual working time based on data from card tagging machines inside the business site, so that they can be used to calculate wages
+* Developed a system for monitoring over 3,000 employee's daily in to and out from the site
+* Brought out wage deduction of 8M USD per month in average and catch of rest time without notice
+
+* Developed in-system data and employee data management system
+* Developed employees' daily work time and rest time monitoring and managing system
+* Developed system linkage along with Samsung global approval and emailing systems, and Samsung Malaysian ERP system
+
+* Language/Database : Javascript ES5, Java 8, MS-SQL 2016
+* Framework/Library : Spring Framework 4, AxisJ, MyBatis, Maven
+* Management/Cooperation : Jenkins, Git
+
+* Participated in system function architecture referring to the system requirements and discussions with the clients
+
+
+
+
+Samsung Display Vietnam Workforce Scheduling Platform
+
+Security subcontractor employees work time management system development
+
+* Drew out actual working time based on data from card tagging machines inside the business site, so that they can be used to calculate wages
+* Developed a system for monitoring over 1,000 employee's daily in to and out from the site
+
+*
