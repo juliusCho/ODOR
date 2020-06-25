@@ -5,7 +5,7 @@ Fragrance Community Platform Development Project <br>
 
 # 🔧 Stacks
 - Vue.js 2, Vuetify
-- Spring Boot 5, MyBatis, MySQL, Maven
+- Spring Boot 2, MyBatis, MySQL, Maven
 - FTP
 - AWS(TOBE)
 
