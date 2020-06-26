@@ -10,8 +10,8 @@ Fragrance Community Platform Development Project <br>
 - AWS(TOBE)
 
 ## 💻 Developers
-- Julius Cho : https://github.com/juliusCho
-- Renee Kim : https://github.com/uzicandi
+- Julius : https://github.com/juliusCho
+- Renee : https://github.com/uzicandi
 
 ## Database ERD
 <img src="/front/src/assets/img/prototype/erd/odor-erd.png" alt="mainTop" width="100%">
