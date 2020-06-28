@@ -44,24 +44,24 @@ const MEMBERSHIP_PAGES = [
 ];
 
 // 임시 vuex 저장소
-const TMP_SESSION = {
-    setLognUser(user = {}) {
+class TMP_SESSION {
+    static setLognUser(user = {}) {
         ODOR.odorLoginUser = user;
-    },
-    emptyUser() {
+    };
+    static emptyUser() {
         if ('odorLoginUser' in ODOR) {
             delete ODOR.odorLoginUser;
         }
-    },
-    getId() {
+    };
+    static getId() {
         return ODOR.odorLoginUser?.userId;
-    },
-    getLoginUser() {
+    };
+    static getLoginUser() {
         if (!SCRIPT_VALIDATOR.nullCheck(this.getId())) {
             return {};
         }
         return ODOR.odorLoginUser;
-    }
+    };
 };
 
 // Multilanguage Message
@@ -115,3 +115,12 @@ const CODE = {
             )?.codeName;
     }
 }
+
+//
+// export {
+//     ODOR,
+//     MEMBERSHIP_PAGES,
+//     TMP_SESSION,
+//     MESSAGE,
+//     CODE
+// }

@@ -16,6 +16,7 @@
             />
                 <v-layout row>
                     <v-text-field
+                        id="testId"
                         style="margin-right: 5px"
                         v-model="loginInput.userId"
                         :rules="idRules"

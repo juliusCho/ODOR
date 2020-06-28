@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 /*global */
 // eslint-disable-next-line
-const SCRIPT_VALIDATOR = class {
+class SCRIPT_VALIDATOR {
 
     constructor() {
         this.locale = '';
