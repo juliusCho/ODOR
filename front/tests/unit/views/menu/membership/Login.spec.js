@@ -1,16 +1,39 @@
-import Vue from "vue";
-// import {API} from '../../../../../public/scripts/api';
-// import {COMMON_UTIL} from '../../../../../public/scripts/common-util';
-// import {ODOR, MEMBERSHIP_PAGES, TMP_SESSION, MESSAGE, CODE} from '../../../../../public/scripts/consts';
-// import SCRIPT_VALIDATOR from '../../../../../public/scripts/script-validator';
-// import {ENTER_ACTION} from '../../../../../public/scripts/key-events';
+// import Vue from "vue";
+import {shallowMount} from "@vue/test-utils";
 import Login from '@/views/menu/membership/Login'
 
+const wrapper = shallowMount(Login, {
+    mocks: {
+        $t: () => {}
+    }
+});
+
+// function getMountedComponent(Component, propsData) {
+//
+// }
+
 describe('Login.vue', () => {
-    it('should render correct contents', () => {
-        const Constructor = Vue.extend(Login);
-        const vm = new Constructor().$mount();
-        expect(vm.$el.querySelector('#testId').style.margin)
-            .toEqual('5px');
+
+    // it('userId must be binded before all', () => {
+    //     expect(wrapper.data().loginInput).toBeDefined();
+    // });
+
+    it('has a created hook', () => {
+        expect(typeof Login.created).toBe('function');
     });
+
+    it('sets the correct default data', () => {
+        expect(typeof Login.data).toBe('function');
+        const defaultData = Login.data();
+        expect(defaultData.loginInput).toBe({userId: '', password: ''});
+    });
+
+    //
+    // it('should render correct contents', () => {
+    //     const Constructor = Vue.extend(Login);
+    //     const vm = new Constructor().$mount();
+    //     // console.log(vm);
+    //     // expect(vm.$el.getElementById('testId').style.margin)
+    //     //     .toEqual('5px');
+    // });
 });
