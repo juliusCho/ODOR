@@ -21,5 +21,4 @@ const ENTER_ACTION = (func = () => {}) => {
     };
 
     document.addEventListener('keyup', ACTION_TARGET);
-
 };

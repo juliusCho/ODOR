@@ -7,36 +7,44 @@
     <select id="getRatingItemMasterList" resultType="RatingItemMasterVO">
         /* 투표 항목 마스터 목록 조회 */
         <![CDATA[
-        SELECT F.*
-             , IFNULL(CAT_CM.MESSAGE, CAT.CATEGORY_NAME)    AS CATEGORY_NAME
-             , IFNULL(C_CM.MESSAGE, C.CODE_MESSAGE)         AS FORUM_TYPE_NAME
-             , IFNULL(U.NICKNAME, '')                       AS UPDATER_NAME
-          FROM FORUM F
+        SELECT RIM.*
+             , IFNULL(CAT_CM.MESSAGE, CAT.CATEGORY_NAME)            AS CATEGORY_NAME
+             , IFNULL(RIM_CM.MESSAGE, RIM.ITEM_NAME)                AS LOCALE_MESSAGE
+             , IFNULL(DT_C_CM.MESSAGE, DT_C.CODE_NAME)              AS DATA_TYPE_NAME
+             , IFNULL(DST_C_CM.MESSAGE, DST_C.CODE_NAME)            AS DISPLAY_TYPE_NAME
+             , IFNULL(DO_C_CM.MESSAGE, DO_C.CODE_NAME)              AS DISPLAY_OPTION_NAME
+             , IFNULL(IO_C_CM.MESSAGE, IO_C.CODE_NAME)              AS INPUT_OPTION_NAME
+             , IFNULL(IFNULL(R_C_CM.MESSAGE, R_C.CODE_NAME), '')    AS RANK_NAME
+             , IFNULL(U.NICKNAME, '')                               AS UPDATER_NAME
+          FROM RATING_ITEM_MASTER RIM
          INNER
           JOIN CATEGORY CAT
-            ON CAT.CATEGORY_ID  = F.CATEGORY_ID
+            ON CAT.CATEGORY_ID  = RIM.CATEGORY_ID
         ]]>
-        <if test="vo.forumKey gt 0 and vo.forumKey != null">
-            AND F.FORUM_KEY = #{vo.forumKey}
+        <if test="vo.masterKey gt 0 and vo.masterKey != null">
+            AND RIM.MASTER_KEY = #{vo.masterKey}
         </if>
         <if test="vo.categoryId != '' and vo.categoryId != null">
             AND CAT.CATEGORY_ID = #{vo.categoryId}
         </if>
-        <if test="vo.forumTypeCode != '' and vo.forumTypeCode != null">
-            AND F.FORUM_TYPE_CODE = #{vo.forumTypeCode}
+        <if test="vo.dataTypeCode != '' and vo.dataTypeCode != null">
+            AND RIM.DATA_TYPE_CODE = #{vo.dataTypeCode}
+        </if>
+        <if test="vo.displayTypeCode != '' and vo.displayTypeCode != null">
+            AND RIM.DISPLAY_TYPE_CODE = #{vo.displayTypeCode}
+        </if>
+        <if test="vo.displayOptionCode != '' and vo.displayOptionCode != null">
+            AND RIM.DISPLAY_OPTION_CODE = #{vo.displayOptionCode}
+        </if>
+        <if test="vo.inputOptionCode != '' and vo.inputOptionCode != null">
+            AND RIM.INPUT_OPTION_CODE = #{vo.inputOptionCode}
+        </if>
+        <if test="vo.rankCode != '' and vo.rankCode != null">
+            AND RIM.RANK_CODE = #{vo.rankCode}
         </if>
         <![CDATA[
-           AND F.USE_YN         = #{vo.useYn}
+           AND RIM.USE_YN         = #{vo.useYn}
            AND CAT.USE_YN       = 1
-         INNER
-          JOIN `CODE` C
-            ON C.CODE_ID        = F.FORUM_TYPE_CODE
-           AND C.CODE_GROUP_ID  = 'FORUM_TYPE_CODE'
-           AND C.USE_YN         = 1
-         INNER
-          JOIN CODE_GROUP CG
-            ON CG.CODE_GROUP_ID = C.CODE_GROUP_ID
-           AND CG.USE_YN        = 1
           LEFT
           JOIN COUNTRY_MESSAGE CAT_CM
             ON CAT_CM.MESSAGE_ID    = CAT.CATEGORY_MESSAGE
@@ -46,62 +54,184 @@
             ON CAT_MG.MESSAGE_ID    = CAT_CM.MESSAGE_ID
            AND CAT_MG.USE_YN        = 1
           LEFT
-          JOIN COUNTRY_MESSAGE C_CM
-            ON C_CM.MESSAGE_ID    = C.CODE_MESSAGE
-           AND C_CM.COUNTRY_CODE  = #{vo.locale}
+          JOIN COUNTRY_MESSAGE RIM_CM
+            ON RIM_CM.MESSAGE_ID    = RIM.ITEM_MESSAGE
+           AND RIM_CM.COUNTRY_CODE  = #{vo.locale}
           LEFT
-          JOIN MESSAGE_GROUP C_MG
-            ON C_MG.MESSAGE_ID    = C_CM.MESSAGE_ID
-           AND C_MG.USE_YN        = 1
+          JOIN MESSAGE_GROUP RIM_MG
+            ON RIM_MG.MESSAGE_ID    = RIM_CM.MESSAGE_ID
+           AND RIM_MG.USE_YN        = 1
+         INNER
+          JOIN `CODE` DT_C
+            ON DT_C.CODE_ID        = RIM.DATA_TYPE_CODE
+           AND DT_C.CODE_GROUP_ID  = 'DATA_TYPE_CODE'
+           AND DT_C.USE_YN         = 1
+         INNER
+          JOIN CODE_GROUP DT_CG
+            ON DT_CG.CODE_GROUP_ID = DT_C.CODE_GROUP_ID
+           AND DT_CG.USE_YN        = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE DT_C_CM
+            ON DT_C_CM.MESSAGE_ID    = DT_C.CODE_MESSAGE
+           AND DT_C_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP DT_C_MG
+            ON DT_C_MG.MESSAGE_ID    = DT_C_CM.MESSAGE_ID
+           AND DT_C_MG.USE_YN        = 1
+         INNER
+          JOIN `CODE` DST_C
+            ON DST_C.CODE_ID        = RIM.DISPLAY_TYPE_CODE
+           AND DST_C.CODE_GROUP_ID  = 'DISPLAY_TYPE_CODE'
+           AND DST_C.USE_YN         = 1
+         INNER
+          JOIN CODE_GROUP DST_CG
+            ON DST_CG.CODE_GROUP_ID = DST_C.CODE_GROUP_ID
+           AND DST_CG.USE_YN        = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE DST_C_CM
+            ON DST_C_CM.MESSAGE_ID    = DST_C.CODE_MESSAGE
+           AND DST_C_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP DST_C_MG
+            ON DST_C_MG.MESSAGE_ID    = DST_C_CM.MESSAGE_ID
+           AND DST_C_MG.USE_YN        = 1
+         INNER
+          JOIN `CODE` DO_C
+            ON DO_C.CODE_ID        = RIM.DISPLAY_OPTION_CODE
+           AND DO_C.CODE_GROUP_ID  = 'DISPLAY_OPTION_CODE'
+           AND DO_C.USE_YN         = 1
+         INNER
+          JOIN CODE_GROUP DO_CG
+            ON DO_CG.CODE_GROUP_ID = DO_C.CODE_GROUP_ID
+           AND DO_CG.USE_YN        = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE DO_C_CM
+            ON DO_C_CM.MESSAGE_ID    = DO_C.CODE_MESSAGE
+           AND DO_C_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP DO_C_MG
+            ON DO_C_MG.MESSAGE_ID    = DO_C_CM.MESSAGE_ID
+           AND DO_C_MG.USE_YN        = 1
+         INNER
+          JOIN `CODE` IO_C
+            ON IO_C.CODE_ID        = RIM.INPUT_OPTION_CODE
+           AND IO_C.CODE_GROUP_ID  = 'INPUT_OPTION_CODE'
+           AND IO_C.USE_YN         = 1
+         INNER
+          JOIN CODE_GROUP IO_CG
+            ON IO_CG.CODE_GROUP_ID = IO_C.CODE_GROUP_ID
+           AND IO_CG.USE_YN        = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE IO_C_CM
+            ON IO_C_CM.MESSAGE_ID    = IO_C.CODE_MESSAGE
+           AND IO_C_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP IO_C_MG
+            ON IO_C_MG.MESSAGE_ID    = IO_C_CM.MESSAGE_ID
+           AND IO_C_MG.USE_YN        = 1
+          LEFT
+          JOIN `CODE` R_C
+            ON R_C.CODE_ID        = RIM.RANK_CODE
+           AND R_C.CODE_GROUP_ID  = 'RANK_CODE'
+           AND R_C.USE_YN         = 1
+          LEFT
+          JOIN CODE_GROUP R_CG
+            ON R_CG.CODE_GROUP_ID = R_C.CODE_GROUP_ID
+           AND R_CG.USE_YN        = 1
+          LEFT
+          JOIN COUNTRY_MESSAGE R_C_CM
+            ON R_C_CM.MESSAGE_ID    = R_C.CODE_MESSAGE
+           AND R_C_CM.COUNTRY_CODE  = #{vo.locale}
+          LEFT
+          JOIN MESSAGE_GROUP R_C_MG
+            ON R_C_MG.MESSAGE_ID    = R_C_CM.MESSAGE_ID
+           AND R_C_MG.USE_YN        = 1
           LEFT
           JOIN `USER` U
-            ON U.USER_ID        = C.UPDATER_ID
+            ON U.USER_ID        = RIM.UPDATER_ID
+        ]]>
+    </select>
+
+    <select id="getRatingItemMasterListAll" resultType="RatingItemMasterVO">
+        /* 투표 항목 마스터 키,명 전체 조회 */
+        <![CDATA[
+        SELECT RIM.MASTER_KEY                       AS MASTER_KEY
+             , IFNULL(CM.MESSAGE, RIM.ITEM_NAME)    AS ITEM_NAME
+          FROM RATING_ITEM_MASTER RIM
+          LEFT
+          JOIN COUNTRY_MESSAGE CM
+            ON CM.MESSAGE_ID    = RIM.ITEM_MESSAGE
+           AND CM.COUNTRY_CODE  = #{locale}
+           AND RIM.USE_YN           = 1
+          LEFT
+          JOIN MESSAGE_GROUP MG
+            ON MG.MESSAGE_ID    = CM.MESSAGE_ID
+           AND MG.USE_YN        = 1
         ]]>
     </select>
 
     <select id="checkDuplication" resultType="Integer">
         /* 중복체크 */
         SELECT COUNT(1)
-          FROM FORUM
+          FROM RATING_ITEM_MASTER
          WHERE CATEGORY_ID  = #{vo.categoryId}
-           AND FORUM_NAME   = #{vo.forumName}
-        <if test="vo.forumKey gt 0 and vo.forumKey != null">
-           AND FORUM_KEY    <![CDATA[<>]]> #{vo.forumKey}
+           AND COL_SEQ      = #{vo.colSeq}
+        <if test="vo.masterKey gt 0 and vo.masterKey != null">
+           AND MASTER_KEY    <![CDATA[<>]]> #{vo.masterKey}
         </if>
     </select>
 
     <update id="deleteRatingItemMaster">
         /* 투표 항목 마스터 삭제 */
-        UPDATE FORUM
+        UPDATE RATING_ITEM_MASTER
            SET USE_YN       = 0
              , UPDATE_DATE  = UTC_TIMESTAMP()
              , UPDATER_ID   = #{vo.updaterId}
-         WHERE FORUM_KEY = #{vo.forumKey}
+         WHERE MASTER_KEY = #{vo.forumKey}
     </update>
 
     <update id="updateRatingItemMaster">
         /* 투표 항목 마스터 수정 */
-        UPDATE FORUM
-           SET USE_YN           = #{vo.useYn}
-             , CATEGORY_ID      = #{vo.categoryId}
-             , FORUM_NAME       = #{vo.forumName}
-             , FORUM_TYPE_CODE  = #{vo.forumTypeCode}
-             , REVIEW_YN        = #{vo.reviewYn}
-             , UPDATE_DATE      = UTC_TIMESTAMP()
-             , UPDATER_ID       = #{vo.updaterId}
-         WHERE FORUM_KEY = #{vo.forumKey}
+        UPDATE RATING_ITEM_MASTER
+           SET USE_YN               = #{vo.useYn}
+             , CATEGORY_ID          = #{vo.categoryId}
+             , COL_SEQ              = #{vo.colSeq}
+             , ITEM_NAME            = #{vo.itemName}
+             , ITEM_MESSAGE         = #{vo.itemMessage}
+             , DATA_TYPE_CODE       = #{vo.dataTypeCode}
+             , DISPLAY_TYPE_CODE    = #{vo.displayTypeCode}
+             , SORT_SEQ             = #{vo.sortSeq}
+             , DISPLAY_OPTION_CODE  = #{vo.displayOptionCode}
+             , INPUT_OPTION_CODE    = #{vo.inputOptionCode}
+             , REQUIRED_YN          = #{vo.requiredYn}
+             , MIN_VALUE            = #{vo.minValue}
+             , MAX_VALUE            = #{vo.maxValue}
+             , USE_YN               = #{vo.useYn}
+             , RANK_CODE            = #{vo.rankCode}
+             , UPDATE_DATE          = UTC_TIMESTAMP()
+             , UPDATER_ID           = #{vo.updaterId}
+         WHERE MASTER_KEY = #{vo.forumKey}
     </update>
 
     <insert id="insertRatingItemMaster">
         /* 투표 항목 마스터 신규 생성 */
         INSERT
-          INTO FORUM
+          INTO RATING_ITEM_MASTER
                (
                     CATEGORY_ID,
-                    FORUM_NAME,
-                    FORUM_TYPE_CODE,
-                    REVIEW_YN,
+                    COL_SEQ,
+                    ITEM_MESSAGE,
+                    ITEM_NAME,
+                    DATA_TYPE_CODE,
+                    DISPLAY_TYPE_CODE,
+                    SORT_SEQ,
+                    DISPLAY_OPTION_CODE,
+                    INPUT_OPTION_CODE,
+                    REQUIRED_YN,
+                    MIN_VALUE,
+                    MAX_VALUE,
                     USE_YN,
+                    RANK_CODE,
                     CREATOR_ID,
                     CREATE_DATE,
                     UPDATER_ID,
@@ -109,10 +239,19 @@
                )
         VALUES (
                     #{vo.categoryId},
-                    #{vo.forumName},
-                    #{vo.forumTypeCode},
-                    #{vo.reviewYn},
+                    #{vo.colSeq},
+                    #{vo.itemMessage},
+                    #{vo.itemName},
+                    #{vo.dataTypeCode},
+                    #{vo.displayTypeCode},
+                    #{vo.sortSeq},
+                    #{vo.displayOptionCode},
+                    #{vo.inputOptionCode},
+                    #{vo.requiredYn},
+                    #{vo.minValue},
+                    #{vo.maxValue},
                     #{vo.useYn},
+                    #{vo.rankCode},
                     #{vo.creatorId},
                     UTC_TIMESTAMP(),
                     #{vo.updaterId},

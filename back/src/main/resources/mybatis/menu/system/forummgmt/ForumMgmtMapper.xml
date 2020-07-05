@@ -123,7 +123,7 @@
            AND C_MG.USE_YN        = 1
           LEFT
           JOIN `USER` U
-            ON U.USER_ID        = C.UPDATER_ID
+            ON U.USER_ID        = F.UPDATER_ID
         ]]>
     </select>
 

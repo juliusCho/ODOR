@@ -21,7 +21,7 @@ public class RatingItemMasterVO extends CommonVO implements Serializable {
     private String categoryId;
     private String categoryName;
 
-    private int colSeq;
+    private int colSeq = 0;
 
     private String itemMessage;
     private String itemName;
@@ -32,7 +32,7 @@ public class RatingItemMasterVO extends CommonVO implements Serializable {
     private String displayTypeCode;
     private String displayTypeName;
 
-    private int sortSeq;
+    private int sortSeq = 0;
 
     private String displayOptionCode;
     private String displayOptionName;

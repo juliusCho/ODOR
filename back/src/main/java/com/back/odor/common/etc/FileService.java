@@ -102,6 +102,7 @@ public class FileService {
                 files[idx] = rootPath + "/" + file.getOriginalFilename();
                 log.info("File Uploaded : " + files[idx]);
             }
+            idx++;
         }
         return files;
     }

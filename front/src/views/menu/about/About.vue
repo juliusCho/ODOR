@@ -5,7 +5,7 @@
                 <p class="display-2 font-weight-thin">Team ODOR</p>
             </v-row>
             <v-row justify="center">
-                <p class="subtitle-1 font-weight-thin">ODOR의 개발자를 소개합니다.</p>
+<!--                <p class="subtitle-1 font-weight-thin">ODOR의 개발자를 소개합니다.</p>-->
             </v-row>
             <div style="margin: 20px 0 0 0">
                 <v-row justify="center" align="center">
@@ -14,13 +14,14 @@
                             <v-col cols="12" sm="6">
                                 <v-row justify="center" align="center">
                                     <p class="subtitle-1 font-weight-thin" style="text-align: center">
-                                        전반적인 시스템 개발
+                                        {{ $t('about.julius.intro') }}
                                     </p>
                                 </v-row>
                                 <v-row justify="center" align="center">
-                                    <v-btn small class="ma-1" outlined>
+                                    <v-btn href="https://blog.naver.com/johncris" target="_blank"
+                                           small class="ma-1" outlined>
                                         <v-icon left>mdi-blogger</v-icon> blog</v-btn>
-                                    <v-btn onclick="window.open('https://github.com/juliusCho','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');"
+                                    <v-btn href="https://github.com/juliusCho" target="_blank"
                                            small class="ma-1" outlined>
                                         <v-icon left>mdi-github</v-icon> github
                                     </v-btn>
@@ -36,10 +37,14 @@
                                     </v-avatar>
                                 </v-row>
                                 <v-row justify="center" align="center">
-                                    <p class="subtitle-1 font-weight-regular" style="margin-top: 16px; margin-bottom: 0">Julius</p>
+                                    <p class="subtitle-1 font-weight-regular" style="margin-top: 16px; margin-bottom: 0">
+                                        {{ $t('about.julius.name') }}
+                                    </p>
                                 </v-row>
                                 <v-row justify="center" align="center">
-                                    <p class="subtitle-1 font-weight-thin">Full Stack</p>
+                                    <p class="subtitle-1 font-weight-thin">
+                                        {{ $t('about.julius.sub') }}
+                                    </p>
                                 </v-row>
                             </v-col>
                         </v-layout>
@@ -58,17 +63,21 @@
                                     </v-avatar>
                                 </v-row>
                                 <v-row justify="center" align="center">
-                                    <p class="subtitle-1 font-weight-regular" style="margin-top: 16px; margin-bottom: 0">Renee</p>
+                                    <p class="subtitle-1 font-weight-regular" style="margin-top: 16px; margin-bottom: 0">
+                                        {{ $t('about.renee.name') }}
+                                    </p>
                                 </v-row>
                                 <v-row justify="center" align="center">
-                                    <p class="subtitle-1 font-weight-thin">Design, Frontend</p>
+                                    <p class="subtitle-1 font-weight-thin">
+                                        {{ $t('about.renee.sub') }}
+                                    </p>
                                 </v-row>
                             </v-col>
                             <v-col cols="12" sm="6">
                                 <v-row justify="center" align="center">
                                     <p class="subtitle-1 font-weight-thin"
                                        style="text-align: center">
-                                        기획, 디자인, 프론트엔드
+                                        {{ $t('about.renee.intro') }}
                                     </p>
                                 </v-row>
                                 <v-row justify="center" align="center">

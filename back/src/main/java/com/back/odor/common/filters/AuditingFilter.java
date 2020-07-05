@@ -18,7 +18,7 @@ public class AuditingFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
         long elapsed = new Date().getTime() - start;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        logger.debug("Requeste[uri=" + request.getRequestURI() + ", method=" + request.getMethod() + "] Completed in " + elapsed + " ms");
+        logger.debug("Request[uri=" + request.getRequestURI() + ", method=" + request.getMethod() + "] Completed in " + elapsed + " ms");
     }
 
 }

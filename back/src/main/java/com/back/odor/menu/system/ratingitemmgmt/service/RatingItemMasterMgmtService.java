@@ -3,6 +3,7 @@ package com.back.odor.menu.system.ratingitemmgmt.service;
 import com.back.odor.common.etc.GlobalConst;
 import com.back.odor.common.session.service.SessionService;
 import com.back.odor.common.utils.AuthUtil;
+import com.back.odor.common.utils.LocaleUtil;
 import com.back.odor.menu.system.ratingitemmgmt.mapper.RatingItemMasterMgmtMapper;
 import com.back.odor.menu.system.ratingitemmgmt.vo.RatingItemMasterVO;
 import com.back.odor.menu.system.usermgmt.vo.UserVO;
@@ -27,6 +28,11 @@ public class RatingItemMasterMgmtService implements RatingItemMasterMgmtServiceS
     @Override
     public List<RatingItemMasterVO> getRatingItemMasterList(RatingItemMasterVO vo) {
         return ratingItemMasterMgmtMapper.getRatingItemMasterList(vo);
+    }
+
+    @Override
+    public List<RatingItemMasterVO> getRatingItemMasterListAll() {
+        return ratingItemMasterMgmtMapper.getRatingItemMasterListAll(LocaleUtil.getLocale());
     }
 
     @Override

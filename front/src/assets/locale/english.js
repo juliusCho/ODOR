@@ -2,6 +2,18 @@ const ENG = {
     main: {
         welcome: 'Welcome to ODOR'
     },
+    about: {
+        julius: {
+            name: 'Julius',
+            intro: 'System Design & Development',
+            sub: 'Development Lead'
+        },
+        renee:  {
+            name: 'Renee',
+            intro: 'Planning, Design, Frontend',
+            sub: 'Design, Frontend'
+        }
+    },
     membership:{
         id: 'ID',
         password: 'password',
