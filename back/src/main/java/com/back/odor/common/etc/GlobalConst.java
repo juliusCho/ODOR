@@ -22,6 +22,10 @@ public class GlobalConst {
         "com.back.odor.menu.system.ratingitemmgmt.vo"
     ;
 
+    public static final String[] PUBLIC_MENU = {
+        "/error", "/login", "/logout", "/register"
+    };
+
     public static final String[] SYSTEM_MENU = {
         "MessageMgmt",
         "CountryMgmt",

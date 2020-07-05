@@ -28,6 +28,7 @@ logging:
   level:
     root: error
     org.springframework: error
+    org.springframework.security: debug
     com.spring.ibatis: debug
     com.back.odor: trace
   file:
