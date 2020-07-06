@@ -41,7 +41,7 @@ public class WebSecurityConfig
             .addFilter(new JwtAuthorizationFilter(authenticationManager(), securedPropertySource, sessionService))
             .authorizeRequests()
 //                .antMatchers("/odor/**/system").access("hasRole('10')")
-//                .antMatchers("/odor/**/system").permitAll()
+                .antMatchers("/odor/**/system").permitAll()
 //                .antMatchers("/odor/**/api").access("hasAnyRole('1', '10')")
                 .antMatchers("/odor/**/api").permitAll()
                 .antMatchers("/odor/**/rest").permitAll()
