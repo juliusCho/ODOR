@@ -5,6 +5,7 @@ import router from '@/router'
 import '@/plugins/axios'
 import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
+import VideoBg from 'vue-videobg'
 import axios from 'axios'
 // import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
 // import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
@@ -72,5 +73,18 @@ new Vue({
   i18n,
   render: h => h(App),
 }).$mount('#app');
+
+//Vue.component('video-bg', VideoBg)
+window.onload = () => {
+  new Vue({
+    el:'body',
+    components: { VideoBg }
+  })
+}
+
+
+
+
+
 
 // index.js 는 따로 import 명시 안해도 됨

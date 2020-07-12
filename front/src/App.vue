@@ -101,12 +101,17 @@
             @loggedIn="loggedIn"
             :key="routing"
     />
+
+    <v-footer>
+      <!-- -->
+    </v-footer>
   </v-app>
 </template>
 
 <script>
   import Router from '@/router/Router';
   import MenuWithChildren from '@/views/components/MenuWithChildren';
+
 
   export default {
     name: 'App',
