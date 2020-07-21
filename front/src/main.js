@@ -5,8 +5,8 @@ import router from '@/router'
 import '@/plugins/axios'
 import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
-import VideoBg from 'vue-videobg/src/VideoBackground'
 import axios from 'axios'
+// import VideoBg from 'vue-videobg';
 // import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
 // import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
 
@@ -71,11 +71,10 @@ new Vue({
   router,
   vuetify,
   i18n,
-  VideoBg,
   render: h => h(App),
 }).$mount('#app');
 
-Vue.component('video-bg', VideoBg);
+// Vue.component('video-bg', VideoBg);
 
 //Vue.component('video-bg', VideoBg)
 // window.onload = () => {
