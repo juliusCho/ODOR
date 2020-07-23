@@ -1,22 +1,32 @@
 <template>
     <v-container>
-        <video-bg :sources="['@/assets/video/valentino.mp4']" :img="'@/assets/img/logo.svg'">
-            왜안나오냐냐ㅑㅑㅑㅑ<br>
-            딴걸로 바꾸장S2
-        </video-bg>
+        <video-player
+                :source="videoSource"
+                :type="videoType"
+                :height="videoHeight"
+                :width="videoWidth"
+        ></video-player>
     </v-container>
 </template>
 
 <script>
-    import VideoBg from 'vue-videobg';
+    import VideoPlayer from "@/views/components/VideoPlayer";
 
     export default {
         name: 'Home',
         components: {
-            VideoBg
+            VideoPlayer
         },
-        data() {
-            return {}
+        data () {
+            return {
+                videoSource: 'valentino.mp4',
+                videoType: 'video/mp4',
+                videoWidth: '100%',
+                videoHeight: '100%'
+            };
         }
     }
 </script>
+
+<style scoped>
+</style>
