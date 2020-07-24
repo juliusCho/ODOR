@@ -5,6 +5,8 @@
                 :type="videoType"
                 :height="videoHeight"
                 :width="videoWidth"
+                :muted="false"
+                :volume="0.2"
         ></video-player>
     </v-container>
 </template>
@@ -19,8 +21,8 @@
         },
         data () {
             return {
-                videoSource: 'valentino.mp4',
-                videoType: 'video/mp4',
+                videoSource: 'valentino',
+                videoType: 'mp4',
                 videoWidth: '100%',
                 videoHeight: '100%'
             };

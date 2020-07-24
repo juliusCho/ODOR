@@ -1,10 +1,14 @@
 <template>
     <div>
         <div class="player">
-            <video controls
+            <video  id="myVid"
+                    :muted="muted"
+                    autoplay
                    :style="`width: ${width};, height: ${height};`"
-                   :src="srcPrefix + source" :type="type"
             >
+                <template v-if-="source === 'valentino'">
+                    <source src="@/assets/video/valentino.mp4" :type="'video/' + type">
+                </template>
             </video>
 <!--            <div class="controls">-->
 <!--                <button class="play" data-icon="P" aria-label="play pause toggle"></button>-->
@@ -26,7 +30,7 @@
         props: {
             source: {
                 type: String,
-                default: '',
+                default: 'valentino.mp4',
                 required: true
             },
             type: {
@@ -43,18 +47,20 @@
                 type: String,
                 default: '100%',
                 required: false
+            },
+            muted: {
+                type: Boolean,
+                default: false,
+                required: false
+            },
+            volume: {
+                type: Number,
+                default: 0.2,
+                required: false
             }
         },
-        data() {
-            return {
-                srcPrefix: '@/assets/video/'
-            };
-        },
-        methods: {
-            aaa(source) {
-                console.log(source);
-                return this.srcPrefix + source.src;
-            }
+        mounted() {
+            document.getElementById('myVid').volume = this.volume;
         }
     }
 </script>
