@@ -40,6 +40,14 @@ const KOR = {
         findPw: '비밀번호 찾기',
         findPwMsg: '가입하신 이메일로 임시 비밀번호를 보내드립니다.',
         myInfoUpdated: '정보가 수정되었습니다.'
+    },
+    forum: {
+        review: {
+            searchByProductNm: '제품명',
+            searchByBrandNm: '브랜드명',
+            searchByReviewTitle: '리뷰제목',
+            searchByReviewContent: '리뷰내용'
+        }
     }
 }
 

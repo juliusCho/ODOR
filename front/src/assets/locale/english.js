@@ -40,6 +40,14 @@ const ENG = {
         findPw: 'Find Password',
         findPwMsg: 'We will send a temporary password to the email you registered.',
         myInfoUpdated: 'Info has been updated.'
+    },
+    forum: {
+        review: {
+            searchByProductNm: 'Product Name',
+            searchByBrandNm: 'Brand Name',
+            searchByReviewTitle: 'Review Title',
+            searchByReviewContent: 'Review Content'
+        }
     }
 }
 
