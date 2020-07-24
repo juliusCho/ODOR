@@ -3,8 +3,8 @@
         <video-player
                 :source="videoSource"
                 :type="videoType"
-                :height="videoHeight"
-                :width="videoWidth"
+                height="80%"
+                width="80%"
                 :muted="false"
                 :volume="0.2"
         ></video-player>
@@ -22,9 +22,7 @@
         data () {
             return {
                 videoSource: 'valentino',
-                videoType: 'mp4',
-                videoWidth: '100%',
-                videoHeight: '100%'
+                videoType: 'mp4'
             };
         }
     }

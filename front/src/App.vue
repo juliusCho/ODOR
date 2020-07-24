@@ -3,7 +3,7 @@
     <v-app-bar
             app
             elevation="0"
-            color="transparent"
+            style="opacity: 80%;"
     >
       <v-btn @click="goTo('Home')"
              style="font-size: 30px;" text>ODOR</v-btn>

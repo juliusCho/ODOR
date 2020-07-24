@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div class="player">
+        <div class="player" style="text-align: center;">
             <video  id="myVid"
                     :muted="muted"
+                    loop
                     autoplay
                    :style="`width: ${width};, height: ${height};`"
             >
