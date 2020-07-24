@@ -1,4 +1,9 @@
 const ENG = {
+    common: {
+        unableImgUpload: 'There has been an error while uploading an image. Please retry.',
+        imageOnlyMsg: 'Please choose an image file',
+        maximumImgSizeExceeded: 'Your file is too big! Please select an image under 1MB'
+    },
     main: {
         welcome: 'Welcome to ODOR'
     },
@@ -34,7 +39,6 @@ const ENG = {
         findIdMsg: 'We will send your ID to the email you registered.',
         findPw: 'Find Password',
         findPwMsg: 'We will send a temporary password to the email you registered.',
-        unableImgUpload: 'There has been an error while uploading an image. Please retry.',
         myInfoUpdated: 'Info has been updated.'
     }
 }

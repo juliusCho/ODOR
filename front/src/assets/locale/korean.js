@@ -1,4 +1,9 @@
 const KOR = {
+    common: {
+        unableImgUpload: '이미지 업로드에 오류가 발생했습니다. 다시 시도해 주세요.',
+        imageOnlyMsg: '이미지 파일만 선택 가능합니다',
+        maximumImgSizeExceeded: '파일이 너무 커요! 1MB 이하의 파일만 부탁드려요'
+    },
     main: {
         welcome: 'ODOR의 세계로 오신걸 환영합니다'
     },
@@ -34,7 +39,6 @@ const KOR = {
         findIdMsg: '가입하신 이메일로 아이디를 보내드립니다.',
         findPw: '비밀번호 찾기',
         findPwMsg: '가입하신 이메일로 임시 비밀번호를 보내드립니다.',
-        unableImgUpload: '이미지 업로드에 오류가 발생했습니다. 다시 시도해 주세요.',
         myInfoUpdated: '정보가 수정되었습니다.'
     }
 }

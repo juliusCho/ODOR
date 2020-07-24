@@ -223,7 +223,7 @@
                     this.avatar.formData
                     ).then(res => {
                         if (res.status !== 200) {
-                            this.showAlert(this.$t('membership.unableImgUpload'));
+                            this.showAlert(this.$t('common.unableImgUpload'));
                             return;
                         }
                         setTimeout(() => this.savedAvatar(res.data), 1000);
