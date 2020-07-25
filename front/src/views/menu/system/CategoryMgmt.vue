@@ -50,6 +50,7 @@
                 show-select
                 single-select
                 @click:row="selectedCategory = [$event]"
+                dense
         >
             <template slot="items" slot-scope="props">
                 <tr >

@@ -63,6 +63,7 @@
                 show-select
                 single-select
                 @click:row="selectedRatingItem = [$event]"
+                dense
         >
         </v-data-table>
 

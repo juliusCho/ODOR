@@ -54,6 +54,7 @@
                 show-select
                 single-select
                 @click:row="selectedIngredient = [$event]"
+                dense
         >
         </v-data-table>
 

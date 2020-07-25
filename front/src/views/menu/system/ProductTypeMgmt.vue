@@ -54,6 +54,7 @@
                 show-select
                 single-select
                 @click:row="selectedProductType = [$event]"
+                dense
         >
         </v-data-table>
 

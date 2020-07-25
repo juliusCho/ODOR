@@ -99,6 +99,7 @@
                 show-select
                 single-select
                 @click:row="selectedUser = [$event]"
+                dense
         >
             <template v-slot:item.blocked="{item}">
                 <v-btn v-if="item.blocked === 'N'" color="yellow lighten-4"

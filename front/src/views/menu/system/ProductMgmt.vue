@@ -84,6 +84,7 @@
                 show-select
                 single-select
                 @click:row="selectedProduct = [$event]"
+                dense
         >
             <template v-slot:item.mapping="{item}">
                 <v-row>

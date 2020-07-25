@@ -54,6 +54,7 @@
                 show-select
                 single-select
                 @click:row="selectedCreator = [$event]"
+                dense
         >
         </v-data-table>
 

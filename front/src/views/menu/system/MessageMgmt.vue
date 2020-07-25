@@ -50,9 +50,10 @@
             show-select
             single-select
             @click:row="selectedMessage = [$event]"
+            dense
         >
             <template slot="items" slot-scope="props">
-                <tr >
+                <tr>
                     <td>
                         <v-checkbox
                                 v-model="props.selected"
@@ -309,3 +310,10 @@
         }
     }
 </script>
+
+<style scoped>
+    .myTable {
+        background-color: #9595ff;
+        color: white;
+    }
+</style>

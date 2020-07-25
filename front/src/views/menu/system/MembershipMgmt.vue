@@ -54,6 +54,7 @@
                 show-select
                 single-select
                 @click:row="selectedMembership = [$event]"
+                dense
         >
             <template v-slot:item.mapping="{item}">
                 <v-btn color="yellow lighten-4"
