@@ -84,7 +84,6 @@
                 show-select
                 single-select
                 @click:row="selectedProduct = [$event]"
-                dense
         >
             <template v-slot:item.mapping="{item}">
                 <v-row>
@@ -105,7 +104,7 @@
                 </v-row>
             </template>
             <template v-slot:item.image="{item}">
-                <img v-if="item.image" :src="getImage(item.image)" style="width: 100%; height: 100%; margin: 10px;">
+                <img v-if="item.image" :src="getImage(item.image)" style="width: 100%; margin: 10px;">
             </template>
         </v-data-table>
 

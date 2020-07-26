@@ -13,7 +13,7 @@
                                solo
                                required
                        ></v-text-field>
-                       <div class="text-left">
+                       <div class="text-left my-2">
                            <v-btn
                                    style="pl-12 pr-12"
                                    @click="createUser"
@@ -23,6 +23,15 @@
                                    rounded
                            >
                                {{$t('membership.findId')}}
+                           </v-btn>
+                       </div>
+                       <div class="my-4">
+                           <v-btn
+                                   dark
+                                   fab
+                                   color="grey lighten-1"
+                                   @click="goTo('Login')"
+                           ><v-icon>mdi-arrow-left</v-icon>
                            </v-btn>
                        </div>
                    </v-col>
@@ -73,6 +82,11 @@
             };
         },
         methods: {
+            goTo(page, fKey, cateId) {
+                this.$emit(
+                    'goTo',page
+                )
+            },
             createUser() {
 
             }
