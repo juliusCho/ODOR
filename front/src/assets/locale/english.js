@@ -39,7 +39,9 @@ const ENG = {
         findIdMsg: 'We will send your ID to the email you registered.',
         findPw: 'Find Password',
         findPwMsg: 'We will send a temporary password to the email you registered.',
-        myInfoUpdated: 'Info has been updated.'
+        myInfoUpdated: 'Info has been updated.',
+        cancel: 'Cancel'
+
     },
     forum: {
         review: {

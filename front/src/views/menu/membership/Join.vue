@@ -96,7 +96,7 @@
                                 large
                                 rounded
                         >
-                            취소
+                            {{$t('membership.cancel')}}
                         </v-btn>
                         <v-btn
                                 style="padding-left: 100px; padding-right: 100px; margin: 10px;"
