@@ -1,32 +1,29 @@
 <template>
     <v-container>
-        <video-player
-                :source="videoSource"
-                :type="videoType"
-                height="80%"
-                width="80%"
-                :muted="false"
-                :volume="0.2"
-        ></video-player>
+        <video id="valentino"
+               muted
+               loop
+               autoplay
+        >
+            Video is now onloading...
+            <source src="@/assets/video/valentino.mp4" type="video/mp4">
+        </video>
     </v-container>
 </template>
 
 <script>
-    import VideoPlayer from "@/views/components/VideoPlayer";
-
     export default {
         name: 'Home',
-        components: {
-            VideoPlayer
-        },
         data () {
             return {
-                videoSource: 'valentino',
-                videoType: 'mp4'
             };
         }
     }
 </script>
 
 <style scoped>
+    #valentino {
+        width: 100%;
+        height: 100%;
+    }
 </style>
