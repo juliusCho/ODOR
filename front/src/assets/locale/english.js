@@ -47,6 +47,15 @@ const ENG = {
             searchByBrandNm: 'Brand Name',
             searchByReviewTitle: 'Review Title',
             searchByReviewContent: 'Review Content'
+        },
+        photo: {
+            searchByLatest: 'Latest',
+            searchByPopular: 'Popular',
+            searchByMine: 'My Feed'
+        },
+        etc: {
+            searchByTitle: 'Title',
+            searchByContent: 'Content'
         }
     }
 }

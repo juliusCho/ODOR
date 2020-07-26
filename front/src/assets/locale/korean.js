@@ -47,6 +47,15 @@ const KOR = {
             searchByBrandNm: '브랜드명',
             searchByReviewTitle: '리뷰제목',
             searchByReviewContent: '리뷰내용'
+        },
+        photo: {
+            searchByLatest: '최신순',
+            searchByPopular: '인기순',
+            searchByMine: '내 피드'
+        },
+        etc: {
+            searchByTitle: '제목',
+            searchByContent: '내용'
         }
     }
 }
