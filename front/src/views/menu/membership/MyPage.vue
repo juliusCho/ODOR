@@ -35,7 +35,7 @@
                     <v-row justify="center" align="center">
                         <v-btn
                                 style="padding-left: 50px; padding-right: 50px; margin: 10px"
-                                @click="updateUser"
+                                @click="logout()"
                                 align="center"
                                 color="grey lighten-3"
                                 small
