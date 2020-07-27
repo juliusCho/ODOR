@@ -9,7 +9,7 @@
         <v-layout column style="margin-top:80px;">
            <v-flex>
                <v-layout row>
-                <v-flex xs3>
+                <v-flex style="margin:20px">
                    <v-row justify="center" align="center">
                         <p class="display-1 font-weight-light">{{$t('membership.myPage')}}</p>
                    </v-row>
@@ -32,8 +32,21 @@
                         <p class="subtitle-1 font-weight-light">{{$t('membership.membershipLvl')}}</p>
                         <p style="padding-left: 5px" class="subtitle-1 font-weight-regular">{{tmpSession.membershipName}}</p>
                     </v-row>
+                    <v-row justify="center" align="center">
+                        <v-btn
+                                style="padding-left: 50px; padding-right: 50px; margin: 10px"
+                                @click="updateUser"
+                                align="center"
+                                color="grey lighten-3"
+                                small
+                                depressed
+                                rounded
+                        >
+                            {{$t('membership.logoutButton')}}
+                        </v-btn>
+                    </v-row>
                 </v-flex>
-                <v-flex xs6>
+                <v-flex style="margin:20px;">
                    <div>
                        <p class="display-1 font-weight-regular">{{$t('membership.chgMembershipInfo')}}</p>
                    </div>
@@ -97,12 +110,13 @@
                            </v-col>
                        </v-row>
                        <div class="text-center">
+
                            <v-btn
-                                   class="pl-12 pr-12"
+                                   style="padding-left: 100px; padding-right: 100px; margin: 10px"
                                    @click="updateUser"
                                    align="center"
-                                   color="primary"
-                                   block
+                                   color="secondary"
+                                   large
                                    rounded
                            >
                                {{$t('membership.updateButton')}}
@@ -110,7 +124,7 @@
                        </div>
                    </v-form>
                </v-flex>
-               <v-flex xs3></v-flex>
+               <v-flex></v-flex>
                </v-layout>
            </v-flex>
         </v-layout>

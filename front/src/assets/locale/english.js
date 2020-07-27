@@ -27,6 +27,7 @@ const ENG = {
         email: 'E-mail',
         loginWelcome: 'Welcome!',
         loginButton: 'Login',
+        logoutButton: 'Logout',
         joinMessage: 'Not a member of ODOR yet?',
         joinButton: 'Join ODOR',
         joinMainMessage: 'Welcome to sign in ODOR!',

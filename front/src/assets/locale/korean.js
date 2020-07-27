@@ -27,6 +27,7 @@ const KOR = {
         email: '이메일',
         loginWelcome: '환영합니다!',
         loginButton: '로그인',
+        logoutButton: '로그아웃',
         joinMessage: '아직 ODOR의 회원이 아니신가요?',
         joinButton: '가입하기',
         joinMainMessage: 'ODOR 가입을 환영합니다!',
