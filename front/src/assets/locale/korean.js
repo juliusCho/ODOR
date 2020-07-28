@@ -45,10 +45,17 @@ const KOR = {
     },
     forum: {
         review: {
+            hotReview: '인기글',
+            newReview: '최신글',
             searchByProductNm: '제품명',
             searchByBrandNm: '브랜드명',
             searchByReviewTitle: '리뷰제목',
-            searchByReviewContent: '리뷰내용'
+            searchByReviewContent: '리뷰내용',
+            colBrand: '브랜드',
+            colProduct: '상품',
+            colTitle: '제목',
+            colWriter: '작성자',
+            colDate: '작성일'
         },
         photo: {
             searchByLatest: '최신순',

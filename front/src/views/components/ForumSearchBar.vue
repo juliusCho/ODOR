@@ -16,8 +16,8 @@
                 {{ btn.label }}
             </button>
         </div>
-        <button type="button" @click="search">
-            <v-icon style="margin-right: 5px;">
+        <button type="button" @click="search" class="searchBtn">
+            <v-icon class="searchBtnIcon">
                 mdi-magnify
             </v-icon>
         </button>
@@ -74,7 +74,7 @@
 
     .searchBox {
         display: flex;
-        border: 2px solid #488aff;
+        border: 1px solid #3c80ff;
         height: 40px;
         align-items: center;
     }
@@ -86,28 +86,43 @@
     }
 
     .btn {
-        margin: 0 5px 0 0;
         width: 120px;
-        height: 36px;
+        height: 37.5px;
     }
 
     .unclickedSearch {
-        color: #518aff;
+        color: #3c80ff;
         background-color: white;
     }
-
     .unclickedSearch:hover {
         color: white;
-        background-color: #83b0ff;
+        background-color: #7ea8ff;
     }
 
     .clickedSearch {
         color: white;
-        background-color: #488aff;
+        background-color: #3c80ff;
+    }
+
+    .searchBtn {
+        margin: 0 15px 0 15px;
+        background-color: white;
+        padding: 5px;
+        border-radius: 100%;
+    }
+    .searchBtn:hover {
+        background-color: gray;
+    }
+    .searchBtn:hover * {
+        color: white;
+    }
+
+    .searchBtnIcon {
+        color: black;
     }
 
     .searchInput {
         width: 200px;
-        height: 36px;
+        height: 37px;
     }
 </style>

@@ -46,10 +46,17 @@ const ENG = {
     },
     forum: {
         review: {
+            hotReview: 'Hot Reviews',
+            newReview: 'New Reviews',
             searchByProductNm: 'Product Name',
             searchByBrandNm: 'Brand Name',
             searchByReviewTitle: 'Review Title',
-            searchByReviewContent: 'Review Content'
+            searchByReviewContent: 'Review Content',
+            colBrand: 'BRAND',
+            colProduct: 'PRODUCT',
+            colTitle: 'TITLE',
+            colWriter: 'WRITER',
+            colDate: 'DATE'
         },
         photo: {
             searchByLatest: 'Latest',
