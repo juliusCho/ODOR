@@ -8,7 +8,7 @@
             <v-spacer/>
         </v-row>
         <v-row>
-            <div class="gridTitle">
+            <div class="gridTitle" style="margin-top: 20px;">
                 {{ $t('forum.review.hotReview') }}
             </div>
         </v-row>
