@@ -18,10 +18,10 @@
                         <v-row justify="center" align="center">
                             <image-input v-model="avatar" @input="updateAvatar">
                                 <div slot="activator">
-                                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
+                                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3" >
                                         <span>Click to add avatar</span>
                                     </v-avatar>
-                                    <v-avatar size="150px" v-ripple v-else class="mb-3">
+                                    <v-avatar size="150px" v-ripple v-else class="mb-3" style="border: groove;">
                                         <img :src="avatar.imageURL" alt="avatar">
                                     </v-avatar>
                                 </div>
