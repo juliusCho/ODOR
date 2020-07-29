@@ -2,7 +2,8 @@ const ENG = {
     common: {
         unableImgUpload: 'There has been an error while uploading an image. Please retry.',
         imageOnlyMsg: 'Please choose an image file',
-        maximumImgSizeExceeded: 'Your file is too big! Please select an image under 1MB'
+        maximumImgSizeExceeded: 'Your file is too big! Please select an image under 1MB',
+        incompatibleVid: 'This browser is not compatible with this video to be shown T_T'
     },
     main: {
         welcome: 'Welcome to ODOR'

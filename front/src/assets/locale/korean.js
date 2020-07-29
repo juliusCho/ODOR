@@ -2,7 +2,8 @@ const KOR = {
     common: {
         unableImgUpload: '이미지 업로드에 오류가 발생했습니다. 다시 시도해 주세요.',
         imageOnlyMsg: '이미지 파일만 선택 가능합니다',
-        maximumImgSizeExceeded: '파일이 너무 커요! 1MB 이하의 파일만 부탁드려요'
+        maximumImgSizeExceeded: '파일이 너무 커요! 1MB 이하의 파일만 부탁드려요',
+        incompatibleVid: '비디오 출력이 지원되지 않는 브라우저 입니다ㅠ_ㅠ'
     },
     main: {
         welcome: 'ODOR의 세계로 오신걸 환영합니다'

@@ -5,13 +5,23 @@ import router from '@/router'
 import '@/plugins/axios'
 import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
-
 // import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
 // import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
-import {library} from "@fortawesome/fontawesome-svg-core";
-import {faUserSecret} from "@fortawesome/free-solid-svg-icons";
+
+// *************************Font Awesome + Icons
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {library, dom} from "@fortawesome/fontawesome-svg-core";
+import {
+    faUserSecret,
+    faSpinner,
+    faChessQueen
+} from "@fortawesome/free-solid-svg-icons";
+
 library.add(faUserSecret);
+library.add(faSpinner);
+library.add(faChessQueen);
+// *************************Font Awesome + Icons
+
 
 
 
@@ -21,8 +31,10 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 
 
-
+// ************************ Global Config
 Vue.config.productionTip = false;
+dom.watch();
+// ************************ Global Config
 
 new Vue({
   name: 'Vue',

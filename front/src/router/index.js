@@ -1,166 +1,137 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Join from '@/views/menu/membership/Join';
-import MyPage from '@/views/menu/membership/MyPage.vue'
-import Login from '@/views/menu/membership/Login.vue'
-import IdPwFinder from '@/views/menu/membership/IdPwFinder.vue'
-import Main from '@/views/menu/Main'
-
-import About from '@/views/menu/about/About'
-
-import Photo from '@/views/menu/forum/Photo';
-import Review from '@/views/menu/forum/Review';
-import Etc from '@/views/menu/forum/Etc';
-
-import Perfume from '@/views/menu/perfume/Perfume';
-
-import MessageMgmt from "@/views/menu/system/MessageMgmt";
-import CategoryMgmt from "@/views/menu/system/CategoryMgmt";
-import BrandMgmt from '@/views/menu/system/BrandMgmt';
-import CodeMgmt from '@/views/menu/system/CodeMgmt';
-import CodeDetailMgmt from '@/views/menu/system/CodeDetailMgmt';
-import CountryMgmt from '@/views/menu/system/CountryMgmt';
-import CreatorMgmt from '@/views/menu/system/CreatorMgmt';
-import ForumMgmt from '@/views/menu/system/ForumMgmt';
-import IngredientMgmt from '@/views/menu/system/IngredientMgmt';
-import MembershipMgmt from '@/views/menu/system/MembershipMgmt';
-import ProductMgmt from '@/views/menu/system/ProductMgmt';
-import ProductTypeMgmt from '@/views/menu/system/ProductTypeMgmt';
-import RatingItemMgmt from '@/views/menu/system/RatingItemMasterMgmt';
-import UserMgmt from '@/views/menu/system/UserMgmt';
-
-import SessionCheck from '@/views/menu/SessionCheck';
-
-
 Vue.use(VueRouter);
+
+const lazyload = view => import(`@/views/menu/${view}`);
+
 
 // routes == controller
 const routes = [
   {
     path: '/Home',
     name: 'Home',
-    component: Main
+    component: lazyload('Main')
   },
   {
     path: '/Join',
     name: 'Join',
-    component: Join
+    component: lazyload('membership/Join')
   },
   {
     path: '/MyPage',
     name: 'MyPage',
-    component: MyPage
+    component: lazyload('membership/MyPage')
   },
   {
     path: '/Login',
     name: 'Login',
-    component: Login
+    component: lazyload('membership/Login')
   },
   {
     path: '/IdPwFinder',
     name: 'IdPwFinder',
-    component: IdPwFinder
+    component: lazyload('membership/IdPwFinder')
   },
   {
     path: '/About',
     name: 'About',
-    component: About
+    component: lazyload('about/About')
   },
   {
     path: '/Photo',
     name: 'Photo',
-    component: Photo
+    component: lazyload('forum/Photo')
   },
   {
     path: '/Review',
     name: 'Review',
-    component: Review
+    component: lazyload('forum/Review')
   },
   {
     path: '/Etc',
     name: 'Etc',
-    component: Etc
+    component: lazyload('forum/Etc')
   },
   {
     path: '/Perfume',
     name: 'Perfume',
-    component: Perfume
+    component: lazyload('perfume/Perfume')
   },
   {
     path: '/MessageMgmt',
     name: 'MessageMgmt',
-    component: MessageMgmt
+    component: lazyload('system/MessageMgmt')
   },
   {
     path: '/CategoryMgmt',
     name: 'CategoryMgmt',
-    component: CategoryMgmt
+    component: lazyload('system/CategoryMgmt')
   },
   {
     path: '/BrandMgmt',
     name: 'BrandMgmt',
-    component: BrandMgmt
+    component: lazyload('system/BrandMgmt')
   },
   {
     path: '/CodeMgmt',
     name: 'CodeMgmt',
-    component: CodeMgmt
+    component: lazyload('system/CodeMgmt')
   },
   {
     path: '/CodeDetailMgmt',
     name: 'CodeDetailMgmt',
-    component: CodeDetailMgmt
+    component: lazyload('system/CodeDetailMgmt')
   },
   {
     path: '/CountryMgmt',
     name: 'CountryMgmt',
-    component: CountryMgmt
+    component: lazyload('system/CountryMgmt')
   },
   {
     path: '/CreatorMgmt',
     name: 'CreatorMgmt',
-    component: CreatorMgmt
+    component: lazyload('system/CreatorMgmt')
   },
   {
     path: '/ForumMgmt',
     name: 'ForumMgmt',
-    component: ForumMgmt
+    component: lazyload('system/ForumMgmt')
   },
   {
     path: '/IngredientMgmt',
     name: 'IngredientMgmt',
-    component: IngredientMgmt
+    component: lazyload('system/IngredientMgmt')
   },
   {
     path: '/MembershipMgmt',
     name: 'MembershipMgmt',
-    component: MembershipMgmt
+    component: lazyload('system/MembershipMgmt')
   },
   {
     path: '/ProductMgmt',
     name: 'ProductMgmt',
-    component: ProductMgmt
+    component: lazyload('system/ProductMgmt')
   },
   {
     path: '/ProductTypeMgmt',
     name: 'ProductTypeMgmt',
-    component: ProductTypeMgmt
+    component: lazyload('system/ProductTypeMgmt')
   },
   {
     path: '/RatingItemMgmt',
     name: 'RatingItemMgmt',
-    component: RatingItemMgmt
+    component: lazyload('system/RatingItemMasterMgmt')
   },
   {
     path: '/UserMgmt',
     name: 'UserMgmt',
-    component: UserMgmt
+    component: lazyload('system/UserMgmt')
   },
   {
     path: '/SessionCheck',
     name: 'SessionCheck',
-    component: SessionCheck
+    component: lazyload('SessionCheck')
   }
 ];
 
