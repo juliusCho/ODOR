@@ -135,7 +135,7 @@
     import UpdatePopup from "@/views/components/Popup/SystemPopup";
     import InsertPopup from "@/views/components/Popup/SystemPopup";
     import RightTopAlert from "@/views/components/RightTopAlert";
-    import {eventBus} from "@/main";
+    import {eventBus} from "@/store/event-bus";
 
     export default {
         name: 'CodeDetailMgmt',

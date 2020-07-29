@@ -5,61 +5,24 @@ import router from '@/router'
 import '@/plugins/axios'
 import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
-import axios from 'axios'
+
 // import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
 // import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
+import {library} from "@fortawesome/fontawesome-svg-core";
+import {faUserSecret} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+library.add(faUserSecret);
+
+
+
+// ************************ Global Components
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+// ************************ Global Components
 
 
 
 
 Vue.config.productionTip = false;
-
-
-
-
-
-export const eventBus = new Vue({
-  data: {
-    passData: {}
-  },
-
-
-  methods: {
-    // Get Login User
-    async loginRequest(data = {}) {
-      if (data?.userId && data?.password) {
-        await axios.post(
-            API.SessionController.validateLogin, //url
-            data
-        ).then(res => {
-          ODOR.odorLoginUser = res.data;
-        });
-      }
-    },
-    // Set Message
-    async setMessageList() {
-      await axios.get(
-          API.CommonController.getMessageList
-      ).then(res => {
-        MESSAGE.setMessageList(res.data);
-      });
-    },
-    // Set System Code
-    async setCodeList() {
-      await axios.get(
-          API.CommonController.getCodeList
-      ).then(res => {
-        CODE.setCodeList(res.data);
-      });
-    },
-
-
-    dataCarrier(data) {
-      this.passData = data;
-    }
-  }
-});
-
 
 new Vue({
   name: 'Vue',
