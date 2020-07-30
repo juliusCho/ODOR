@@ -5,6 +5,7 @@ import router from '@/router'
 import '@/plugins/axios'
 import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
+import './sass/variables.scss'
 // import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
 // import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
 

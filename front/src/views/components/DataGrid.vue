@@ -116,13 +116,14 @@
     }
 
     th {
-        background-color: #3c80ff;
-        color: #cfe3ff;
+        background-color: #4d7df5;
+        color: #cde0fd;
         cursor: pointer;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+        font-weight: 400;
     }
 
     td {

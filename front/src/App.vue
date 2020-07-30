@@ -6,7 +6,8 @@
             style="opacity: 80%;"
     >
       <v-btn @click="goTo('Home')"
-             style="font-size: 30px;" text>ODOR</v-btn>
+             style="font-size: 30px; font-weight: 900"
+             text>ODOR</v-btn>
 
       <v-spacer/>
       <v-spacer/>

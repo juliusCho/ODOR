@@ -95,6 +95,6 @@
     .gridTitle {
         margin: 50px 0 20px 10px;
         font-size: 30px;
-        font-weight: 400;
+        font-weight: 300;
     }
 </style>

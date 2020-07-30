@@ -74,9 +74,8 @@
 
     .searchBox {
         display: flex;
-        border: 1px solid #3c80ff;
+        border: 1.5px solid #4d7df5;
         height: 40px;
-        align-items: center;
     }
 
     .searchBox *:active, *:focus {
@@ -87,11 +86,11 @@
 
     .btn {
         width: 120px;
-        height: 37.5px;
+        height: calc(100% - 0.01em);
     }
 
     .unclickedSearch {
-        color: #3c80ff;
+        color: #4d7df5;
         background-color: white;
     }
     .unclickedSearch:hover {
@@ -101,7 +100,7 @@
 
     .clickedSearch {
         color: white;
-        background-color: #3c80ff;
+        background-color: #4d7df5;
     }
 
     .searchBtn {
@@ -111,7 +110,7 @@
         border-radius: 100%;
     }
     .searchBtn:hover {
-        background-color: gray;
+        background-color: #d7d7d7;
     }
     .searchBtn:hover * {
         color: white;
