@@ -98,13 +98,11 @@
                     return;
                 }
 
-                if (this.checkRest()) {
-                    this.$emit('goTo', page);
-                    let parent = this.getParent('App');
-                    this.forumKey = parent?.forumKey || 0;
-                    this.categoryId = parent?.categoryId || '';
-                    return;
-                }
+                this.$emit('goTo', page);
+                let parent = this.getParent('App');
+                this.forumKey = parent?.forumKey || 0;
+                this.categoryId = parent?.categoryId || '';
+
                 this.checkSession(page);
             },
             async checkSession(page) {
@@ -115,12 +113,6 @@
                 .then((res) => {
                     this.$emit('goTo', res.data ? page : this.incl);
                 });
-            },
-            checkRest() {
-                if (this.routing === this.incl) {
-                    return true;
-                }
-                return !MEMBERSHIP_PAGES.some(v => v === this.excl && v === this.routing);
             },
             loggedIn(boo) {
                 this.$emit('loggedIn', boo);

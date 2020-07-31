@@ -36,9 +36,9 @@
             }
         },
         mounted() {
-            console.log('PHOTO');
-            console.log(this.forumKey);
-            console.log(this.categoryId);
+            // console.log('PHOTO');
+            // console.log(this.forumKey);
+            // console.log(this.categoryId);
         },
         data() {
             return {

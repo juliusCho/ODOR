@@ -57,9 +57,9 @@
             }
         },
         mounted() {
-            console.log('REVIEW');
-            console.log(this.forumKey);
-            console.log(this.categoryId);
+            // console.log('REVIEW');
+            // console.log(this.forumKey);
+            // console.log(this.categoryId);
         },
         data() {
             return {
