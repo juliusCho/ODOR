@@ -31,9 +31,9 @@
             }
         },
         mounted() {
-            // console.log('ETC');
-            // console.log(this.forumKey);
-            // console.log(this.categoryId);
+            console.log('ETC');
+            console.log(this.forumKey);
+            console.log(this.categoryId);
         },
         data() {
             return {
