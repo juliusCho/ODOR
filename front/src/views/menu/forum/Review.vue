@@ -86,6 +86,8 @@
         methods: {
             search(searchOption) {
                 console.log(searchOption);
+
+                axios.post()
             }
         }
     }

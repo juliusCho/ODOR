@@ -211,7 +211,11 @@ export default {
     },
     // get system list
     async getSystemList() {
-      if (this.system.length > 0 || !this.loggedInBoo || !this.sysMngrYn) {
+      if (this.system.length > 0 && this.loggedInBoo && this.sysMngrYn) {
+        return;
+      }
+      if (!this.loggedInBoo || !this.sysMngrYn) {
+        this.system = [];
         return;
       }
       await axios.post(

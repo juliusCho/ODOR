@@ -163,4 +163,12 @@ const API = class {
         insertRatingItemMaster: '/odor/rating/insertRatingItemMaster/system'
     };
 
+    static ForumController = {
+        list: '/odor/article/list/api',
+        detail: '/odor/article/detail/api',
+        create: '/odor/article/create/api',
+        update: '/odor/article/update/api',
+        delete: '/odor/article/delete/api'
+    }
+
 };

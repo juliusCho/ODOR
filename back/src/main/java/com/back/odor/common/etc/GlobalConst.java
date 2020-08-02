@@ -3,9 +3,7 @@ package com.back.odor.common.etc;
 public class GlobalConst {
 
     public static final String VO_PACKAGE =
-        "com.back.odor.menu.forum.odorgram.vo,"  +
-        "com.back.odor.menu.forum.review.vo,"  +
-        "com.back.odor.menu.forum.etc.vo,"  +
+        "com.back.odor.menu.forum.vo,"  +
         "com.back.odor.menu.perfume.vo," +
         "com.back.odor.menu.system.forummgmt.vo," +
         "com.back.odor.menu.system.categorymgmt.vo," +

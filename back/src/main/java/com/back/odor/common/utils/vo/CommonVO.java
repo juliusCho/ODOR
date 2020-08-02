@@ -62,6 +62,10 @@ public class CommonVO implements Serializable {
     @Setter
     private String engMessage;
 
+    @Getter
+    @Setter
+    private String sortBy;
+
 
 
 

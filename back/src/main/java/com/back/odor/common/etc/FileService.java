@@ -54,7 +54,7 @@ public class FileService {
     }
 
     private void connectToFTP(FTPClient client) throws IOException {
-        client.setControlEncoding("UTF-8");
+        client.setControlEncoding("euc-kr");
 
         client.connect(propertySource.getFileIp(), propertySource.getFilePort());
 
