@@ -60,7 +60,7 @@ public class UserVO extends CommonVO implements Serializable {
     @Setter
     private Integer membershipKey;
     @Setter
-    private String lvlCode;
+    private String lvlCode = "-1";
     @Getter
     @Setter
     private String membershipName;
