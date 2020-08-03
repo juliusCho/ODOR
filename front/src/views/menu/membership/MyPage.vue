@@ -1,132 +1,139 @@
 <template>
     <v-container class="fill-height" fluid>
         <RightTopAlert
-            :msg="alertMsg"
-            :show="alertShow"
-            :show-time="2500"
-            @hideDisplay="hideAlert"
+                :msg="alertMsg"
+                :show="alertShow"
+                :show-time="2500"
+                @hideDisplay="hideAlert"
         />
         <v-layout column style="margin-top:80px;">
-           <v-flex>
-               <v-layout row>
-                <v-flex style="margin:20px">
-                   <v-row justify="center" align="center">
-                        <p class="display-1 font-weight-light">{{$t('membership.myPage')}}</p>
-                   </v-row>
-                    <!-- Avatar Changer -->
-                    <v-container grid-list-xl>
+            <v-flex>
+                <v-layout row>
+                    <v-flex style="margin:20px">
                         <v-row justify="center" align="center">
-                            <image-input v-model="avatar" @input="updateAvatar">
-                                <div slot="activator">
-                                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3" >
-                                        <span>Click to add avatar</span>
-                                    </v-avatar>
-                                    <v-avatar size="150px" v-ripple v-else class="mb-3" style="border: groove;">
-                                        <img :src="avatar.imageURL" alt="avatar">
-                                    </v-avatar>
-                                </div>
-                            </image-input>
+                            <p class="display-1 font-weight-light">{{$t('membership.myPage')}}</p>
                         </v-row>
-                    </v-container>
-                    <v-row justify="center" align="center">
-                        <p class="subtitle-1 font-weight-light">{{$t('membership.membershipLvl')}}</p>
-                        <p style="padding-left: 5px" class="subtitle-1 font-weight-regular">{{tmpSession.membershipName}}</p>
-                    </v-row>
-                    <v-row justify="center" align="center">
-                        <v-btn
-                                style="padding-left: 50px; padding-right: 50px; margin: 10px"
-                                @click="logout()"
-                                align="center"
-                                color="grey lighten-3"
-                                small
-                                depressed
-                                rounded
-                        >
-                            {{$t('membership.logoutButton')}}
-                        </v-btn>
-                    </v-row>
-                </v-flex>
-                <v-flex style="margin:20px;">
-                   <div>
-                       <p class="display-1 font-weight-regular">{{$t('membership.chgMembershipInfo')}}</p>
-                   </div>
-                   <v-row align="center">
-                         <v-radio-group v-model="tmpSession.genderCode" row>
-                           <v-radio class="ma-4" color="primary" label="Male" value="M"></v-radio>
-                           <v-radio class="ma-4" color="primary" label="Female" value="F"></v-radio>
-                         </v-radio-group>
-                   </v-row>
-                   <v-form>
-                       <v-text-field
-                               v-model="tmpSession.userId"
-                               :counter="10"
-                               :rules="idRules"
-                               v-bind:label="$t('membership.id')"
-                               solo
-                               required
-                       ></v-text-field>
-                       <v-text-field
-                               v-model="tmpSession.password"
-                               :counter="20"
-                               v-bind:label="$t('membership.password')"
-                               solo
-                               required
-                       ></v-text-field>
-                       <v-text-field
-                               v-model="tmpSession.nickname"
-                               :counter="10"
-                               v-bind:label="$t('membership.nickname')"
-                               solo
-                               required
-                       ></v-text-field>
-                       <v-text-field
-                               v-model="tmpSession.age"
-                               :counter="10"
-                               v-bind:label="$t('membership.age')"
-                               solo
-                               required
-                       ></v-text-field>
-                       <v-row>
-                           <v-col cols="12" sm="6">
-                               <v-text-field
-                                       v-model="tmpSession.emailId"
-                                       :counter="10"
-                                       v-bind:label="$t('membership.email')"
-                                       solo
-                                       required
-                               ></v-text-field>
-                           </v-col>
-                           <v-col cols="12" sm="6">
-                               <v-select
-                                       v-model="selectedEmail"
-                                       item-value="emailAdd"
-                                       :counter="10"
-                                       :items="emailItems"
-                                       label="Email"
-                                       item-text="emailAdd"
-                                       solo
-                                       required
-                               ></v-select>
-                           </v-col>
-                       </v-row>
-                       <div class="text-center">
+                        <!-- Avatar Changer -->
+                        <v-container grid-list-xl>
+                            <v-row justify="center" align="center">
+                                <image-input v-model="avatar" @input="updateAvatar">
+                                    <div slot="activator">
+                                        <!--                                    <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3" >-->
+                                        <!--                                        <span>Click to add avatar</span>-->
+                                        <!--                                    </v-avatar>-->
+                                        <!--                                    <v-avatar size="150px" v-ripple v-else class="mb-3" style="border: groove;">-->
+                                        <!--                                        <img :src="avatar.imageURL" alt="avatar">-->
+                                        <!--                                    </v-avatar>-->
+                                        <v-avatar size="150px" v-if="!avatar" v-ripple class="grey lighten-3 mb-3">
+                                            <span>Click to add avatar</span>
+                                        </v-avatar>
+                                        <v-avatar size="150px" v-else v-ripple class="grey lighten-3 mb-3">
+                                            <img :src="avatar.imageURL"/>
+                                        </v-avatar>
 
-                           <v-btn
-                                   style="padding-left: 100px; padding-right: 100px; margin: 10px"
-                                   @click="updateUser"
-                                   align="center"
-                                   color="secondary"
-                                   large
-                                   rounded
-                           >
-                               {{$t('membership.updateButton')}}
-                           </v-btn>
-                       </div>
-                   </v-form>
-               </v-flex>
-               <v-flex></v-flex>
-               </v-layout>
-           </v-flex>
+                                    </div>
+                                </image-input>
+                            </v-row>
+                        </v-container>
+                        <v-row justify="center" align="center">
+                            <p class="subtitle-1 font-weight-light">{{$t('membership.membershipLvl')}}</p>
+                            <p style="padding-left: 5px" class="subtitle-1 font-weight-regular">
+                                {{tmpSession.membershipName}}</p>
+                        </v-row>
+                        <v-row justify="center" align="center">
+                            <v-btn
+                                    style="padding-left: 50px; padding-right: 50px; margin: 10px"
+                                    @click="logout()"
+                                    align="center"
+                                    color="grey lighten-3"
+                                    small
+                                    depressed
+                                    rounded
+                            >
+                                {{$t('membership.logoutButton')}}
+                            </v-btn>
+                        </v-row>
+                    </v-flex>
+                    <v-flex style="margin:20px;">
+                        <div>
+                            <p class="display-1 font-weight-regular">{{$t('membership.chgMembershipInfo')}}</p>
+                        </div>
+                        <v-row align="center">
+                            <v-radio-group v-model="tmpSession.genderCode" row>
+                                <v-radio class="ma-4" color="primary" label="Male" value="M"></v-radio>
+                                <v-radio class="ma-4" color="primary" label="Female" value="F"></v-radio>
+                            </v-radio-group>
+                        </v-row>
+                        <v-form>
+                            <v-text-field
+                                    v-model="tmpSession.userId"
+                                    :counter="10"
+                                    :rules="idRules"
+                                    v-bind:label="$t('membership.id')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                            <v-text-field
+                                    v-model="tmpSession.password"
+                                    :counter="20"
+                                    v-bind:label="$t('membership.password')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                            <v-text-field
+                                    v-model="tmpSession.nickname"
+                                    :counter="10"
+                                    v-bind:label="$t('membership.nickname')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                            <v-text-field
+                                    v-model="tmpSession.age"
+                                    :counter="10"
+                                    v-bind:label="$t('membership.age')"
+                                    solo
+                                    required
+                            ></v-text-field>
+                            <v-row>
+                                <v-col cols="12" sm="6">
+                                    <v-text-field
+                                            v-model="tmpSession.emailId"
+                                            :counter="10"
+                                            v-bind:label="$t('membership.email')"
+                                            solo
+                                            required
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="6">
+                                    <v-select
+                                            v-model="selectedEmail"
+                                            item-value="emailAdd"
+                                            :counter="10"
+                                            :items="emailItems"
+                                            label="Email"
+                                            item-text="emailAdd"
+                                            solo
+                                            required
+                                    ></v-select>
+                                </v-col>
+                            </v-row>
+                            <div class="text-center">
+                                <v-btn
+                                        style="padding-left: 100px; padding-right: 100px; margin: 10px"
+                                        @click="updateUser"
+                                        align="center"
+                                        color="secondary"
+                                        large
+                                        rounded
+                                >
+                                    {{$t('membership.updateButton')}}
+                                </v-btn>
+                            </div>
+                        </v-form>
+                    </v-flex>
+                    <v-flex></v-flex>
+                </v-layout>
+            </v-flex>
         </v-layout>
     </v-container>
 </template>
@@ -145,10 +152,10 @@
                 alertMsg: '구냥',
                 alertShow: false,
                 emailItems: [
-                    {emailAdd:'@gmail.com'},
-                    {emailAdd:'@naver.com'},
-                    {emailAdd:'@daum.net'}
-                    ],
+                    {emailAdd: '@gmail.com'},
+                    {emailAdd: '@naver.com'},
+                    {emailAdd: '@daum.net'}
+                ],
                 selectedEmail: {},
                 genderCode1: 'M',
                 genderCode2: 'F',
@@ -172,7 +179,8 @@
 
         mounted() {
             this.checkSession();
-            console.log('tmpSession >',this.tmpSession);
+            console.log('tmpSession >', this.tmpSession);
+            console.log('mounted avatar > ', this.avatar);
             //dd
         },
         methods: {
@@ -184,9 +192,10 @@
                 }
                 this.tmpSession = TMP_SESSION.getLoginUser();
                 let email = this.tmpSession.email.split('@');
-                this.selectedEmail = '@'+email[1];
+                this.selectedEmail = '@' + email[1];
                 this.tmpSession.emailId = email[0];
-                this.tmpSession.membershipName = CODE.getCodeName('MEMBERSHIP_LVL_CODE', this.tmpSession.membershipKey);
+                this.tmpSession.membershipName = CODE.getCodeName('MEMBERSHIP_LVL_CODE', this.tmpSession.lvlCode);
+                console.log(this.tmpSession);
                 //this.tmpSession.genderCode = CODE.getCodeName('GENDER_CODE', this.tmpSession.genderCode);
 
             },
@@ -194,13 +203,14 @@
                 this.$emit('goTo', page);
             },
             logout() {
-                    axios.get(API.SessionController.logout, {})
+                axios.get(API.SessionController.logout, {})
                     .then(() => {
                         TMP_SESSION.emptyUser();
+
                         this.$emit('loggedIn', false);
                         this.goTo('Home');
                     });
-                },
+            },
             myPage() {
                 this.alertMsg = 'my Page';
                 this.alertShow = true;
@@ -219,29 +229,39 @@
                 let formData = new FormData;
                 formData.append('file', imageURL);
                 this.avatar = {imageURL, formData};
+                console.log('displayImage > ', this.avatar);
+                if (this.avatar.imageURL.length > 0) {
+                    // make reset button
+                    console.log('go');
+                }
             },
             //=======================이미지 표시=====================
 
 
             //=======================이미지 업로드=====================
             updateAvatar(data) {
+                console.log('updateAvatar data > ', data);
                 let {formData, imageURL} = data;
                 this.avatar = {formData, imageURL};
+                console.log('this.avatar > ', this.avatar);
             },
             uploadImage() {
                 this.avatar.formData.append('type', 'profile');
                 this.avatar.formData.append('subPath', TMP_SESSION.getId());
 
+                console.log('uploadImage type > ', this.avatar.formData.getAll('type'));
+                console.log('uploadImage subPath > ', this.avatar.formData.getAll('subPath'));
                 axios.post(
                     API.CommonController.fileUpload,
                     this.avatar.formData
-                    ).then(res => {
-                        if (res.status !== 200) {
-                            this.showAlert(this.$t('common.unableImgUpload'));
-                            return;
-                        }
-                        setTimeout(() => this.savedAvatar(res.data), 1000);
-                    });
+                ).then(res => {
+                    if (res.status !== 200) {
+                        this.showAlert(this.$t('common.unableImgUpload'));
+                        return;
+                    }
+                    setTimeout(() => this.savedAvatar(res.data), 1000);
+                    console.log('res.data > ', res.data);
+                });
             },
             savedAvatar(data) {
                 axios.patch(API.UserMgmtController.uploadPhoto, {
@@ -252,15 +272,30 @@
                     TMP_SESSION.setLognUser(this.tmpSession);
                 });
             },
+            resetAvatar() {
+
+            },
             //=======================이미지 업로드=====================
 
 
             // mypage수정 버튼 클릭 시, 이미지가 존재하면 이미지 업로드도 함께 진행
             updateUser() {
 
+                console.log('updateUser this.avatar > ', this.avatar);
+                console.log('updateUser this.tmpSession > ', this.tmpSession);
+
                 if (this.avatar) {
                     this.uploadImage();
                 }
+
+                axios.patch(API.UserMgmtController.updateUser, {
+                    userId : this.tmpSession.userId,
+                    password : this.tmpSession.password,
+                    nickname : this.tmpSession.nickname,
+                    age : this.tmpSession.age,
+                    email : this.tmpSession.emailId + this.selectedEmail
+                })
+
                 this.showAlert(this.$t('membership.myInfoUpdated'));
             }
         }
