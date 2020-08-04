@@ -16,6 +16,7 @@
              , U.USE_YN                                         AS USE_YN
              , U.SYS_MNGR_YN                                    AS SYS_MNGR_YN
              , IFNULL(M.LVL_CODE, '')                           AS LVL_CODE
+             , U.MEMBERSHIP_KEY AS MEMBERSHIP_KEY
           FROM `USER` U
           LEFT
           JOIN MEMBERSHIP M
