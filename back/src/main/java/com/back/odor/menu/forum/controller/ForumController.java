@@ -17,30 +17,68 @@ public class ForumController {
     private ForumService forumService;
 
     @PostMapping("list/api")
-    public ResponseEntity<List<ArticleVO>> list(@RequestBody ArticleVO vo) {
-        return ResponseEntity.ok(forumService.articleList(vo));
+    public ResponseEntity<List<ArticleVO>> list(@RequestParam String forumType, @RequestBody ArticleVO vo) {
+        switch (forumType) {
+            case "review":
+                return ResponseEntity.ok(forumService.reviewList(vo));
+            case "photo":
+                return null;
+            default: // etc
+                return null;
+        }
     }
 
     @PostMapping("detail/api")
-    public ResponseEntity<ArticleVO> detail(@RequestBody ArticleVO vo) {
-        return ResponseEntity.ok(forumService.article(vo));
+    public ResponseEntity<ArticleVO> detail(@RequestParam String forumType, @RequestBody ArticleVO vo) {
+        switch (forumType) {
+            case "review":
+                return ResponseEntity.ok(forumService.review(vo));
+            case "photo":
+                return null;
+            default: // etc
+                return null;
+        }
     }
 
     @PutMapping("create/api")
-    public ResponseEntity create(@RequestBody ArticleVO vo) {
-        forumService.createArticle(vo);
+    public ResponseEntity create(@RequestParam String forumType, @RequestBody ArticleVO vo) {
+        switch (forumType) {
+            case "review":
+                forumService.createReview(vo);
+                break;
+            case "photo":
+                break;
+            default: // etc
+                break;
+        }
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
     @PatchMapping("update/api")
-    public ResponseEntity update(@RequestBody ArticleVO vo) {
-        forumService.updateArticle(vo);
+    public ResponseEntity update(@RequestParam String forumType, @RequestBody ArticleVO vo) {
+        switch (forumType) {
+            case "review":
+                forumService.updateReview(vo);
+                break;
+            case "photo":
+                break;
+            default: // etc
+                break;
+        }
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
     @PatchMapping("delete/api")
-    public ResponseEntity delete(@RequestBody ArticleVO vo) {
-        forumService.deleteArticle(vo);
+    public ResponseEntity delete(@RequestParam String forumType, @RequestBody ArticleVO vo) {
+        switch (forumType) {
+            case "review":
+                forumService.deleteReview(vo);
+                break;
+            case "photo":
+                break;
+            default: // etc
+                break;
+        }
         return new ResponseEntity("success", HttpStatus.OK);
     }
 

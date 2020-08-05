@@ -66,6 +66,14 @@ public class CommonVO implements Serializable {
     @Setter
     private String sortBy;
 
+    // 조회조건
+    @Getter
+    @Setter
+    private String searchBtn;
+    @Getter
+    @Setter
+    private String searchWord;
+
 
 
 

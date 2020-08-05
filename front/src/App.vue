@@ -100,6 +100,8 @@
 
     <Router
         :routing="routing"
+        :forumKey="forumKey"
+        :categoryId="categoryId"
         @goTo="goTo"
         ref="router"
         @loggedIn="loggedIn"
@@ -240,12 +242,10 @@ export default {
       if (SCRIPT_VALIDATOR.nullCheck(fKey)) {
         this.forumKey = fKey;
       }
-
       if (SCRIPT_VALIDATOR.nullCheck(cateId)) {
         this.categoryId = cateId;
       }
       this.set2DepthMenuSwitch(page, this.categoryId);
-
       this.routing = page;
     },
     set2DepthMenuSwitch(page, categoryId) {
@@ -263,10 +263,10 @@ export default {
 
       if (!SCRIPT_VALIDATOR.nullCheck(TMP_SESSION.getId())) {
         this.loggedIn(false);
-        this.goTo(MEMBERSHIP_PAGES[1], undefined, 'x');
+        this.goTo(MEMBERSHIP_PAGES[1], this.forumKey, this.categoryId);
       } else {
         this.loggedIn(true);
-        this.goTo(MEMBERSHIP_PAGES[0], undefined, 'x');
+        this.goTo(MEMBERSHIP_PAGES[0], this.forumKey, this.categoryId);
       }
     },
     loggedIn(boo) {

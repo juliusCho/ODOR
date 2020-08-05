@@ -4,8 +4,35 @@
 
 <mapper namespace="com.back.odor.menu.forum.mapper.ForumMapper">
 
-    <select id="articleList" resultType="ArticleVO">
+    <select id="reviewList" resultType="ArticleVO">
         /* 게시물 목록 조회 */
+        SELECT IFNULL(
+                    (
+                        SELECT GROUP_CONCAT(B.NAME separator ', ')
+                          FROM BRAND B
+                         INNER
+                          JOIN PRODUCT_BRAND_MAPPER PBM
+                            ON PBM.BRAND_KEY = B.BRAND_KEY
+                         WHERE PBM.PRODUCT_KEY  = A.PRODUCT_KEY
+                           AND PBM.CATEGORY_ID  = A.CATEGORY_ID
+                           AND B.USE_YN         = 1
+                    ),
+                    ''
+               )                                                    AS BRAND_NAME
+             , P.NAME                                               AS PRODUCT_NAME
+             , A.TITLE                                              AS TITLE
+             , U.NICKNAME                                           AS CREATOR_NAME
+             , A.UPDATE_DATE                                        AS UPDATE_DATE
+          FROM ARTICLE A
+         INNER
+          JOIN PRODUCT P
+            ON P.PRODUCT_KEY = A.PRODUCT_KEY
+           AND P.CATEGORY_ID = A.CATEGORY_ID
+         INNER
+          JOIN `USER` U
+            ON U.USER_ID = A.CREATOR_ID
+         WHERE A.FORUM_KEY      = #{forumKey}
+           AND A.CATEGORY_ID    = #{categoryId}
     </select>
 
 </mapper>

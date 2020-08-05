@@ -16,27 +16,27 @@ public class ForumService implements ForumServiceSpec {
     private ForumMapper forumMapper;
 
     @Override
-    public List<ArticleVO> articleList(ArticleVO vo) {
-        return forumMapper.articleList(vo);
+    public List<ArticleVO> reviewList(ArticleVO vo) {
+        return forumMapper.reviewList(vo);
     }
 
     @Override
-    public ArticleVO article(ArticleVO vo) {
+    public ArticleVO review(ArticleVO vo) {
         return null;
     }
 
     @Override
-    public void createArticle(ArticleVO vo) {
+    public void createReview(ArticleVO vo) {
 
     }
 
     @Override
-    public void updateArticle(ArticleVO vo) {
+    public void updateReview(ArticleVO vo) {
 
     }
 
     @Override
-    public void deleteArticle(ArticleVO vo) {
+    public void deleteReview(ArticleVO vo) {
 
     }
 

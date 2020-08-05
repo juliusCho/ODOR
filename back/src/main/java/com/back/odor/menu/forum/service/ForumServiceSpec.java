@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface ForumServiceSpec {
 
-    List<ArticleVO> articleList(ArticleVO vo);
-    ArticleVO article(ArticleVO vo);
-    void createArticle(ArticleVO vo);
-    void updateArticle(ArticleVO vo);
-    void deleteArticle(ArticleVO vo);
+    List<ArticleVO> reviewList(ArticleVO vo);
+    ArticleVO review(ArticleVO vo);
+    void createReview(ArticleVO vo);
+    void updateReview(ArticleVO vo);
+    void deleteReview(ArticleVO vo);
 
 }

@@ -12,7 +12,7 @@
       <tbody>
       <tr v-for="(entry, idx) in filteredData" :key="idx">
         <td v-for="col in columns" :key="col.label">
-          {{ entry[col.label] }}
+          {{ entry[col.key] }}
         </td>
       </tr>
       </tbody>

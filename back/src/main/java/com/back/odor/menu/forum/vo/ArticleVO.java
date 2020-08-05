@@ -29,4 +29,7 @@ public class ArticleVO extends CommonVO implements Serializable {
     
     private Long productKey;
 
+    private String brandName;
+    private String productName;
+
 }

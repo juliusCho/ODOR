@@ -61,7 +61,7 @@
                 }
             },
             search() {
-                this.$emit('search', {btn: this.searchClicked, word: this.searchWord});
+                this.$emit('search', {searchBtn: this.searchClicked, searchWord: this.searchWord});
             }
         }
     }
@@ -95,7 +95,7 @@
     }
     .unclickedSearch:hover {
         color: white;
-        background-color: #7ea8ff;
+        background-color: #b2cafd;
     }
 
     .clickedSearch {

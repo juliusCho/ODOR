@@ -85,7 +85,6 @@ export default {
       this.$emit('goTo', menu.forumName, undefined, menu.categoryId);
     },
     handleForum(menu) {
-      console.log(menu.categoryId);
       this.$emit('goTo',
           this.constructForumTypeCode(menu),
           menu.forumKey,
