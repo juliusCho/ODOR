@@ -349,7 +349,7 @@
                 this.searchCombos.nickname = [];
 
                 await axios.get(
-                    API.UserMgmtController.getUserListAll
+                    API.UserMgmtController.getUserList
                 ).then(res => {
                     let userId = [''].concat(res.data.map(v => v.userId));
                     let email = [''].concat(res.data.map(v => v.email));
@@ -363,7 +363,7 @@
                 this.searchCombos.membershipKey = [{membershipKey: 0, membershipName: 'All'}];
 
                 await axios.get(
-                    API.MembershipMgmtController.getMembershipListAll
+                    API.MembershipMgmtController.getMembershipList
                 ).then(res => {
                     this.searchCombos.membershipKey = this.searchCombos.membershipKey.concat(res.data);
                     this.headers[9].selectItems = res.data.map(v => ({value: v.membershipKey, text: v.membershipName}));

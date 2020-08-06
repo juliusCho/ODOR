@@ -214,7 +214,7 @@
         methods: {
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryListAll
+                    API.CategoryMgmtController.getCategoryList
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -225,7 +225,7 @@
                 this.searchCombos.ingredientKey = [];
 
                 await axios.get(
-                    API.IngredientMgmtController.getIngredientListAll
+                    API.IngredientMgmtController.getIngredientList
                 ).then(res => {
                     let ingredientKey = [{ingredientKey: 0, ingredientName: 'All'}]
                         .concat(res.data.map(v => ({ingredientKey: v.ingredientKey, ingredientName: v.ingredientName})));

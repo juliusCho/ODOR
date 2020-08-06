@@ -82,7 +82,7 @@ export default {
       }
     },
     handleSystem(menu) {
-      this.$emit('goTo', menu.forumName, undefined, menu.categoryId);
+      this.$emit('goTo', menu.forumName);
     },
     handleForum(menu) {
       this.$emit('goTo',

@@ -268,7 +268,7 @@
                 let result = [];
 
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryListAll
+                    API.CategoryMgmtController.getCategoryList
                 ).then(res => {
                     result = [{categoryId: '', categoryName: 'ALL'}].concat(res.data);
                 });
@@ -311,7 +311,7 @@
                 let result = [];
 
                 await axios.get(
-                    API[this.mappingKeyCapital + 'MgmtController']['get' + this.mappingKeyCapital + 'ListAll']
+                    API[this.mappingKeyCapital + 'MgmtController']['get' + this.mappingKeyCapital + 'List']
                 ).then(res => {
                     let mappingKey = {};
                     mappingKey[this.mappingKey + 'Key'] = 0;

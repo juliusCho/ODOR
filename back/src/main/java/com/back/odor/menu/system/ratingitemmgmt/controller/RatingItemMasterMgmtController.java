@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/rating")
+@RequestMapping("odor/ratings")
 @Slf4j
 public class RatingItemMasterMgmtController {
 
@@ -21,36 +21,36 @@ public class RatingItemMasterMgmtController {
     private RatingItemMasterMgmtService ratingItemMasterMgmtService;
 
 
-    @PostMapping("getRatingItemMasterList/system")
+    @PostMapping("system")
     public ResponseEntity<List<RatingItemMasterVO>> getRatingItemMasterList(
             @RequestBody RatingItemMasterVO vo
     ) {
         return ResponseEntity.ok(ratingItemMasterMgmtService.getRatingItemMasterList(vo));
     }
 
-    @GetMapping("getRatingItemMasterListAll/system")
+    @GetMapping("system")
     public ResponseEntity<List<RatingItemMasterVO>> getRatingItemMasterListAll() {
         return ResponseEntity.ok(ratingItemMasterMgmtService.getRatingItemMasterListAll());
     }
 
-    @PostMapping("checkDuplication/system")
+    @PostMapping("check/duplication/system")
     public ResponseEntity<Integer> checkDuplication(@RequestBody RatingItemMasterVO vo) {
         return ResponseEntity.ok(ratingItemMasterMgmtService.checkDuplication(vo));
     }
 
-    @PatchMapping("deleteRatingItemMaster/system")
+    @PatchMapping("delete/system")
     public ResponseEntity<Integer> deleteRatingItemMaster(@RequestBody RatingItemMasterVO vo) {
         ratingItemMasterMgmtService.deleteRatingItemMaster(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("updateRatingItemMaster/system")
+    @PatchMapping("update/system")
     public ResponseEntity<Integer> updateRatingItemMaster(@RequestBody RatingItemMasterVO vo) {
         ratingItemMasterMgmtService.updateRatingItemMaster(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("insertRatingItemMaster/system")
+    @PutMapping("insert/system")
     public ResponseEntity<Integer> insertRatingItemMaster(@RequestBody RatingItemMasterVO vo) {
         ratingItemMasterMgmtService.insertRatingItemMaster(vo);
         return new ResponseEntity("success", HttpStatus.OK);

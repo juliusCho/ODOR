@@ -221,7 +221,7 @@
                 this.searchCombos.codeGroupName = [];
 
                 axios.get(
-                    API.CodeMgmtController.getCodeGroupListAll
+                    API.CodeMgmtController.getCodeGroupList
                 ).then(res => {
                     let codeGroupId = [''].concat(res.data.map(v => v.codeGroupId));
                     let codeGroupName = [''].concat(res.data.map(v => v.codeGroupName));

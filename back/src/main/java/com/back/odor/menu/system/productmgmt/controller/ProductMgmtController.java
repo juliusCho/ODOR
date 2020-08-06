@@ -10,112 +10,112 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/product")
+@RequestMapping("odor/products")
 public class ProductMgmtController {
 
     @Autowired
     private ProductMgmtService productMgmtService;
 
 
-    @PostMapping("getProductList/system")
+    @PostMapping("system")
     public ResponseEntity<List<ProductVO>> getProductList(@RequestBody ProductVO vo) {
         return ResponseEntity.ok(productMgmtService.getProductList(vo));
     }
 
-    @GetMapping("getProductListAll/system")
+    @GetMapping("system")
     public ResponseEntity<List<ProductVO>> getProductListAll() {
         return ResponseEntity.ok(productMgmtService.getProductListAll());
     }
 
-    @PostMapping("checkDuplication/system")
+    @PostMapping("check/duplication/system")
     public ResponseEntity<Integer> checkDuplication(@RequestBody ProductVO vo) {
         return ResponseEntity.ok(productMgmtService.checkDuplication(vo));
     }
 
-    @PutMapping("insertProduct/system")
+    @PutMapping("insert/system")
     public ResponseEntity<Integer> insertProduct(@RequestBody ProductVO vo) {
         productMgmtService.insertProduct(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("updateProduct/system")
+    @PatchMapping("update/system")
     public ResponseEntity<Integer> updateProduct(@RequestBody ProductVO vo) {
         productMgmtService.updateProduct(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteProduct/system")
+    @DeleteMapping("delete/system")
     public ResponseEntity<Integer> deleteProduct(@RequestParam Long productKey) {
         productMgmtService.deleteProduct(productKey);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PostMapping("getMappedBrandList/system")
+    @GetMapping("maps/brands/system")
     public ResponseEntity<List<ProductBrandMapperVO>> getMappedBrandList(@RequestParam Long productKey) {
         return ResponseEntity.ok(productMgmtService.getMappedBrandList(productKey));
     }
 
-    @PostMapping("getMappedCreatorList/system")
+    @GetMapping("maps/creators/system")
     public ResponseEntity<List<ProductCreatorMapperVO>> getMappedCreatorList(@RequestParam Long productKey) {
         return ResponseEntity.ok(productMgmtService.getMappedCreatorList(productKey));
     }
 
-    @PostMapping("getMappedIngredientList/system")
+    @GetMapping("maps/ingredients/system")
     public ResponseEntity<List<ProductIngredientMapperVO>> getMappedIngredientList(@RequestParam Long productKey) {
         return ResponseEntity.ok(productMgmtService.getMappedIngredientList(productKey));
     }
 
-    @PostMapping("getMappedProductTypeList/system")
+    @GetMapping("maps/producttypes/system")
     public ResponseEntity<List<ProductProductTypeMapperVO>> getMappedProductTypeList(@RequestParam Long productKey) {
         return ResponseEntity.ok(productMgmtService.getMappedProductTypeList(productKey));
     }
 
-    @PatchMapping("saveBrandMapping/system")
+    @PatchMapping("maps/brands/update/system")
     public ResponseEntity saveBrandMapping(@RequestBody List<ProductBrandMapperVO> list) {
         productMgmtService.saveBrandMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("saveCreatorMapping/system")
+    @PatchMapping("maps/creators/update/system")
     public ResponseEntity saveCreatorMapping(@RequestBody List<ProductCreatorMapperVO> list) {
         productMgmtService.saveCreatorMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("saveIngredientMapping/system")
+    @PatchMapping("maps/ingredients/update/system")
     public ResponseEntity saveIngredientMapping(@RequestBody List<ProductIngredientMapperVO> list) {
         productMgmtService.saveIngredientMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("saveProductTypeMapping/system")
+    @PatchMapping("maps/producttypes/update/system")
     public ResponseEntity saveProductTypeMapping(@RequestBody List<ProductProductTypeMapperVO> list) {
         productMgmtService.saveProductTypeMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteBrandMapping/system")
+    @DeleteMapping("maps/brands/delete/system")
     public ResponseEntity deleteBrandMapping(
             @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteBrandMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteCreatorMapping/system")
+    @DeleteMapping("maps/creators/delete/system")
     public ResponseEntity deleteCreatorMapping(
             @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteCreatorMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteIngredientMapping/system")
+    @DeleteMapping("maps/ingredients/delete/system")
     public ResponseEntity deleteIngredientMapping(
             @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteIngredientMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteProductTypeMapping/system")
+    @DeleteMapping("maps/producttypes/delete/system")
     public ResponseEntity deleteProductTypeMapping(
             @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteProductTypeMapping(productKey, categoryId);

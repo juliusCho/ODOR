@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/forum")
+@RequestMapping("odor/forums")
 @Slf4j
 public class ForumMgmtController {
 
@@ -21,7 +21,7 @@ public class ForumMgmtController {
     private ForumMgmtService forumMgmtService;
 
 
-    @PostMapping("getForumList/rest")
+    @PostMapping("rest")
     public ResponseEntity<List<ForumVO>> getForumList(
             @RequestBody UserVO user,
             HttpServletRequest req
@@ -29,7 +29,7 @@ public class ForumMgmtController {
         return ResponseEntity.ok(forumMgmtService.getForumList(user, req));
     }
 
-    @PostMapping("getSystemList/system")
+    @PostMapping("systems/system")
     public ResponseEntity<List<ForumVO>> getSystemList(
             @RequestBody UserVO user,
             HttpServletRequest req
@@ -37,34 +37,34 @@ public class ForumMgmtController {
         return ResponseEntity.ok(forumMgmtService.getSystemList(user, req));
     }
 
-    @GetMapping("getForumListAll/system")
+    @GetMapping("system")
     public ResponseEntity<List<ForumVO>> getForumListAll() {
         return ResponseEntity.ok(forumMgmtService.getForumListAll());
     }
 
-    @PostMapping("getForumListSystem/system")
+    @PostMapping("system")
     public ResponseEntity<List<ForumVO>> getForumListSystem(@RequestBody ForumVO vo) {
         return ResponseEntity.ok(forumMgmtService.getForumListSystem(vo));
     }
 
-    @PostMapping("checkDuplication/system")
+    @PostMapping("check/duplication/system")
     public ResponseEntity<Integer> checkDuplication(@RequestBody ForumVO vo) {
         return ResponseEntity.ok(forumMgmtService.checkDuplication(vo));
     }
 
-    @PatchMapping("deleteForum/system")
+    @PatchMapping("delete/system")
     public ResponseEntity<Integer> deleteForum(@RequestBody ForumVO vo) {
         forumMgmtService.deleteForum(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("updateForum/system")
+    @PatchMapping("update/system")
     public ResponseEntity<Integer> updateForum(@RequestBody ForumVO vo) {
         forumMgmtService.updateForum(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("insertForum/system")
+    @PutMapping("insert/system")
     public ResponseEntity<Integer> insertForum(@RequestBody ForumVO vo) {
         forumMgmtService.insertForum(vo);
         return new ResponseEntity("success", HttpStatus.OK);

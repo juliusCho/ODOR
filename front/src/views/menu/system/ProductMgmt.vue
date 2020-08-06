@@ -353,7 +353,7 @@
             },
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryListAll
+                    API.CategoryMgmtController.getCategoryList
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -364,7 +364,7 @@
                 this.searchCombos.countryCode = [];
 
                 await axios.get(
-                    API.CountryMgmtController.getCountryListAll
+                    API.CountryMgmtController.getCountryList
                 ).then(res => {
                     let list = res.data.map(v => ({countryCode: v.countryCode, countryName: v.countryName}));
                     this.searchCombos.countryCode = [{countryCode: '', countryName: 'All'}].concat(list);
@@ -376,7 +376,7 @@
                 this.searchCombos.link = [];
 
                 await axios.get(
-                    API.ProductMgmtController.getProductListAll
+                    API.ProductMgmtController.getProductList
                 ).then(res => {
                     this.searchCombos.productKey = [{productKey: 0, name: 'All'}]
                         .concat(COMMON_UTIL.removeArrDuplicate(res.data));
@@ -473,9 +473,9 @@
             async mapping(item, type) {
                 let typeCapital = type.substr(0, 1).toUpperCase() + type.substr(1, type.length);
                 let {productKey} = item;
-                await axios.post(
+
+                await axios.get(
                     API.ProductMgmtController['getMapped' + typeCapital + 'List'],
-                    null,
                     {
                         params: {productKey}
                     }
@@ -484,7 +484,7 @@
                     let categoryList = mappingList.map(v => ({categoryId: v.categoryId}));
                     categoryList = COMMON_UTIL.removeArrDuplicate(categoryList);
 
-                    this[type + 'MappingSelected'] = {categoryList};
+                    this[type + 'MappingSelected'].categoryList = categoryList;
                     this[type + 'MappingSelected'][type + 'List'] = mappingList;
                     this.mappingKey = productKey;
                     this[type + 'MappingShow'] = true;

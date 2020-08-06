@@ -252,7 +252,7 @@
                 this.searchCombos.countryCode = [];
 
                 await axios.get(
-                    API.CountryMgmtController.getCountryListAll
+                    API.CountryMgmtController.getCountryList
                 ).then(res => {
                     let list = res.data.map(v => ({countryCode: v.countryCode, countryName: v.countryName}));
                     this.searchCombos.countryCode = [{countryCode: '', countryName: 'All'}].concat(list);
@@ -264,7 +264,7 @@
                 this.searchCombos.link = [];
 
                 await axios.get(
-                    API.BrandMgmtController.getBrandListAll
+                    API.BrandMgmtController.getBrandList
                 ).then(res => {
                     this.searchCombos.brandKey = [{brandKey: 0, name: 'All'}]
                         .concat(COMMON_UTIL.removeArrDuplicate(

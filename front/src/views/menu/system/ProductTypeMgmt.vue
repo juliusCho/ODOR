@@ -214,7 +214,7 @@
         methods: {
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryListAll
+                    API.CategoryMgmtController.getCategoryList
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -225,7 +225,7 @@
                 this.searchCombos.productTypeKey = [];
 
                 await axios.get(
-                    API.ProductTypeMgmtController.getProductTypeListAll
+                    API.ProductTypeMgmtController.getProductTypeList
                 ).then(res => {
                     let productTypeKey = [{productTypeKey: 0, productTypeName: 'All'}]
                         .concat(res.data.map(v => ({productTypeKey: v.productTypeKey, productTypeName: v.productTypeName})));

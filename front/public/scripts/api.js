@@ -3,172 +3,160 @@
 const API = class {
 
     static CommonController = {
-        setSystemLocale: 'odor/common/setSystemLocale/rest',
-        getMessageList: 'odor/common/getMessageList/rest',
-        getCodeList: 'odor/common/getCodeList/rest',
-        fileUpload: 'odor/common/fileUpload/api',
-        displayImage: 'odor/common/displayImage/rest'
+        setSystemLocale: 'odor/common/locale/rest',
+        getMessageList: 'odor/common/messages/rest',
+        getCodeList: 'odor/common/codes/rest',
+        fileUpload: 'odor/common/file/api',
+        displayImage: 'odor/common/image/rest'
     };
 
     static SessionController = {
-        sessionCheck: 'odor/sessionCheck/rest',
-        validateLogin: 'odor/validateLogin/rest',
+        sessionCheck: 'odor/session/rest',
+        validateLogin: 'odor/login/rest',
         logout: 'odor/logout/rest'
     };
 
     static ForumMgmtController = {
-        getForumList: 'odor/forum/getForumList/rest',
-        getSystemList: 'odor/forum/getSystemList/system',
-        getForumListAll: 'odor/forum/getForumListAll/system',
-        getForumListSystem: 'odor/forum/getForumListSystem/system',
-        checkDuplication: 'odor/forum/checkDuplication/system',
-        deleteForum: 'odor/forum/deleteForum/system',
-        updateForum: 'odor/forum/updateForum/system',
-        insertForum: 'odor/forum/insertForum/system'
+        getForumListAll: 'odor/forums/rest',
+        getSystemList: 'odor/forums/systems/system',
+        getForumList: 'odor/forums/system',
+        checkDuplication: 'odor/forums/check/duplication/system',
+        deleteForum: 'odor/forums/delete/system',
+        updateForum: 'odor/forums/update/system',
+        insertForum: 'odor/forums/insert/system'
     };
 
     static BrandMgmtController = {
-        getBrandList: 'odor/brand/getBrandList/system',
-        getBrandListAll: 'odor/brand/getBrandListAll/system',
-        checkDuplication: 'odor/brand/checkDuplication/system',
-        insertBrand: 'odor/brand/insertBrand/system',
-        updateBrand: 'odor/brand/updateBrand/system',
-        deleteBrand: 'odor/brand/deleteBrand/system',
-        getMappedCategoryList: 'odor/brand/getMappedCategoryList/system',
-        deleteMapping: 'odor/brand/deleteMapping/system',
-        saveMapping: 'odor/brand/saveMapping/system'
+        getBrandList: 'odor/brands/system',
+        checkDuplication: 'odor/brands/check/duplication/system',
+        insertBrand: 'odor/brands/insert/system',
+        updateBrand: 'odor/brands/update/system',
+        deleteBrand: 'odor/brands/delete/system',
+        getMappedCategoryList: 'odor/brands/maps/system',
+        deleteMapping: 'odor/brands/maps/delete/system',
+        saveMapping: 'odor/brands/map/update/system'
     };
 
     static CodeMgmtController = {
-        getCodeGroupList: 'odor/code/getCodeGroupList/system',
-        getCodeGroupListAll: 'odor/code/getCodeGroupListAll/system',
-        checkDuplication: 'odor/code/checkDuplication/system',
-        insertCodeGroup: 'odor/code/insertCodeGroup/system',
-        updateCodeGroup: 'odor/code/updateCodeGroup/system',
-        deleteCodeGroup: 'odor/code/deleteCodeGroup/system',
-        getCodeListSystem: 'odor/code/getCodeListSystem/system',
-        checkDetailDuplication: 'odor/code/checkDetailDuplication/system',
-        insertCode: 'odor/code/insertCode/system',
-        updateCode: 'odor/code/updateCode/system',
-        deleteCode: 'odor/code/deleteCode/system',
-        getForumCodeList: 'odor/code/getForumCodeList/system'
+        getCodeGroupList: 'odor/codegroups/system',
+        checkDuplication: 'odor/codegroups/check/duplication/system',
+        insertCodeGroup: 'odor/codegroups/insert/system',
+        updateCodeGroup: 'odor/codegroups/update/system',
+        deleteCodeGroup: 'odor/codegroups/delete/system',
+        getCodeListSystem: 'odor/codegroups/codes/system',
+        checkDetailDuplication: 'odor/codegroups/codes/check/duplication/system',
+        insertCode: 'odor/codegroups/codes/insert/system',
+        updateCode: 'odor/codegroups/codes/update/system',
+        deleteCode: 'odor/codegroups/codes/delete/system',
+        getForumCodeList: 'odor/codegroups/codes/forum/system'
     };
 
     static MessageMgmtController = {
-        getMessageList: 'odor/msg/getMessageList/system',
-        insertMessage: 'odor/msg/insertMessage/system',
-        getMessageListSystem: 'odor/msg/getMessageListSystem/system',
-        checkDuplication: 'odor/msg/checkDuplication/system',
-        updateMessage: 'odor/msg/updateMessage/system',
-        deleteMessageGroup: 'odor/msg/deleteMessageGroup/system'
+        getMessageList: 'odor/messages/rest',
+        insertMessage: 'odor/messages/insert/system',
+        getMessageListSystem: 'odor/messages/system',
+        checkDuplication: 'odor/messages/check/duplication/system',
+        updateMessage: 'odor/messages/update/system',
+        deleteMessageGroup: 'odor/messages/delete/system'
     };
 
     static CountryMgmtController = {
-        getCountryListAll: 'odor/country/getCountryListAll/system',
-        getCountryList: 'odor/country/getCountryList/system',
-        checkDuplication: 'odor/country/checkDuplication/system',
-        insertCountry: 'odor/country/insertCountry/system',
-        updateCountry: 'odor/country/updateCountry/system',
-        deleteCountry: 'odor/country/deleteCountry/system'
+        getCountryList: 'odor/countries/system',
+        checkDuplication: 'odor/countries/check/duplication/system',
+        insertCountry: 'odor/countries/insert/system',
+        updateCountry: 'odor/countries/update/system',
+        deleteCountry: 'odor/countries/delete/system'
     };
 
     static CategoryMgmtController = {
-        getCategoryListAll: 'odor/category/getCategoryListAll/system',
-        getCategoryList: 'odor/category/getCategoryList/system',
-        checkDuplication: 'odor/category/checkDuplication/system',
-        insertCategory: 'odor/category/insertCategory/system',
-        updateCategory: 'odor/category/updateCategory/system',
-        deleteCategory: 'odor/category/deleteCategory/system'
+        getCategoryList: 'odor/categories/system',
+        checkDuplication: 'odor/categories/check/duplication/system',
+        insertCategory: 'odor/categories/insert/system',
+        updateCategory: 'odor/categories/update/system',
+        deleteCategory: 'odor/categories/delete/system'
     };
 
     static MembershipMgmtController = {
-        getMembershipListAll: 'odor/membership/getMembershipListAll/system',
-        getMembershipList: 'odor/membership/getMembershipList/system',
-        checkDuplication: 'odor/membership/checkDuplication/system',
-        deleteMembership: 'odor/membership/deleteMembership/system',
-        updateMembership: 'odor/membership/updateMembership/system',
-        insertMembership: 'odor/membership/insertMembership/system',
-        getMappedForumList: 'odor/membership/getMappedForumList/system',
-        deleteMapping: 'odor/membership/deleteMapping/system',
-        saveMapping: 'odor/membership/saveMapping/system'
+        getMembershipList: 'odor/memberships/system',
+        checkDuplication: 'odor/memberships/check/duplication/system',
+        deleteMembership: 'odor/memberships/delete/system',
+        updateMembership: 'odor/memberships/update/system',
+        insertMembership: 'odor/memberships/insert/system',
+        getMappedForumList: 'odor/memberships/maps/system',
+        deleteMapping: 'odor/memberships/maps/delete/system',
+        saveMapping: 'odor/memberships/maps/update/system'
     };
 
     static UserMgmtController = {
-        getUserListAll: 'odor/user/getUserListAll/system',
-        getUserList: 'odor/user/getUserList/system',
-        checkDuplication: 'odor/user/checkDuplication/system',
-        checkEmailDuplication: 'odor/user/checkEmailDuplication/system',
-        insertUser: 'odor/user/insertUser/system',
-        updateUser: 'odor/user/updateUser/system',
-        deleteUser: 'odor/user/deleteUser/system',
-        unblockUser: 'odor/user/unblockUser/system',
-        blockUser: 'odor/user/blockUser/system',
-        getBlockInfo: 'odor/user/getBlockInfo/system',
-        uploadPhoto: 'odor/user/uploadPhoto/api'
+        getUserList: 'odor/users/system',
+        checkDuplication: 'odor/users/check/duplication/system',
+        checkEmailDuplication: 'odor/users/check/email/duplication/system',
+        insertUser: 'odor/users/insert/system',
+        updateUser: 'odor/users/update/system',
+        deleteUser: 'odor/users/delete/system',
+        unblockUser: 'odor/users/block/execute/system',
+        blockUser: 'odor/users/block/cancel/system',
+        getBlockInfo: 'odor/users/block/system',
+        uploadPhoto: 'odor/users/photo/update/api'
     };
 
     static CreatorMgmtController = {
-        getCreatorListAll: 'odor/creator/getCreatorListAll/system',
-        getCreatorList: 'odor/creator/getCreatorList/system',
-        insertCreator: 'odor/creator/insertCreator/system',
-        updateCreator: 'odor/creator/updateCreator/system',
-        deleteCreator: 'odor/creator/deleteCreator/system'
+        getCreatorList: 'odor/creators/system',
+        insertCreator: 'odor/creators/insert/system',
+        updateCreator: 'odor/creators/update/system',
+        deleteCreator: 'odor/creators/delete/system'
     };
 
     static ProductTypeMgmtController = {
-        getProductTypeListAll: 'odor/productTp/getProductTypeListAll/system',
-        getProductTypeList: 'odor/productTp/getProductTypeList/system',
-        checkDuplication: 'odor/productTp/checkDuplication/system',
-        deleteProductType: 'odor/productTp/deleteProductType/system',
-        updateProductType: 'odor/productTp/updateProductType/system',
-        insertProductType: 'odor/productTp/insertProductType/system',
+        getProductTypeList: 'odor/producttypes/system',
+        checkDuplication: 'odor/producttypes/check/duplication/system',
+        deleteProductType: 'odor/producttypes/delete/system',
+        updateProductType: 'odor/producttypes/update/system',
+        insertProductType: 'odor/producttypes/insert/system'
     };
 
     static IngredientMgmtController = {
-        getIngredientListAll: 'odor/ingredient/getIngredientListAll/system',
-        getIngredientList: 'odor/ingredient/getIngredientList/system',
-        checkDuplication: 'odor/ingredient/checkDuplication/system',
-        deleteIngredient: 'odor/ingredient/deleteIngredient/system',
-        updateIngredient: 'odor/ingredient/updateIngredient/system',
-        insertIngredient: 'odor/ingredient/insertIngredient/system',
+        getIngredientList: 'odor/ingredients/system',
+        checkDuplication: 'odor/ingredients/check/duplication/system',
+        deleteIngredient: 'odor/ingredients/delete/system',
+        updateIngredient: 'odor/ingredients/update/system',
+        insertIngredient: 'odor/ingredients/insert/system'
     };
 
     static ProductMgmtController = {
-        getProductList: 'odor/product/getProductList/system',
-        getProductListAll: 'odor/product/getProductListAll/system',
-        checkDuplication: 'odor/product/checkDuplication/system',
-        insertProduct: 'odor/product/insertProduct/system',
-        updateProduct: 'odor/product/updateProduct/system',
-        deleteProduct: 'odor/product/deleteProduct/system',
-        getMappedBrandList: 'odor/product/getMappedBrandList/system',
-        getMappedCreatorList: 'odor/product/getMappedCreatorList/system',
-        getMappedIngredientList: 'odor/product/getMappedIngredientList/system',
-        getMappedProductTypeList: 'odor/product/getMappedProductTypeList/system',
-        saveBrandMapping: 'odor/product/saveBrandMapping/system',
-        saveCreatorMapping: 'odor/product/saveCreatorMapping/system',
-        saveIngredientMapping: 'odor/product/saveIngredientMapping/system',
-        saveProductTypeMapping: 'odor/product/saveProductTypeMapping/system',
-        deleteBrandMapping: 'odor/product/deleteBrandMapping/system',
-        deleteCreatorMapping: 'odor/product/deleteCreatorMapping/system',
-        deleteIngredientMapping: 'odor/product/deleteIngredientMapping/system',
-        deleteProductTypeMapping: 'odor/product/deleteProductTypeMapping/system'
+        getProductList: 'odor/products/system',
+        checkDuplication: 'odor/products/check/duplication/system',
+        insertProduct: 'odor/products/insert/system',
+        updateProduct: 'odor/products/update/system',
+        deleteProduct: 'odor/products/delete/system',
+        getMappedBrandList: 'odor/products/maps/brands/system',
+        getMappedCreatorList: 'odor/products/maps/creators/system',
+        getMappedIngredientList: 'odor/products/maps/ingredients/system',
+        getMappedProductTypeList: 'odor/products/maps/producttypes/system',
+        saveBrandMapping: 'odor/products/maps/brands/update/system',
+        saveCreatorMapping: 'odor/products/maps/creators/update/system',
+        saveIngredientMapping: 'odor/products/maps/ingredients/update/system',
+        saveProductTypeMapping: 'odor/products/maps/producttypes/update/system',
+        deleteBrandMapping: 'odor/products/maps/brands/delete/system',
+        deleteCreatorMapping: 'odor/products/maps/creators/delete/system',
+        deleteIngredientMapping: 'odor/products/maps/ingredients/delete/system',
+        deleteProductTypeMapping: 'odor/products/maps/producttypes/delete/system'
     };
 
     static RatingItemMasterMgmtController = {
-        getRatingItemMasterList: '/odor/rating/getRatingItemMasterList/system',
-        getRatingItemMasterListAll: '/odor/rating/getRatingItemMasterListAll/system',
-        checkDuplication: '/odor/rating/checkDuplication/system',
-        deleteRatingItemMaster: '/odor/rating/deleteRatingItemMaster/system',
-        updateRatingItemMaster: '/odor/rating/updateRatingItemMaster/system',
-        insertRatingItemMaster: '/odor/rating/insertRatingItemMaster/system'
+        getRatingItemMasterList: '/odor/ratings/system',
+        checkDuplication: '/odor/ratings/check/duplication/system',
+        deleteRatingItemMaster: '/odor/ratings/delete/system',
+        updateRatingItemMaster: '/odor/ratings/update/system',
+        insertRatingItemMaster: '/odor/ratings/insert/system'
     };
 
     static ForumController = {
-        list: '/odor/article/list/api',
-        detail: '/odor/article/detail/api',
-        create: '/odor/article/create/api',
-        update: '/odor/article/update/api',
-        delete: '/odor/article/delete/api'
-    }
+        list: '/odor/articles/api',
+        detail: '/odor/articles/one/api',
+        create: '/odor/articles/insert/api',
+        update: '/odor/articles/update/api',
+        delete: '/odor/articles/delete/api'
+    };
 
 };

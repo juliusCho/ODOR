@@ -168,7 +168,7 @@
                 this.searchCombos.categoryId = [];
 
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryListAll
+                    API.CategoryMgmtController.getCategoryList
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'ALL'}].concat(res.data);
                 });

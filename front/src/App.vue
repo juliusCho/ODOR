@@ -230,7 +230,7 @@ export default {
     // get forum list
     getForumList() {
       axios.post(
-          API.ForumMgmtController.getForumList,
+          API.ForumMgmtController.getForumListAll,
           TMP_SESSION.getLoginUser()
       )
           .then(res => {

@@ -325,7 +325,7 @@
         methods: {
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryListAll
+                    API.CategoryMgmtController.getCategoryList
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -336,7 +336,7 @@
                 this.searchCombos.masterKey = [];
 
                 await axios.get(
-                    API.RatingItemMasterMgmtController.getRatingItemMasterListAll
+                    API.RatingItemMasterMgmtController.getRatingItemMasterList
                 ).then(res => {
                     let masterKey = [{masterKey: 0, itemName: 'All'}]
                         .concat(res.data.map(v => ({masterKey: v.masterKey, itemName: v.itemName})));

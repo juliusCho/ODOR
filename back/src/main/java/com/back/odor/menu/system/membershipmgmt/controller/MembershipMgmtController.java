@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/membership")
+@RequestMapping("odor/memberships")
 @Slf4j
 public class MembershipMgmtController {
 
@@ -20,52 +20,52 @@ public class MembershipMgmtController {
     private MembershipMgmtService membershipMgmtService;
 
 
-    @GetMapping("getMembershipListAll/system")
+    @GetMapping("system")
     public ResponseEntity<List<MembershipVO>> getMembershipListAll() {
         return ResponseEntity.ok(membershipMgmtService.getMembershipListAll());
     }
 
-    @PostMapping("getMembershipList/system")
+    @PostMapping("system")
     public ResponseEntity<List<MembershipVO>> getMembershipList(@RequestBody MembershipVO vo) {
         return ResponseEntity.ok(membershipMgmtService.getMembershipList(vo));
     }
 
-    @PostMapping("checkDuplication/system")
+    @PostMapping("check/duplication/system")
     public ResponseEntity<Integer> checkDuplication(@RequestBody MembershipVO vo) {
         return ResponseEntity.ok(membershipMgmtService.checkDuplication(vo));
     }
 
-    @PatchMapping("deleteMembership/system")
+    @PatchMapping("delete/system")
     public ResponseEntity<Integer> deleteMembership(@RequestBody MembershipVO vo) {
         membershipMgmtService.deleteMembership(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("updateMembership/system")
+    @PatchMapping("update/system")
     public ResponseEntity<Integer> updateMembership(@RequestBody MembershipVO vo) {
         membershipMgmtService.updateMembership(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("insertMembership/system")
+    @PutMapping("insert/system")
     public ResponseEntity<Integer> insertMembership(@RequestBody MembershipVO vo) {
         membershipMgmtService.insertMembership(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PostMapping("getMappedForumList/system")
+    @PostMapping("maps/system")
     public ResponseEntity<List<MembershipForumMapperVO>> getMappedForumList(@RequestBody MembershipVO vo) {
         return ResponseEntity.ok(membershipMgmtService.getMappedForumList(vo));
     }
 
-    @DeleteMapping("deleteMapping/system")
+    @DeleteMapping("maps/delete/system")
     public ResponseEntity deleteMapping(
             @RequestParam Long membershipKey, @RequestParam String categoryId) {
         membershipMgmtService.deleteMapping(membershipKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("saveMapping/system")
+    @PatchMapping("maps/update/system")
     public ResponseEntity saveMapping(@RequestBody List<MembershipForumMapperVO> list) {
         membershipMgmtService.saveMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);

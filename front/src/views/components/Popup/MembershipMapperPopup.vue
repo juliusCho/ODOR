@@ -232,7 +232,7 @@
                 this.searchCombos.categoryId = [];
 
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryListAll
+                    API.CategoryMgmtController.getCategoryList
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'ALL'}].concat(res.data);
                 });
@@ -274,7 +274,7 @@
                 let {categoryId} = this.searchKeys;
 
                 await axios.post(
-                    API.ForumMgmtController.getForumListSystem,
+                    API.ForumMgmtController.getForumList,
                     {categoryId, useYn: true}
                 ).then(res => {
                     let forumKey = [{forumKey: 0, forumName: 'All'}]
@@ -286,7 +286,7 @@
                 let {categoryId, forumKey} = this.searchKeys;
 
                 await axios.post(
-                    API.ForumMgmtController.getForumListSystem,
+                    API.ForumMgmtController.getForumList,
                     {categoryId, forumKey, useYn: true}
                 ).then(res => {
                     this.forumList = res.data;

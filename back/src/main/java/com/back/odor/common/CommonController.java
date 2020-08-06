@@ -31,18 +31,18 @@ public class CommonController {
 
 
 
-    @PostMapping("setSystemLocale/rest")
+    @PostMapping("locale/rest")
     public ResponseEntity setSystemLocale(@RequestParam String locale) {
         LocaleUtil.setLocale(locale);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @GetMapping("getMessageList/rest")
+    @GetMapping("messages/rest")
     public ResponseEntity getMessageList() {
         return ResponseEntity.ok(messageMgmtService.getMessageList());
     }
 
-    @GetMapping("getCodeList/rest")
+    @GetMapping("codes/rest")
     public ResponseEntity getCodeList() {
         return ResponseEntity.ok(codeMgmtService.getCodeList());
     }
@@ -50,7 +50,7 @@ public class CommonController {
 
 
 
-    @PostMapping("fileUpload/api")
+    @PostMapping("file/api")
     public ResponseEntity<String[]> fileUpload(
             @RequestPart("file") MultipartFile[] multipartFile,
             @RequestPart("type") String type,
@@ -59,7 +59,7 @@ public class CommonController {
         return ResponseEntity.ok(fileService.fileUpload(multipartFile, type, subPath));
     }
 
-    @GetMapping(value = "displayImage/rest", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "image/rest", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody byte[] getImage(@RequestParam String path) throws IOException {
         return fileService.displayImage(path);
     }

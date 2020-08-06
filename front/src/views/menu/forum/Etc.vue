@@ -45,6 +45,7 @@
         },
         methods: {
             search(searchOption) {
+              console.log(searchOption);
             }
         }
     }

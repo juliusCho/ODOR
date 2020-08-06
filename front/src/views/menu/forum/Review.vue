@@ -87,7 +87,14 @@ export default {
   methods: {
     search(searchOption = {}) {
       axios.post(
-          API.ForumController.list + '?forumType=review',
+          API.ForumController.list,
+          Object.assign(searchOption,
+              {categoryId: this.categoryId, forumKey: this.forumKey}),
+          {
+            params: {
+              forumType: 'review'
+            }
+          },
           Object.assign(searchOption,
               {categoryId: this.categoryId, forumKey: this.forumKey})
       )

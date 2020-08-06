@@ -11,58 +11,58 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/brand")
+@RequestMapping("odor/brands")
 public class BrandMgmtController {
 
     @Autowired
     private BrandMgmtService brandMgmtService;
 
 
-    @PostMapping("getBrandList/system")
+    @PostMapping("system")
     public ResponseEntity<List<BrandVO>> getBrandList(@RequestBody BrandVO vo) {
         return ResponseEntity.ok(brandMgmtService.getBrandList(vo));
     }
 
-    @GetMapping("getBrandListAll/system")
+    @GetMapping("system")
     public ResponseEntity<List<BrandVO>> getBrandListAll() {
         return ResponseEntity.ok(brandMgmtService.getBrandListAll());
     }
 
-    @PostMapping("checkDuplication/system")
+    @PostMapping("check/duplication/system")
     public ResponseEntity<Integer> checkDuplication(@RequestBody BrandVO vo) {
         return ResponseEntity.ok(brandMgmtService.checkDuplication(vo));
     }
 
-    @PutMapping("insertBrand/system")
+    @PutMapping("insert/system")
     public ResponseEntity<Integer> insertBrand(@RequestBody BrandVO vo) {
         brandMgmtService.insertBrand(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("updateBrand/system")
+    @PatchMapping("update/system")
     public ResponseEntity<Integer> updateBrand(@RequestBody BrandVO vo) {
         brandMgmtService.updateBrand(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("deleteBrand/system")
+    @PatchMapping("delete/system")
     public ResponseEntity<Integer> deleteBrand(@RequestBody BrandVO vo) {
         brandMgmtService.deleteBrand(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PostMapping("getMappedCategoryList/system")
+    @PostMapping("maps/system")
     public ResponseEntity<List<BrandCategoryMapperVO>> getMappedCategoryList(@RequestParam Long brandKey) {
         return ResponseEntity.ok(brandMgmtService.getMappedCategoryList(brandKey));
     }
 
-    @DeleteMapping("deleteMapping/system")
+    @DeleteMapping("maps/delete/system")
     public ResponseEntity deleteMapping(@RequestParam Long brandKey) {
         brandMgmtService.deleteMapping(brandKey);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("saveMapping/system")
+    @PatchMapping("maps/update/system")
     public ResponseEntity<Integer> saveMapping(@RequestBody List<BrandCategoryMapperVO> list) {
         brandMgmtService.saveMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);

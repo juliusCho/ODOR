@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/article")
+@RequestMapping("odor/articles")
 public class ForumController {
 
     @Autowired
     private ForumService forumService;
 
-    @PostMapping("list/api")
+    @PostMapping("api")
     public ResponseEntity<List<ArticleVO>> list(@RequestParam String forumType, @RequestBody ArticleVO vo) {
         switch (forumType) {
             case "review":
@@ -28,7 +28,7 @@ public class ForumController {
         }
     }
 
-    @PostMapping("detail/api")
+    @PostMapping("one/api")
     public ResponseEntity<ArticleVO> detail(@RequestParam String forumType, @RequestBody ArticleVO vo) {
         switch (forumType) {
             case "review":
@@ -40,7 +40,7 @@ public class ForumController {
         }
     }
 
-    @PutMapping("create/api")
+    @PutMapping("insert/api")
     public ResponseEntity create(@RequestParam String forumType, @RequestBody ArticleVO vo) {
         switch (forumType) {
             case "review":

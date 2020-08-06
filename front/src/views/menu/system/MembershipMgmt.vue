@@ -230,7 +230,7 @@
                 this.searchCombos.membershipKey = [];
 
                 await axios.get(
-                    API.MembershipMgmtController.getMembershipListAll
+                    API.MembershipMgmtController.getMembershipList
                 ).then(res => {
                     this.searchCombos.membershipKey = [{membershipKey: 0, membershipName: 'All'}]
                         .concat(res.data.map(v => ({membershipKey: v.membershipKey, membershipName: v.membershipName})));

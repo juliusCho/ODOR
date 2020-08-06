@@ -11,74 +11,74 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/code")
+@RequestMapping("odor/codegroups")
 public class CodeMgmtController {
 
     @Autowired
     private CodeMgmtService codeMgmtService;
 
-    @GetMapping("getCodeGroupListAll/system")
-    public ResponseEntity<List<CodeGroupVO>> getCodeGroupListAll() {
-        return ResponseEntity.ok(codeMgmtService.getCodeGroupListAll());
-    }
-
-    @PostMapping("getCodeGroupList/system")
+    @PostMapping("system")
     public ResponseEntity<List<CodeGroupVO>> getCodeGroupList(@RequestBody CodeGroupVO vo) {
         return ResponseEntity.ok(codeMgmtService.getCodeGroupList(vo));
     }
 
-    @PostMapping("checkDuplication/system")
+    @GetMapping("system")
+    public ResponseEntity<List<CodeGroupVO>> getCodeGroupListAll() {
+        return ResponseEntity.ok(codeMgmtService.getCodeGroupListAll());
+    }
+
+    @PostMapping("check/duplication/system")
     public ResponseEntity<Integer> checkDuplication(@RequestParam String codeGroupId) {
         return ResponseEntity.ok(codeMgmtService.checkDuplication(codeGroupId));
     }
 
-    @PutMapping("insertCodeGroup/system")
+    @PutMapping("insert/system")
     public ResponseEntity insertCodeGroup(@RequestBody CodeGroupVO vo) {
         codeMgmtService.insertCodeGroup(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("updateCodeGroup/system")
+    @PatchMapping("update/system")
     public ResponseEntity updateCodeGroup(@RequestBody CodeGroupVO vo) {
         codeMgmtService.updateCodeGroup(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("deleteCodeGroup/system")
+    @PatchMapping("delete/system")
     public ResponseEntity deleteCodeGroup(@RequestBody CodeGroupVO vo) {
         codeMgmtService.deleteCodeGroup(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PostMapping("getCodeListSystem/system")
+    @PostMapping("codes/system")
     public ResponseEntity<List<CodeVO>> getCodeListSystem(@RequestBody CodeVO vo) {
         return ResponseEntity.ok(codeMgmtService.getCodeListSystem(vo));
     }
 
-    @PostMapping("checkDetailDuplication/system")
+    @PostMapping("codes/check/duplication/system")
     public ResponseEntity<Integer> checkDetailDuplication(@RequestBody CodeVO vo) {
         return ResponseEntity.ok(codeMgmtService.checkDetailDuplication(vo));
     }
 
-    @PutMapping("insertCode/system")
+    @PutMapping("codes/insert/system")
     public ResponseEntity insertCode(@RequestBody CodeVO vo) {
         codeMgmtService.insertCode(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("updateCode/system")
+    @PatchMapping("codes/update/system")
     public ResponseEntity updateCode(@RequestBody CodeVO vo) {
         codeMgmtService.updateCode(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("deleteCode/system")
+    @PatchMapping("codes/delete/system")
     public ResponseEntity deleteCode(@RequestBody CodeVO vo) {
         codeMgmtService.deleteCode(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @GetMapping("getForumCodeList/system")
+    @GetMapping("codes/forum/system")
     public ResponseEntity<List<CodeVO>> getForumCodeList() {
         return ResponseEntity.ok(codeMgmtService.getForumCodeList());
     }

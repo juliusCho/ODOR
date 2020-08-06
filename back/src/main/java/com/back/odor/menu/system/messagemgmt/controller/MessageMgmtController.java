@@ -10,40 +10,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/msg")
+@RequestMapping("odor/messages")
 public class MessageMgmtController {
 
     @Autowired
     private MessageMgmtService messageMgmtService;
 
-    @PostMapping("getMessageList/system")
+    @PostMapping("rest")
     public ResponseEntity<List<MessageVO>> getMessageList(@RequestBody MessageVO vo) {
         return ResponseEntity.ok(messageMgmtService.getMessageList(vo));
     }
 
-    @PutMapping("insertMessage/system")
+    @PutMapping("insert/system")
     public ResponseEntity insertMessage(@RequestBody List<MessageVO> list) {
         messageMgmtService.insertMessage(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PostMapping("getMessageListSystem/system")
+    @PostMapping("system")
     public ResponseEntity<List<MessageVO>> getMessageListSystem(@RequestBody MessageVO vo) {
         return ResponseEntity.ok(messageMgmtService.getMessageListSystem(vo));
     }
 
-    @PostMapping("checkDuplication/system")
+    @PostMapping("check/duplication/system")
     public ResponseEntity<Integer> checkDuplication(@RequestBody MessageVO vo) {
         return ResponseEntity.ok(messageMgmtService.checkDuplication(vo));
     }
 
-    @PatchMapping("updateMessage/system")
+    @PatchMapping("update/system")
     public ResponseEntity updateMessage(@RequestBody List<MessageVO> list) {
         messageMgmtService.updateMessage(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("deleteMessageGroup/system")
+    @PatchMapping("delete/system")
     public ResponseEntity deleteMessageGroup(@RequestBody MessageVO vo) {
         messageMgmtService.deleteMessageGroup(vo);
         return new ResponseEntity("success", HttpStatus.OK);

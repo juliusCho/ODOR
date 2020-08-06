@@ -10,36 +10,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("odor/creator")
+@RequestMapping("odor/creators")
 public class CreatorMgmtController {
 
     @Autowired
     private CreatorMgmtService creatorMgmtService;
 
 
-    @PostMapping("getCreatorList/system")
+    @PostMapping("system")
     public ResponseEntity<List<CreatorVO>> getCreatorList(@RequestBody CreatorVO vo) {
         return ResponseEntity.ok(creatorMgmtService.getCreatorList(vo));
     }
 
-    @GetMapping("getCreatorListAll/system")
+    @GetMapping("system")
     public ResponseEntity<List<CreatorVO>> getCreatorListAll() {
         return ResponseEntity.ok(creatorMgmtService.getCreatorListAll());
     }
 
-    @PutMapping("insertCreator/system")
+    @PutMapping("insert/system")
     public ResponseEntity<Integer> insertCreator(@RequestBody CreatorVO vo) {
         creatorMgmtService.insertCreator(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("updateCreator/system")
+    @PatchMapping("update/system")
     public ResponseEntity<Integer> updateCreator(@RequestBody CreatorVO vo) {
         creatorMgmtService.updateCreator(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("deleteCreator/system")
+    @PatchMapping("delete/system")
     public ResponseEntity<Integer> deleteCreator(@RequestBody CreatorVO vo) {
         creatorMgmtService.deleteCreator(vo);
         return new ResponseEntity("success", HttpStatus.OK);

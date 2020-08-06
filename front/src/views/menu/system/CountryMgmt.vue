@@ -215,7 +215,7 @@
                 this.searchCombos.countryName = [];
 
                 await axios.get(
-                    API.CountryMgmtController.getCountryListAll
+                    API.CountryMgmtController.getCountryList
                 ).then(res => {
                     let countryCode = [''].concat(res.data.map(v => v.countryCode));
                     let countryName = [''].concat(res.data.map(v => v.countryName));
