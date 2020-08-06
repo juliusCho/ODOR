@@ -106,15 +106,18 @@
                                 </v-col>
                                 <v-col cols="12" sm="6">
                                     <v-select
+                                            @change="changeEmailAd($event)"
                                             v-model="selectedEmail"
                                             item-value="emailAdd"
                                             :counter="10"
                                             :items="emailItems"
-                                            label="Email"
+                                            label="input Email"
                                             item-text="emailAdd"
                                             solo
                                             required
-                                    ></v-select>
+                                    >
+                                    </v-select>
+
                                 </v-col>
                             </v-row>
                             <div class="text-center">
@@ -152,9 +155,11 @@
                 alertMsg: '구냥',
                 alertShow: false,
                 emailItems: [
-                    {emailAdd: '@gmail.com'},
-                    {emailAdd: '@naver.com'},
-                    {emailAdd: '@daum.net'}
+                    '직접입력','@gmail.com', '@naver.com'
+                    // {emailAdd: ''},
+                    // {emailAdd: '@gmail.com'},
+                    // {emailAdd: '@naver.com'},
+                    // {emailAdd: '@daum.net'}
                 ],
                 selectedEmail: {},
                 genderCode1: 'M',
@@ -179,7 +184,7 @@
 
         mounted() {
             this.checkSession();
-            console.log('tmpSession >', this.tmpSession);
+            console.log('mounted tmpSession >', this.tmpSession);
             console.log('mounted avatar > ', this.avatar);
             //dd
         },
@@ -191,11 +196,13 @@
                     return;
                 }
                 this.tmpSession = TMP_SESSION.getLoginUser();
+
                 let email = this.tmpSession.email.split('@');
                 this.selectedEmail = '@' + email[1];
                 this.tmpSession.emailId = email[0];
                 this.tmpSession.membershipName = CODE.getCodeName('MEMBERSHIP_LVL_CODE', this.tmpSession.lvlCode);
-                console.log(this.tmpSession);
+
+                console.log('checkSession this.tmpSession > ', this.tmpSession);
                 //this.tmpSession.genderCode = CODE.getCodeName('GENDER_CODE', this.tmpSession.genderCode);
 
             },
@@ -221,6 +228,13 @@
             showAlert(msg) {
                 this.alertMsg = msg;
                 this.alertShow = true;
+            },
+            changeEmailAd() {
+                console.log('onchange this.selectedEmail > ',this.selectedEmail);
+                if (this.selectedEmail !== '직접입력') {
+
+                    return;
+                }
             },
 
             //=======================이미지 표시=====================
@@ -275,6 +289,7 @@
             resetAvatar() {
 
             },
+
             //=======================이미지 업로드=====================
 
 
@@ -292,12 +307,17 @@
                     userId : this.tmpSession.userId,
                     password : this.tmpSession.password,
                     nickname : this.tmpSession.nickname,
+                    genderCode : this.tmpSession.genderCode,
                     age : this.tmpSession.age,
-                    email : this.tmpSession.emailId + this.selectedEmail
+                    sysMngrYn : this.tmpSession.sysMngrYn,
+                    email : this.tmpSession.emailId + this.selectedEmail,
+                    membershipKey : this.tmpSession.membershipKey
                 })
 
                 this.showAlert(this.$t('membership.myInfoUpdated'));
             }
+
+
         }
     }
 </script>

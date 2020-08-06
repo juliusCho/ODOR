@@ -174,11 +174,11 @@
              , NICKNAME         = #{vo.nickname}
              , GENDER_CODE      = #{vo.genderCode}
              , AGE              = #{vo.age}
-             , USE_YN           = #{vo.useYn}
+             , USE_YN           = true
              , SYS_MNGR_YN      = #{vo.sysMngrYn}
              , MEMBERSHIP_KEY   = #{vo.membershipKey}
              , IMAGE            = #{vo.image}
-             , UPDATER_ID       = #{vo.updaterId}
+             , UPDATER_ID       = coalesce(#{vo.updaterId}, #{vo.userId})
              , UPDATE_DATE      = UTC_TIMESTAMP()
          WHERE UPPER(USER_ID) = UPPER(#{vo.userId})
     </update>
