@@ -281,9 +281,12 @@
                 axios.patch(API.UserMgmtController.uploadPhoto, {
                     userId: this.tmpSession.userId,
                     image: data[0]
-                }).then(() => {
+                }).then(res => {
+                  this.apiResponse = res;
+                  if (this.responseAnalyse) {
                     this.tmpSession.image = data[0];
                     TMP_SESSION.setLognUser(this.tmpSession);
+                  }
                 });
             },
             resetAvatar() {
@@ -303,7 +306,7 @@
                     this.uploadImage();
                 }
 
-                axios.patch(API.UserMgmtController.cruUser, {
+                axios.delete(API.UserMgmtController.cruUser, {
                     userId : this.tmpSession.userId,
                     password : this.tmpSession.password,
                     nickname : this.tmpSession.nickname,
@@ -312,9 +315,9 @@
                     sysMngrYn : this.tmpSession.sysMngrYn,
                     email : this.tmpSession.emailId + this.selectedEmail,
                     membershipKey : this.tmpSession.membershipKey
-                })
-
-                this.showAlert(this.$t('membership.myInfoUpdated'));
+                }).then(() => {
+                    this.showAlert(this.$t('membership.myInfoUpdated'));
+                });
             }
 
 

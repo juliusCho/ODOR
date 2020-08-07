@@ -6,6 +6,7 @@ import '@/plugins/axios'
 import vuetify from '@/plugins/vuetify/index'
 import i18n from '@/plugins/vueI18n'
 import './sass/variables.scss'
+import ApiErrorAlert from "@/views/components/ApiErrorAlert";
 // import lifecycleLogger from '@/mixins/lifcycle-logger.mixin'
 // import pluginTest from '@/plugins/test/lifecycle-logger.plugin'
 
@@ -28,6 +29,7 @@ library.add(faChessQueen);
 
 // ************************ Global Components
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('api', ApiErrorAlert);
 // ************************ Global Components
 
 
