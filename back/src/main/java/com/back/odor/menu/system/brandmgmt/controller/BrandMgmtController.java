@@ -33,13 +33,13 @@ public class BrandMgmtController {
         return ResponseEntity.ok(brandMgmtService.checkDuplication(vo));
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity<Integer> insertBrand(@RequestBody BrandVO vo) {
         brandMgmtService.insertBrand(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity<Integer> updateBrand(@RequestBody BrandVO vo) {
         brandMgmtService.updateBrand(vo);
         return new ResponseEntity("success", HttpStatus.OK);
@@ -56,13 +56,13 @@ public class BrandMgmtController {
         return ResponseEntity.ok(brandMgmtService.getMappedCategoryList(brandKey));
     }
 
-    @DeleteMapping("maps/delete/system")
+    @DeleteMapping("maps/system")
     public ResponseEntity deleteMapping(@RequestParam Long brandKey) {
         brandMgmtService.deleteMapping(brandKey);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("maps/update/system")
+    @PatchMapping("maps/system")
     public ResponseEntity<Integer> saveMapping(@RequestBody List<BrandCategoryMapperVO> list) {
         brandMgmtService.saveMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);

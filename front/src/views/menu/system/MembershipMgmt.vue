@@ -230,7 +230,7 @@
                 this.searchCombos.membershipKey = [];
 
                 await axios.get(
-                    API.MembershipMgmtController.getMembershipList
+                    API.MembershipMgmtController.cruMembership
                 ).then(res => {
                     this.searchCombos.membershipKey = [{membershipKey: 0, membershipName: 'All'}]
                         .concat(res.data.map(v => ({membershipKey: v.membershipKey, membershipName: v.membershipName})));
@@ -240,7 +240,7 @@
                 this.selectedMembership = [];
 
                 axios.post(
-                    API.MembershipMgmtController.getMembershipList,
+                    API.MembershipMgmtController.cruMembership,
                     this.searchKeys
                 ).then(res => {
                     this.membershipList = res.data;
@@ -279,14 +279,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.MembershipMgmtController.insertMembership, data)
+                axios.put(API.MembershipMgmtController.cruMembership, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.MembershipMgmtController.updateMembership, data)
+                axios.patch(API.MembershipMgmtController.cruMembership, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
@@ -314,7 +314,7 @@
             async mapping(item) {
                 let {membershipKey} = item;
                 await axios.post(
-                    API.MembershipMgmtController.getMappedForumList,
+                    API.MembershipMgmtController.crudMapping,
                     {membershipKey}
                 ).then(res => {
                     let forumList = res.data;

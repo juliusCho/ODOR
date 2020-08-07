@@ -325,7 +325,7 @@
         methods: {
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -336,7 +336,7 @@
                 this.searchCombos.masterKey = [];
 
                 await axios.get(
-                    API.RatingItemMasterMgmtController.getRatingItemMasterList
+                    API.RatingItemMasterMgmtController.cruRatingItem
                 ).then(res => {
                     let masterKey = [{masterKey: 0, itemName: 'All'}]
                         .concat(res.data.map(v => ({masterKey: v.masterKey, itemName: v.itemName})));
@@ -347,7 +347,7 @@
                 this.selectedRatingItem = [];
 
                 axios.post(
-                    API.RatingItemMasterMgmtController.getRatingItemMasterList,
+                    API.RatingItemMasterMgmtController.cruRatingItem,
                     this.searchKeys
                 ).then(res => {
                     this.ratingItemList = res.data;
@@ -386,14 +386,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.RatingItemMasterMgmtController.insertRatingItemMaster, data)
+                axios.put(API.RatingItemMasterMgmtController.cruRatingItem, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.RatingItemMasterMgmtController.updateRatingItemMaster, data)
+                axios.patch(API.RatingItemMasterMgmtController.cruRatingItem, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

@@ -214,7 +214,7 @@
         methods: {
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -225,7 +225,7 @@
                 this.searchCombos.ingredientKey = [];
 
                 await axios.get(
-                    API.IngredientMgmtController.getIngredientList
+                    API.IngredientMgmtController.cruIngredient
                 ).then(res => {
                     let ingredientKey = [{ingredientKey: 0, ingredientName: 'All'}]
                         .concat(res.data.map(v => ({ingredientKey: v.ingredientKey, ingredientName: v.ingredientName})));
@@ -236,7 +236,7 @@
                 this.selectedIngredient = [];
 
                 axios.post(
-                    API.IngredientMgmtController.getIngredientList,
+                    API.IngredientMgmtController.cruIngredient,
                     this.searchKeys
                 ).then(res => {
                     this.ingredientList = res.data;
@@ -275,14 +275,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.IngredientMgmtController.insertIngredient, data)
+                axios.put(API.IngredientMgmtController.cruIngredient, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.IngredientMgmtController.updateIngredient, data)
+                axios.patch(API.IngredientMgmtController.cruIngredient, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

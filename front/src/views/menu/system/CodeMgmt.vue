@@ -221,7 +221,7 @@
                 this.searchCombos.codeGroupName = [];
 
                 axios.get(
-                    API.CodeMgmtController.getCodeGroupList
+                    API.CodeMgmtController.cruCodeGroup
                 ).then(res => {
                     let codeGroupId = [''].concat(res.data.map(v => v.codeGroupId));
                     let codeGroupName = [''].concat(res.data.map(v => v.codeGroupName));
@@ -233,7 +233,7 @@
                 this.selectedCodeGroup = [];
 
                 axios.post(
-                    API.CodeMgmtController.getCodeGroupList,
+                    API.CodeMgmtController.cruCodeGroup,
                     this.searchKeys
                 ).then(res => {
                     this.codeGroupList = res.data;
@@ -296,14 +296,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.CodeMgmtController.insertCodeGroup, data)
+                axios.put(API.CodeMgmtController.cruCodeGroup, data)
                 .then(res => {
                     this.doneAlert(res.data);
                     this.reset();
                 });
             },
             updateItem(data) {
-                axios.patch(API.CodeMgmtController.updateCodeGroup, data)
+                axios.patch(API.CodeMgmtController.cruCodeGroup, data)
                 .then(res => {
                     this.doneAlert(res.data);
                     this.reset();

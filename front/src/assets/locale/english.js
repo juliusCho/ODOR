@@ -3,7 +3,14 @@ const ENG = {
         unableImgUpload: 'There has been an error while uploading an image. Please retry.',
         imageOnlyMsg: 'Please choose an image file',
         maximumImgSizeExceeded: 'Your file is too big! Please select an image under 1MB',
-        incompatibleVid: 'This browser is not compatible with this video to be shown T_T'
+        incompatibleVid: 'This browser is not compatible with this video to be shown T_T',
+        apiBadRequest: 'Invalid request',
+        apiUnauthorized: 'You don\'t have the authority.',
+        apiNotFound: 'Weird.. Someone might still be working with the development..',
+        apiMethodNotAllowed: 'Error in networking with the server.. Kill the developers!',
+        apiConflict: 'Conflicts within the system. Sorry for the "extraordinary" development..',
+        apiTooManyRequests: 'Too many requests at once. What are you.. a robot?',
+        apiServerErrors: 'System error. Who the hell did the server side?!'
     },
     main: {
         welcome: 'Welcome to ODOR'

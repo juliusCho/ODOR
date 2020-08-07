@@ -40,13 +40,13 @@ public class IngredientMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity<Integer> updateIngredient(@RequestBody IngredientVO vo) {
         ingredientMgmtService.updateIngredient(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity<Integer> insertIngredient(@RequestBody IngredientVO vo) {
         ingredientMgmtService.insertIngredient(vo);
         return new ResponseEntity("success", HttpStatus.OK);

@@ -44,13 +44,13 @@ public class RatingItemMasterMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity<Integer> updateRatingItemMaster(@RequestBody RatingItemMasterVO vo) {
         ratingItemMasterMgmtService.updateRatingItemMaster(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity<Integer> insertRatingItemMaster(@RequestBody RatingItemMasterVO vo) {
         ratingItemMasterMgmtService.insertRatingItemMaster(vo);
         return new ResponseEntity("success", HttpStatus.OK);

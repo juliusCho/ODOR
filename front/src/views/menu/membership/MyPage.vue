@@ -303,7 +303,7 @@
                     this.uploadImage();
                 }
 
-                axios.patch(API.UserMgmtController.updateUser, {
+                axios.patch(API.UserMgmtController.cruUser, {
                     userId : this.tmpSession.userId,
                     password : this.tmpSession.password,
                     nickname : this.tmpSession.nickname,

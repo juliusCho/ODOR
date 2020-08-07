@@ -215,7 +215,7 @@
                 this.searchCombos.countryName = [];
 
                 await axios.get(
-                    API.CountryMgmtController.getCountryList
+                    API.CountryMgmtController.cruCountry
                 ).then(res => {
                     let countryCode = [''].concat(res.data.map(v => v.countryCode));
                     let countryName = [''].concat(res.data.map(v => v.countryName));
@@ -227,7 +227,7 @@
                 this.selectedCountry = [];
 
                 axios.post(
-                    API.CountryMgmtController.getCountryList,
+                    API.CountryMgmtController.cruCountry,
                     this.searchKeys
                 ).then(res => {
                     this.countryList = res.data;
@@ -271,14 +271,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.CountryMgmtController.insertCountry, data)
+                axios.put(API.CountryMgmtController.cruCountry, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.CountryMgmtController.updateCountry, data)
+                axios.patch(API.CountryMgmtController.cruCountry, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

@@ -87,18 +87,17 @@ export default {
   methods: {
     search(searchOption = {}) {
       axios.post(
-          API.ForumController.list,
+          API.ForumController.cru,
           Object.assign(searchOption,
               {categoryId: this.categoryId, forumKey: this.forumKey}),
           {
             params: {
               forumType: 'review'
             }
-          },
-          Object.assign(searchOption,
-              {categoryId: this.categoryId, forumKey: this.forumKey})
+          }
       )
       .then(res => {
+        console.log(res);
         this.hotReviews = res.data;
       });
     }

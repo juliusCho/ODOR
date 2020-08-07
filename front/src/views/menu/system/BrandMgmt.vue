@@ -252,7 +252,7 @@
                 this.searchCombos.countryCode = [];
 
                 await axios.get(
-                    API.CountryMgmtController.getCountryList
+                    API.CountryMgmtController.cruCountry
                 ).then(res => {
                     let list = res.data.map(v => ({countryCode: v.countryCode, countryName: v.countryName}));
                     this.searchCombos.countryCode = [{countryCode: '', countryName: 'All'}].concat(list);
@@ -264,7 +264,7 @@
                 this.searchCombos.link = [];
 
                 await axios.get(
-                    API.BrandMgmtController.getBrandList
+                    API.BrandMgmtController.cruBrand
                 ).then(res => {
                     this.searchCombos.brandKey = [{brandKey: 0, name: 'All'}]
                         .concat(COMMON_UTIL.removeArrDuplicate(
@@ -280,7 +280,7 @@
                 this.selectedBrand = [];
 
                 axios.post(
-                    API.BrandMgmtController.getBrandList,
+                    API.BrandMgmtController.cruBrand,
                     this.searchKeys
                 ).then(res => {
                     this.brandList = res.data;
@@ -319,14 +319,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.BrandMgmtController.insertBrand, data)
+                axios.put(API.BrandMgmtController.cruBrand, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.BrandMgmtController.updateBrand, data)
+                axios.patch(API.BrandMgmtController.cruBrand, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
@@ -355,7 +355,7 @@
             async mapping(item) {
                 let {brandKey} = item;
                 await axios.post(
-                    API.BrandMgmtController.getMappedCategoryList,
+                    API.BrandMgmtController.crudMapping,
                     null,
                     {
                         params: {

@@ -240,7 +240,7 @@
         methods: {
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -251,7 +251,7 @@
                 this.searchCombos.forumKey = [];
 
                 await axios.get(
-                    API.ForumMgmtController.getForumList
+                    API.ForumMgmtController.cruForum
                 ).then(res => {
                     let forumKey = [{forumKey: 0, forumName: 'All'}]
                         .concat(res.data.map(v => ({forumKey: v.forumKey, forumName: v.forumName})));
@@ -262,7 +262,7 @@
                 this.selectedForum = [];
 
                 axios.post(
-                    API.ForumMgmtController.getForumList,
+                    API.ForumMgmtController.cruForum,
                     this.searchKeys
                 ).then(res => {
                     this.forumList = res.data;
@@ -301,14 +301,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.ForumMgmtController.insertForum, data)
+                axios.put(API.ForumMgmtController.cuForum, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.ForumMgmtController.updateForum, data)
+                axios.patch(API.ForumMgmtController.cuForum, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

@@ -3,7 +3,14 @@ const KOR = {
         unableImgUpload: '이미지 업로드에 오류가 발생했습니다. 다시 시도해 주세요.',
         imageOnlyMsg: '이미지 파일만 선택 가능합니다',
         maximumImgSizeExceeded: '파일이 너무 커요! 1MB 이하의 파일만 부탁드려요',
-        incompatibleVid: '비디오 출력이 지원되지 않는 브라우저 입니다ㅠ_ㅠ'
+        incompatibleVid: '비디오 출력이 지원되지 않는 브라우저 입니다ㅠ_ㅠ',
+        apiBadRequest: '요청이 유효하지 않습니다.',
+        apiUnauthorized: '권한이 없습니다.',
+        apiNotFound: '이상하군요.. 개발이 덜 됐나..ㄷㄷ',
+        apiMethodNotAllowed: '서버 통신 개발 오류.. 개발자를 족쳐라!',
+        apiConflict: '시스템 내 충돌입니다. 개발을 개~발로 해서 ㅈㅅ합니다..',
+        apiTooManyRequests: '너무 많은 요청입니다. 혹시 로봇이세요?',
+        apiServerErrors: '시스템 오류입니다. 서버를 대체 누가 개발한거야ㅠ'
     },
     main: {
         welcome: 'ODOR의 세계로 오신걸 환영합니다'

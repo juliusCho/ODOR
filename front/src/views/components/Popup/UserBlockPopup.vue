@@ -173,7 +173,7 @@
                 }
                 if (this.blockYn === 'Y') return;
 
-                axios.post(API.UserMgmtController.getBlockInfo, this.user)
+                axios.post(API.UserMgmtController.crdBlock, this.user)
                 .then(res => {
                     Object.assign(this.user, res.data);
                 });
@@ -188,7 +188,7 @@
             okAction() {
                 this.confirmShow = false;
 
-                axios.put(API.UserMgmtController.blockUser, this.user)
+                axios.put(API.UserMgmtController.crdBlock, this.user)
                 .then(() => {
                     this.cancelAction();
                     this.$emit('okAction');

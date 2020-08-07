@@ -214,7 +214,7 @@
         methods: {
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -225,7 +225,7 @@
                 this.searchCombos.productTypeKey = [];
 
                 await axios.get(
-                    API.ProductTypeMgmtController.getProductTypeList
+                    API.ProductTypeMgmtController.cruProductType
                 ).then(res => {
                     let productTypeKey = [{productTypeKey: 0, productTypeName: 'All'}]
                         .concat(res.data.map(v => ({productTypeKey: v.productTypeKey, productTypeName: v.productTypeName})));
@@ -236,7 +236,7 @@
                 this.selectedProductType = [];
 
                 axios.post(
-                    API.ProductTypeMgmtController.getProductTypeList,
+                    API.ProductTypeMgmtController.cruProductType,
                     this.searchKeys
                 ).then(res => {
                     this.productTypeList = res.data;
@@ -278,14 +278,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.ProductTypeMgmtController.insertProductType, data)
+                axios.put(API.ProductTypeMgmtController.cruProductType, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.ProductTypeMgmtController.updateProductType, data)
+                axios.patch(API.ProductTypeMgmtController.cruProductType, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

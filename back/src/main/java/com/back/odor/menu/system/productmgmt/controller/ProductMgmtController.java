@@ -32,13 +32,13 @@ public class ProductMgmtController {
         return ResponseEntity.ok(productMgmtService.checkDuplication(vo));
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity<Integer> insertProduct(@RequestBody ProductVO vo) {
         productMgmtService.insertProduct(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity<Integer> updateProduct(@RequestBody ProductVO vo) {
         productMgmtService.updateProduct(vo);
         return new ResponseEntity("success", HttpStatus.OK);
@@ -70,52 +70,52 @@ public class ProductMgmtController {
         return ResponseEntity.ok(productMgmtService.getMappedProductTypeList(productKey));
     }
 
-    @PatchMapping("maps/brands/update/system")
+    @PatchMapping("maps/brands/system")
     public ResponseEntity saveBrandMapping(@RequestBody List<ProductBrandMapperVO> list) {
         productMgmtService.saveBrandMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("maps/creators/update/system")
+    @PatchMapping("maps/creators/system")
     public ResponseEntity saveCreatorMapping(@RequestBody List<ProductCreatorMapperVO> list) {
         productMgmtService.saveCreatorMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("maps/ingredients/update/system")
+    @PatchMapping("maps/ingredients/system")
     public ResponseEntity saveIngredientMapping(@RequestBody List<ProductIngredientMapperVO> list) {
         productMgmtService.saveIngredientMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("maps/producttypes/update/system")
+    @PatchMapping("maps/producttypes/system")
     public ResponseEntity saveProductTypeMapping(@RequestBody List<ProductProductTypeMapperVO> list) {
         productMgmtService.saveProductTypeMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("maps/brands/delete/system")
+    @DeleteMapping("maps/brands/system")
     public ResponseEntity deleteBrandMapping(
             @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteBrandMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("maps/creators/delete/system")
+    @DeleteMapping("maps/creators/system")
     public ResponseEntity deleteCreatorMapping(
             @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteCreatorMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("maps/ingredients/delete/system")
+    @DeleteMapping("maps/ingredients/system")
     public ResponseEntity deleteIngredientMapping(
             @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteIngredientMapping(productKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("maps/producttypes/delete/system")
+    @DeleteMapping("maps/producttypes/system")
     public ResponseEntity deleteProductTypeMapping(
             @RequestParam Long productKey, @RequestParam String categoryId) {
         productMgmtService.deleteProductTypeMapping(productKey, categoryId);

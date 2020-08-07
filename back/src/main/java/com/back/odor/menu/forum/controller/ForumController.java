@@ -40,7 +40,7 @@ public class ForumController {
         }
     }
 
-    @PutMapping("insert/api")
+    @PutMapping("api")
     public ResponseEntity create(@RequestParam String forumType, @RequestBody ArticleVO vo) {
         switch (forumType) {
             case "review":
@@ -54,7 +54,7 @@ public class ForumController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/api")
+    @PatchMapping("api")
     public ResponseEntity update(@RequestParam String forumType, @RequestBody ArticleVO vo) {
         switch (forumType) {
             case "review":

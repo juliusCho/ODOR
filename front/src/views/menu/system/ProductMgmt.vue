@@ -353,7 +353,7 @@
             },
             async getCategoryListAll() {
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'All'}]
                         .concat(res.data.map(v => ({categoryId: v.categoryId, categoryName: v.categoryName})));
@@ -364,7 +364,7 @@
                 this.searchCombos.countryCode = [];
 
                 await axios.get(
-                    API.CountryMgmtController.getCountryList
+                    API.CountryMgmtController.cruCountry
                 ).then(res => {
                     let list = res.data.map(v => ({countryCode: v.countryCode, countryName: v.countryName}));
                     this.searchCombos.countryCode = [{countryCode: '', countryName: 'All'}].concat(list);
@@ -376,7 +376,7 @@
                 this.searchCombos.link = [];
 
                 await axios.get(
-                    API.ProductMgmtController.getProductList
+                    API.ProductMgmtController.cruProduct
                 ).then(res => {
                     this.searchCombos.productKey = [{productKey: 0, name: 'All'}]
                         .concat(COMMON_UTIL.removeArrDuplicate(res.data));
@@ -386,7 +386,7 @@
                 this.selectedProduct = [];
 
                 axios.post(
-                    API.ProductMgmtController.getProductList,
+                    API.ProductMgmtController.cruProduct,
                     this.searchKeys
                 ).then(res => {
                     this.productList = res.data;
@@ -435,14 +435,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.ProductMgmtController.insertProduct, data)
+                axios.put(API.ProductMgmtController.cruProduct, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.ProductMgmtController.updateProduct, data)
+                axios.patch(API.ProductMgmtController.cruProduct, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
@@ -475,7 +475,7 @@
                 let {productKey} = item;
 
                 await axios.get(
-                    API.ProductMgmtController['getMapped' + typeCapital + 'List'],
+                    API.ProductMgmtController['crud' + typeCapital],
                     {
                         params: {productKey}
                     }

@@ -42,18 +42,18 @@ public class UserMgmtController {
         return ResponseEntity.ok(userMgmtService.checkDuplication(vo));
     }
 
-    @PostMapping("check/email/duplication/system")
+    @PostMapping("check/duplication/email/system")
     public ResponseEntity<Integer> checkEmailDuplication(@RequestBody UserVO vo) {
         return ResponseEntity.ok(userMgmtService.checkEmailDuplication(vo));
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity insertUser(@RequestBody UserVO vo) {
         userMgmtService.insertUser(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity updateUser(@RequestBody UserVO vo) {
         userMgmtService.updateUser(vo);
         return new ResponseEntity("success", HttpStatus.OK);
@@ -65,7 +65,7 @@ public class UserMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @DeleteMapping("block/cancel/system")
+    @DeleteMapping("block/system")
     public ResponseEntity unblockUser(
             @RequestParam String userId,
             @RequestParam String email
@@ -74,7 +74,7 @@ public class UserMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("block/execute/system")
+    @PutMapping("block/system")
     public ResponseEntity blockUser(@RequestBody BlockedUserVO vo) {
         userMgmtService.blockUser(vo);
         return new ResponseEntity("success", HttpStatus.OK);
@@ -85,7 +85,7 @@ public class UserMgmtController {
         return ResponseEntity.ok(userMgmtService.getBlockInfo(vo));
     }
 
-    @PatchMapping("photo/update/api")
+    @PatchMapping("photo/api")
     public ResponseEntity uploadPhoto(@RequestBody UserVO vo) {
         userMgmtService.uploadPhoto(vo);
         return new ResponseEntity("success", HttpStatus.OK);

@@ -327,7 +327,7 @@
                     {messageId: this.selected.messageId, countryCode: 'ENG', message: this.selected.engMessage}
                 ];
 
-                axios.put(API.MessageMgmtController.insertMessage, list)
+                axios.put(API.MessageMgmtController.cruMessage, list)
                 .then(res => {
                     if (res.data === 'success') {
                         this.addNewMessageToCommonList(list);

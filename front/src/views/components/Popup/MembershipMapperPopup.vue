@@ -232,14 +232,14 @@
                 this.searchCombos.categoryId = [];
 
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'ALL'}].concat(res.data);
                 });
             },
             getCategoryList() {
                 axios.post(
-                    API.CategoryMgmtController.getCategoryList,
+                    API.CategoryMgmtController.cruCategory,
                     {
                         categoryId: this.searchKeys.categoryId,
                         useYn: true
@@ -274,7 +274,7 @@
                 let {categoryId} = this.searchKeys;
 
                 await axios.post(
-                    API.ForumMgmtController.getForumList,
+                    API.ForumMgmtController.cruForum,
                     {categoryId, useYn: true}
                 ).then(res => {
                     let forumKey = [{forumKey: 0, forumName: 'All'}]
@@ -286,7 +286,7 @@
                 let {categoryId, forumKey} = this.searchKeys;
 
                 await axios.post(
-                    API.ForumMgmtController.getForumList,
+                    API.ForumMgmtController.cruForum,
                     {categoryId, forumKey, useYn: true}
                 ).then(res => {
                     this.forumList = res.data;
@@ -315,7 +315,7 @@
             },
             deleteAction() {
                 axios.delete(
-                    API.MembershipMgmtController.deleteMapping,
+                    API.MembershipMgmtController.crudMapping,
                     {
                         params: {
                             membershipKey: this.membershipKey,
@@ -352,7 +352,7 @@
                     );
 
                 axios.patch(
-                    API.MembershipMgmtController.saveMapping,
+                    API.MembershipMgmtController.crudMapping,
                     selectedList
                 ).then(() => {
                     this.updateDataSelected();

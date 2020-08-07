@@ -32,13 +32,13 @@ public class CountryMgmtController {
         return ResponseEntity.ok(countryMgmtService.checkDuplication(countryCode));
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity insertCountry(@RequestBody CountryVO vo) {
         countryMgmtService.insertCountry(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity updateCountry(@RequestBody CountryVO vo) {
         countryMgmtService.updateCountry(vo);
         return new ResponseEntity("success", HttpStatus.OK);

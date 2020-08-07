@@ -21,7 +21,7 @@ public class MessageMgmtController {
         return ResponseEntity.ok(messageMgmtService.getMessageList(vo));
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity insertMessage(@RequestBody List<MessageVO> list) {
         messageMgmtService.insertMessage(list);
         return new ResponseEntity("success", HttpStatus.OK);
@@ -37,7 +37,7 @@ public class MessageMgmtController {
         return ResponseEntity.ok(messageMgmtService.checkDuplication(vo));
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity updateMessage(@RequestBody List<MessageVO> list) {
         messageMgmtService.updateMessage(list);
         return new ResponseEntity("success", HttpStatus.OK);

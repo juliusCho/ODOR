@@ -168,14 +168,14 @@
                 this.searchCombos.categoryId = [];
 
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     this.searchCombos.categoryId = [{categoryId: '', categoryName: 'ALL'}].concat(res.data);
                 });
             },
             getCategoryList() {
                 axios.post(
-                    API.CategoryMgmtController.getCategoryList,
+                    API.CategoryMgmtController.cruCategory,
                     {
                         categoryId: this.searchKeys.categoryId,
                         useYn: true
@@ -207,7 +207,7 @@
             },
             deleteAction() {
                 axios.delete(
-                    API.BrandMgmtController.deleteMapping,
+                    API.BrandMgmtController.crudMapping,
                     {
                         params: {
                             brandKey: this.brandKey
@@ -239,7 +239,7 @@
             saveAction() {
                 let list = this.selectedCategory.map(v => Object.assign(v, {brandKey: this.brandKey}));
                 axios.patch(
-                    API.BrandMgmtController.saveMapping,
+                    API.BrandMgmtController.crudMapping,
                     list
                 ).then(() => {
                     this.confirmShow = false;

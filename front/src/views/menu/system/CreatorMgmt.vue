@@ -206,7 +206,7 @@
                 this.searchCombos.countryCode = [];
 
                 await axios.get(
-                    API.CountryMgmtController.getCountryList
+                    API.CountryMgmtController.cruCountry
                 ).then(res => {
                     let list = res.data.map(v => ({countryCode: v.countryCode, countryName: v.countryName}));
                     this.searchCombos.countryCode = [{countryCode: '', countryName: 'All'}].concat(list);
@@ -217,7 +217,7 @@
                 this.searchCombos.creatorKey = [];
 
                 await axios.get(
-                    API.CreatorMgmtController.getCreatorList
+                    API.CreatorMgmtController.cruCreator
                 ).then(res => {
                     this.searchCombos.creatorKey = [{creatorKey: 0, name: 'All'}]
                         .concat(COMMON_UTIL.removeArrDuplicate(
@@ -229,7 +229,7 @@
                 this.selectedCreator = [];
 
                 axios.post(
-                    API.CreatorMgmtController.getCreatorList,
+                    API.CreatorMgmtController.cruCreator,
                     this.searchKeys
                 ).then(res => {
                     this.creatorList = res.data;
@@ -256,14 +256,14 @@
                 this.insertPopShow = true;
             },
             addItem(data) {
-                axios.put(API.CreatorMgmtController.insertCreator, data)
+                axios.put(API.CreatorMgmtController.cruCreator, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.CreatorMgmtController.updateCreator, data)
+                axios.patch(API.CreatorMgmtController.cruCreator, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

@@ -32,13 +32,13 @@ public class CodeMgmtController {
         return ResponseEntity.ok(codeMgmtService.checkDuplication(codeGroupId));
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity insertCodeGroup(@RequestBody CodeGroupVO vo) {
         codeMgmtService.insertCodeGroup(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity updateCodeGroup(@RequestBody CodeGroupVO vo) {
         codeMgmtService.updateCodeGroup(vo);
         return new ResponseEntity("success", HttpStatus.OK);
@@ -60,13 +60,13 @@ public class CodeMgmtController {
         return ResponseEntity.ok(codeMgmtService.checkDetailDuplication(vo));
     }
 
-    @PutMapping("codes/insert/system")
+    @PutMapping("codes/system")
     public ResponseEntity insertCode(@RequestBody CodeVO vo) {
         codeMgmtService.insertCode(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("codes/update/system")
+    @PatchMapping("codes/system")
     public ResponseEntity updateCode(@RequestBody CodeVO vo) {
         codeMgmtService.updateCode(vo);
         return new ResponseEntity("success", HttpStatus.OK);
@@ -78,7 +78,7 @@ public class CodeMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @GetMapping("codes/forum/system")
+    @GetMapping("codes/forums/system")
     public ResponseEntity<List<CodeVO>> getForumCodeList() {
         return ResponseEntity.ok(codeMgmtService.getForumCodeList());
     }

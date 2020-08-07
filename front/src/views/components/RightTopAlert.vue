@@ -1,5 +1,4 @@
 <template>
-    <div>
     <v-snackbar
         v-model="show"
         :right="x === 'right'"
@@ -8,21 +7,6 @@
     >
         {{msg}}
     </v-snackbar>
-    </div>
-<!--    <div class="overlap">-->
-<!--        <v-row justify="center"-->
-<!--             v-if="show">-->
-<!--            <v-col col="12" md="3">-->
-<!--                <v-alert-->
-<!--                        :mode="mode"-->
-<!--                        :type="status"-->
-<!--                        transition="scale-transition"-->
-<!--                >-->
-<!--                    {{msg}}-->
-<!--                </v-alert>-->
-<!--            </v-col>-->
-<!--        </v-row>-->
-<!--    </div>-->
 </template>
 
 <script>
@@ -62,11 +46,10 @@
                 type: Number,
                 default: 3000,
                 required: false
-            },
+            }
         },
         watch: {
             show() {
-                //this.$emit('hideDisplay');
                 setTimeout(() => {
                      this.$emit('hideDisplay');
                 }, this.showTime);
@@ -76,8 +59,4 @@
 </script>
 
 <style scoped>
-    /*.overlap {*/
-    /*    position: fixed;*/
-    /*    z-index: 99;*/
-    /*}*/
 </style>

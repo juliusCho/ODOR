@@ -41,13 +41,13 @@ public class MembershipMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity<Integer> updateMembership(@RequestBody MembershipVO vo) {
         membershipMgmtService.updateMembership(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity<Integer> insertMembership(@RequestBody MembershipVO vo) {
         membershipMgmtService.insertMembership(vo);
         return new ResponseEntity("success", HttpStatus.OK);
@@ -58,14 +58,14 @@ public class MembershipMgmtController {
         return ResponseEntity.ok(membershipMgmtService.getMappedForumList(vo));
     }
 
-    @DeleteMapping("maps/delete/system")
+    @DeleteMapping("maps/system")
     public ResponseEntity deleteMapping(
             @RequestParam Long membershipKey, @RequestParam String categoryId) {
         membershipMgmtService.deleteMapping(membershipKey, categoryId);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("maps/update/system")
+    @PatchMapping("maps/system")
     public ResponseEntity saveMapping(@RequestBody List<MembershipForumMapperVO> list) {
         membershipMgmtService.saveMapping(list);
         return new ResponseEntity("success", HttpStatus.OK);

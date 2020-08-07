@@ -268,7 +268,7 @@
                 let result = [];
 
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     result = [{categoryId: '', categoryName: 'ALL'}].concat(res.data);
                 });
@@ -276,7 +276,7 @@
             },
             getCategoryList() {
                 axios.post(
-                    API.CategoryMgmtController.getCategoryList,
+                    API.CategoryMgmtController.cruCategory,
                     {
                         categoryId: this.searchKeys.categoryId,
                         useYn: true
@@ -311,7 +311,7 @@
                 let result = [];
 
                 await axios.get(
-                    API[this.mappingKeyCapital + 'MgmtController']['get' + this.mappingKeyCapital + 'List']
+                    API[this.mappingKeyCapital + 'MgmtController']['cru' + this.mappingKeyCapital]
                 ).then(res => {
                     let mappingKey = {};
                     mappingKey[this.mappingKey + 'Key'] = 0;
@@ -340,7 +340,7 @@
                 searchKeys[this.mappingKey + 'Key'] = mappingKey;
 
                 await axios.post(
-                    API[this.mappingKeyCapital + 'MgmtController']['get' + this.mappingKeyCapital + 'List'],
+                    API[this.mappingKeyCapital + 'MgmtController']['cru' + this.mappingKeyCapital],
                     searchKeys
                 ).then(res => {
                     this.mappingList = res.data;
@@ -369,7 +369,7 @@
             },
             deleteAction() {
                 axios.delete(
-                    API.ProductMgmtController['delete' + this.mappingKeyCapital + 'Mapping'],
+                    API.ProductMgmtController['crud' + this.mappingKeyCapital],
                     {
                         params: {
                             productKey: this.productKey,
@@ -410,7 +410,7 @@
                     );
 
                 axios.patch(
-                    API.ProductMgmtController['save' + this.mappingKeyCapital + 'Mapping'],
+                    API.ProductMgmtController['crud' + this.mappingKeyCapital],
                     selectedList
                 ).then(() => {
                     this.updateDataSelected();

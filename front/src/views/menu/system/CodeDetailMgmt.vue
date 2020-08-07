@@ -230,7 +230,7 @@
                 this.selectedCode = [];
 
                 await axios.post(
-                    API.CodeMgmtController.getCodeListSystem,
+                    API.CodeMgmtController.cruCode,
                     this.searchKeys
                 ).then(res => {
                     this.codeList = res.data;
@@ -283,14 +283,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.CodeMgmtController.insertCode, data)
+                axios.put(API.CodeMgmtController.cruCode, data)
                 .then(res => {
                     this.doneAlert(res.data);
                     this.reset();
                 });
             },
             updateItem(data) {
-                axios.patch(API.CodeMgmtController.updateCode, data)
+                axios.patch(API.CodeMgmtController.cruCode, data)
                 .then(res => {
                     this.doneAlert(res.data);
                     this.reset();

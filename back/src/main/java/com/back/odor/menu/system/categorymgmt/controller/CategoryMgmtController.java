@@ -32,13 +32,13 @@ public class CategoryMgmtController {
         return ResponseEntity.ok(categoryMgmtService.checkDuplication(categoryId));
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity insertCategory(@RequestBody CategoryVO vo) {
         categoryMgmtService.insertCategory(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity updateCategory(@RequestBody CategoryVO vo) {
         categoryMgmtService.updateCategory(vo);
         return new ResponseEntity("success", HttpStatus.OK);

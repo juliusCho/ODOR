@@ -217,7 +217,7 @@
                 this.searchCombos.categoryName = [];
 
                 await axios.get(
-                    API.CategoryMgmtController.getCategoryList
+                    API.CategoryMgmtController.cruCategory
                 ).then(res => {
                     let categoryId = [''].concat(res.data.map(v => v.categoryId));
                     let categoryName = [''].concat(res.data.map(v => v.categoryName));
@@ -229,7 +229,7 @@
                 this.selectedCategory = [];
 
                 axios.post(
-                    API.CategoryMgmtController.getCategoryList,
+                    API.CategoryMgmtController.cruCategory,
                     this.searchKeys
                 ).then(res => {
                     this.categoryList = res.data;
@@ -273,14 +273,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.CategoryMgmtController.insertCategory, data)
+                axios.put(API.CategoryMgmtController.cruCategory, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.CategoryMgmtController.updateCategory, data)
+                axios.patch(API.CategoryMgmtController.cruCategory, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();

@@ -40,13 +40,13 @@ public class ProductTypeMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity<Integer> updateProductType(@RequestBody ProductTypeVO vo) {
         productTypeMgmtService.updateProductType(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity<Integer> insertProductType(@RequestBody ProductTypeVO vo) {
         productTypeMgmtService.insertProductType(vo);
         return new ResponseEntity("success", HttpStatus.OK);

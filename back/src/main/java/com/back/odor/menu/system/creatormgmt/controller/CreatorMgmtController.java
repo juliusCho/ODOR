@@ -27,13 +27,13 @@ public class CreatorMgmtController {
         return ResponseEntity.ok(creatorMgmtService.getCreatorListAll());
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity<Integer> insertCreator(@RequestBody CreatorVO vo) {
         creatorMgmtService.insertCreator(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity<Integer> updateCreator(@RequestBody CreatorVO vo) {
         creatorMgmtService.updateCreator(vo);
         return new ResponseEntity("success", HttpStatus.OK);

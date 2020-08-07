@@ -225,7 +225,7 @@
                 this.selectedMessage = [];
 
                 axios.post(
-                    API.MessageMgmtController.getMessageListSystem,
+                    API.MessageMgmtController.cruMessage,
                     this.searchKeys
                 ).then(res => {
                     this.messageList = res.data;
@@ -271,7 +271,7 @@
             },
             addItem(data) {
                 let list = this.convertToList(data);
-                axios.put(API.MessageMgmtController.insertMessage, list)
+                axios.put(API.MessageMgmtController.cruMessage, list)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.getMessageList();
@@ -287,7 +287,7 @@
             },
             updateItem(data) {
                 let list = this.convertToList(data);
-                axios.patch(API.MessageMgmtController.updateMessage, list)
+                axios.patch(API.MessageMgmtController.cruMessage, list)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.getMessageList();

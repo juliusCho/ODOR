@@ -349,7 +349,7 @@
                 this.searchCombos.nickname = [];
 
                 await axios.get(
-                    API.UserMgmtController.getUserList
+                    API.UserMgmtController.cruUser
                 ).then(res => {
                     let userId = [''].concat(res.data.map(v => v.userId));
                     let email = [''].concat(res.data.map(v => v.email));
@@ -363,7 +363,7 @@
                 this.searchCombos.membershipKey = [{membershipKey: 0, membershipName: 'All'}];
 
                 await axios.get(
-                    API.MembershipMgmtController.getMembershipList
+                    API.MembershipMgmtController.cruMembership
                 ).then(res => {
                     this.searchCombos.membershipKey = this.searchCombos.membershipKey.concat(res.data);
                     this.headers[9].selectItems = res.data.map(v => ({value: v.membershipKey, text: v.membershipName}));
@@ -373,7 +373,7 @@
                 this.selectedUser = [];
 
                 axios.post(
-                    API.UserMgmtController.getUserList,
+                    API.UserMgmtController.cruUser,
                     this.searchKeys
                 ).then(res => {
                     this.userList = res.data;
@@ -424,14 +424,14 @@
                 return result;
             },
             addItem(data) {
-                axios.put(API.UserMgmtController.insertUser, data)
+                axios.put(API.UserMgmtController.cruUser, data)
                     .then(res => {
                         this.doneAlert(res.data);
                         this.reset();
                     });
             },
             updateItem(data) {
-                axios.patch(API.UserMgmtController.updateUser, data)
+                axios.patch(API.UserMgmtController.cruUser, data)
                     .then(res => {
                         this.updateSessionIfMyself(data);
                         this.doneAlert(res.data);
@@ -486,7 +486,7 @@
                 this.blockPopShow = false;
 
                 axios.delete(
-                    API.UserMgmtController.unblockUser,
+                    API.UserMgmtController.crdBlock,
                     {
                         params: {
                             userId: this.blockUserId,

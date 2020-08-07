@@ -58,13 +58,13 @@ public class ForumMgmtController {
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PatchMapping("update/system")
+    @PatchMapping("system")
     public ResponseEntity<Integer> updateForum(@RequestBody ForumVO vo) {
         forumMgmtService.updateForum(vo);
         return new ResponseEntity("success", HttpStatus.OK);
     }
 
-    @PutMapping("insert/system")
+    @PutMapping("system")
     public ResponseEntity<Integer> insertForum(@RequestBody ForumVO vo) {
         forumMgmtService.insertForum(vo);
         return new ResponseEntity("success", HttpStatus.OK);
