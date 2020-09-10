@@ -1,4 +1,4 @@
-package com.back.odor.common;
+package com.back.odor.common.controller;
 
 import com.back.odor.common.etc.FileService;
 import com.back.odor.common.utils.LocaleUtil;
