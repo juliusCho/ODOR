@@ -41,4 +41,13 @@ public class ExceptionController {
         return this.exceptionResult(e, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+
+
+
+    @ExceptionHandler({RuntimeException.class, Exception.class})
+    public ApiResultVO<String> handleUncaughtException(Exception e) {
+        log.error("Unexpected server error occurred: {}", e.getMessage(), e);
+        return this.exceptionResult(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
