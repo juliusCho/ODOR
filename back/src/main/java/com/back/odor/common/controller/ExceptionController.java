@@ -42,8 +42,6 @@ public class ExceptionController {
     }
 
 
-
-
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public ApiResultVO<String> handleUncaughtException(Exception e) {
         log.error("Unexpected server error occurred: {}", e.getMessage(), e);
